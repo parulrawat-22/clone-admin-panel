@@ -1,0 +1,22 @@
+.dashboard__container {
+  display: flex;
+  justify-content: space-between;
+}
+.dashboard__cards_info {
+  width: 60vw;
+  height: 20vh;
+  background-color: #f20094;
+  border-radius: 20px;
+  position: relative;
+  display: flex;
+  justify-self: space-between;
+  align-items: center;
+}
+
+.dashboard__notification {
+  width: 15vw;
+  height: 70vh;
+  border-radius: 10px;
+  margin-top: 3rem;
+  background-color: #f20094;
+}

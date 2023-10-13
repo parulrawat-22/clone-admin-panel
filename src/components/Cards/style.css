@@ -1,0 +1,15 @@
+.main__card {
+  width: 12vw;
+  height: 15vh;
+  border: 1px solid rgb(254, 174, 254);
+  background-color: white;
+  box-shadow: 5px 5px 0.5px rgb(254, 174, 254);
+  border-radius: 10px;
+  margin: 8rem 0 0 2rem;
+  cursor: pointer;
+}
+
+.main__card:hover {
+  margin: 5rem 0 0 2rem;
+  transition: 0.8s ease;
+}

@@ -1,12 +1,26 @@
+/**
+ * @author: Parul Rawat
+ * @copyright: 13th October 2023
+ * @description
+ */
+
+import Cards from "../../components/Cards";
 import Layout from "../../components/Layout";
-import Navbar from "../../components/Navbar";
-import Sidebar from "../../components/Sidebar";
 import "./style.css";
 
 const Dashboard = ({}) => {
   return (
     <Layout>
-      <div>HIiii</div>
+      <div className="dashboard__container">
+        <div className="dashboard__cards_info">
+          <Cards />
+          <Cards />
+          <Cards />
+          <Cards />
+        </div>
+
+        <div className="dashboard__notification"></div>
+      </div>
     </Layout>
   );
 };
