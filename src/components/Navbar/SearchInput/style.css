@@ -1,0 +1,18 @@
+.search__input__container {
+  position: relative;
+  color: #f20094;
+}
+
+.search__input {
+  padding-left: 40px;
+  font-size: 15px;
+  background-color: #ffdff3;
+}
+
+.search__icon {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  font-size: 20px;
+  text-align: center;
+}

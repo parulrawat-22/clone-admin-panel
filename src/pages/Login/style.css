@@ -1,0 +1,53 @@
+.login__container {
+  width: 100vw;
+  height: 100vh;
+  background-image: url(../../base/Assets/loginImage.jpg);
+  background-position: right;
+  background-size: cover;
+  object-fit: contain;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login__left_half {
+  width: 35vw;
+  height: 80vh;
+  background-color: rgba(255, 255, 255, 0.457);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.login__content_container {
+  width: 30vw;
+  height: 65vh;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  display: flex;
+  gap: 50px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+.login__forgot_password {
+  cursor: pointer;
+  font-size: 14px;
+  margin-left: 11vw;
+  margin-top: 12px;
+}
+
+.login__heading {
+  font-family: var(--font-family-sansserif);
+  font-weight: 700px;
+  font-size: 40px;
+  text-align: center;
+}
+
+.login__right_half {
+  width: 50vw;
+  height: 100vh;
+}

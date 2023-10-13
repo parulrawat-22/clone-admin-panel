@@ -1,0 +1,21 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;1,400;1,500&display=swap");
+
+:root {
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  --font-family-sansserif: "roboto", sanserif;
+
+  --font-size-xlarge: 50vw;
+  --font-size-large: 40px;
+  --font-size-medium: 30px;
+  --font-size-regular: 25px;
+  --font-size-small: 20px;
+  --font-size-xsmall: 18px;
+
+  --font-weight-black: 700;
+  --font-weight-bold: 600;
+  --font-weight-medium: 500;
+  --font-weight-regular: 400;
+  --font-weight-thin: 300;
+}

@@ -1,0 +1,21 @@
+.button__style {
+  width: auto;
+  height: 3.5rem;
+  padding: 0 20px;
+  color: var(--color-black);
+  background-color: #f20094;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.button__style:hover {
+  background-color: #730047;
+}
+
+.button__text {
+  color: white;
+  font-size: 22px;
+}

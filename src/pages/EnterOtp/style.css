@@ -1,0 +1,9 @@
+.login__otp_field {
+  display: flex;
+  gap: 20px;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  display: none;
+}

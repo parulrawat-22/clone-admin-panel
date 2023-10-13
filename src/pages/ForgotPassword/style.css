@@ -1,0 +1,17 @@
+.back__to__login {
+  text-align: center;
+  cursor: pointer;
+}
+
+.otp__button {
+  display: flex;
+}
+
+.forgot__otp {
+  background-color: red;
+  color: white;
+  padding: 5px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  cursor: pointer;
+}

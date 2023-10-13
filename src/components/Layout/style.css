@@ -1,0 +1,8 @@
+.layout__container {
+  display: flex;
+}
+
+.layout__nav__content {
+  padding: 10px 10px 10px 20px;
+  width: 80vw;
+}
