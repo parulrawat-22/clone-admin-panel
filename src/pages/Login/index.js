@@ -6,8 +6,8 @@ import "./style.css";
 import { useState } from "react";
 import axios from "axios";
 import baseUrl from "../../baseUrl";
-import { errorToast, successToast } from "../../helper/toast";
-import { toast, ToastContainer } from "react-toastify";
+// import { errorToast, successToast } from "../../components/Toast";
+// import { toast, ToastContainer } from "react-toastify";
 
 const Login = () => {
   let navigate = useNavigate();
@@ -34,9 +34,8 @@ const Login = () => {
   });
 
   const handleOnSubmit = () => {
-    if (email === "") {
-      setError({ ...error, email: "Email is required" });
-      console.log("Email is required");
+    if (!email.match(/^[a-zA-Z0-9_\-.]{3,}@[A-Za-z0-9]{2,}.[a-zA-Z]{2,5}$/)) {
+      setError({ ...error, email: "Please enter a valid email " });
       return;
     } else if (password === "") {
       setError({ ...error, password: "Password is required" });
@@ -57,13 +56,13 @@ const Login = () => {
       )
       .then((res) => {
         console.log("Login successful");
-        successToast(res.message);
+        // successToast(res.message);
         // toast.success("yeahhhhh");
         localStorage.setItem("token", res.data.token);
         navigate("/dashboard");
       })
       .catch((err) => {
-        errorToast(err.responseMessage);
+        // errorToast(err.responseMessage);
         console.log("Error: " + err);
         // toast.error("yeahhhhh");
       });
@@ -81,7 +80,7 @@ const Login = () => {
               setEmail(e.target.value);
               setError({ ...error, email: null });
             }}
-            placeholder="Email id or Phone Number"
+            placeholder="Email Id"
             error={error.email}
           />
 
@@ -112,7 +111,7 @@ const Login = () => {
         </div>
       </div>
       <div className="login__right_half"></div>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 };

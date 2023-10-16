@@ -2,7 +2,8 @@
 
 :root {
   --color-white: #ffffff;
-  --color-black: #000000;
+  --black: #000000;
+  --primary-color:#f20094;
 
   --font-family-sansserif: "roboto", sanserif;
 

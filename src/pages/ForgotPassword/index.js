@@ -5,7 +5,7 @@ import { useState } from "react";
 import axios from "axios";
 import baseUrl from "../../baseUrl";
 import EnterOtp from "../EnterOtp";
-import { successToast } from "../../helper/toast";
+// import { successToast } from "../../components/Toast";
 
 const ForgotPassword = () => {
   const [enterOTP, setEnterOTP] = useState(true);
@@ -21,7 +21,7 @@ const ForgotPassword = () => {
         { headers: { "Content-Type": "application/json" } }
       )
       .then((res) => {
-        successToast(res.message);
+        // successToast(res.message);
         console.log(res, "res======");
         setEnterOTP(false);
       })
@@ -46,7 +46,7 @@ const ForgotPassword = () => {
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
-                placeholder="Email id or Phone Number"
+                placeholder="Email Id"
               />
               <span className="forgot__otp" onClick={handleSentOtp}>
                 Get OTP

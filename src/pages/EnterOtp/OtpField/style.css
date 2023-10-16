@@ -1,0 +1,9 @@
+.otp__field {
+  width: 3rem;
+  height: 3rem;
+  border: none;
+  outline: none;
+  border-bottom: 2px solid var(--primary-color);
+  font-size: 30px;
+  text-align: center;
+}
