@@ -1,9 +1,12 @@
 import Layout from "../../components/Layout";
+import Table from "../../components/Table";
 
 const Users = () => {
   return (
     <Layout>
-      <div>Usersss</div>
+      <div>
+        <Table />
+      </div>
     </Layout>
   );
 };

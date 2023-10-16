@@ -1,9 +1,11 @@
 import "./style.css";
 
-const Cards = () => {
+const Cards = (props) => {
   return (
     <div className="main__card">
-      <p>HIII</p>
+      <h3>{props.name}</h3>
+      <i>{props.icon}</i>
+      <p>{props.number}</p>
     </div>
   );
 };
