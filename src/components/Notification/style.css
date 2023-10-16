@@ -1,0 +1,18 @@
+.notification__heading {
+  font-size: 18px;
+  color: white;
+  text-align: center;
+  margin: 10px;
+}
+
+.notification__search {
+  width: 13rem;
+  height: 2rem;
+  border-radius: 10rem;
+  background-color: white;
+  margin-left: 20px;
+  border: none;
+  outline: none;
+  padding-left: 10px;
+  font-size: 14px;
+}
