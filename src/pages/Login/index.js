@@ -62,7 +62,6 @@ const Login = () => {
         navigate("/dashboard");
       })
       .catch((err) => {
-        // errorToast(err.responseMessage);
         console.log("Error: " + err);
         // toast.error("yeahhhhh");
       });

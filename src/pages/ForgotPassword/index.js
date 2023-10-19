@@ -12,6 +12,7 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState("");
 
   const handleSentOtp = () => {
+    // navigate("/enterotp");
     axios
       .put(
         baseUrl + "admin/adminForgetPassword",

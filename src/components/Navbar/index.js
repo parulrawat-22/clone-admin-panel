@@ -13,10 +13,10 @@ const Navbar = () => {
       </div>
       <div className="navbar__profile_details">
         <div className="navbar__country" />
-        <div style={{ color: "#f20094" }}> | </div>
+        <div className="navbar__details"> | </div>
         <div className="navbar__content">
-          <p style={{ color: "#f20094" }}>Customer Name</p>
-          <p style={{ color: "#f20094" }}>Edit Profile</p>
+          <p className="navbar__details">Customer Name</p>
+          <p className="navbar__details">Edit Profile</p>
         </div>
         <div className="navbar__country" />
       </div>

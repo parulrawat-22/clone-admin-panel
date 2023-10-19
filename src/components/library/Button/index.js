@@ -2,9 +2,12 @@ import "./style.css";
 
 const Button = (props) => {
   return (
-    <div className="button__style">
-      <p className="button__text" onClick={props.onClick}>
-        {" "}
+    <div className={`button__style ${props.className}`} style={props.style}>
+      <p
+        className={`button__text ${props.className}`}
+        style={props.style}
+        onClick={props.onClick}
+      >
         {props.text}
       </p>
     </div>

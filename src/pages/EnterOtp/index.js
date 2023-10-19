@@ -3,6 +3,8 @@ import Button from "../../components/library/Button";
 import OtpField from "./OtpField/index";
 import "./style.css";
 import { useState } from "react";
+import axios from "axios";
+import baseUrl from "../../baseUrl";
 
 const EnterOtp = ({ email }) => {
   let navigate = useNavigate();
@@ -31,9 +33,28 @@ const EnterOtp = ({ email }) => {
   };
 
   const handleOTPVerify = () => {
-    navigate(`/newpassword/${email}`);
-  };
+    const newOTP = otp.join("");
+    console.log(newOTP);
+    axios
+      .put(
+        baseUrl + "admin/verifyOtp",
+        {
+          email: email,
+          otp: newOTP,
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      )
+      .then((res) => {
+        navigate(`/newpassword/${email}`);
 
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err, "err");
+      });
+  };
   return (
     <div className="login__content_container">
       <div>
@@ -47,7 +68,6 @@ const EnterOtp = ({ email }) => {
               className="otp__field"
               key={index}
               maxLength={1}
-              // placeholder="0"
               onKeyDown={(event) => handleOtpChange(event, index)}
               value={val}
               ref={(input) => {

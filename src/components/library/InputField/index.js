@@ -1,29 +1,32 @@
+import { useState } from "react";
 import "./style.css";
 
 const InputField = (props) => {
+  const [inputActive, setInputactive] = useState(false);
+
+  const handleLabel = () => {
+    setInputactive(true);
+  };
   return (
-    <div
-      style={{
-        position: "relative",
-        height: "35px",
-      }}
-    >
+    <div className="input__field__container">
+      {/* {props?.label ? ( */}
+      <label
+        className="input__field__label"
+        onClick={handleLabel}
+        style={{ transform: inputActive ? `translate(0,-1.5rem)` : null }}
+      >
+        {props?.label}
+      </label>
+      {/* // ) : null} */}
       <input
-        className="input__styling"
+        style={props.style}
+        className={`input__styling ${props.className}`}
         placeholder={props.placeholder}
         type={props.type}
         onChange={props.onChange}
         value={props.value}
-      ></input>
-      <div
-        onClick={props.onEyeClick}
-        style={{
-          position: "absolute",
-          right: 7,
-          bottom: 5,
-          cursor: "pointer",
-        }}
-      >
+      />
+      <div onClick={props.onEyeClick} className="input__eye__icon">
         {props.icon}
       </div>
       {props?.error ? <p className="input__error">{props.error}</p> : null}

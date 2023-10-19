@@ -13,6 +13,10 @@ const NewPassword = () => {
   const [eye2, setEye2] = useState(false);
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState({
+    newPassword: newPassword,
+    conformPassword: confirmPassword,
+  });
   const { email } = useParams();
 
   const eyeIcon = () => {
@@ -39,7 +43,34 @@ const NewPassword = () => {
     setEye2(!eye2);
   };
 
+  const handleSetNewPassword = (e) => {
+    setError({ ...error, newPassword: "" });
+    setNewPassword(e.target.value);
+  };
+
+  const handleSetConfirmPassword = (e) => {
+    setError({ ...error, conformPassword: "" });
+    setConfirmPassword(e.target.value);
+  };
+
+  const validate = () => {
+    let result = true;
+    if (
+      !newPassword.match(
+        /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}$/
+      )
+    ) {
+      setError({ ...error, newPassword: "Enter a valid password" });
+      result = false;
+    } else if (confirmPassword !== newPassword) {
+      setError({ ...error, conformPassword: "Passwords do not match" });
+      result = false;
+    }
+    return result;
+  };
+
   const handleonSubmit = () => {
+    validate();
     axios
       .put(
         baseUrl + "admin/adminResetPasword",
@@ -76,9 +107,8 @@ const NewPassword = () => {
             icon={eyeIcon()}
             placeholder="Password"
             value={newPassword}
-            onChange={(e) => {
-              setNewPassword(e.target.value);
-            }}
+            onChange={handleSetNewPassword}
+            error={error.newPassword}
           />
 
           <div>
@@ -88,9 +118,8 @@ const NewPassword = () => {
               onEyeClick={toHideShowPassword2}
               placeholder="Confirm Password"
               value={confirmPassword}
-              onChange={(e) => {
-                setConfirmPassword(e.target.value);
-              }}
+              onChange={handleSetConfirmPassword}
+              error={error.conformPassword}
             />
           </div>
           <Button onClick={handleonSubmit} text="Reset Password" />

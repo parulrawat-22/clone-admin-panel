@@ -1,5 +1,5 @@
 .button__style {
-  width: auto;
+  width: 10rem;
   height: 3.5rem;
   padding: 0 20px;
   color: var(--color-black);
@@ -12,7 +12,7 @@
 }
 
 .button__style:hover {
-  background-color: #730047;
+  background-color: #ab016a;
 }
 
 .button__text {

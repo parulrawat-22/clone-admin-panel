@@ -1,0 +1,20 @@
+.warn__user__button {
+  margin: auto;
+}
+
+.warn__user__heading {
+  text-align: center;
+  font-size: 25px;
+}
+
+.user__management__warn__user {
+  width: 30vw;
+  height: 40vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: hsla(0, 0%, 0%, 0.24) 0px 3px 8px;
+}

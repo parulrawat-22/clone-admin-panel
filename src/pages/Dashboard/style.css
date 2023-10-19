@@ -39,9 +39,17 @@
 }
 
 .dashboard__graph {
-  width: 10rem;
-  height: 10rem;
-  border: 1px solid #f20094;
+  width: 40rem;
+  height: 30rem;
+  margin-top: 80px;
+  border-radius: 10px;
+  box-shadow: 2px 2px 5.5px #fb56bc;
+}
+
+.dashboard__graphs__loaders {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .dashboard__loader {
@@ -55,7 +63,6 @@
   justify-content: center;
   align-items: center;
   margin-top: 5rem;
-  /* margin-left: 40rem; */
 }
 
 .dashboard__loader_2 {

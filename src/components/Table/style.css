@@ -1,10 +1,50 @@
-.table__head {
-  border: 1px solid black;
-  padding: 5px;
+.table__container {
+  border-collapse: collapse;
+  margin: auto;
+  margin-top: 5rem;
+  width: 100%;
+  gap: 0;
+}
+
+.table__head {  
+  background-color: #f20094;
+  color: white;
+  padding: 10px;
   margin: 5px;
 }
 
 .table__body {
   text-align: center;
+  border: none;
+  border-bottom: 1px solid grey;
+  padding: 10px;
+}
+
+.table__body__clickable {
+  cursor: pointer;
+  text-align: center;
+  font-weight: 500;
+  border-bottom: 1px solid grey;
+  color: rgb(1, 102, 217);
   padding: 5px;
+}
+
+.table__body__icon {
+  text-align: center;
+  padding: 15px;
+  border-bottom: 1px solid grey;
+  display: flex;
+  justify-content: space-between;
+}
+
+.table__edit__icon {
+  font-size: 25px;
+  color: rgb(0, 98, 209);
+  cursor: pointer;
+}
+
+.table__delete__icon {
+  font-size: 25px;
+  color: red;
+  cursor: pointer;
 }

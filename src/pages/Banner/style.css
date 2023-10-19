@@ -1,0 +1,8 @@
+.banner__container {
+  width: 75vw;
+  height: 80vh;
+  border-radius: 10px;
+  margin: auto;
+  padding: 10rem 0 0 5rem;
+  background-color: aliceblue;
+}

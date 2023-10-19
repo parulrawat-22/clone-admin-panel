@@ -6,6 +6,9 @@ import EnterOtp from "../pages/EnterOtp";
 import NewPassword from "../pages/NewPassword";
 import Dashboard from "../pages/Dashboard";
 import Users from "../pages/Users";
+import Banner from "../pages/Banner";
+import UserManagement from "../pages/UserManagement";
+import BannerList from "../pages/Banner/BannerList";
 
 const Router = () => {
   return (
@@ -17,6 +20,9 @@ const Router = () => {
         <Route path="/newpassword/:email" element={<NewPassword />}></Route>
         <Route path="/dashboard" element={<Dashboard />}></Route>
         <Route path="/users" element={<Users />} />
+        <Route path="/banner" element={<Banner />} />
+        <Route path="/bannerlist" element={<BannerList />} />
+        <Route path="/usermanagement" element={<UserManagement />} />
       </Routes>
     </BrowserRouter>
   );

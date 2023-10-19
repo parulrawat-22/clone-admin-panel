@@ -1,7 +1,7 @@
 .login__container {
   width: 100vw;
   height: 100vh;
-  background-image: url(../../base/assets/loginImage.jpg);
+  background-image: url("../../base/Assets/loginImage.jpg");
   background-position: right;
   background-size: cover;
   object-fit: contain;

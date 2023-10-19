@@ -1,0 +1,14 @@
+.user__details__container {
+  height: 20vh;
+  display: flex;
+  gap: 50px;
+  flex-wrap: wrap;
+  /* background-color: red; */
+}
+
+.user__details__row {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  /* margin-bottom: -5rem; */
+}

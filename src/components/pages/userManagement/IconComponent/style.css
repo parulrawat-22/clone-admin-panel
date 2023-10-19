@@ -1,0 +1,33 @@
+.user__management__icon__container {
+  width: 20vw;
+  height: auto;
+  border-radius: 10px;
+  padding-top: 12px;
+  /* box-shadow: 3px 3px 3px 3px rgba(201, 201, 201, 0.817); */
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+/* ::-webkit-scrollbar {
+  display: none;
+} */
+
+.user__management__icon__row {
+  width: 20vw;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.icon__container {
+  width: 10vw;
+  height: auto;
+  margin-bottom: 2rem;
+  text-align: center;
+  cursor: pointer;
+}
+
+.icon {
+  width: 3vw;
+  height: auto;
+  color: black;
+}

@@ -4,7 +4,7 @@ import Table from "../../components/Table";
 const Users = () => {
   return (
     <Layout>
-      <div>
+      <div className="users__data__container">
         <Table />
       </div>
     </Layout>

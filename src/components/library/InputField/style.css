@@ -1,11 +1,30 @@
+.input__field__container {
+  position: relative;
+  height: 35px;
+}
+
+.input__field__label {
+  position: absolute;
+  bottom: 0.5rem;
+  z-index: 1;
+  transition: all 0.2s ease-in-out;
+}
+
 .input__styling {
   width: 18rem;
   height: 2rem;
   border: none;
   outline: none;
-  border-bottom: 1px solid#f20094;
+  border-bottom: 2px solid#f20094;
   background-color: transparent;
   font-size: 15px;
+}
+
+.input__eye__icon {
+  position: absolute;
+  right: 7px;
+  bottom: 5px;
+  cursor: pointer;
 }
 
 .input__error {
