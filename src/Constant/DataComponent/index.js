@@ -24,6 +24,26 @@ const sidebarData = [
     link: "/banner",
     icon: <AiOutlinePicCenter />,
   },
+  {
+    label: "Wallet",
+    link: "/wallet",
+    icon: <AiOutlinePicCenter />,
+  },
+  {
+    label: "Payment",
+    link: "/payment",
+    icon: <AiOutlinePicCenter />,
+  },
+  {
+    label: "Gift",
+    link: "/gift",
+    icon: <AiOutlinePicCenter />,
+  },
+  {
+    label: "Sticker",
+    link: "/sticker",
+    icon: <AiOutlinePicCenter />,
+  },
 ];
 
 export default sidebarData;

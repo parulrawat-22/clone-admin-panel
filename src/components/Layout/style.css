@@ -5,4 +5,10 @@
 .layout__nav__content {
   padding: 10px 10px 10px 20px;
   width: 80vw;
+  height: 100vh;
+  overflow: scroll;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }

@@ -1,5 +1,6 @@
 import "./App.css";
 import Router from "./base/Router";
+import Layout from "./components/Layout";
 // import { ToastContainer } from "react-toastify";
 
 function App() {

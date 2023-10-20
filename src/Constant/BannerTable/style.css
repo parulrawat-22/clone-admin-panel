@@ -1,0 +1,45 @@
+.banner__list__table {
+  /* border: 1px solid black; */
+  padding: 10px;
+}
+
+.banner__list__table {
+  width: 100%;
+}
+
+.banner__list__row {
+  text-align: center;
+}
+
+.banner__list__eye__icon {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.banner__list__actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.banner__list__edit__action {
+  font-size: 20px;
+  color: rgb(0, 99, 213);
+  cursor: pointer;
+}
+
+.banner__list__delete__action {
+  font-size: 20px;
+  color: red;
+  cursor: pointer;
+}
+
+.banner__list__data {
+  border: none;
+  border-bottom: 1px solid grey;
+}
+
+.banner__list__body {
+  padding: 10px;
+}

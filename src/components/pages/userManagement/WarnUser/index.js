@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../../library/Button";
 import Dropdown from "../../../library/Dropdown";
 import InputField from "../../../library/InputField";
@@ -9,6 +9,10 @@ const WarnUser = () => {
   const [selectTitle, setSelectTitle] = useState("");
   const [selectDescription, setSelectDescription] = useState("");
   const [error, setError] = useState({});
+
+  useEffect(() => {
+    validate();
+  }, []);
 
   const validate = () => {
     let result = true;

@@ -9,6 +9,9 @@ import Users from "../pages/Users";
 import Banner from "../pages/Banner";
 import UserManagement from "../pages/UserManagement";
 import BannerList from "../pages/Banner/BannerList";
+import Bucket from "../pages/Bucket";
+import UserTable from "../components/Table/UserRequestTable";
+import UserRequest from "../pages/UserRequest";
 
 const Router = () => {
   return (
@@ -23,6 +26,8 @@ const Router = () => {
         <Route path="/banner" element={<Banner />} />
         <Route path="/bannerlist" element={<BannerList />} />
         <Route path="/usermanagement" element={<UserManagement />} />
+        <Route path="/bucket" element={<Bucket />} />
+        <Route path="/userrequest" element={<UserRequest />} />
       </Routes>
     </BrowserRouter>
   );
