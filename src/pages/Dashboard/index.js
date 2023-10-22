@@ -1,9 +1,3 @@
-/**
- * @author: Parul Rawat
- * @since: 13th October 2023
- * @description:
- */
-
 import Card from "../../components/Card";
 import { SlUserFemale } from "react-icons/sl";
 import Layout from "../../components/Layout";
@@ -12,7 +6,7 @@ import "./style.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import baseUrl from "../../baseUrl";
-import {FaUsers, FaUsersSlash } from "react-icons/fa";
+import { FaUsers, FaUsersSlash } from "react-icons/fa";
 
 const Dashboard = () => {
   useEffect(() => {

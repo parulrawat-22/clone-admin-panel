@@ -57,7 +57,7 @@ const NewPassword = () => {
     let result = true;
     if (
       !newPassword.match(
-        /^(?=.*[A-Z].*[A-Z])(?=.*[!@#$&*])(?=.*[0-9].*[0-9])(?=.*[a-z].*[a-z].*[a-z]).{8}$/
+        /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/
       )
     ) {
       setError({ ...error, newPassword: "Enter a valid password" });
@@ -70,26 +70,28 @@ const NewPassword = () => {
   };
 
   const handleonSubmit = () => {
-    validate();
-    axios
-      .put(
-        baseUrl + "admin/adminResetPasword",
-        {
-          email: email,
-          newPassword: newPassword,
-          conformPassword: confirmPassword,
-        },
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      )
-      .then((res) => {
-        navigate("/");
-        console.log(res, "res------");
-      })
-      .catch((err) => {
-        console.log(err, "err------");
-      });
+    const isValidated = validate();
+    if (isValidated) {
+      axios
+        .put(
+          baseUrl + "admin/adminResetPasword",
+          {
+            email: email,
+            newPassword: newPassword,
+            conformPassword: confirmPassword,
+          },
+          {
+            headers: { "Content-Type": "application/json" },
+          }
+        )
+        .then((res) => {
+          navigate("/");
+          console.log(res, "res------");
+        })
+        .catch((err) => {
+          console.log(err, "err------");
+        });
+    }
   };
 
   return (

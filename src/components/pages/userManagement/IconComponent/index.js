@@ -1,16 +1,16 @@
-import Feedback from "../../../../base/Assets/feedback.png";
-import notification from "../../../../base/Assets/notification.png";
-import gift from "../../../../base/Assets/gift-box (1).png";
-import moment from "../../../../base/Assets/moments.png";
-import sticker from "../../../../base/Assets/sticker.png";
-import bucket from "../../../../base/Assets/Bucket.png";
-import recharge from "../../../../base/Assets/recharge.png";
-import report from "../../../../base/Assets/report.png";
-import payment from "../../../../base/Assets/payment history.png";
-import callHistory from "../../../../base/Assets/call history.png";
-import followers from "../../../../base/Assets/followers.png";
-import following from "../../../../base/Assets/following.png";
-import blockList from "../../../../base/Assets/blocked.png";
+import Feedback from "../../../../base/assets/feedback.png";
+import notification from "../../../../base/assets/notification.png";
+import gift from "../../../../base/assets/gift-box (1).png";
+import moment from "../../../../base/assets/moments.png";
+import sticker from "../../../../base/assets/sticker.png";
+import bucket from "../../../../base/assets/Bucket.png";
+import recharge from "../../../../base/assets/recharge.png";
+import report from "../../../../base/assets/report.png";
+import payment from "../../../../base/assets/payment history.png";
+import callHistory from "../../../../base/assets/call history.png";
+import followers from "../../../../base/assets/followers.png";
+import following from "../../../../base/assets/following.png";
+import blockList from "../../../../base/assets/blocked.png";
 import "./style.css";
 
 const IconContainer = () => {

@@ -1,5 +1,6 @@
 import { NavLink } from "react-router-dom";
 import sidebarData from "../../Constant/DataComponent";
+import { handleNavLinkClassName } from "../../helpers/sidebarHelpers";
 import "./style.css";
 
 const Sidebar = () => {
@@ -10,18 +11,7 @@ const Sidebar = () => {
         return (
           <div className="sidebar__content" key={index}>
             <p className="sidebar__icon">{data.icon}</p>
-            <NavLink
-              className="sidebar__data"
-              style={({ isActive }) => {
-                return {
-                  backgroundColor: isActive ? "white" : "",
-                  fontWeight: isActive ? "bold" : "",
-                  color: isActive ? "black" : "",
-                };
-              }}
-              x
-              to={data.link}
-            >
+            <NavLink className={handleNavLinkClassName} to={data.link}>
               {data.label}
             </NavLink>
           </div>
