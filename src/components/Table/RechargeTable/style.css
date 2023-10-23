@@ -1,0 +1,14 @@
+.recharge__table__container {
+  width: 100%;
+  border-collapse: collapse;
+}
+.recharge__table__heading {
+  background-color: #f20094;
+  padding: 10px 0;
+  color: white;
+}
+
+.recharge__table__body {
+  padding: 10px 0;
+  text-align: center;
+}

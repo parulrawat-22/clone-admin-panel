@@ -1,8 +1,17 @@
 import { AiFillEdit, AiTwotoneDelete } from "react-icons/ai";
 import "./style.css";
 import { useNavigate } from "react-router-dom";
+import AlertPopUp from "../AlertPopUp";
+import { useState } from "react";
 
 const Table = () => {
+  const [showDeleteAlert, setShowDeleteAlert] = useState();
+  const handleDeleteAlert = () => {
+    setShowDeleteAlert(true);
+  };
+  const handleDeleteAlertClose = () => {
+    setShowDeleteAlert(false);
+  };
   let navigate = useNavigate();
   return (
     <table className="table__container">
@@ -32,7 +41,7 @@ const Table = () => {
             }}
             className="table__body__clickable"
           >
-            View more...{" "}
+            View more...
           </td>
           <td className="table__body__icon">
             <AiFillEdit className="table__edit__icon" />
@@ -50,7 +59,10 @@ const Table = () => {
           <td className="table__body__clickable">View more... </td>
           <td className="table__body__icon">
             <AiFillEdit className="table__edit__icon" />
-            <AiTwotoneDelete className="table__delete__icon" />
+            <AiTwotoneDelete
+              onClick={handleDeleteAlert}
+              className="table__delete__icon"
+            />
           </td>
         </tr>
         <tr>
@@ -123,6 +135,15 @@ const Table = () => {
             <AiTwotoneDelete className="table__delete__icon" />
           </td>
         </tr>
+        <AlertPopUp
+          open={showDeleteAlert}
+          handleOpen={handleDeleteAlert}
+          handleClose={handleDeleteAlertClose}
+          header="Delete Alert"
+          description="Are you sure you want to delete this user?"
+          submitText="Yes"
+          cancelText="No"
+        />
       </thead>
     </table>
   );

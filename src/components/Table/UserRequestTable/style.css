@@ -11,16 +11,18 @@
   border-collapse: collapse;
 }
 
-.user__request__headers {
+.user__request__headers,
+th {
   border: none;
   color: white;
   padding: 10px;
   background-color: #f20094;
 }
 
-.user__request__row {
+.user__request__row,
+td {
   text-align: center;
-  padding: 10px;
+  padding: 10px 0;
 }
 
 .user__request__eye__icon {
@@ -38,4 +40,10 @@
   font-size: 25px;
   color: red;
   cursor: pointer;
+}
+
+.user__request__action {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
 }

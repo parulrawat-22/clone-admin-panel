@@ -1,0 +1,39 @@
+.moment__table__container {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.moment__table__head {
+  background-color: #f20094;
+  color: white;
+  padding: 10px 0;
+}
+
+.moment__table__body {
+  text-align: center;
+  border: none;
+  border-bottom: 1px solid grey;
+  padding: 10px 0;
+}
+
+.moment__table__body__eye_icon {
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.moment__table__body_icons {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.moment__table__edit_icon {
+  font-size: 25px;
+  color: rgb(0, 126, 204);
+  cursor: pointer;
+}
+
+.moment__table__delete_icon {
+  font-size: 25px;
+  color: red;
+  cursor: pointer;
+}

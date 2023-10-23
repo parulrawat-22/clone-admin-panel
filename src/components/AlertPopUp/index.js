@@ -1,23 +1,59 @@
 import "./style.css";
 
-const AlertPopUp = (props) => {
-  return (
-    <div
-      className="main_pop_container"
-      style={{ display: props.show ? "flex" : "none" }}
-    >
-      <div className="content">
-        <div className="para_styling">
-          <h3>{props.header}</h3>
-          <p>{props.description}</p>
-        </div>
-        <div className="button">
-          <p onClick={props.onSubmitClick}>{props.submitText}</p>
-          <p onClick={props.onCancelClick}>{props.cancelText}</p>
-        </div>
-      </div>
-    </div>
-  );
+import * as React from "react";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import { Button } from "@mui/material";
+
+const style = {
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 500,
+  border: "none",
+  outline: "none",
+  borderRadius: "10px",
+  bgcolor: "white",
+  boxShadow: 24,
+  p: 2,
 };
 
-export default AlertPopUp;
+export default function AlertPopUp({
+  handleOpen,
+  open,
+  handleClose,
+  header,
+  description,
+  onSubmitClick,
+  onCancelClick,
+  submitText,
+  cancelText,
+}) {
+  return (
+    <div>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <div className="alert__popup__container">
+            <h3 className="alert__popup__heading">{header}</h3>
+            <p className="alert__popup__content">{description}</p>
+          </div>
+          <div className="button">
+            <p className="alert__submit__popup" onClick={onSubmitClick}>
+              {submitText}
+            </p>
+            <p className="alert__cancel__popup" onClick={onCancelClick}>
+              {cancelText}
+            </p>
+          </div>
+        </Box>
+      </Modal>
+    </div>
+  );
+}

@@ -12,6 +12,11 @@ import BannerList from "../pages/Banner/BannerList";
 import Bucket from "../pages/Bucket";
 import UserTable from "../components/Table/UserRequestTable";
 import UserRequest from "../pages/UserRequest";
+import Feedback from "../pages/Feedback";
+import Moments from "../pages/Moments";
+import Gifts from "../pages/Gift";
+import Recharge from "../pages/Recharge";
+import AcceptedUser from "../pages/AcceptedUser";
 
 const Router = () => {
   return (
@@ -28,6 +33,11 @@ const Router = () => {
         <Route path="/usermanagement" element={<UserManagement />} />
         <Route path="/bucket" element={<Bucket />} />
         <Route path="/userrequest" element={<UserRequest />} />
+        <Route path="/acceptedusers" element={<AcceptedUser />} />
+        <Route path="/feedback" element={<Feedback />} />
+        <Route path="/gifts" element={<Gifts />} />
+        <Route path="/recharge" element={<Recharge />} />
+        <Route path="/moment" element={<Moments />}></Route>
       </Routes>
     </BrowserRouter>
   );

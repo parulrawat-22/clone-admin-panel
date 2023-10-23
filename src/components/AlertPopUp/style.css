@@ -11,31 +11,16 @@
   z-index: 20;
 }
 
-.content h3 {
-  font-family: var(--fontfamily-serif);
-}
-
-.content {
-  width: 30vw;
-  height: auto;
-  box-shadow: 0 5px 16px rgba(255, 255, 255, 0.2);
-  background: var(--color-white);
-  font-family: var(--fontfamily-sansserif);
-  color: #000;
-  position: relative;
-  border-radius: 10px;
-  padding: 10px;
-}
-
-.para_styling h3 {
-  margin-bottom: 10px;
-  font-size: var(--fontsize-large);
-}
-
-.para_styling {
-  padding: 10px;
+.alert__popup__container {
   gap: 10px;
-  font-size: var(--fontsize-regular);
+}
+
+.alert__popup__heading {
+  font-size: 30px;
+}
+
+.alert__popup__content {
+  font-size: 20px;
 }
 
 .button {
@@ -44,9 +29,30 @@
   margin-top: 30px;
   padding: 15px;
   gap: 20px;
-  color: var(--color-mediumblue);
   cursor: pointer;
-  font-size: var(--fontsize-medium);
-  font-family: var(--fontfamily-sansserif);
-  font-weight: var(--fontweight-black);
+  font-size: 14px;
+}
+
+.alert__submit__popup {
+  width: 5rem;
+  background-color: rgb(0, 132, 255);
+  font-family: "roboto", "sans-serif";
+  font-size: 20px;
+  padding: 10px 0;
+  color: white;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.alert__cancel__popup {
+  width: 5rem;
+  background-color: red;
+  font-family: "roboto", "sans-serif";
+  font-size: 20px;
+  color: white;
+
+  padding: 10px 0;
+  border-radius: 5px;
+
+  text-align: center;
 }

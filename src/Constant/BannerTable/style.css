@@ -1,18 +1,16 @@
-.banner__list__table {
-  /* border: 1px solid black; */
-  padding: 10px;
-}
-
-.banner__list__table {
+.banner__list__table__container {
   width: 100%;
+  border-collapse: collapse;
 }
 
-.banner__list__row {
-  text-align: center;
+.banner__list__table__head {
+  padding: 10px 0;
+  background-color: #f20094;
+  color: white;
 }
 
 .banner__list__eye__icon {
-  font-size: 20px;
+  font-size: 18px;
   cursor: pointer;
 }
 
@@ -24,19 +22,21 @@
 }
 
 .banner__list__edit__action {
-  font-size: 20px;
+  font-size: 25px;
   color: rgb(0, 99, 213);
   cursor: pointer;
 }
 
 .banner__list__delete__action {
-  font-size: 20px;
+  font-size: 25px;
   color: red;
   cursor: pointer;
 }
 
 .banner__list__data {
   border: none;
+  text-align: center;
+  padding: 10px 0;
   border-bottom: 1px solid grey;
 }
 

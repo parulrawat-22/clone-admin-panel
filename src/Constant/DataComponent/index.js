@@ -14,6 +14,18 @@ const sidebarData = [
     link: "/users",
     icon: <FaUsers />,
   },
+
+  {
+    label: "User Requests",
+    link: "/userrequest",
+    icon: <FaUsers />,
+  },
+
+  {
+    label: "Accepted Users",
+    link: "/acceptedusers",
+    icon: <FaUsers />,
+  },
   {
     label: "All Hosts",
     link: "/hosts",

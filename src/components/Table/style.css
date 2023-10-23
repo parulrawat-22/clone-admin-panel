@@ -6,7 +6,7 @@
   gap: 0;
 }
 
-.table__head {  
+.table__head {
   background-color: #f20094;
   color: white;
   padding: 10px;
@@ -47,4 +47,9 @@
   font-size: 25px;
   color: red;
   cursor: pointer;
+}
+
+.user__request__delete__popup {
+  width: 30vw !important;
+  height: auto;
 }

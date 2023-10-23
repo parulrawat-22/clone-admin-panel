@@ -5,7 +5,9 @@ import "./style.css";
 const BannerList = () => {
   return (
     <Layout>
-      <BannerTable />
+      <div className="banner__list__container">
+        <BannerTable />
+      </div>
     </Layout>
   );
 };

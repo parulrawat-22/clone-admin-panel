@@ -12,7 +12,6 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState("");
 
   const handleSentOtp = () => {
-    // navigate("/enterotp");
     axios
       .put(
         baseUrl + "admin/adminForgetPassword",
@@ -22,7 +21,6 @@ const ForgotPassword = () => {
         { headers: { "Content-Type": "application/json" } }
       )
       .then((res) => {
-        // successToast(res.message);
         console.log(res, "res======");
         setEnterOTP(false);
       })

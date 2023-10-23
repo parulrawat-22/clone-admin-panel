@@ -1,0 +1,17 @@
+.gift__table__container {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.gift__table__heading {
+  color: white;
+  background-color: #f20094;
+  padding: 10px 0;
+}
+
+.gift__table__body {
+  text-align: center;
+  padding: 10px 0;
+  border: none;
+  border-bottom: 1px solid grey;
+}
