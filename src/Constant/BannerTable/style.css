@@ -3,6 +3,10 @@
   border-collapse: collapse;
 }
 
+.banner__list__container {
+  padding: 3rem 0;
+}
+
 .banner__list__table__head {
   padding: 10px 0;
   background-color: #f20094;

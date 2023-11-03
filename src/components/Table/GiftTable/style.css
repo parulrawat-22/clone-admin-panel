@@ -3,6 +3,10 @@
   border-collapse: collapse;
 }
 
+.gift__container {
+  padding: 3rem 0;
+}
+
 .gift__table__heading {
   color: white;
   background-color: #f20094;

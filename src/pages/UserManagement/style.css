@@ -2,10 +2,8 @@
   width: 12vw;
   height: 25vh;
   border-radius: 10px;
-  display: flex;
-  justify-content: center;
   background-color: #f20094;
-  margin: 0 1rem 1rem 0;
+  margin-bottom: 20px;
   padding: 20px;
 }
 
@@ -30,5 +28,9 @@
 
 .user__management__icon_suspend_warn_user {
   display: flex;
-  gap: 3rem;
+  gap: 5rem;
+}
+
+.user__management__action {
+  gap: 20px;
 }

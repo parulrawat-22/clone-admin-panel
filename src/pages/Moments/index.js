@@ -5,9 +5,7 @@ import "./style.css";
 const Moments = () => {
   return (
     <Layout>
-      <div className="moment__container">
-        <MomentTable />
-      </div>
+      <MomentTable />
     </Layout>
   );
 };

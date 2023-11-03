@@ -1,0 +1,19 @@
+.host__report__container {
+  padding: 3rem;
+}
+
+.host__report__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.host__report__header {
+  padding: 10px;
+  background-color: #f20094;
+  color: white;
+}
+
+.host__report__data {
+  text-align: center;
+  padding: 10px 0;
+}

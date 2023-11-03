@@ -3,7 +3,8 @@ import "./style.css";
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import { Button } from "@mui/material";
+import TextArea from "../../components/library/TextArea";
+import Dropdown from "../library/Dropdown";
 
 const style = {
   position: "absolute",
@@ -29,6 +30,10 @@ export default function AlertPopUp({
   onCancelClick,
   submitText,
   cancelText,
+  rejectedReason,
+  reason,
+  handleReasonChange,
+  dropdown,
 }) {
   return (
     <div>
@@ -44,6 +49,19 @@ export default function AlertPopUp({
             <h3 className="alert__popup__heading">{header}</h3>
             <p className="alert__popup__content">{description}</p>
           </div>
+          {dropdown ? (
+            <Dropdown className="alert__popup__dropdown"></Dropdown>
+          ) : null}
+          {rejectedReason ? (
+            <TextArea
+              value={reason}
+              onChange={handleReasonChange}
+              style={{
+                width: "25rem",
+                paddingTop: "2rem",
+              }}
+            ></TextArea>
+          ) : null}
           <div className="button">
             <p className="alert__submit__popup" onClick={onSubmitClick}>
               {submitText}

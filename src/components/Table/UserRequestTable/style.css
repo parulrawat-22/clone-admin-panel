@@ -2,6 +2,7 @@
   width: 100%;
   height: 100%;
   padding: 3rem 0;
+  overflow: auto;
 }
 
 .user__request__table {
@@ -11,18 +12,24 @@
   border-collapse: collapse;
 }
 
-.user__request__headers,
-th {
+.user__request__headers {
   border: none;
   color: white;
   padding: 10px;
   background-color: #f20094;
 }
 
-.user__request__row,
-td {
+.user__request__row {
   text-align: center;
-  padding: 10px 0;
+}
+
+.user__request__row_data {
+  padding: 10px 20px;
+}
+.user__request__data {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .user__request__eye__icon {
@@ -30,20 +37,22 @@ td {
   font-size: 20px;
 }
 
-.table__accept__icon {
-  font-size: 25px;
-  color: rgb(0, 191, 0);
+.user__request__eye__icon {
+  width: 20px;
+  height: auto;
   cursor: pointer;
 }
 
-.table__reject__icon {
-  font-size: 25px;
+.accepted__user__edit__icon {
+  width: 25px;
+  height: auto;
+  color: rgb(0, 178, 0);
+  cursor: pointer;
+}
+
+.accepted__user__delete__icon {
+  width: 25px;
+  height: auto;
   color: red;
   cursor: pointer;
-}
-
-.user__request__action {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
 }

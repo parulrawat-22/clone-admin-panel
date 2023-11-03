@@ -1,0 +1,41 @@
+.host__request__container {
+  padding: 3rem 0;
+  overflow: auto;
+}
+
+.host__request__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.host__request__data {
+  padding: 0 10px;
+  text-align: center;
+}
+
+.host__request__action__icons {
+  display: flex;
+}
+
+.host__request__eye__icon {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.host__request__accept__icon {
+  font-size: 25px;
+  color: rgb(2, 172, 2);
+  cursor: pointer;
+}
+
+.host__request__reject__icon {
+  font-size: 25px;
+  color: red;
+  cursor: pointer;
+}
+
+.host__request__header {
+  background-color: #f20094;
+  color: white;
+  padding: 10px;
+}

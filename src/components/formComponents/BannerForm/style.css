@@ -1,0 +1,11 @@
+.banner__container {
+  width: 25vw;
+  height: auto;
+  border-radius: 10px;
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.add__banner__button {
+  margin: auto;
+}

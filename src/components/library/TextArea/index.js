@@ -7,6 +7,7 @@ const TextArea = (props) => {
       <textarea
         className="text__area__styling"
         placeholder={props.placeholder}
+        style={props.style}
       />
     </div>
   );

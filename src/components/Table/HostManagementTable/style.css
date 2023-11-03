@@ -1,0 +1,36 @@
+.host__management__table__container {
+  padding: 3rem 0;
+}
+
+.host__management__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.host__management_edit__icon {
+  font-size: 25px;
+  color: rgb(0, 123, 255);
+  cursor: pointer;
+}
+
+.host__management_delete__icon {
+  font-size: 25px;
+  color: red;
+  cursor: pointer;
+}
+
+.host__management_eye__icon {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.host__management__header {
+  background-color: #f20094;
+  color: white;
+  padding: 10px 0;
+}
+
+.host__management__data {
+  text-align: center;
+  padding: 10px 0;
+}

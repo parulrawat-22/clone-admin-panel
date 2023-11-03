@@ -1,6 +1,6 @@
 .sidebar__content_container {
   width: 18vw;
-  height: 100vh;
+  height: auto;
   background-color: #f20094;
   border-right: 12px solid #ff65c4;
   box-shadow: 10px 0 #ff9eda;

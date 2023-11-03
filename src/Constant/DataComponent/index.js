@@ -9,28 +9,55 @@ const sidebarData = [
     link: "/dashboard",
     icon: <MdSpaceDashboard />,
   },
+
   {
-    label: "All Users",
-    link: "/users",
+    label: "All Users ",
+    link: "/allusers",
     icon: <FaUsers />,
   },
 
   {
-    label: "User Requests",
-    link: "/userrequest",
+    label: "Host Management",
+    link: "/hostmanagement",
     icon: <FaUsers />,
   },
 
   {
-    label: "Accepted Users",
-    link: "/acceptedusers",
+    label: "Host Request",
+    link: "/hostrequest",
     icon: <FaUsers />,
   },
+
   {
-    label: "All Hosts",
-    link: "/hosts",
+    label: "Accepted Host",
+    link: "/acceptedhost",
     icon: <FaUsers />,
   },
+
+  {
+    label: "Rejected Host",
+    link: "/rejectedhost",
+    icon: <FaUsers />,
+  },
+
+  {
+    label: "Leader",
+    link: "/leader",
+    icon: <FaUsers />,
+  },
+
+  {
+    label: "Suspended Users",
+    link: "/suspendusers",
+    icon: <FaUsers />,
+  },
+
+  {
+    label: "Warned Users",
+    link: "/warnedusers",
+    icon: <FaUsers />,
+  },
+
   {
     label: "Banner",
     link: "/banner",
@@ -41,6 +68,13 @@ const sidebarData = [
     link: "/wallet",
     icon: <AiOutlinePicCenter />,
   },
+
+  {
+    label: "Report",
+    link: "/report",
+    icon: <AiOutlinePicCenter />,
+  },
+
   {
     label: "Payment",
     link: "/payment",
@@ -54,6 +88,26 @@ const sidebarData = [
   {
     label: "Sticker",
     link: "/sticker",
+    icon: <AiOutlinePicCenter />,
+  },
+  {
+    label: "Moment",
+    link: "/moment",
+    icon: <AiOutlinePicCenter />,
+  },
+  {
+    label: "Bucket",
+    link: "/bucket",
+    icon: <AiOutlinePicCenter />,
+  },
+  {
+    label: "Feedback",
+    link: "/feedback",
+    icon: <AiOutlinePicCenter />,
+  },
+  {
+    label: "Recharge",
+    link: "/recharge",
     icon: <AiOutlinePicCenter />,
   },
 ];

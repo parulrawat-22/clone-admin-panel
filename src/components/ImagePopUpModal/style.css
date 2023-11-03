@@ -1,0 +1,6 @@
+.image__popup__styling {
+  max-width: 400px;
+  max-height: 80vh;
+  object-fit: contain;
+  text-align: center;
+}

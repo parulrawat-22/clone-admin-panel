@@ -1,0 +1,22 @@
+.leader__table__container {
+  padding: 3rem 0;
+}
+
+.leader__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.leader__table__header {
+  padding: 10px;
+  background-color: #f20094;
+  color: white;
+}
+
+.leader__table__body {
+  text-align: center;
+}
+
+.leader__table__view {
+  cursor: pointer;
+}

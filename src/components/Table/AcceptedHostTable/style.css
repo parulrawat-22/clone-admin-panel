@@ -1,0 +1,57 @@
+.accepted__host__container {
+  padding: 3rem 0;
+}
+
+.accepted__host__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.accepted__host__header {
+  background-color: #f20094;
+  color: white;
+  padding: 10px;
+}
+
+.accepted__host__view {
+  cursor: pointer;
+}
+
+.accepted__host__action {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.accepted__host__data {
+  padding: 0 10px;
+  text-align: center;
+}
+
+.host__charge__edit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.host__leader__edit {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.accepted__host__edit__icon {
+  font-size: 25px;
+  color: rgb(0, 119, 255);
+  cursor: pointer;
+}
+
+.accepted__host__delete__icon {
+  font-size: 25px;
+  color: red;
+  cursor: pointer;
+}
+
+.accepted__host__edit_icon {
+  cursor: pointer;
+}

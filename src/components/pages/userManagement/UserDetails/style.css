@@ -1,14 +1,20 @@
-.user__details__container {
-  height: 20vh;
+.user__details__row {
+  width: 60%;
   display: flex;
-  gap: 50px;
-  flex-wrap: wrap;
-  /* background-color: red; */
+  justify-content: center;
+  align-items: center;
 }
 
-.user__details__row {
+.user__details__table {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
-  justify-content: space-between;
-  /* margin-bottom: -5rem; */
+}
+
+.user__table__data {
+  padding: 10px;
+}
+
+.user__table__data th {
+  background-color: none !important;
 }

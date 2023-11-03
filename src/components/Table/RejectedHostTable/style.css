@@ -1,0 +1,40 @@
+.rejected__host__container {
+  padding: 3rem 0;
+  overflow: auto;
+}
+
+.rejected__host__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.rejected__host__data {
+  padding: 0 10px;
+  text-align: center;
+}
+
+.rejected__host__view_btn {
+  cursor: pointer;
+}
+
+.rejected__host__action {
+  display: flex;
+}
+
+.rejected__host__edit__icon {
+  font-size: 25px;
+  color: rgb(0, 119, 255);
+  cursor: pointer;
+}
+
+.rejected__host__delete__icon {
+  font-size: 25px;
+  color: red;
+  cursor: pointer;
+}
+
+.rejected__host__header {
+  background-color: #f20094;
+  padding: 10px;
+  color: white;
+}

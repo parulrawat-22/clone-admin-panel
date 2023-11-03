@@ -1,12 +1,16 @@
 .feedback__table__container {
   width: 100%;
   border-collapse: collapse;
-  color: white;
+}
+
+.feedback__container {
+  padding: 3rem 0;
 }
 
 .feedback__table__heading {
-  padding: 10px 0;
   background-color: #f20094;
+  color: white;
+  padding: 10px;
 }
 
 .feedback__table__data {
@@ -15,4 +19,5 @@
   text-align: center;
   border: none;
   border-bottom: 1px solid grey;
+  cursor: pointer;
 }

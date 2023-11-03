@@ -1,0 +1,21 @@
+.host__feedback__container {
+  padding: 3rem 0;
+}
+
+.host__feedback__table__container {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.host__feedback__table__heading {
+  padding: 10px;
+  background-color: #f20094;
+  color: white;
+}
+
+.host__feedback__table__data {
+  text-align: center;
+  border: none;
+  border-bottom: 1px solid grey;
+  padding: 10px 0;
+}

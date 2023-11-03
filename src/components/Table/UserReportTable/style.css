@@ -1,0 +1,19 @@
+.user__report__container {
+  padding: 3rem 0;
+}
+
+.user__report__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user__report__header {
+  padding: 10px;
+  background-color: #f20094;
+  color: white;
+}
+
+.user__report__data {
+  text-align: center;
+  padding: 10px 0;
+}

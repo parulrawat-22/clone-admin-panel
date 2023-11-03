@@ -18,8 +18,10 @@ const UserManagement = () => {
 
         <div className="user__management__icon_suspend_warn_user">
           <IconContainer />
-          <SuspendUser />
-          <WarnUser />
+          <div className="user__management__action">
+            <SuspendUser />
+            <WarnUser />
+          </div>
         </div>
       </div>
     </Layout>

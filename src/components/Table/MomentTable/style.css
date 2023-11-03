@@ -3,9 +3,12 @@
   border-collapse: collapse;
 }
 
+.moment__container {
+  padding: 3rem 0;
+  overflow: auto;
+}
+
 .moment__table__head {
-  background-color: #f20094;
-  color: white;
   padding: 10px 0;
 }
 
@@ -36,4 +39,10 @@
   font-size: 25px;
   color: red;
   cursor: pointer;
+}
+
+.moment__table__head {
+  background-color: #f20094;
+  color: white;
+  padding: 10px;
 }
