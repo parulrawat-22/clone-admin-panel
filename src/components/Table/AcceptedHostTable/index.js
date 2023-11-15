@@ -14,6 +14,7 @@ const AcceptedHostTable = () => {
   const [id, setId] = useState("");
   const [leaderId, setLeaderId] = useState("");
   const [leaderName, setLeaderName] = useState("");
+  const [leaderNames, setLeaderNames] = useState([]);
 
   useEffect(() => {
     getAcceptedHost();
@@ -56,7 +57,12 @@ const AcceptedHostTable = () => {
         },
       })
       .then((res) => {
-        console.log(res);
+        console.log(res.data.result);
+        const leaderNames = res?.data?.result?.map(
+          (leader) => leader.leaderName
+        );
+        console.log(leaderNames);
+        setLeaderNames(leaderNames);
       })
       .catch((err) => console.log(err));
   };
@@ -133,6 +139,8 @@ const AcceptedHostTable = () => {
           <th className="accepted__host__header">S.No.</th>
           <th className="accepted__host__header">Host ID</th>
           <th className="accepted__host__header">Name</th>
+          <th className="accepted__host__header">Date Of Birth</th>
+          <th className="accepted__host__header">Age</th>
           <th className="accepted__host__header">Mobile Number</th>
           <th className="accepted__host__header">Email ID</th>
           <th className="accepted__host__header">Accepted At</th>
@@ -148,6 +156,8 @@ const AcceptedHostTable = () => {
                 <td className="accepted__host__data">{index + 1}</td>
                 <td className="accepted__host__data">{data._id}</td>
                 <td className="accepted__host__data">{data.name}</td>
+                <td className="accepted__host__data">{data.dateOfBirth}</td>
+                <td className="accepted__host__data">{data.age}</td>
                 <td className="accepted__host__data">{data.mobileNumber}</td>
                 <td className="accepted__host__data">{data.email}</td>
                 <td className="accepted__host__data">

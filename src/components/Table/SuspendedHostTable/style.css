@@ -1,0 +1,38 @@
+.suspended__host__table__container {
+  padding: 3rem 0;
+}
+
+.suspended__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.suspended__host__table__header {
+  background-color: #f20094;
+  padding: 1rem 0;
+  color: white;
+}
+
+.suspended__host__table__data {
+  text-align: center;
+  padding: 5px 0;
+}
+
+.suspended__host__table__icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.suspended__host__table__edit__icon {
+  font-size: 25px;
+  color: rgb(0, 119, 255);
+  cursor: pointer;
+}
+
+.suspended__host__table__delete__icon {
+  font-size: 25px;
+  color: red;
+  cursor: pointer;
+}

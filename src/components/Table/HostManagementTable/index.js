@@ -1,5 +1,3 @@
-import { BsEyeFill } from "react-icons/bs";
-import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import { useState } from "react";
 import AlertPopUp from "../../AlertPopUp";
 import "./style.css";
@@ -23,35 +21,54 @@ const HostManagementTable = () => {
     <div className="host__management__table__container">
       <table className="host__management__table">
         <thead>
-          <th className="host__management__header">S.No.</th>
-          <th className="host__management__header">Host ID</th>
-          <th className="host__management__header">First Name</th>
-          <th className="host__management__header">Last Name</th>
-          <th className="host__management__header">Email ID</th>
-          <th className="host__management__header">Mobile Number</th>
-          <th className="host__management__header">Login Status</th>
-          <th className="host__management__header">View Profile</th>
-          <th className="host__management__header">Action</th>
+          <div className="host__management__data__styling">
+            <div>
+              <th className="host__management__header">S.No.</th>
+              <td className="host__management__data">1</td>
+            </div>
+            <div>
+              <th className="host__management__header">Host ID</th>
+              <td className="host__management__data">123456</td>
+            </div>
+            <div>
+              <th className="host__management__header">Name</th>
+              <td className="host__management__data">Hiiii</td>
+            </div>
+            <div>
+              <th className="host__management__header">Date Of Birth</th>
+              <td className="host__management__data">Hello</td>
+            </div>
+            <div>
+              <th className="host__management__header">Email ID</th>
+              <td className="host__management__data">hello123@gmail.com</td>
+            </div>
+            <div>
+              <th className="host__management__header">Mobile Number</th>
+              <td className="host__management__data">9876547651</td>
+            </div>
+            <div>
+              <th className="host__management__header">PinCode</th>
+              <td className="host__management__data">9876547651</td>
+            </div>
+            <div>
+              <th className="host__management__header">Country</th>
+              <td className="host__management__data">9876547651</td>
+            </div>
+            <div>
+              <th className="host__management__header">State</th>
+              <td className="host__management__data">9876547651</td>
+            </div>
+            <div>
+              <th className="host__management__header">Profession</th>
+              <td className="host__management__data">9876547651</td>
+            </div>
+            <div>
+              <th className="host__management__header">Bio</th>
+              <td className="host__management__data">9876547651</td>
+            </div>
+          </div>
         </thead>
-        <tbody>
-          <td className="host__management__data">1</td>
-          <td className="host__management__data">123456</td>
-          <td className="host__management__data">Hiiii</td>
-          <td className="host__management__data">Hello</td>
-          <td className="host__management__data">hello123@gmail.com</td>
-          <td className="host__management__data">9876547651</td>
-          <td className="host__management__data">9876547651</td>
-          <td className="host__management__data">
-            <BsEyeFill className="host__management_eye__icon" />
-          </td>
-          <td className="host__management__data">
-            <AiFillEdit className="host__management_edit__icon" />
-            <AiFillDelete
-              onClick={handleDelete}
-              className="host__management_delete__icon"
-            />
-          </td>
-        </tbody>
+        <tbody></tbody>
       </table>
       <AlertPopUp
         open={showDeleteAlert}

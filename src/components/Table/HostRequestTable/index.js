@@ -100,7 +100,6 @@ const HostRequestTable = () => {
 
   const handleRejectedHostsAlert = (id) => {
     setShowRejectedHostAlert(true);
-
     setId(id);
   };
 

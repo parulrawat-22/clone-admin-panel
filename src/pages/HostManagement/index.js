@@ -1,11 +1,29 @@
 import Layout from "../../components/Layout";
 import HostManagementTable from "../../components/Table/HostManagementTable";
+import IconContainer from "../../components/pages/userManagement/IconComponent";
+import SuspendUser from "../../components/pages/userManagement/SuspendUser";
+import WarnUser from "../../components/pages/userManagement/WarnUser";
 import "./style.css";
 
 const HostManagement = () => {
   return (
     <Layout>
-      <HostManagementTable />
+      <div className="user__management__container">
+        <div className="user__management__profile_details">
+          <div className="user__management__profile">
+            <img className="user__management__profile_pic" src="" alt="" />
+          </div>
+          <HostManagementTable />
+        </div>
+
+        <div className="user__management__icon_suspend_warn_user">
+          <IconContainer />
+          <div className="user__management__action">
+            <SuspendUser />
+            <WarnUser />
+          </div>
+        </div>
+      </div>
     </Layout>
   );
 };

@@ -141,6 +141,7 @@ const UserTable = () => {
                 </td>
                 <td> {moment(data.createdAt).format("MM/DD/YYYY  LT")}</td>
                 <td
+                  className="user__management__view__btn"
                   onClick={() => {
                     navigate(`/usermanagement/${data._id}`);
                   }}
@@ -149,7 +150,9 @@ const UserTable = () => {
                 </td>
                 <td className="accepted__user__action">
                   <AiFillEdit
-                    // onClick={}
+                    onClick={() => {
+                      navigate("/edituser");
+                    }}
                     className="accepted__user__edit__icon"
                   />
                   <AiFillDelete

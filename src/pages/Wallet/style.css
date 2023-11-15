@@ -1,0 +1,45 @@
+.wallet__container {
+  padding: 3rem 0;
+}
+
+.wallet__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.wallet__header {
+  background-color: #f20094;
+  color: white;
+  padding: 10px;
+}
+
+.wallet__data {
+  text-align: center;
+}
+
+.wallet__icons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.wallet__edit__icon {
+  font-size: 25px;
+  color: rgb(0, 145, 255);
+  cursor: pointer;
+}
+
+.wallet__delete__icon {
+  font-size: 25px;
+  color: red;
+  cursor: pointer;
+}
+
+.add__wallet {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.add__wallet__btn {
+  margin: auto;
+}

@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./style.css";
 import AlertPopUp from "../../AlertPopUp";
+import baseUrl from "../../../baseUrl";
+import axios from "axios";
 
 const LeaderTable = () => {
   const [showHostData, setShowHostData] = useState(false);
+  const [showLeaderList, setShowLeaderList] = useState([]);
 
   const handleViewHostData = () => {
     setShowHostData(true);
@@ -11,6 +14,27 @@ const LeaderTable = () => {
 
   const handleViewHostDataClose = () => {
     setShowHostData(false);
+  };
+
+  useEffect(() => {
+    getAllLeaders();
+  }, []);
+
+  const getAllLeaders = () => {
+    axios
+      .get(baseUrl + "admin/getAllLeader", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("token"),
+        },
+      })
+      .then((res) => {
+        setShowLeaderList(res.data.result);
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     <div className="leader__table__container">
@@ -31,24 +55,30 @@ const LeaderTable = () => {
           <th className="leader__table__header">Host</th>
         </thead>
         <tbody>
-          <td className="leader__table__body">1</td>
-          <td className="leader__table__body">1</td>
-          <td className="leader__table__body">1</td>
-          <td className="leader__table__body">1</td>
-          <td className="leader__table__body">1</td>
-          <td className="leader__table__body">1</td>
-          <td className="leader__table__body">1</td>
-          <td className="leader__table__body">1</td>
-          <td className="leader__table__body">1</td>
-          <td className="leader__table__body">1</td>
-          <td className="leader__table__body">1</td>
-          <td className="leader__table__body">1</td>
-          <td
-            onClick={handleViewHostData}
-            className="leader__table__body leader__table__view"
-          >
-            View
-          </td>
+          {showLeaderList.map((data, index) => {
+            return (
+              <tr>
+                <td className="leader__table__body">{index + 1}</td>
+                <td className="leader__table__body">{data.leaderId}</td>
+                <td className="leader__table__body">{data.leaderName}</td>
+                <td className="leader__table__body">{data.gender}</td>
+                <td className="leader__table__body">{data.email}</td>
+                <td className="leader__table__body">{data.mobileNumber}</td>
+                <td className="leader__table__body">{data.idProof}</td>
+                <td className="leader__table__body">{data.groupName}</td>
+                <td className="leader__table__body">{data.country}</td>
+                <td className="leader__table__body">{data.state}</td>
+                <td className="leader__table__body">{data.city}</td>
+                <td className="leader__table__body">{data.pin}</td>
+                <td
+                  onClick={handleViewHostData}
+                  className="leader__table__body leader__table__view"
+                >
+                  View
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
       <AlertPopUp

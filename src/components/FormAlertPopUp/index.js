@@ -1,6 +1,8 @@
 import LeaderTable from "../Table/LeaderTable";
+import AddGiftForm from "../formComponents/AddGiftForm";
 import AddLeaderForm from "../formComponents/AddLeaderform";
 import BannerForm from "../formComponents/BannerForm";
+import CreateWalletForm from "../formComponents/CreateWalletForm";
 import "./style.css";
 import { Box, Modal } from "@mui/material";
 // import TextArea from "../library/TextArea";
@@ -34,12 +36,13 @@ const FormAlertPopUp = ({
   return (
     <Modal open={open} onClose={handleClose} closeAfterTransition>
       <Box sx={style}>
-        {/* <BannerForm handleClose={handleClose} />
-         */}
-        {/* <AddLeaderForm handleClose={handleClose} /> */}
-        {modalOf == "banner" ? <BannerForm handleClose={handleClose} /> : null}
-        {modalOf == "leader" ? (
+        {modalOf === "banner" ? <BannerForm handleClose={handleClose} /> : null}
+        {modalOf === "leader" ? (
           <AddLeaderForm handleClose={handleClose} />
+        ) : null}
+        {modalOf === "gift" ? <AddGiftForm handleClose={handleClose} /> : null}
+        {modalOf === "wallet" ? (
+          <CreateWalletForm handleClose={handleClose} />
         ) : null}
       </Box>
     </Modal>

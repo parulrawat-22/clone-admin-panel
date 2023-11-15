@@ -2,7 +2,6 @@ import { useState } from "react";
 import Layout from "../../components/Layout";
 import UserReportTable from "../../components/Table/UserReportTable";
 import "./style.css";
-import HostFeedbackTable from "../../components/Table/HostFeedbackTable";
 import HostReportTable from "../../components/Table/HostReportTable";
 
 const Report = () => {

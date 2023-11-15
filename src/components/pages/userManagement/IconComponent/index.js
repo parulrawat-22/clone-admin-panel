@@ -12,8 +12,11 @@ import followers from "../../../../base/Assets/followers.png";
 import following from "../../../../base/Assets/following.png";
 import blockList from "../../../../base/Assets/blocked.png";
 import "./style.css";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const IconContainer = () => {
+  let navigate = useNavigate();
   return (
     <div className="user__management__icon__container">
       <div className="user__management__icon__row">
@@ -25,7 +28,12 @@ const IconContainer = () => {
           <img className="icon" src={notification} alt="" />
           <p>Notification</p>
         </div>
-        <div className="icon__container">
+        <div
+          onClick={() => {
+            navigate("/gift");
+          }}
+          className="icon__container"
+        >
           <img className="icon" src={gift} alt="" />
           <p>Gifts</p>
         </div>
@@ -33,7 +41,12 @@ const IconContainer = () => {
           <img className="icon" src={moment} alt="" />
           <p>Moments</p>
         </div>
-        <div className="icon__container">
+        <div
+          onClick={() => {
+            navigate("/sticker");
+          }}
+          className="icon__container"
+        >
           <img className="icon" src={sticker} alt="" />
           <p>Stickers</p>
         </div>
@@ -61,7 +74,12 @@ const IconContainer = () => {
           <img className="icon" src={followers} alt="" />
           <p>followers</p>
         </div>
-        <div className="icon__container">
+        <div
+          onClick={() => {
+            navigate("/userfollowing");
+          }}
+          className="icon__container"
+        >
           <img className="icon" src={following} alt="" />
           <p>following</p>
         </div>

@@ -1,0 +1,37 @@
+.suspended__table__container {
+  padding: 3rem 0;
+}
+
+.suspended__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.suspended__table__header {
+  background-color: #f20094;
+  padding: 1rem 0;
+  color: white;
+}
+
+.suspended__table__data {
+  text-align: center;
+  padding: 5px 0;
+}
+
+.suspended__user__icons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.suspended__table__edit__icon {
+  font-size: 25px;
+  color: rgb(0, 119, 255);
+  cursor: pointer;
+}
+
+.suspended__table__delete__icon {
+  font-size: 25px;
+  color: red;
+  cursor: pointer;
+}

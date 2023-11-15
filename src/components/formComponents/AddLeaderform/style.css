@@ -1,0 +1,8 @@
+.add__leader__styling {
+  display: flex;
+  gap: 10px;
+}
+
+.add__leader__button {
+  margin: auto;
+}

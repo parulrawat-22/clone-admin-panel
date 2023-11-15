@@ -24,6 +24,11 @@ import Report from "../pages/Report";
 import SuspendedUsers from "../pages/SuspendedUsers";
 import WarnedUsers from "../pages/WarnedUser";
 import Leader from "../pages/Leader";
+import EditUser from "../pages/EditUser";
+import Layout from "../components/Layout";
+import UserFollowing from "../pages/Following";
+import UserSticker from "../pages/Sticker";
+import Wallet from "../pages/Wallet";
 
 const Router = () => {
   return (
@@ -39,15 +44,54 @@ const Router = () => {
         <Route path="/bucket" element={<Bucket />} />
         <Route path="/report" element={<Report />} />
         <Route path="/allusers" element={<UserRequest />} />
+        <Route
+          path="/edituser"
+          element={
+            <Layout>
+              <EditUser />{" "}
+            </Layout>
+          }
+        />
+        <Route
+          path="/userfollowing"
+          element={
+            <Layout>
+              <UserFollowing />
+            </Layout>
+          }
+        />
         <Route path="/hostmanagement" element={<HostManagement />} />
-        <Route path="/acceptedhost" element={<AcceptedHost />} />
+        <Route
+          path="/acceptedhost"
+          element={
+            <Layout>
+              <AcceptedHost />
+            </Layout>
+          }
+        />
         <Route path="/rejectedhost" element={<RejectedHost />} />
         <Route path="/hostrequest" element={<HostRequest />} />
         <Route path="/warnedusers" element={<WarnedUsers />} />
         <Route path="/leader" element={<Leader />} />
         <Route path="/suspendusers" element={<SuspendedUsers />} />
         <Route path="/feedback" element={<Feedback />} />
-        <Route path="/gifts" element={<Gifts />} />
+        <Route path="/gift" element={<Gifts />} />
+        <Route
+          path="sticker"
+          element={
+            <Layout>
+              <UserSticker />
+            </Layout>
+          }
+        />
+        <Route
+          path="/wallet"
+          element={
+            <Layout>
+              <Wallet />
+            </Layout>
+          }
+        />
         <Route path="/recharge" element={<Recharge />} />
         <Route path="/moment" element={<Moments />}></Route>
       </Routes>

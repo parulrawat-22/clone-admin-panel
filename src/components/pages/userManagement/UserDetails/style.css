@@ -1,5 +1,5 @@
 .user__details__row {
-  width: 60%;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -8,7 +8,7 @@
 .user__details__table {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 20px;
 }
 
 .user__table__data {

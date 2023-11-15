@@ -1,0 +1,36 @@
+.warned__user__container {
+  padding: 3rem 0;
+}
+
+.warned__user__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.warned__user__header {
+  background-color: #f20094;
+  color: white;
+  padding: 10px;
+}
+
+.warned__user__data {
+  text-align: center;
+}
+
+.warned__user__icon {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.warned__user__edit__icon {
+  font-size: 25px;
+  color: rgb(0, 140, 255);
+  cursor: pointer;
+}
+
+.warned__user__delete__icon {
+  font-size: 25px;
+  color: red;
+  cursor: pointer;
+}

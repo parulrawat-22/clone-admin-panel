@@ -56,3 +56,7 @@
   color: red;
   cursor: pointer;
 }
+
+.user__management__view__btn {
+  cursor: pointer;
+}
