@@ -1,0 +1,18 @@
+.user__block__list__container {
+  padding: 3rem 0;
+}
+
+.user__block__list__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user__block__list__header {
+  background-color: #f20094;
+  color: white;
+  padding: 10px;
+}
+
+.user__block__list__data {
+  text-align: center;
+}

@@ -3,10 +3,29 @@ import "./style.css";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import Button from "../../library/Button";
 import FormAlertPopUp from "../../FormAlertPopUp";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import AddGiftForm from "../../formComponents/AddGiftForm";
+import { fetchDataFromAPI } from "../../../network/NetworkConnection";
+import {
+  API_URL,
+  NetworkConfiguration,
+} from "../../../network/NetworkConfiguration";
+import moment from "moment";
+import AlertPopUp from "../../AlertPopUp";
 
 const GiftTable = () => {
   const [showGiftForm, setShowGiftForm] = useState(false);
+  const [getGift, setGetGift] = useState([]);
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [id, setId] = useState("");
+
+  const handleDeleteAlert = () => {
+    setShowDeleteAlert(true);
+  };
+
+  const handleDeleteAlertClose = () => {
+    setShowDeleteAlert(false);
+  };
 
   const handleAddGift = () => {
     setShowGiftForm(true);
@@ -15,6 +34,40 @@ const GiftTable = () => {
   const handleAddGiftClose = () => {
     setShowGiftForm(false);
   };
+
+  const handleOnClickDelete = (id) => {
+    setId(id);
+    setShowDeleteAlert(true);
+  };
+
+  useEffect(() => {
+    fetchGift();
+  }, []);
+
+  const fetchGift = () => {
+    fetchDataFromAPI(API_URL + NetworkConfiguration.GETGIFT)
+      .then((res) => {
+        setGetGift(res.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleDeleteApi = () => {
+    fetchDataFromAPI(
+      API_URL + NetworkConfiguration.DELETEGIFT + `/${id}`,
+      "DELETE"
+    )
+      .then((res) => {
+        setShowDeleteAlert(false);
+        fetchGift();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div>
       <div onClick={handleAddGift} className="add__gift">
@@ -34,27 +87,55 @@ const GiftTable = () => {
           </thead>
 
           <tbody>
-            <td className="gift__table__body">1</td>
-            <td className="gift__table__body">Suman</td>
-            <td className="gift__table__body">
-              <BsFillEyeFill />
-            </td>
-            <td className="gift__table__body">1</td>
-            <td className="gift__table__body">1</td>
-            <td className="gift__table__body">1</td>
-            <td className="gift__table__body">1</td>
-            <td className="gift__table__body">
-              <AiFillEdit className="gift__table__edit__icon" />
-              <AiFillDelete className="gift__table__delete__icon" />
-            </td>
+            {getGift.map((data, index) => {
+              return (
+                <tr>
+                  <td className="gift__table__body">{index + 1}</td>
+                  <td className="gift__table__body">{data?._id}</td>
+                  <td className="gift__table__body">
+                    <BsFillEyeFill />
+                  </td>
+                  <td className="gift__table__body">{data?.price}</td>
+                  <td className="gift__table__body">{data?.offer}</td>
+                  <td className="gift__table__body">
+                    {moment(data?.createdAt).format("DD/MM/YYYY LT")}
+                  </td>
+                  <td className="gift__table__body">
+                    {moment(data?.updatedAt).format("DD/MM/YYYY LT")}
+                  </td>
+                  <td className="gift__table__body">
+                    <AiFillEdit className="gift__table__edit__icon" />
+                    <AiFillDelete
+                      onClick={() => {
+                        handleOnClickDelete(data?._id);
+                      }}
+                      className="gift__table__delete__icon"
+                    />
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
       <FormAlertPopUp
         open={showGiftForm}
-        handleOpen={handleAddGift}
-        handleClose={handleAddGiftClose}
+        onRequestClose={handleAddGiftClose}
         modalOf="gift"
+      >
+        <AddGiftForm />
+      </FormAlertPopUp>
+
+      <AlertPopUp
+        open={showDeleteAlert}
+        handleOpen={handleDeleteAlert}
+        handleClose={handleDeleteAlertClose}
+        header="Delete Alert"
+        description="Are you sure you want to delete this gift?"
+        submitText="Yes"
+        cancelText="No"
+        onSubmitClick={handleDeleteApi}
+        onCancelClick={handleDeleteAlertClose}
       />
     </div>
   );

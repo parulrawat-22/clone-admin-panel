@@ -5,6 +5,11 @@ import axios from "axios";
 import moment from "moment/moment";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import AlertPopUp from "../../AlertPopUp";
+import { fetchDataFromAPI } from "../../../network/NetworkConnection";
+import {
+  API_URL,
+  NetworkConfiguration,
+} from "../../../network/NetworkConfiguration";
 
 const AcceptedHostTable = () => {
   const [acceptedHost, setAcceptedHost] = useState([]);
@@ -68,20 +73,9 @@ const AcceptedHostTable = () => {
   };
 
   const getAcceptedHost = () => {
-    axios
-      .post(
-        baseUrl + "admin/getAllAcceptHost",
-        {},
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        }
-      )
+    fetchDataFromAPI(API_URL + NetworkConfiguration.ACCEPTEDHOST, "POST", {})
       .then((res) => {
-        setAcceptedHost(res.data.result);
-        console.log("----", res.data.result);
+        setAcceptedHost(res.result);
       })
       .catch((err) => {
         console.log(err, "err");

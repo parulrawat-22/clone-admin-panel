@@ -3,8 +3,9 @@ import "./style.css";
 import Button from "../../components/library/Button";
 import FormAlertPopUp from "../../components/FormAlertPopUp";
 import { useState } from "react";
+import CreateWalletForm from "../../components/formComponents/CreateWalletForm";
 
-const Wallet = () => {
+const Coin = () => {
   const [showCreateWallet, setShowCreateWallet] = useState(false);
 
   const handleCreateWallet = () => {
@@ -17,13 +18,13 @@ const Wallet = () => {
   return (
     <div>
       <div onClick={handleCreateWallet} className="add__wallet">
-        <Button text="Create Wallet" />
+        <Button text="Create Coin" />
       </div>
       <div className="wallet__container">
         <table className="wallet__table">
           <thead>
             <th className="wallet__header">S.No.</th>
-            <th className="wallet__header">ID</th>
+            {/* <th className="wallet__header">ID</th> */}
             <th className="wallet__header">Coin</th>
             <th className="wallet__header">Price</th>
             <th className="wallet__header">Offer Price</th>
@@ -33,7 +34,7 @@ const Wallet = () => {
           </thead>
           <tbody>
             <td className="wallet__data">1</td>
-            <td className="wallet__data">12345</td>
+            {/* <td className="wallet__data">12345</td> */}
             <td className="wallet__data">1</td>
             <td className="wallet__data">1</td>
             <td className="wallet__data">1</td>
@@ -48,12 +49,13 @@ const Wallet = () => {
       </div>
       <FormAlertPopUp
         open={showCreateWallet}
-        handleOpen={handleCreateWallet}
-        handleClose={handleCreateWalletClose}
+        onRequestClose={handleCreateWalletClose}
         modalOf="wallet"
-      />
+      >
+        <CreateWalletForm />
+      </FormAlertPopUp>
     </div>
   );
 };
 
-export default Wallet;
+export default Coin;

@@ -1,0 +1,5 @@
+.top__growing__dropdown {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px 0 0 0;
+}

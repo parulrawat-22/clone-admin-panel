@@ -4,8 +4,13 @@ import InputField from "../../library/InputField";
 import "./style.css";
 import baseUrl from "../../../baseUrl";
 import { useEffect, useState } from "react";
+import { fetchDataFromAPI } from "../../../network/NetworkConnection";
+import {
+  API_URL,
+  NetworkConfiguration,
+} from "../../../network/NetworkConfiguration";
 
-const BannerForm = ({ handleClose }) => {
+const BannerForm = ({ onSubmit }) => {
   const [bannerName, setBannerName] = useState("");
   const [image, setImage] = useState("");
 
@@ -41,13 +46,7 @@ const BannerForm = ({ handleClose }) => {
   };
 
   const fetchBannerList = () => {
-    axios
-      .get(baseUrl + "banner/getAllBanner", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
+    fetchDataFromAPI(API_URL + NetworkConfiguration.GETBANNER, "GET")
       .then((res) => {
         console.log("Banner List", res.data.result);
       })
@@ -72,8 +71,9 @@ const BannerForm = ({ handleClose }) => {
       .then((res) => {
         setBannerName("");
         setImage(null);
-        handleClose();
-        window.location.reload();
+        onSubmit();
+        fetchBannerList();
+        // window.location.reload();
       })
       .catch((err) => {
         console.log(err);

@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import baseUrl from "../../../baseUrl";
 import axios from "axios";
 
-const AddLeaderForm = () => {
+const AddLeaderForm = ({ onSubmit }) => {
   const [leaderName, setLeaderName] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
   const [email, setEmail] = useState("");
@@ -59,6 +59,7 @@ const AddLeaderForm = () => {
       )
       .then((res) => {
         console.log(res);
+        onSubmit();
       })
       .catch((err) => {
         console.log(err);

@@ -1,0 +1,24 @@
+.sticker__container {
+  padding: 2rem 0;
+}
+
+.sticker__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.sticker__table__heading {
+  background-color: #f20094;
+  color: white;
+  padding: 10px;
+}
+
+.sticker__table__data {
+  text-align: center;
+}
+
+.add__sticker {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0 0 10px 0;
+}

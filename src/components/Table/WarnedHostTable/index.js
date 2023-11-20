@@ -3,29 +3,59 @@ import "./style.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import baseUrl from "../../../baseUrl";
+import { fetchDataFromAPI } from "../../../network/NetworkConnection";
+import {
+  API_URL,
+  NetworkConfiguration,
+} from "../../../network/NetworkConfiguration";
+import AlertPopUp from "../../AlertPopUp";
 
 const WarnedHostTable = () => {
   const [warnedHostList, setWarnedHostList] = useState([]);
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [id, setId] = useState("");
+
+  const handleDeleteAlert = () => {
+    setShowDeleteAlert(true);
+  };
+
+  const handleDeleteAlertClose = () => {
+    setShowDeleteAlert(false);
+  };
 
   useEffect(() => {
     getWarnedHost();
   }, []);
 
   const getWarnedHost = () => {
-    axios
-      .get(baseUrl + "admin/getWaringHostList", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
+    fetchDataFromAPI(API_URL + NetworkConfiguration.WARNEDHOST, "GET")
       .then((res) => {
-        setWarnedHostList(res.data.result);
+        setWarnedHostList(res.result);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  const handleOnClickAlert = (id) => {
+    setShowDeleteAlert(true);
+    setId(id);
+  };
+
+  const handleDelete = () => {
+    fetchDataFromAPI(
+      API_URL + NetworkConfiguration.DELETEWARNING + `/${id}`,
+      "DELETE"
+    )
+      .then((res) => {
+        setShowDeleteAlert(false);
+        getWarnedHost();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div className="warned__host__container">
       <table className="warned__host__table">
@@ -48,13 +78,29 @@ const WarnedHostTable = () => {
                 <td className="warned__host__data">{data.body}</td>
                 <td className="warned__host__data warned__host__icon">
                   <AiFillEdit className="warned__host__edit__icon" />
-                  <AiFillDelete className="warned__host__delete__icon" />
+                  <AiFillDelete
+                    onClick={() => {
+                      handleOnClickAlert(data._id);
+                    }}
+                    className="warned__host__delete__icon"
+                  />
                 </td>
               </tr>
             );
           })}
         </tbody>
       </table>
+      <AlertPopUp
+        open={showDeleteAlert}
+        handleOpen={handleDeleteAlert}
+        handleClose={handleDeleteAlertClose}
+        header="Delete Alert"
+        description="Are you sure you want to delete this warning?"
+        submitText="Yes"
+        cancelText="No"
+        onSubmitClick={handleDelete}
+        onCancelClick={handleDeleteAlertClose}
+      />
     </div>
   );
 };

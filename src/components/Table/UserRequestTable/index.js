@@ -8,6 +8,11 @@ import ImagePopUpModal from "../../ImagePopUpModal";
 import moment from "moment/moment";
 import "./style.css";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import { fetchDataFromAPI } from "../../../network/NetworkConnection";
+import {
+  API_URL,
+  NetworkConfiguration,
+} from "../../../network/NetworkConfiguration";
 
 const UserTable = () => {
   let navigate = useNavigate();
@@ -32,7 +37,6 @@ const UserTable = () => {
 
   const handleUserDeleteClose = () => {
     setShowDeleteAlert(false);
-    navigate("/userrequest");
   };
 
   const handleUserDeleteAlert = (id) => {
@@ -49,18 +53,13 @@ const UserTable = () => {
   };
 
   const handleUserDelete = () => {
-    axios
-      .delete(baseUrl + "admin/adminDeletedUser/" + id, {
-        headers: {
-          "content-type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
+    fetchDataFromAPI(
+      API_URL + NetworkConfiguration.DELETEUSER + `/${id}`,
+      "DELETE"
+    )
       .then((res) => {
-        console.log(res, "res----------");
         setShowDeleteAlert(false);
         getUserRequest();
-        navigate("/userrequest");
       })
       .catch((err) => {
         console.log(err, "err----------");
@@ -68,21 +67,9 @@ const UserTable = () => {
   };
 
   const getUserRequest = () => {
-    axios
-      .post(
-        baseUrl + "admin/getUsersPending",
-        {},
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        }
-      )
+    fetchDataFromAPI(API_URL + NetworkConfiguration.GETUSERS, "POST", {})
       .then((res) => {
-        console.log(res, "pending users");
-        setUserRequest(res.data.result);
-        // navigate("/acceptedUsers");
+        setUserRequest(res.result);
       })
       .catch((err) => {
         console.log(err, "err==========");
@@ -139,7 +126,7 @@ const UserTable = () => {
                     className="user__request__eye__icon"
                   />
                 </td>
-                <td> {moment(data.createdAt).format("MM/DD/YYYY  LT")}</td>
+                <td> {moment(data.createdAt).format("MM/DD/YYYY LT")}</td>
                 <td
                   className="user__management__view__btn"
                   onClick={() => {

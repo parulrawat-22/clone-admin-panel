@@ -4,24 +4,54 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import baseUrl from "../../../baseUrl";
 import moment from "moment";
+import { fetchDataFromAPI } from "../../../network/NetworkConnection";
+import {
+  API_URL,
+  NetworkConfiguration,
+} from "../../../network/NetworkConfiguration";
+import AlertPopUp from "../../AlertPopUp";
 
 const SuspendedHostTable = () => {
   const [suspendedHostList, setSuspendedHostList] = useState([]);
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [id, setId] = useState("");
+
+  const handleDeleteAlert = () => {
+    setShowDeleteAlert(true);
+  };
+
+  const handleDeleteAlertClose = () => {
+    setShowDeleteAlert(false);
+  };
 
   useEffect(() => {
     getSuspendedHost();
   }, []);
 
   const getSuspendedHost = () => {
-    axios
-      .get(baseUrl + "admin/getListHostSuspended", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
+    fetchDataFromAPI(API_URL + NetworkConfiguration.SUSPENDEDHOST, "GET")
       .then((res) => {
-        setSuspendedHostList(res.data.result);
+        setSuspendedHostList(res.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleOnClickAlert = (id) => {
+    console.log(id);
+    setShowDeleteAlert(true);
+    setId(id);
+  };
+
+  const handleDeleteApi = () => {
+    fetchDataFromAPI(
+      API_URL + NetworkConfiguration.DELETESUSPENSION + `/${id}`,
+      "DELETE"
+    )
+      .then((res) => {
+        setShowDeleteAlert(false);
+        getSuspendedHost();
       })
       .catch((err) => {
         console.log(err);
@@ -44,7 +74,9 @@ const SuspendedHostTable = () => {
               <tr>
                 <td className="suspended__host__table__data">{index + 1}</td>
                 <td className="suspended__host__table__data">{data._id}</td>
-                <td className="suspended__host__table__data">{data.name}</td>
+                <td className="suspended__host__table__data">
+                  {data.hostId.name}
+                </td>
 
                 <td className="suspended__host__table__data">
                   {moment(data.createdAt).format("DD/MM/YYYY , LT")}
@@ -54,13 +86,30 @@ const SuspendedHostTable = () => {
                 </td>
                 <td className="suspended__host__table__data suspended__host__table__icons">
                   <AiFillEdit className="suspended__host__table__edit__icon" />
-                  <AiFillDelete className="suspended__host__table__delete__icon" />
+                  <AiFillDelete
+                    onClick={() => {
+                      handleOnClickAlert(data._id);
+                      console.log(data._id, "data id");
+                    }}
+                    className="suspended__host__table__delete__icon"
+                  />
                 </td>
               </tr>
             );
           })}
         </tbody>
       </table>
+      <AlertPopUp
+        open={showDeleteAlert}
+        handleOpen={handleDeleteAlert}
+        handleClose={handleDeleteAlertClose}
+        header="Delete Alert"
+        description="Are you sure you want to delete this suspended host?"
+        submitText="Yes"
+        cancelText="No"
+        onSubmitClick={handleDeleteApi}
+        onCancelClick={handleDeleteAlertClose}
+      />
     </div>
   );
 };

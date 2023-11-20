@@ -1,0 +1,18 @@
+.top__talent__container {
+  padding: 3rem 0;
+}
+
+.top__talent__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.top__talent__header {
+  background-color: #f20094;
+  color: white;
+  padding: 10px;
+}
+
+.top__talent__data {
+  text-align: center;
+}

@@ -64,20 +64,14 @@ const sidebarData = [
     icon: <AiOutlinePicCenter />,
   },
   {
-    label: "Wallet",
-    link: "/wallet",
+    label: "Coin",
+    link: "/coin",
     icon: <AiOutlinePicCenter />,
   },
 
   {
     label: "Report",
     link: "/report",
-    icon: <AiOutlinePicCenter />,
-  },
-
-  {
-    label: "Payment",
-    link: "/payment",
     icon: <AiOutlinePicCenter />,
   },
   {
@@ -90,6 +84,13 @@ const sidebarData = [
     link: "/sticker",
     icon: <AiOutlinePicCenter />,
   },
+
+  {
+    label: "Top Growing",
+    link: "/topgrowing",
+    icon: <AiOutlinePicCenter />,
+  },
+
   {
     label: "Moment",
     link: "/moment",

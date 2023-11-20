@@ -11,12 +11,15 @@ import callHistory from "../../../../base/Assets/call history.png";
 import followers from "../../../../base/Assets/followers.png";
 import following from "../../../../base/Assets/following.png";
 import blockList from "../../../../base/Assets/blocked.png";
+import interest from "../../../../base/Assets/interest.png";
 import "./style.css";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const IconContainer = () => {
   let navigate = useNavigate();
+  let params = useParams();
+  console.log(params, "1234567");
   return (
     <div className="user__management__icon__container">
       <div className="user__management__icon__row">
@@ -30,14 +33,20 @@ const IconContainer = () => {
         </div>
         <div
           onClick={() => {
-            navigate("/gift");
+            // navigate("/gift");
+            navigate({ pathname: "/gift", search: "" });
           }}
           className="icon__container"
         >
           <img className="icon" src={gift} alt="" />
           <p>Gifts</p>
         </div>
-        <div className="icon__container">
+        <div
+          onClick={() => {
+            navigate({ pathname: "/moment", search: `?id=${params.id}` });
+          }}
+          className="icon__container"
+        >
           <img className="icon" src={moment} alt="" />
           <p>Moments</p>
         </div>
@@ -62,13 +71,29 @@ const IconContainer = () => {
           <img className="icon" src={report} alt="" />
           <p>Report</p>
         </div>
-        <div className="icon__container">
+        <div
+          onClick={() => {
+            navigate("/paymenthistory");
+          }}
+          className="icon__container"
+        >
           <img className="icon" src={payment} alt="" />
           <p>Payment History</p>
         </div>
-        <div className="icon__container">
+
+        <div
+          className="icon__container"
+          onClick={() => {
+            navigate("/usercallhistory");
+          }}
+        >
           <img className="icon" src={callHistory} alt="" />
           <p>Call History</p>
+        </div>
+
+        <div className="icon__container">
+          <img className="icon" src={interest} alt="" />
+          <p>Interest</p>
         </div>
         <div className="icon__container">
           <img className="icon" src={followers} alt="" />
@@ -83,7 +108,12 @@ const IconContainer = () => {
           <img className="icon" src={following} alt="" />
           <p>following</p>
         </div>
-        <div className="icon__container">
+        <div
+          onClick={() => {
+            navigate("/blockedHost");
+          }}
+          className="icon__container"
+        >
           <img className="icon" src={blockList} alt="" />
           <p>Block</p>
         </div>

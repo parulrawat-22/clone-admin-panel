@@ -1,27 +1,54 @@
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import "./style.css";
 import { useEffect, useState } from "react";
-import baseUrl from "../../../baseUrl";
-import axios from "axios";
 import moment from "moment";
+import { fetchDataFromAPI } from "../../../network/NetworkConnection";
+import {
+  API_URL,
+  NetworkConfiguration,
+} from "../../../network/NetworkConfiguration";
+import AlertPopUp from "../../AlertPopUp";
 
 const SuspendedUserTable = () => {
   const [suspendedUserList, setSuspendedUserList] = useState([]);
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [id, setId] = useState("");
+
+  const handleDeleteAlert = () => {
+    setShowDeleteAlert(true);
+  };
+
+  const handleDeleteAlertClose = () => {
+    setShowDeleteAlert(false);
+  };
+
+  const getSuspendedUserList = () => {
+    fetchDataFromAPI(API_URL + NetworkConfiguration.SUSPENDEDUSER, "GET")
+      .then((res) => {
+        setSuspendedUserList(res.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     getSuspendedUserList();
   }, []);
 
-  const getSuspendedUserList = () => {
-    axios
-      .get(baseUrl + "admin/getListUserSuspended", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
+  const handleOnClickDelete = (id) => {
+    setId(id);
+    setShowDeleteAlert(true);
+  };
+
+  const handleAlertDelete = () => {
+    fetchDataFromAPI(
+      API_URL + NetworkConfiguration.DELETESUSPENSION + `/${id}`,
+      "DELETE"
+    )
       .then((res) => {
-        setSuspendedUserList(res.data.result);
+        setShowDeleteAlert(false);
+        getSuspendedUserList();
       })
       .catch((err) => {
         console.log(err);
@@ -45,7 +72,7 @@ const SuspendedUserTable = () => {
               <tr>
                 <td className="suspended__table__data">{index + 1}</td>
                 <td className="suspended__table__data">{data._id}</td>
-                <td className="suspended__table__data">{data.name}</td>
+                <td className="suspended__table__data">{data.userId.name}</td>
                 <td className="suspended__table__data">
                   {moment(data.createdAt).format("DD/MM/YYYY, LT")}
                 </td>
@@ -54,13 +81,29 @@ const SuspendedUserTable = () => {
                 </td>
                 <td className="suspended__table__data suspended__user__icons">
                   <AiFillEdit className="suspended__table__edit__icon" />
-                  <AiFillDelete className="suspended__table__delete__icon" />
+                  <AiFillDelete
+                    onClick={() => {
+                      handleOnClickDelete(data._id);
+                    }}
+                    className="suspended__table__delete__icon"
+                  />
                 </td>
               </tr>
             );
           })}
         </tbody>
       </table>
+      <AlertPopUp
+        open={showDeleteAlert}
+        handleOpen={handleDeleteAlert}
+        handleClose={handleDeleteAlertClose}
+        header="Delete Alert"
+        description="Are you sure you want to delete this Suspended User?"
+        submitText="Yes"
+        cancelText="No"
+        onSubmitClick={handleAlertDelete}
+        onCancelClick={handleDeleteAlertClose}
+      />
     </div>
   );
 };

@@ -1,8 +1,3 @@
-import LeaderTable from "../Table/LeaderTable";
-import AddGiftForm from "../formComponents/AddGiftForm";
-import AddLeaderForm from "../formComponents/AddLeaderform";
-import BannerForm from "../formComponents/BannerForm";
-import CreateWalletForm from "../formComponents/CreateWalletForm";
 import "./style.css";
 import { Box, Modal } from "@mui/material";
 // import TextArea from "../library/TextArea";
@@ -10,7 +5,7 @@ import { Box, Modal } from "@mui/material";
 const FormAlertPopUp = ({
   open,
   handleOpen,
-  handleClose,
+  // handleClose,
   header,
   description,
   submitText,
@@ -18,6 +13,8 @@ const FormAlertPopUp = ({
   onSubmitClick,
   onCancelClick,
   modalOf,
+  onRequestClose,
+  children,
 }) => {
   const style = {
     position: "absolute",
@@ -33,18 +30,11 @@ const FormAlertPopUp = ({
     p: 2,
   };
 
+  console.log("Open modal", open);
+
   return (
-    <Modal open={open} onClose={handleClose} closeAfterTransition>
-      <Box sx={style}>
-        {modalOf === "banner" ? <BannerForm handleClose={handleClose} /> : null}
-        {modalOf === "leader" ? (
-          <AddLeaderForm handleClose={handleClose} />
-        ) : null}
-        {modalOf === "gift" ? <AddGiftForm handleClose={handleClose} /> : null}
-        {modalOf === "wallet" ? (
-          <CreateWalletForm handleClose={handleClose} />
-        ) : null}
-      </Box>
+    <Modal open={open} onClose={onRequestClose} closeAfterTransition>
+      <Box sx={style}>{children}</Box>
     </Modal>
   );
 };

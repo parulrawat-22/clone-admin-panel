@@ -13,8 +13,6 @@ import Feedback from "../pages/UserFeedback";
 import Moments from "../pages/Moments";
 import Gifts from "../pages/Gift";
 import Recharge from "../pages/Recharge";
-// import AcceptedUser from "../pages/AcceptedUser";
-// import RejectedUser from "../pages/RejectedUser";
 import HostManagement from "../pages/HostManagement";
 import AcceptedHost from "../pages/AcceptedHost";
 import HostRequest from "../pages/HostRequest";
@@ -28,7 +26,15 @@ import EditUser from "../pages/EditUser";
 import Layout from "../components/Layout";
 import UserFollowing from "../pages/Following";
 import UserSticker from "../pages/Sticker";
-import Wallet from "../pages/Wallet";
+import Coin from "../pages/Coin";
+import UserCallHistory from "../components/Table/CallHistoryTable";
+import BlockList from "../pages/BlockList";
+import PaymentHistory from "../pages/PaymentHistory";
+import TopGrowing from "../pages/TopGrowing";
+import TopTalentTable from "../components/Table/TopTalentTable";
+import WeeklyTalentTable from "../components/Table/WeeklyTalentTable";
+import Sticker from "../pages/Sticker";
+// import Coin from "../pages/Coin";
 
 const Router = () => {
   return (
@@ -80,20 +86,25 @@ const Router = () => {
           path="sticker"
           element={
             <Layout>
-              <UserSticker />
+              <Sticker />
             </Layout>
           }
         />
         <Route
-          path="/wallet"
+          path="/coin"
           element={
             <Layout>
-              <Wallet />
+              <Coin />
             </Layout>
           }
         />
         <Route path="/recharge" element={<Recharge />} />
         <Route path="/moment" element={<Moments />}></Route>
+        <Route path="/blockedHost" element={<BlockList />} />
+        <Route path="/paymenthistory" element={<PaymentHistory />} />
+        <Route path="/usercallhistory" element={<UserCallHistory />} />
+        <Route path="/topgrowing" element={<TopGrowing />} />
+        <Route path="/toptalent" element={<TopTalentTable />} />
       </Routes>
     </BrowserRouter>
   );

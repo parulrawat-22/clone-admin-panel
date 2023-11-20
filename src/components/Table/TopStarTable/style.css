@@ -1,0 +1,18 @@
+.top__star__container {
+  padding: 3rem 0;
+}
+
+.top__star__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.top__star__header {
+  background-color: #f20094;
+  color: white;
+  padding: 10px;
+}
+
+.top__star__data {
+  text-align: center;
+}

@@ -1,0 +1,18 @@
+.user__call__history__container {
+  padding: 3rem 0;
+}
+
+.user__call__history__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.user__call__history__header {
+  background-color: #f20094;
+  color: white;
+  padding: 10px;
+}
+
+.user__call__history__data {
+  text-align: center;
+}

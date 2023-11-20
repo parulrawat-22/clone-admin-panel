@@ -6,12 +6,17 @@ import axios from "axios";
 import moment from "moment";
 import AlertPopUp from "../../AlertPopUp";
 import { FaLess } from "react-icons/fa";
+import { fetchDataFromAPI } from "../../../network/NetworkConnection";
+import {
+  API_URL,
+  NetworkConfiguration,
+} from "../../../network/NetworkConfiguration";
 
 const FeedbackUserTable = () => {
   const [feedback, setFeedback] = useState([]);
   const [showRevertAlert, setShowRevertAlert] = useState(false);
   const [showImageAlert, setShowImageAlert] = useState(false);
-  const [id, setId] = useState("");
+  // const [id, setId] = useState("");
 
   const handleShowImage = () => {
     setShowImageAlert(true);
@@ -22,30 +27,18 @@ const FeedbackUserTable = () => {
   }, []);
 
   const getAllUsersFeedback = () => {
-    axios
-      .get(
-        baseUrl + "admin/getAdminUserFeedback",
-        {
-          id: id,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        }
-      )
+    fetchDataFromAPI(API_URL + NetworkConfiguration.GETUSERFEEDBACK, "GET")
       .then((res) => {
-        setFeedback(res.data.result);
+        setFeedback(res.result);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  const handleFeedbackRevert = (id) => {
+  const handleFeedbackRevert = () => {
     setShowRevertAlert(true);
-    setId(id);
+    // setId(id);
   };
 
   const handleFeedbackRevertClose = () => {

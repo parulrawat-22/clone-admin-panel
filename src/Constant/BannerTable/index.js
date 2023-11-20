@@ -1,33 +1,15 @@
 import { AiFillEdit, AiTwotoneDelete } from "react-icons/ai";
 import "./style.css";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import baseUrl from "../../baseUrl";
+import { useState } from "react";
+
 import { AiFillEye } from "react-icons/ai";
-import AlertPopUp from "../../components/AlertPopUp";
-import { useNavigate } from "react-router-dom";
+
 import ImagePopUpModal from "../../components/ImagePopUpModal";
 
-const BannerTable = () => {
-  let navigate = useNavigate();
-  const [showBannerData, setShowBannerData] = useState([]);
-  const [showDeleteAlert, setShowDeleteAlert] = useState();
+const BannerTable = ({ setBannerId, showBannerData, setShowDeleteAlert }) => {
+  // let navigate = useNavigate();
   const [showImageAlert, setShowImageAlert] = useState(false);
-  const [id, setId] = useState();
   const [img, setImg] = useState();
-
-  const handleShowDeleteAlert = () => {
-    setShowDeleteAlert(true);
-  };
-
-  const handleShowDeleteAlerClose = () => {
-    setShowDeleteAlert(false);
-  };
-
-  const handleCancelDelete = () => {
-    setShowDeleteAlert(false);
-    navigate("/banner");
-  };
 
   const handleOpenBannerImage = (img) => {
     setShowImageAlert(true);
@@ -38,47 +20,9 @@ const BannerTable = () => {
     setShowImageAlert(false);
   };
 
-  useEffect(() => {
-    fetchBannerList();
-  }, []);
-
-  const fetchBannerList = () => {
-    axios
-      .get(baseUrl + "banner/getAllBanner", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
-      .then((res) => {
-        console.log("Banner List", res.data.result);
-        setShowBannerData(res.data.result);
-      })
-      .catch((err) => {
-        console.log("err", err);
-      });
-  };
-
   const handleDeleteBanner = (id) => {
-    setId(id);
+    setBannerId(id);
     setShowDeleteAlert(true);
-  };
-  const handleDelete = () => {
-    axios
-      .delete(baseUrl + "banner/bannerDelete/" + id, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
-      .then((res) => {
-        console.log(res);
-        fetchBannerList();
-        setShowDeleteAlert(false);
-      })
-      .catch((err) => {
-        console.log(err, "err==========");
-      });
   };
 
   return (
@@ -120,17 +64,6 @@ const BannerTable = () => {
           })}
         </tbody>
       </table>
-      <AlertPopUp
-        open={showDeleteAlert}
-        handleOpen={handleShowDeleteAlert}
-        handleClose={handleShowDeleteAlerClose}
-        header="Delete Alert"
-        description="Are you sure you want to delete this banner?"
-        submitText="Yes"
-        cancelText="No"
-        onCancelClick={handleCancelDelete}
-        onSubmitClick={handleDelete}
-      />
 
       <ImagePopUpModal
         open={showImageAlert}

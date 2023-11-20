@@ -1,0 +1,18 @@
+.weekly__talent__container {
+  padding: 3rem 0;
+}
+
+.weekly__talent__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.weekly__talent__header {
+  background-color: #f20094;
+  color: white;
+  padding: 10px;
+}
+
+.weekly__talent__data {
+  text-align: center;
+}

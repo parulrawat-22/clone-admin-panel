@@ -1,0 +1,18 @@
+.host__moment__container {
+  padding: 3rem 0;
+}
+
+.host__moment__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.host__moment__header {
+  background-color: #f20094;
+  color: white;
+  padding: 10px;
+}
+
+.host__moment__data {
+  text-align: center;
+}

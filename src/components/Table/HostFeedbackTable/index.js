@@ -5,6 +5,11 @@ import moment from "moment";
 import baseUrl from "../../../baseUrl";
 import axios from "axios";
 import AlertPopUp from "../../AlertPopUp";
+import { fetchDataFromAPI } from "../../../network/NetworkConnection";
+import {
+  API_URL,
+  NetworkConfiguration,
+} from "../../../network/NetworkConfiguration";
 
 const HostFeedbackTable = () => {
   const [hostFeedback, setHostFeeback] = useState([]);
@@ -24,21 +29,9 @@ const HostFeedbackTable = () => {
   }, []);
 
   const getAllHostsFeedback = () => {
-    axios
-      .get(
-        baseUrl + "admin/getAdminHostFeedback",
-        {
-          id: id,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        }
-      )
+    fetchDataFromAPI(API_URL + NetworkConfiguration.GETHOSTFEEDBACK, "GET")
       .then((res) => {
-        setHostFeeback(res.data.result);
+        setHostFeeback(res.result);
       })
       .catch((err) => {
         console.log(err);

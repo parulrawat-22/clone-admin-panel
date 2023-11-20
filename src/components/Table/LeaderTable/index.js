@@ -3,6 +3,11 @@ import "./style.css";
 import AlertPopUp from "../../AlertPopUp";
 import baseUrl from "../../../baseUrl";
 import axios from "axios";
+import { fetchDataFromAPI } from "../../../network/NetworkConnection";
+import {
+  API_URL,
+  NetworkConfiguration,
+} from "../../../network/NetworkConfiguration";
 
 const LeaderTable = () => {
   const [showHostData, setShowHostData] = useState(false);
@@ -21,16 +26,9 @@ const LeaderTable = () => {
   }, []);
 
   const getAllLeaders = () => {
-    axios
-      .get(baseUrl + "admin/getAllLeader", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
+    fetchDataFromAPI(API_URL + NetworkConfiguration.GETLEADER, "GET")
       .then((res) => {
-        setShowLeaderList(res.data.result);
-        console.log(res);
+        setShowLeaderList(res.result);
       })
       .catch((err) => {
         console.log(err);

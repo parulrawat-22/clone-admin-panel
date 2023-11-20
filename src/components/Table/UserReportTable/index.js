@@ -1,30 +1,30 @@
 import { useEffect, useState } from "react";
 import "./style.css";
-import baseUrl from "../../../baseUrl";
-import axios from "axios";
+import {
+  API_URL,
+  NetworkConfiguration,
+} from "../../../network/NetworkConfiguration";
+import { fetchDataFromAPI } from "../../../network/NetworkConnection";
 
 const UserReportTable = () => {
   const [userReportList, setUserReportList] = useState([]);
 
-  useEffect(() => {
-    getUserReport();
-  }, []);
-
   const getUserReport = () => {
-    axios
-      .get(baseUrl + "admin/allfindReport", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
+    fetchDataFromAPI(API_URL + NetworkConfiguration.USERREPORT, "GET")
       .then((res) => {
-        setUserReportList(res.data.result);
+        setUserReportList(res.result);
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
+  useEffect(() => {
+    getUserReport();
+  }, []);
+
+  console.log(userReportList, "data");
+
   return (
     <div className="user__report__container">
       <table className="user__report__table">
