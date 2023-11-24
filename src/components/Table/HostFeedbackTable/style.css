@@ -19,3 +19,8 @@
   border-bottom: 1px solid grey;
   padding: 10px 0;
 }
+
+.host__feedback__table__eye__icon {
+  font-size: 18px;
+  cursor: pointer;
+}

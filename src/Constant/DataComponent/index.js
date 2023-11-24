@@ -17,12 +17,6 @@ const sidebarData = [
   },
 
   {
-    label: "Host Management",
-    link: "/hostmanagement",
-    icon: <FaUsers />,
-  },
-
-  {
     label: "Host Request",
     link: "/hostrequest",
     icon: <FaUsers />,
@@ -96,11 +90,7 @@ const sidebarData = [
     link: "/moment",
     icon: <AiOutlinePicCenter />,
   },
-  {
-    label: "Bucket",
-    link: "/bucket",
-    icon: <AiOutlinePicCenter />,
-  },
+
   {
     label: "Feedback",
     link: "/feedback",
@@ -109,6 +99,12 @@ const sidebarData = [
   {
     label: "Recharge",
     link: "/recharge",
+    icon: <AiOutlinePicCenter />,
+  },
+
+  {
+    label: "Notification",
+    link: "/notification",
     icon: <AiOutlinePicCenter />,
   },
 ];

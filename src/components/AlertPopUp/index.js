@@ -5,6 +5,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import TextArea from "../../components/library/TextArea";
 import Dropdown from "../library/Dropdown";
+import InputField from "../library/InputField";
 
 const style = {
   position: "absolute",
@@ -34,6 +35,10 @@ export default function AlertPopUp({
   reason,
   handleReasonChange,
   dropdown,
+  dropdownOptions,
+  onChangeField,
+  onChangeDropdown,
+  textField,
 }) {
   return (
     <div>
@@ -49,8 +54,15 @@ export default function AlertPopUp({
             <h3 className="alert__popup__heading">{header}</h3>
             <p className="alert__popup__content">{description}</p>
           </div>
-          {dropdown ? (
-            <Dropdown className="alert__popup__dropdown"></Dropdown>
+          {textField ? (
+            <InputField onChange={onChangeField}></InputField>
+          ) : null}
+          {dropdown && dropdownOptions ? (
+            <Dropdown
+              options={dropdownOptions}
+              onChange={onChangeDropdown}
+              className="alert__popup__dropdown"
+            ></Dropdown>
           ) : null}
           {rejectedReason ? (
             <TextArea

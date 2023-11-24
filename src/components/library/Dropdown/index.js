@@ -10,11 +10,10 @@ const Dropdown = (props) => {
         onChange={props.onChange}
         onClick={props.onClick}
       >
-        <option value={props.value}>{props.option1}</option>
-        <option value={props.value}>{props.option2}</option>
-        <option value={props.value}>{props.option3}</option>
-        <option value={props.value}>{props.option4}</option>
-        <option value={props.value}>{props.option5}</option>
+        <option value={""}>--Select--</option>;
+        {props.options.map((option) => {
+          return <option value={option?.value}>{option?.name}</option>;
+        })}
       </select>
     </div>
   );

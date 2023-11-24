@@ -15,13 +15,9 @@
 
 .suspended__table__data {
   text-align: center;
-  padding: 5px 0;
-}
-
-.suspended__user__icons {
-  display: flex;
-  gap: 15px;
-  justify-content: center;
+  padding: 10px 0;
+  border: none;
+  border-bottom: 1px solid grey;
 }
 
 .suspended__table__edit__icon {

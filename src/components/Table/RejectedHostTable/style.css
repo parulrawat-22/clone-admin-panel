@@ -9,7 +9,9 @@
 }
 
 .rejected__host__data {
-  padding: 0 10px;
+  padding: 10px 5px;
+  border: none;
+  border-bottom: 1px solid grey;
   text-align: center;
 }
 
@@ -17,8 +19,9 @@
   cursor: pointer;
 }
 
-.rejected__host__action {
-  display: flex;
+.rejected__host__eye__icon {
+  cursor: pointer;
+  font-size: 20px;
 }
 
 .rejected__host__edit__icon {

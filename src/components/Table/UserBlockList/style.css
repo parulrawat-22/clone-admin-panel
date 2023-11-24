@@ -15,4 +15,7 @@
 
 .user__block__list__data {
   text-align: center;
+  padding: 10px 0;
+  border: none;
+  border-bottom: 1px solid grey;
 }

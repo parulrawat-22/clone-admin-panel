@@ -8,6 +8,7 @@ import {
   API_URL,
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
+import TablePopUp from "../../TablePopUp";
 
 const LeaderTable = () => {
   const [showHostData, setShowHostData] = useState(false);
@@ -79,11 +80,13 @@ const LeaderTable = () => {
           })}
         </tbody>
       </table>
-      <AlertPopUp
+      <TablePopUp
         open={showHostData}
         handleOpen={handleViewHostData}
         handleClose={handleViewHostDataClose}
       />
+
+      {/* <TablePopUp /> */}
     </div>
   );
 };

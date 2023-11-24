@@ -1,0 +1,17 @@
+.table__pop__up__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table__pop__up__header {
+  background-color: #f20094;
+  color: white;
+  padding: 10px;
+}
+
+.table__pop__up__data {
+  text-align: center;
+  padding: 10px 5px;
+  border: none;
+  border-bottom: 1px solid grey;
+}

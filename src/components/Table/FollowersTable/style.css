@@ -1,18 +1,18 @@
-.weekly__star__container {
+.followers__container {
   padding: 3rem 0;
 }
 
-.weekly__star__table {
+.followers__table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.weekly__star__header {
+.followers__header {
   background-color: #f20094;
   color: white;
   padding: 10px;
 }
 
-.weekly__star__data {
+.followers__data {
   text-align: center;
 }

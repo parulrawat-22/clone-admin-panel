@@ -19,9 +19,10 @@ const UserTable = () => {
 
   const [userRequest, setUserRequest] = useState([]);
   // const [showEyeAlert, setShowEyeAlert] = useState();
-  const [showProfileAlert, setShowProfileAlert] = useState();
-  const [showDeleteAlert, setShowDeleteAlert] = useState();
-  const [id, setId] = useState();
+  const [showProfileAlert, setShowProfileAlert] = useState(false);
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [id, setId] = useState("");
+  const [img, setImg] = useState("");
 
   useEffect(() => {
     getUserRequest();
@@ -44,8 +45,10 @@ const UserTable = () => {
     setId(id);
   };
 
-  const handleEyeProfilePicPopUp = () => {
+  const handleEyeProfilePicPopUp = (img) => {
+    console.log("1234", img);
     setShowProfileAlert(true);
+    setImg(img);
   };
 
   const handleEyeProfilePicPopUpClose = () => {
@@ -79,7 +82,7 @@ const UserTable = () => {
   return (
     <div className="user__request__table__container">
       <table className="user__request__table">
-        <thead className="user__request__headers">
+        <thead>
           <th className="user__request__headers">S.No.</th>
           <th className="user__request__headers">User ID</th>
           <th className="user__request__headers">Name</th>
@@ -101,41 +104,49 @@ const UserTable = () => {
         <tbody>
           {userRequest?.map((data, index) => {
             return (
-              <tr className="user__request__row">
-                <td className="user__request__row_data">{index + 1}</td>
-                <td className="user__request__row_data">{data.userId}</td>
-                <td className="user__request__row_data">{data.name}</td>
-                <td className="user__request__row_data">{data.gender}</td>
-                <td className="user__request__row_data">{data.dateOfBirth}</td>
-                <td className="user__request__row_data">{data.age}</td>
-                <td className="user__request__row_data">{data.country}</td>
-                <td className="user__request__row_data">{data.state}</td>
-                <td className="user__request__row_data">{data.city}</td>
-                <td className="user__request__row_data">{data.mobileNumber}</td>
-                <td className="user__request__row_data">{data.proffession}</td>
-                <td className="user__request__row_data">{data.addBio}</td>
+              <tr>
+                <td className="user__request__data">{index + 1}</td>
+                <td className="user__request__data">{data.userId}</td>
+                <td className="user__request__data">{data.name}</td>
+                <td className="user__request__data">{data.gender}</td>
+                <td className="user__request__data">{data.dateOfBirth}</td>
+                <td className="user__request__data">{data.age}</td>
+                <td className="user__request__data">{data.country}</td>
+                <td className="user__request__data">{data.state}</td>
+                <td className="user__request__data">{data.city}</td>
+                <td className="user__request__data">{data.mobileNumber}</td>
+                <td className="user__request__data">{data.proffession}</td>
+                <td className="user__request__data">{data.addBio}</td>
 
-                <td className="user__request__row_data">
-                  <BsFillEyeFill className="user__request__eye__icon" />
-                </td>
-                <td className="user__request__row_data">
+                <td className="user__request__data">
                   <BsFillEyeFill
                     onClick={() => {
-                      handleEyeProfilePicPopUp();
+                      handleEyeProfilePicPopUp(data?.presentationPic);
                     }}
                     className="user__request__eye__icon"
                   />
                 </td>
-                <td> {moment(data.createdAt).format("MM/DD/YYYY LT")}</td>
+                <td className="user__request__data">
+                  <BsFillEyeFill
+                    onClick={() => {
+                      handleEyeProfilePicPopUp(data?.profilePic);
+                    }}
+                    className="user__request__eye__icon"
+                  />
+                </td>
+                <td className="user__request__data">
+                  {" "}
+                  {moment(data.createdAt).format("MM/DD/YYYY LT")}
+                </td>
                 <td
-                  className="user__management__view__btn"
+                  className="user__request__data user__management__view__btn"
                   onClick={() => {
                     navigate(`/usermanagement/${data._id}`);
                   }}
                 >
                   View more...
                 </td>
-                <td className="accepted__user__action">
+                <td className="user__request__data">
                   <AiFillEdit
                     onClick={() => {
                       navigate("/edituser");
@@ -169,6 +180,7 @@ const UserTable = () => {
             open={showProfileAlert}
             handleOpen={handleEyeProfilePicPopUp}
             handleClose={handleEyeProfilePicPopUpClose}
+            img={img}
           />
         </tbody>
       </table>

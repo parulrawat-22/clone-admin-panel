@@ -1,18 +1,18 @@
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import "./style.css";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import baseUrl from "../../../baseUrl";
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
 import {
   API_URL,
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 import AlertPopUp from "../../AlertPopUp";
+import { useSearchParams } from "react-router-dom";
 
 const WarnedHostTable = () => {
   const [warnedHostList, setWarnedHostList] = useState([]);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
   const [id, setId] = useState("");
 
   const handleDeleteAlert = () => {
@@ -28,7 +28,11 @@ const WarnedHostTable = () => {
   }, []);
 
   const getWarnedHost = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.WARNEDHOST, "GET")
+    fetchDataFromAPI(
+      API_URL + NetworkConfiguration.WARNEDHOST,
+      "POST",
+      searchParams.get("id") ? { userId: searchParams.get("id") } : {}
+    )
       .then((res) => {
         setWarnedHostList(res.result);
       })
@@ -58,38 +62,74 @@ const WarnedHostTable = () => {
 
   return (
     <div className="warned__host__container">
-      <table className="warned__host__table">
-        <thead>
-          <th className="warned__host__header">S.No.</th>
-          <th className="warned__host__header">Host ID</th>
-          <th className="warned__host__header">Host Name</th>
-          <th className="warned__host__header">Title</th>
-          <th className="warned__host__header">Description</th>
-          <th className="warned__host__header">Action</th>
-        </thead>
-        <tbody>
-          {warnedHostList.map((data, index) => {
-            return (
-              <tr>
-                <td className="warned__host__data">{index + 1}</td>
-                <td className="warned__host__data">{data.hostId._id}</td>
-                <td className="warned__host__data">{data.hostId.name}</td>
-                <td className="warned__host__data">{data.title}</td>
-                <td className="warned__host__data">{data.body}</td>
-                <td className="warned__host__data warned__host__icon">
-                  <AiFillEdit className="warned__host__edit__icon" />
-                  <AiFillDelete
-                    onClick={() => {
-                      handleOnClickAlert(data._id);
-                    }}
-                    className="warned__host__delete__icon"
-                  />
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      {searchParams.get("id") ? (
+        <table className="warned__host__table">
+          <thead>
+            <th className="warned__host__header">S.No.</th>
+            <th className="warned__host__header">Host ID</th>
+            <th className="warned__host__header">Host Name</th>
+            <th className="warned__host__header">Title</th>
+            <th className="warned__host__header">Description</th>
+            <th className="warned__host__header">Action</th>
+          </thead>
+          <tbody>
+            {warnedHostList.map((data, index) => {
+              return (
+                <tr>
+                  <td className="warned__host__data">{index + 1}</td>
+                  <td className="warned__host__data">{data.hostId._id}</td>
+                  <td className="warned__host__data">{data.hostId.name}</td>
+                  <td className="warned__host__data">{data.title}</td>
+                  <td className="warned__host__data">{data.body}</td>
+                  <td className="warned__host__data">
+                    <AiFillEdit className="warned__host__edit__icon" />
+                    <AiFillDelete
+                      onClick={() => {
+                        handleOnClickAlert(data._id);
+                      }}
+                      className="warned__host__delete__icon"
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      ) : (
+        <table className="warned__host__table">
+          <thead>
+            <th className="warned__host__header">S.No.</th>
+            <th className="warned__host__header">Host ID</th>
+            <th className="warned__host__header">Host Name</th>
+            <th className="warned__host__header">Title</th>
+            <th className="warned__host__header">Description</th>
+            <th className="warned__host__header">Action</th>
+          </thead>
+          <tbody>
+            {warnedHostList.map((data, index) => {
+              return (
+                <tr>
+                  <td className="warned__host__data">{index + 1}</td>
+                  <td className="warned__host__data">{data.hostId._id}</td>
+                  <td className="warned__host__data">{data.hostId.name}</td>
+                  <td className="warned__host__data">{data.title}</td>
+                  <td className="warned__host__data">{data.body}</td>
+                  <td className="warned__host__data warned__host__icon">
+                    <AiFillEdit className="warned__host__edit__icon" />
+                    <AiFillDelete
+                      onClick={() => {
+                        handleOnClickAlert(data._id);
+                      }}
+                      className="warned__host__delete__icon"
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      )}
+
       <AlertPopUp
         open={showDeleteAlert}
         handleOpen={handleDeleteAlert}

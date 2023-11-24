@@ -7,6 +7,12 @@ import baseUrl from "../../../baseUrl";
 import axios from "axios";
 import AlertPopUp from "../../AlertPopUp";
 import { useNavigate } from "react-router-dom";
+import { fetchDataFromAPI } from "../../../network/NetworkConnection";
+import {
+  API_URL,
+  NetworkConfiguration,
+} from "../../../network/NetworkConfiguration";
+import ImagePopUpModal from "../../ImagePopUpModal";
 
 const HostRequestTable = () => {
   let navigate = useNavigate();
@@ -16,6 +22,8 @@ const HostRequestTable = () => {
   const [showRejectedReason, setShowRejectedReason] = useState();
   const [id, setId] = useState();
   const [rejectedReason, setRejectedReason] = useState("");
+  const [showImageAlert, setShowImageAlert] = useState("");
+  const [img, setImg] = useState("");
 
   const handleReasonChange = (e) => {
     setRejectedReason(e.target.value);
@@ -26,19 +34,9 @@ const HostRequestTable = () => {
   }, []);
 
   const getHostRequest = () => {
-    axios
-      .post(
-        baseUrl + "admin/getHostPending",
-        {},
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        }
-      )
+    fetchDataFromAPI(API_URL + NetworkConfiguration.PENDINGHOST, "POST", {})
       .then((res) => {
-        setHostRequest(res.data.result);
+        setHostRequest(res?.result);
       })
       .catch((err) => {
         console.log(err);
@@ -55,17 +53,9 @@ const HostRequestTable = () => {
   };
 
   const handleAcceptedHost = () => {
-    axios
-      .put(
-        baseUrl + "admin/acceptHostRequest",
-        { id: id },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        }
-      )
+    fetchDataFromAPI(API_URL + NetworkConfiguration.REQUESTEDHOST, "PUT", {
+      id: id,
+    })
       .then((res) => {
         setShowAcceptedHostAlert(false);
         navigate("/acceptedhost");
@@ -78,17 +68,10 @@ const HostRequestTable = () => {
   const handleRejectedHost = () => {
     console.log("Rejected Reason", rejectedReason);
     console.log("Rejected Id", id);
-    axios
-      .put(
-        baseUrl + "admin/rejectHostRequest",
-        { id: id, rejectedReason: rejectedReason },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        }
-      )
+    fetchDataFromAPI(API_URL + NetworkConfiguration.REJECTHOST, "PUT", {
+      id: id,
+      rejectedReason: rejectedReason,
+    })
       .then((res) => {
         setShowRejectedHostAlert(false);
         navigate("/rejectedhost");
@@ -131,6 +114,16 @@ const HostRequestTable = () => {
     setShowRejectedHostAlert(false);
   };
 
+  const handleImageAlert = (img) => {
+    console.log("1234", img);
+    setShowImageAlert(true);
+    setImg(img);
+  };
+
+  const handleImageAlertClose = () => {
+    setShowImageAlert(false);
+  };
+
   return (
     <div className="host__request__container">
       <table className="host__request__table">
@@ -155,31 +148,39 @@ const HostRequestTable = () => {
             return (
               <tr>
                 <td className="host__request__data">{index + 1}</td>
-                <td className="host__request__data">{data._id}</td>
-                <td className="host__request__data">{data.name}</td>
-                <td className="host__request__data">{data.gender}</td>
-                <td className="host__request__data">{data.dateOfBirth}</td>
-                <td className="host__request__data">{data.email}</td>
-                <td className="host__request__data">{data.mobileNumber}</td>
-                <td className="host__request__data">{data.pinCode}</td>
-                <td className="host__request__data">{data.country}</td>
-                <td className="host__request__data">{data.state}</td>
-                <td className="host__request__data">{data.proffession}</td>
-                <td className="host__request__data">{data.addBio}</td>
+                <td className="host__request__data">{data?._id}</td>
+                <td className="host__request__data">{data?.name}</td>
+                <td className="host__request__data">{data?.gender}</td>
+                <td className="host__request__data">{data?.dateOfBirth}</td>
+                <td className="host__request__data">{data?.email}</td>
+                <td className="host__request__data">{data?.mobileNumber}</td>
+                <td className="host__request__data">{data?.pinCode}</td>
+                <td className="host__request__data">{data?.country}</td>
+                <td className="host__request__data">{data?.state}</td>
+                <td className="host__request__data">{data?.proffession}</td>
+                <td className="host__request__data">{data?.addBio}</td>
                 <td className="host__request__data">
-                  <BsFillEyeFill className="host__request__eye__icon" />
+                  <BsFillEyeFill
+                    onClick={() => {
+                      handleImageAlert(data?.presentationPic);
+                    }}
+                    className="host__request__eye__icon"
+                  />
                 </td>
                 <td className="host__request__data">
                   <div className="host__request__action__icons">
                     <TiTick
                       onClick={() => {
-                        handleAcceptedHostsAlert(data._id);
+                        handleAcceptedHostsAlert(data?._id);
                       }}
                       className="host__request__accept__icon"
                     />
                     <RxCross2
                       onClick={() => {
-                        handleRejectedHostsAlert(data._id);
+                        handleRejectedHostsAlert(
+                          data?._id,
+                          data?.rejectedReason
+                        );
                       }}
                       className="host__request__reject__icon"
                     />
@@ -207,7 +208,7 @@ const HostRequestTable = () => {
         open={showRejectedHostAlert}
         handleOpen={handleRejectedHostsAlert}
         handleClose={handleRejectedHostsAlertClose}
-        header="Reject User?"
+        header="Reject Host?"
         description="Are you sure you want to reject this Host request?"
         submitText="Yes"
         cancelText="No"
@@ -228,6 +229,13 @@ const HostRequestTable = () => {
         rejectedReason={true}
         reason={rejectedReason}
         handleReasonChange={handleReasonChange}
+      />
+
+      <ImagePopUpModal
+        open={showImageAlert}
+        handleOpen={handleImageAlert}
+        handleClose={handleImageAlertClose}
+        img={img}
       />
     </div>
   );

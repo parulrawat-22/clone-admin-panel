@@ -3,7 +3,7 @@ import "./style.css";
 import baseUrl from "../../../baseUrl";
 import axios from "axios";
 import moment from "moment";
-import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import { AiFillDelete, AiFillEdit, AiFillEye } from "react-icons/ai";
 import AlertPopUp from "../../AlertPopUp";
 import { useNavigate } from "react-router-dom";
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
@@ -11,19 +11,35 @@ import {
   API_URL,
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
+import ImagePopUpModal from "../../ImagePopUpModal";
 
 const RejectedHostTable = () => {
   let navigate = useNavigate();
   const [rejectedHost, setRejectedHost] = useState([]);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [id, setId] = useState();
+  const [rejectedReason, setRejectedReason] = useState("");
+  const [showImageAlert, setShowImageAlert] = useState(false);
+  const [img, setImg] = useState("");
+
+  const handleImageAlert = (img) => {
+    setShowImageAlert(true);
+    setImg(img);
+  };
+
+  const handleImageAlertClose = () => {
+    setShowImageAlert(false);
+  };
 
   useEffect(() => {
     getRejectedHost();
   }, []);
 
   const getRejectedHost = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.REJECTEDHOST, "POST", {})
+    fetchDataFromAPI(API_URL + NetworkConfiguration.REJECTEDHOST, "POST", {
+      id: id,
+      rejectedReason: rejectedReason,
+    })
       .then((res) => {
         setRejectedHost(res.result);
       })
@@ -48,7 +64,10 @@ const RejectedHostTable = () => {
   };
 
   const handleDeleteRejectedHost = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.DELETEHOST + `${id}`)
+    fetchDataFromAPI(
+      API_URL + NetworkConfiguration.DELETEHOST + `/${id}`,
+      "DELETE"
+    )
       .then((res) => {
         setShowDeleteAlert(false);
         getRejectedHost();
@@ -70,7 +89,8 @@ const RejectedHostTable = () => {
           <th className="rejected__host__header">Mobile Number</th>
           <th className="rejected__host__header">Rejected At</th>
           <th className="rejected__host__header">Rejected Reason</th>
-          <th className="rejected__host__header">Details</th>
+          <th className="rejected__host__header">Profile Pic</th>
+          {/* <th className="rejected__host__header">Details</th> */}
           <th className="rejected__host__header">Action</th>
         </thead>
         <tbody>
@@ -87,8 +107,14 @@ const RejectedHostTable = () => {
                   {moment(data?.rejectedDate).format("DD/MM/YYYY LT")}
                 </td>
                 <td className="rejected__host__data">{data?.rejectedReason}</td>
-                <td className="rejected__host__data">View</td>
-                <td className="rejected__host__action rejected__host__data">
+                <td className="rejected__host__data">
+                  <AiFillEye
+                    className="rejected__host__eye__icon"
+                    onClick={() => handleImageAlert(data?.profilePic)}
+                  />
+                </td>
+                {/* <td className="rejected__host__data">View</td> */}
+                <td className="rejected__host__data">
                   <AiFillEdit className="rejected__host__edit__icon" />
                   <AiFillDelete
                     className="rejected__host__delete__icon"
@@ -110,6 +136,12 @@ const RejectedHostTable = () => {
         cancelText="No"
         onSubmitClick={handleDeleteRejectedHost}
         onCancelClick={handleCancelRejectedHost}
+      />
+
+      <ImagePopUpModal
+        open={showImageAlert}
+        handleClose={handleImageAlertClose}
+        img={img}
       />
     </div>
   );

@@ -15,12 +15,9 @@
 
 .warned__user__data {
   text-align: center;
-}
-
-.warned__user__icon {
-  display: flex;
-  justify-content: center;
-  gap: 15px;
+  padding: 10px 0;
+  border: none;
+  border-bottom: 1px solid grey;
 }
 
 .warned__user__edit__icon {

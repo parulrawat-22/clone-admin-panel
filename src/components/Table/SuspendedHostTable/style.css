@@ -15,14 +15,9 @@
 
 .suspended__host__table__data {
   text-align: center;
-  padding: 5px 0;
-}
-
-.suspended__host__table__icons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
+  padding: 10px 0;
+  border: none;
+  border-bottom: 1px solid grey;
 }
 
 .suspended__host__table__edit__icon {

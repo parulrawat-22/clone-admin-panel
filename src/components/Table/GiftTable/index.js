@@ -12,12 +12,24 @@ import {
 } from "../../../network/NetworkConfiguration";
 import moment from "moment";
 import AlertPopUp from "../../AlertPopUp";
+import ImagePopUpModal from "../../ImagePopUpModal";
 
 const GiftTable = () => {
   const [showGiftForm, setShowGiftForm] = useState(false);
   const [getGift, setGetGift] = useState([]);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [showImageAlert, setShowImageAlert] = useState(false);
+  const [img, setImg] = useState("");
   const [id, setId] = useState("");
+
+  const handleOnClickAlert = (img) => {
+    setShowImageAlert(true);
+    setImg(img);
+  };
+
+  const handleOnClickAlertClose = () => {
+    setShowImageAlert(false);
+  };
 
   const handleDeleteAlert = () => {
     setShowDeleteAlert(true);
@@ -93,7 +105,13 @@ const GiftTable = () => {
                   <td className="gift__table__body">{index + 1}</td>
                   <td className="gift__table__body">{data?._id}</td>
                   <td className="gift__table__body">
-                    <BsFillEyeFill />
+                    <BsFillEyeFill
+                      className="gift__table__eye__icon"
+                      onClick={() => {
+                        handleOnClickAlert(data?.giftUrl);
+                        console.log(data?.giftUrl, "12346");
+                      }}
+                    />
                   </td>
                   <td className="gift__table__body">{data?.price}</td>
                   <td className="gift__table__body">{data?.offer}</td>
@@ -103,7 +121,7 @@ const GiftTable = () => {
                   <td className="gift__table__body">
                     {moment(data?.updatedAt).format("DD/MM/YYYY LT")}
                   </td>
-                  <td className="gift__table__body">
+                  <td className="gift__table__body ">
                     <AiFillEdit className="gift__table__edit__icon" />
                     <AiFillDelete
                       onClick={() => {
@@ -136,6 +154,11 @@ const GiftTable = () => {
         cancelText="No"
         onSubmitClick={handleDeleteApi}
         onCancelClick={handleDeleteAlertClose}
+      />
+      <ImagePopUpModal
+        open={showImageAlert}
+        handleClose={handleOnClickAlertClose}
+        img={img}
       />
     </div>
   );

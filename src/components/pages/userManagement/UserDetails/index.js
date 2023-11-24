@@ -2,12 +2,9 @@ import { useEffect, useState } from "react";
 import "./style.css";
 import baseUrl from "../../../../baseUrl";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 
-const UserDetails = () => {
+const UserDetails = ({ id }) => {
   const [getOneUserDetail, setGetOneUserDetail] = useState([]);
-
-  const { id } = useParams();
 
   useEffect(() => {
     getUserDetail();
@@ -29,54 +26,67 @@ const UserDetails = () => {
       });
   };
   return (
-    <div className="user__details__container">
-      <div className="user__details__row">
-        <table>
-          <thead>
-            <tbody>
-              <div className="user__details__table">
-                <div className="user__table__data">
-                  <th>Name</th>
-                  <td>{getOneUserDetail.name}</td>
-                </div>
-                <div className="user__table__data">
-                  <th>Date Of Birth</th>
-                  <td>{getOneUserDetail.dateOfBirth}</td>
-                </div>
-                <div className="user__table__data">
-                  <th>Gender</th>
-                  <td>{getOneUserDetail.gender}</td>
-                </div>
-                <div className="user__table__data">
-                  <th>Mobile Number</th>
-                  <td>{getOneUserDetail.mobileNumber}</td>
-                </div>
-                <div className="user__table__data">
-                  <th>Email</th>
-                  <td>{getOneUserDetail.email}</td>
-                </div>
-                <div className="user__table__data">
-                  <th>Pin Code</th>
-                  <td>{getOneUserDetail.pinCode}</td>
-                </div>
-                <div className="user__table__data">
-                  <th>Country</th>
-                  <td>{getOneUserDetail.country}</td>
-                </div>
-                <div className="user__table__data">
-                  <th>State</th>
-                  <td>{getOneUserDetail.state}</td>
-                </div>
-                <div className="user__table__data">
-                  <th>City</th>
-                  <td>{getOneUserDetail.city}</td>
-                </div>
-              </div>
-            </tbody>
-          </thead>
-        </table>
+    <>
+      <div className="user__management__profile">
+        <img
+          className="user__management__profile_pic"
+          src={getOneUserDetail?.profilePic}
+          alt=""
+        />
       </div>
-    </div>
+      <div className="user__details__container">
+        <div className="user__details__row">
+          <table>
+            <thead>
+              <tbody>
+                <div className="user__details__table">
+                  <div className="user__table__data">
+                    <th>Name</th>
+                    <td>{getOneUserDetail.name}</td>
+                  </div>
+                  <div className="user__table__data">
+                    <th>Date Of Birth</th>
+                    <td>{getOneUserDetail.dateOfBirth}</td>
+                  </div>
+                  <div className="user__table__data">
+                    <th>Gender</th>
+                    <td>{getOneUserDetail.gender}</td>
+                  </div>
+                  <div className="user__table__data">
+                    <th>Mobile Number</th>
+                    <td>{getOneUserDetail.mobileNumber}</td>
+                  </div>
+                  <div className="user__table__data">
+                    <th>Email</th>
+                    <td>{getOneUserDetail.email}</td>
+                  </div>
+                  <div className="user__table__data">
+                    <th>Pin Code</th>
+                    <td>{getOneUserDetail.pinCode}</td>
+                  </div>
+                  <div className="user__table__data">
+                    <th>Country</th>
+                    <td>{getOneUserDetail.country}</td>
+                  </div>
+                  <div className="user__table__data">
+                    <th>State</th>
+                    <td>{getOneUserDetail.state}</td>
+                  </div>
+                  <div className="user__table__data">
+                    <th>City</th>
+                    <td>{getOneUserDetail.city}</td>
+                  </div>
+                  <div className="user__table__data">
+                    <th>Interests</th>
+                    <td>{getOneUserDetail?.myInterests}</td>
+                  </div>
+                </div>
+              </tbody>
+            </thead>
+          </table>
+        </div>
+      </div>
+    </>
   );
 };
 

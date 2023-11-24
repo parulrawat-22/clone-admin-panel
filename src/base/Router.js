@@ -25,15 +25,18 @@ import Leader from "../pages/Leader";
 import EditUser from "../pages/EditUser";
 import Layout from "../components/Layout";
 import UserFollowing from "../pages/Following";
-import UserSticker from "../pages/Sticker";
 import Coin from "../pages/Coin";
 import UserCallHistory from "../components/Table/CallHistoryTable";
 import BlockList from "../pages/BlockList";
 import PaymentHistory from "../pages/PaymentHistory";
 import TopGrowing from "../pages/TopGrowing";
 import TopTalentTable from "../components/Table/TopTalentTable";
-import WeeklyTalentTable from "../components/Table/WeeklyTalentTable";
 import Sticker from "../pages/Sticker";
+import Notification from "../pages/Notification";
+import MomentTable from "../components/Table/MomentTable";
+import UserManagementOption from "../components/pages/userManagement/UserManagementOption";
+import HostManagementOption from "../components/pages/hostManagement/HostManagementOption";
+
 // import Coin from "../pages/Coin";
 
 const Router = () => {
@@ -47,6 +50,14 @@ const Router = () => {
         <Route path="/dashboard" element={<Dashboard />}></Route>
         <Route path="/banner" element={<Banner />} />
         <Route path="/usermanagement/:id" element={<UserManagement />} />
+        <Route
+          path="/usermanagement/:selectedOption/:id"
+          element={
+            <Layout>
+              <UserManagementOption />
+            </Layout>
+          }
+        />
         <Route path="/bucket" element={<Bucket />} />
         <Route path="/report" element={<Report />} />
         <Route path="/allusers" element={<UserRequest />} />
@@ -66,7 +77,15 @@ const Router = () => {
             </Layout>
           }
         />
-        <Route path="/hostmanagement" element={<HostManagement />} />
+        <Route path="/hostmanagement/:id" element={<HostManagement />} />
+        <Route
+          path="/hostmanagement/:selectedOption/:id"
+          element={
+            <Layout>
+              <HostManagementOption />
+            </Layout>
+          }
+        />
         <Route
           path="/acceptedhost"
           element={
@@ -100,11 +119,25 @@ const Router = () => {
         />
         <Route path="/recharge" element={<Recharge />} />
         <Route path="/moment" element={<Moments />}></Route>
-        <Route path="/blockedHost" element={<BlockList />} />
         <Route path="/paymenthistory" element={<PaymentHistory />} />
         <Route path="/usercallhistory" element={<UserCallHistory />} />
-        <Route path="/topgrowing" element={<TopGrowing />} />
+        <Route
+          path="/topgrowing"
+          element={
+            <Layout>
+              <TopGrowing />
+            </Layout>
+          }
+        />
         <Route path="/toptalent" element={<TopTalentTable />} />
+        <Route
+          path="/notification"
+          element={
+            <Layout>
+              <Notification />
+            </Layout>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

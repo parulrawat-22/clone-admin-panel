@@ -52,7 +52,16 @@ export const fetchDataFromAPI = (url, method, body, requestHeaders) => {
 
     case "PUT": {
       return new Promise((resolve, reject) => {
-        axios.put();
+        axios
+          .put(url, body, {
+            headers: reqHeader,
+          })
+          .then((res) => {
+            resolve(res.data);
+          })
+          .catch((err) => {
+            reject(err);
+          });
       });
     }
     default: {

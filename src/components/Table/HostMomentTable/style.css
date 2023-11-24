@@ -15,4 +15,19 @@
 
 .host__moment__data {
   text-align: center;
+  padding: 10px 5px;
+  border: none;
+  border-bottom: 1px solid grey;
+}
+
+.host__moment__eye__icon {
+  cursor: pointer;
+}
+
+.host__moment__edit__icon {
+  cursor: pointer;
+}
+
+.host__moment__edit__icon {
+  cursor: pointer;
 }

@@ -3,8 +3,13 @@ import baseUrl from "../../../../baseUrl";
 import Button from "../../../library/Button";
 import InputField from "../../../library/InputField";
 import "./style.css";
-import { useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { fetchDataFromAPI } from "../../../../network/NetworkConnection";
+import {
+  API_URL,
+  NetworkConfiguration,
+} from "../../../../network/NetworkConfiguration";
 
 const SuspendUser = () => {
   let navigate = useNavigate();
@@ -12,23 +17,12 @@ const SuspendUser = () => {
   const { id } = useParams();
 
   const handleSuspendAccount = () => {
-    axios
-      .post(
-        baseUrl + "admin/adminSuspendUser",
-        {
-          id: id,
-          suspensionEndDate: endDate,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        }
-      )
+    fetchDataFromAPI(API_URL + NetworkConfiguration.POSTSUSPENDEDUSER, "POST", {
+      id: id,
+      suspensionEndDate: endDate,
+    })
       .then((res) => {
-        console.log(res);
-        navigate("/suspendusers");
+        navigate(`/suspendusers/?type=user&id=${id}`);
       })
       .catch((err) => {
         console.log(err);

@@ -1,0 +1,21 @@
+.host__following__container {
+  padding: 3rem 0;
+}
+
+.host__following__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.host__following__header {
+  background-color: #f20094;
+  color: white;
+  padding: 10px;
+}
+
+.host__following__data {
+  text-align: center;
+  padding: 10px 5px;
+  border: none;
+  border-bottom: 1px solid grey;
+}

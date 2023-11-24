@@ -15,4 +15,7 @@
 
 .user__call__history__data {
   text-align: center;
+  padding: 10px 5px;
+  border: none;
+  border-bottom: 1px solid grey;
 }

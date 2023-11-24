@@ -12,7 +12,9 @@
 }
 
 .user__table__data {
-  padding: 10px;
+  display: flex;
+  gap: 10px;
+  padding: 10px 0;
 }
 
 .user__table__data th {

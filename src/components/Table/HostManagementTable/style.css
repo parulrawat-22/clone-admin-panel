@@ -4,3 +4,19 @@
   flex-wrap: wrap;
   gap: 25px;
 }
+
+.host__management__profile {
+  display: flex;
+  width: 10rem;
+  height: 10rem;
+  background-color: aqua;
+}
+
+.host__management__table {
+  display: flex;
+}
+
+.host__management__data {
+  display: flex;
+  gap: 10px;
+}

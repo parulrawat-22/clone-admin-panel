@@ -10,17 +10,14 @@
 .wallet__header {
   background-color: #f20094;
   color: white;
-  padding: 10px;
+  padding: 10px 0;
 }
 
 .wallet__data {
   text-align: center;
-}
-
-.wallet__icons {
-  display: flex;
-  gap: 15px;
-  justify-content: center;
+  padding: 10px 5px;
+  border: none;
+  border-bottom: 1px solid grey;
 }
 
 .wallet__edit__icon {

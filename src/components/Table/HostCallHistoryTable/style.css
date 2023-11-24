@@ -1,18 +1,18 @@
-.top__star__container {
+.host__call__history__container {
   padding: 3rem 0;
 }
 
-.top__star__table {
+.host__call__history__table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.top__star__header {
+.host__call__history__header {
   background-color: #f20094;
   color: white;
   padding: 10px;
 }
 
-.top__star__data {
+.host__call__history__data {
   text-align: center;
 }

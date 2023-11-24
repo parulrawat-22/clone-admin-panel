@@ -1,0 +1,5 @@
+.send__notification__btn {
+  display: flex;
+  justify-content: flex-end;
+  gap: 20px;
+}

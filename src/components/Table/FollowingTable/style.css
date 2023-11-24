@@ -1,18 +1,18 @@
-.new__star__container {
+.following__container {
   padding: 3rem 0;
 }
 
-.new__star__table {
+.following__table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.new__star__header {
+.following__header {
   background-color: #f20094;
   color: white;
   padding: 10px;
 }
 
-.new__star__data {
+.following__data {
   text-align: center;
 }

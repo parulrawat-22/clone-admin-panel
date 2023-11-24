@@ -19,17 +19,11 @@
   background-color: #f20094;
 }
 
-.user__request__row {
-  text-align: center;
-}
-
-.user__request__row_data {
-  padding: 10px 20px;
-}
 .user__request__data {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  text-align: center;
+  padding: 10px 5px;
+  border: none;
+  border-bottom: 1px solid grey;
 }
 
 .user__request__eye__icon {

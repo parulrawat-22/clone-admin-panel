@@ -4,9 +4,16 @@
 
 .layout__nav__content {
   padding: 0 10px 10px 20px;
-  width: 80vw;
   height: 100vh;
   overflow: scroll;
+}
+
+.open {
+  width: 80%;
+}
+
+.close {
+  width: 95%;
 }
 
 ::-webkit-scrollbar {

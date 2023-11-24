@@ -15,7 +15,9 @@
 
 .leader__table__body {
   text-align: center;
-  padding: 0.7rem;
+  padding: 10px 5px;
+  border: none;
+  border-bottom: 1px solid grey;
 }
 
 .leader__table__view {

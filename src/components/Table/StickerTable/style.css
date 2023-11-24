@@ -15,10 +15,30 @@
 
 .sticker__table__data {
   text-align: center;
+  padding: 10px 0;
+  border: none;
+  border-bottom: 1px solid grey;
 }
 
 .add__sticker {
   display: flex;
   justify-content: flex-end;
   padding: 0 0 10px 0;
+}
+
+.sticker__table__eye__icon {
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.sticker__table__edit__icon {
+  font-size: 25px;
+  color: rgb(0, 162, 255);
+  cursor: pointer;
+}
+
+.sticker__table__delete__icon {
+  font-size: 25px;
+  color: red;
+  cursor: pointer;
 }

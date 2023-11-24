@@ -24,11 +24,6 @@
   font-size: 20px;
 }
 
-.moment__table__body_icons {
-  display: flex;
-  justify-content: space-evenly;
-}
-
 .moment__table__edit_icon {
   font-size: 25px;
   color: rgb(0, 126, 204);

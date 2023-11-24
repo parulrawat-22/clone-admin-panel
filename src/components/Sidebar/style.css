@@ -1,18 +1,40 @@
 .sidebar__content_container {
-  width: 18vw;
   height: auto;
   background-color: #f20094;
   border-right: 12px solid #ff65c4;
   box-shadow: 10px 0 #ff9eda;
   border-radius: 0 20px 20px 0;
-  padding: 50px 0 0 50px;
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contentOpen {
+  width: 17%;
+  transition: width 0.5s ease;
+}
+
+.contentClose {
+  width: 5%;
+  overflow-x: hidden;
+  transition: width 0.5s ease;
+}
+
+.sidebar__menu__icon {
+  font-size: 30px;
+  color: white;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  cursor: pointer;
+  align-self: flex-start;
 }
 
 .sidebar__content {
   display: flex;
   align-items: center;
   cursor: pointer;
-  width: calc(100% + 24px);
+  width: calc(100% + 20%);
 }
 
 .sidebar__data {

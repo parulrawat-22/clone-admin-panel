@@ -1,26 +1,27 @@
 import Layout from "../../components/Layout";
 import HostManagementTable from "../../components/Table/HostManagementTable";
-import IconContainer from "../../components/pages/userManagement/IconComponent";
-import SuspendUser from "../../components/pages/userManagement/SuspendUser";
-import WarnUser from "../../components/pages/userManagement/WarnUser";
+import HostIconContainer from "../../components/pages/hostManagement/HostIconComponent";
+import SuspendHost from "../../components/pages/hostManagement/SuspendHost";
+import WarnedHost from "../../components/pages/hostManagement/WarnHost";
+
 import "./style.css";
+import { useNavigate, useParams } from "react-router-dom";
 
 const HostManagement = () => {
+  const { id } = useParams();
+
   return (
     <Layout>
       <div className="user__management__container">
         <div className="user__management__profile_details">
-          <div className="user__management__profile">
-            <img className="user__management__profile_pic" src="" alt="" />
-          </div>
-          <HostManagementTable />
+          <HostManagementTable id={id} />
         </div>
 
         <div className="user__management__icon_suspend_warn_user">
-          <IconContainer />
+          <HostIconContainer id={id} />
           <div className="user__management__action">
-            <SuspendUser />
-            <WarnUser />
+            <SuspendHost />
+            <WarnedHost />
           </div>
         </div>
       </div>

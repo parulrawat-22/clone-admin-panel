@@ -50,7 +50,7 @@ const BannerTable = ({ setBannerId, showBannerData, setShowDeleteAlert }) => {
                     className="banner__list__eye__icon"
                   />
                 </td>
-                <td className="banner__list__actions banner__list__data">
+                <td className="banner__list__data">
                   <AiFillEdit className="banner__list__edit__action" />
                   <AiTwotoneDelete
                     className="banner__list__delete__action"

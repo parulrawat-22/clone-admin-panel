@@ -3,21 +3,33 @@ import "./style.css";
 import { AiFillEdit, AiTwotoneDelete } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import AlertPopUp from "../../AlertPopUp";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
 import {
   API_URL,
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 import moment from "moment";
+import ImagePopUpModal from "../../ImagePopUpModal";
 
 const MomentTable = () => {
   let navigate = useNavigate();
-  const [searchParams, setSeachParams] = useSearchParams();
+  const { id } = useParams();
 
   const [showDeleteAlert, setShowDeleteAlert] = useState();
   const [getUserMoment, setGetUserMoment] = useState([]);
-  const [id, setId] = useState("");
+  const [momentId, setMomentId] = useState("");
+  const [showImageAlert, setShowImageAlert] = useState("");
+  const [img, setImg] = useState("");
+
+  const handleImageAlert = (img) => {
+    setShowImageAlert(true);
+    setImg(img);
+  };
+
+  const handleImageAlertClose = () => {
+    setShowImageAlert(false);
+  };
 
   const handleDeleteAlert = () => {
     setShowDeleteAlert(true);
@@ -40,7 +52,7 @@ const MomentTable = () => {
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.GETUSERMOMENT,
       "POST",
-      searchParams.get("id") ? { userId: searchParams.get("id") } : {}
+      id ? { userId: id } : {}
     )
       .then((res) => {
         setGetUserMoment(res.result);
@@ -52,12 +64,12 @@ const MomentTable = () => {
 
   const handleOnClickAlert = (id) => {
     setShowDeleteAlert(true);
-    setId(id);
+    setMomentId(id);
   };
 
   const handleDeleteApi = () => {
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.DELETEUSERMOMENT + `/${id}`,
+      API_URL + NetworkConfiguration.DELETEUSERMOMENT + `/${momentId}`,
       "DELETE"
     )
       .then((res) => {
@@ -70,11 +82,54 @@ const MomentTable = () => {
   };
   return (
     <div className="moment__container">
-      {searchParams.get("id") ? (
+      {id ? (
         <table className="moment__table__container">
           <thead>
             <th className="moment__table__head">S.No</th>
             <th className="moment__table__head">Caption</th>
+            <th className="moment__table__head">Likes</th>
+            <th className="moment__table__head">Image/Video</th>
+            <th className="moment__table__head">Created At</th>
+            <th className="moment__table__head">Action</th>
+          </thead>
+          <tbody>
+            {getUserMoment.map((data, index) => {
+              return (
+                <tr>
+                  <td className="moment__table__body">{index + 1}</td>
+                  <td className="moment__table__body">{data?.subject}</td>
+                  <td className="moment__table__body">{data?.likes}</td>
+
+                  <td className="moment__table__body">
+                    <BsFillEyeFill
+                      onClick={() => {
+                        handleImageAlert(data?.postImage);
+                      }}
+                      className="moment__table__body__eye_icon"
+                    />
+                  </td>
+                  <td className="moment__table__body">
+                    {moment(data?.postDate).format("DD/MM/YYYY LT")}
+                  </td>
+                  <td className="moment__table__body moment__table__edit_icon moment__table__delete_icon">
+                    <AiFillEdit />
+                    <AiTwotoneDelete
+                      onClick={() => {
+                        handleOnClickAlert(data._id);
+                      }}
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      ) : (
+        <table className="moment__table__container">
+          <thead>
+            <th className="moment__table__head">S.No</th>
+            <th className="moment__table__head">Caption</th>
+
             <th className="moment__table__head">Likes</th>
             <th className="moment__table__head">Image/Video</th>
             <th className="moment__table__head">Created At</th>
@@ -87,48 +142,16 @@ const MomentTable = () => {
                 <tr>
                   <td className="moment__table__body">{index + 1}</td>
                   <td className="moment__table__body">{data?.subject}</td>
+
                   <td className="moment__table__body">{data?.likes}</td>
 
                   <td className="moment__table__body">
-                    <BsFillEyeFill className="moment__table__body__eye_icon" />
-                  </td>
-                  <td className="moment__table__body">
-                    {moment(data?.postDate).format("DD/MM/YYYY LT")}
-                  </td>
-                  <td className="moment__table__body moment__table__body_icons">
-                    <AiFillEdit className="moment__table__edit_icon" />
-                    <AiTwotoneDelete
+                    <BsFillEyeFill
                       onClick={() => {
-                        handleOnClickAlert(data._id);
+                        handleImageAlert(data?.postImage);
                       }}
-                      className="moment__table__delete_icon"
+                      className="moment__table__body__eye_icon"
                     />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      ) : (
-        <table className="moment__table__container">
-          <thead>
-            <th className="moment__table__head">S.No</th>
-
-            <th className="moment__table__head">Likes</th>
-            <th className="moment__table__head">Image/Video</th>
-            <th className="moment__table__head">Created At</th>
-
-            <th className="moment__table__head">Action</th>
-          </thead>
-          <tbody>
-            {getUserMoment.map((data, index) => {
-              return (
-                <tr>
-                  <td className="moment__table__body">{index + 1}</td>
-                  <td className="moment__table__body">{data?.likes}</td>
-
-                  <td className="moment__table__body">
-                    <BsFillEyeFill className="moment__table__body__eye_icon" />
                   </td>
                   <td className="moment__table__body">
                     {moment(data?.postDate).format("DD/MM/YYYY LT")}
@@ -159,6 +182,12 @@ const MomentTable = () => {
         onCancelClick={handleDeleteCancel}
         onSubmitClick={handleDeleteApi}
         cancelText="No"
+      />
+
+      <ImagePopUpModal
+        open={showImageAlert}
+        handleClose={handleImageAlertClose}
+        img={img}
       />
     </div>
   );

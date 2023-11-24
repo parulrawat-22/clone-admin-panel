@@ -6,6 +6,11 @@ import "./style.css";
 import axios from "axios";
 import baseUrl from "../../../../baseUrl";
 import { useNavigate, useParams } from "react-router-dom";
+import { fetchDataFromAPI } from "../../../../network/NetworkConnection";
+import {
+  API_URL,
+  NetworkConfiguration,
+} from "../../../../network/NetworkConfiguration";
 
 const WarnUser = () => {
   let navigate = useNavigate();
@@ -17,26 +22,18 @@ const WarnUser = () => {
 
   const handleWarnedUsers = () => {
     validate();
-    axios
-      .post(
-        baseUrl + "admin/sendWorningNotification",
-        {
-          id: id,
-          title: selectTitle,
-          body: selectDescription,
-        },
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        }
-      )
+    fetchDataFromAPI(
+      API_URL + NetworkConfiguration.USERWARNINGNOTIFICATION,
+      "POST",
+      { id: id, title: selectTitle, body: selectDescription }
+    )
       .then((res) => {
         navigate("/warnedusers");
         console.log(res);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleTitle = (e) => {

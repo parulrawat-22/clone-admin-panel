@@ -18,13 +18,6 @@
   cursor: pointer;
 }
 
-.banner__list__actions {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-}
-
 .banner__list__edit__action {
   font-size: 25px;
   color: rgb(0, 99, 213);
