@@ -19,7 +19,12 @@ const AcceptedHostTable = () => {
   const [id, setId] = useState("");
   const [leaderId, setLeaderId] = useState("");
   const [leaderName, setLeaderName] = useState("");
-  const [leaderNames, setLeaderNames] = useState([]);
+  const [leaderNames, setLeaderNames] = useState([
+    {
+      name: "--Select--",
+      value: "",
+    },
+  ]);
   const [hostuser_fees, setHostuser_fees] = useState("");
 
   useEffect(() => {
@@ -58,12 +63,12 @@ const AcceptedHostTable = () => {
     fetchDataFromAPI(API_URL + NetworkConfiguration.GETLEADER, "GET")
       .then((res) => {
         console.log(res.result, "987654");
-        const leaderNames = res?.result?.map((leader) => ({
+        const leaders = res?.result?.map((leader) => ({
           name: leader.leaderName,
           value: leader?._id,
         }));
-        console.log(leaderNames, "qwertyu");
-        setLeaderNames(leaderNames);
+        console.log(leaders, "qwertyu");
+        setLeaderNames([...leaderNames, ...leaders]);
       })
       .catch((err) => console.log(err));
   };
@@ -90,7 +95,6 @@ const AcceptedHostTable = () => {
     })
       .then((res) => {
         getAcceptedHost();
-
         setShowChargeAlert(false);
       })
       .catch((err) => {

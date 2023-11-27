@@ -10,12 +10,15 @@ import moment from "moment";
 import Button from "../../library/Button";
 import ImagePopUpModal from "../../ImagePopUpModal";
 import AlertPopUp from "../../AlertPopUp";
+import FormAlertPopUp from "../../FormAlertPopUp";
+import StickerForm from "../../formComponents/StickerForm";
 
 const StickerTable = () => {
   const [getSticker, setGetSticker] = useState([]);
   const [img, setImg] = useState("");
   const [showImageAlert, setShowImageAlert] = useState(false);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [showStickerForm, setShowStickerForm] = useState(false);
   const [id, setId] = useState("");
 
   const handleDeleteAlert = () => {
@@ -54,6 +57,14 @@ const StickerTable = () => {
     setShowDeleteAlert(true);
   };
 
+  const handleStickerForm = () => {
+    setShowStickerForm(true);
+  };
+
+  const handleStickerFormClose = () => {
+    setShowStickerForm(false);
+  };
+
   const handleDeleteApi = () => {
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.DELETESTICKER + `/${id}`,
@@ -70,7 +81,7 @@ const StickerTable = () => {
 
   return (
     <div className="sticker__container">
-      <div className="add__sticker">
+      <div className="add__sticker" onClick={handleStickerForm}>
         <Button text="Add Sticker" />
       </div>
       <table className="sticker__table">
@@ -137,6 +148,14 @@ const StickerTable = () => {
         onSubmitClick={handleDeleteApi}
         onCancelClick={handleDeleteAlertClose}
       />
+
+      <FormAlertPopUp
+        open={showStickerForm}
+        handleOpen={handleStickerForm}
+        onRequestClose={handleStickerFormClose}
+      >
+        <StickerForm onSubmit={handleDeleteAlertClose} />
+      </FormAlertPopUp>
     </div>
   );
 };

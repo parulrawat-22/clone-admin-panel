@@ -67,8 +67,6 @@ const WarnedUserTable = () => {
         <table className="warned__user__table">
           <thead>
             <th className="warned__user__header">S.No.</th>
-            <th className="warned__user__header">User ID</th>
-            <th className="warned__user__header">User Name</th>
             <th className="warned__user__header">Title</th>
             <th className="warned__user__header">Description</th>
             <th className="warned__user__header">Created At</th>
@@ -79,8 +77,6 @@ const WarnedUserTable = () => {
               return (
                 <tr>
                   <td className="warned__user__data">{index + 1}</td>
-                  <td className="warned__user__data">{data?._id}</td>
-                  <td className="warned__user__data">{data?.name}</td>
                   <td className="warned__user__data">{data?.title}</td>
                   <td className="warned__user__data">{data?.body}</td>
                   <td className="warned__user__data">
@@ -117,7 +113,7 @@ const WarnedUserTable = () => {
                 <tr>
                   <td className="warned__user__data">{index + 1}</td>
                   <td className="warned__user__data">{data?._id}</td>
-                  <td className="warned__user__data">{data?.name}</td>
+                  <td className="warned__user__data">{data?.userId?.name}</td>
                   <td className="warned__user__data">{data?.title}</td>
                   <td className="warned__user__data">{data?.body}</td>
                   <td className="warned__user__data">

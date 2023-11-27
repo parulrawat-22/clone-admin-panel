@@ -1,8 +1,16 @@
-.add__leader__styling {
+.add__leader__button {
+  margin: auto;
+}
+
+.add__leader__form {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 10px;
 }
 
-.add__leader__button {
-  margin: auto;
+.add__leader__heading {
+  text-align: center;
+  margin-bottom: 15px;
+  text-decoration: underline 0.5px;
 }

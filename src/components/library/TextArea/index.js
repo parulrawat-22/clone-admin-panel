@@ -5,8 +5,10 @@ const TextArea = (props) => {
     <div>
       {props?.label ? <label>{props.label}</label> : null}
       <textarea
+        value={props.value}
         className="text__area__styling"
         placeholder={props.placeholder}
+        onChange={props.onChange}
         style={props.style}
       />
     </div>

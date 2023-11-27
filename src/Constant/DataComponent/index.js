@@ -41,13 +41,13 @@ const sidebarData = [
   },
 
   {
-    label: "Suspended Users",
+    label: "Suspended Data",
     link: "/suspendusers",
     icon: <FaUsers />,
   },
 
   {
-    label: "Warned Users",
+    label: "Warned Data",
     link: "/warnedusers",
     icon: <FaUsers />,
   },

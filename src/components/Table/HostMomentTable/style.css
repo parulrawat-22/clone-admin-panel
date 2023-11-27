@@ -22,12 +22,17 @@
 
 .host__moment__eye__icon {
   cursor: pointer;
+  font-size: 18px;
 }
 
 .host__moment__edit__icon {
   cursor: pointer;
+  font-size: 25px;
+  color: rgb(0, 157, 255);
 }
 
-.host__moment__edit__icon {
+.host__moment__delete__icon {
   cursor: pointer;
+  font-size: 25px;
+  color: red;
 }

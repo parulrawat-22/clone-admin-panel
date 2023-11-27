@@ -13,6 +13,7 @@ import {
   API_URL,
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
+import Swiper from "swiper";
 
 const UserTable = () => {
   let navigate = useNavigate();

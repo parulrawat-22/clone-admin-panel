@@ -1,3 +1,13 @@
+.add__gift__container {
+  padding: 1rem;
+}
+
 .add__gift__form__btn {
   margin: auto;
+}
+
+.add__gift__heading {
+  text-align: center;
+  margin-bottom: 10px;
+  text-decoration: underline 0.5px;
 }

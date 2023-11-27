@@ -20,28 +20,41 @@ const TopTalentTable = ({ tableData, isHost }) => {
           )}
         </thead>
         <tbody>
-          {tableData.length > 0 &&
-            tableData.map((data, index) => {
-              return (
-                <tr>
-                  <td className="top__talent__data">{index + 1}</td>
-                  <td className="top__talent__data">{data?._id}</td>
-                  <td className="top__talent__data">{data?.name}</td>
+          {tableData.map((data, index) => {
+            return (
+              <tr>
+                <td className="top__talent__data">{index + 1}</td>
+                <td className="top__talent__data">
+                  {data?._id ? data?._id : ""}
+                </td>
+                <td className="top__talent__data">
+                  {data?.name ? data?.name : ""}
+                </td>
+                <td className="top__talent__data">
+                  {data?.stickerSpentCoins ? data?.stickerSpentCoins : ""}
+                </td>
+                <td className="top__talent__data">
+                  {data?.giftSpentCoins ? data?.giftSpentCoins : ""}
+                </td>
+                <td className="top__talent__data">
+                  {data?.videoCoins ? data?.videoCoins : ""}
+                </td>
+                <td className="top__talent__data">
+                  {data?.audioCoins ? data?.audioCoins : ""}
+                </td>
+                {isHost === false && (
                   <td className="top__talent__data">
-                    {data?.stickerSpentCoins}
+                    {data?.total_coins ? data?.total_coins : ""}
                   </td>
-                  <td className="top__talent__data">{data?.giftSpentCoins}</td>
-                  <td className="top__talent__data">{data?.videoCoins}</td>
-                  <td className="top__talent__data">{data?.audioCoins}</td>
-                  {data?.total_coins && (
-                    <td className="top__talent__data">{data?.total_coins}</td>
-                  )}
-                  {data?.host_balance && (
-                    <td className="top__talent__data">{data?.host_balance}</td>
-                  )}
-                </tr>
-              );
-            })}
+                )}
+                {isHost === true && (
+                  <td className="top__talent__data">
+                    {data?.host_balance ? data?.host_balance : ""}
+                  </td>
+                )}
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>

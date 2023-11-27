@@ -3,12 +3,13 @@ import Dropdown from "../../library/Dropdown";
 import InputField from "../../library/InputField";
 import "./style.css";
 
-const NotificationForm = () => {
+const NotificationForm = ({ dropdownOptions }) => {
   return (
-    <div>
-      <Dropdown />
+    <div className="notification__form">
+      <h2 className="notification__form__heading">Send Notification</h2>
+      <Dropdown options={dropdownOptions} />
       <br />
-      <InputField placeholder="User ID" />
+      <Dropdown options={dropdownOptions} />
       <br />
       <InputField placeholder="Enter Title" />
       <br />

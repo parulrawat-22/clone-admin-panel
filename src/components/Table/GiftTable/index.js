@@ -103,7 +103,7 @@ const GiftTable = () => {
               return (
                 <tr>
                   <td className="gift__table__body">{index + 1}</td>
-                  <td className="gift__table__body">{data?._id}</td>
+                  <td className="gift__table__body">{data?.name}</td>
                   <td className="gift__table__body">
                     <BsFillEyeFill
                       className="gift__table__eye__icon"
@@ -136,12 +136,8 @@ const GiftTable = () => {
           </tbody>
         </table>
       </div>
-      <FormAlertPopUp
-        open={showGiftForm}
-        onRequestClose={handleAddGiftClose}
-        modalOf="gift"
-      >
-        <AddGiftForm />
+      <FormAlertPopUp open={showGiftForm} onRequestClose={handleAddGiftClose}>
+        <AddGiftForm onSubmit={handleAddGiftClose} />
       </FormAlertPopUp>
 
       <AlertPopUp

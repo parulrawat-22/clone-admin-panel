@@ -10,7 +10,6 @@ const Dropdown = (props) => {
         onChange={props.onChange}
         onClick={props.onClick}
       >
-        <option value={""}>--Select--</option>;
         {props.options.map((option) => {
           return <option value={option?.value}>{option?.name}</option>;
         })}

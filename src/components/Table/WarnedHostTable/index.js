@@ -8,6 +8,7 @@ import {
 } from "../../../network/NetworkConfiguration";
 import AlertPopUp from "../../AlertPopUp";
 import { useSearchParams } from "react-router-dom";
+import moment from "moment";
 
 const WarnedHostTable = () => {
   const [warnedHostList, setWarnedHostList] = useState([]);
@@ -31,7 +32,7 @@ const WarnedHostTable = () => {
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.WARNEDHOST,
       "POST",
-      searchParams.get("id") ? { userId: searchParams.get("id") } : {}
+      searchParams.get("id") ? { hostId: searchParams.get("id") } : {}
     )
       .then((res) => {
         setWarnedHostList(res.result);
@@ -66,10 +67,9 @@ const WarnedHostTable = () => {
         <table className="warned__host__table">
           <thead>
             <th className="warned__host__header">S.No.</th>
-            <th className="warned__host__header">Host ID</th>
-            <th className="warned__host__header">Host Name</th>
             <th className="warned__host__header">Title</th>
             <th className="warned__host__header">Description</th>
+            <th className="warned__host__header">Created At</th>
             <th className="warned__host__header">Action</th>
           </thead>
           <tbody>
@@ -77,15 +77,16 @@ const WarnedHostTable = () => {
               return (
                 <tr>
                   <td className="warned__host__data">{index + 1}</td>
-                  <td className="warned__host__data">{data.hostId._id}</td>
-                  <td className="warned__host__data">{data.hostId.name}</td>
-                  <td className="warned__host__data">{data.title}</td>
-                  <td className="warned__host__data">{data.body}</td>
+                  <td className="warned__host__data">{data?.title}</td>
+                  <td className="warned__host__data">{data?.body}</td>
+                  <td className="warned__host__data">
+                    {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
+                  </td>
                   <td className="warned__host__data">
                     <AiFillEdit className="warned__host__edit__icon" />
                     <AiFillDelete
                       onClick={() => {
-                        handleOnClickAlert(data._id);
+                        handleOnClickAlert(data?._id);
                       }}
                       className="warned__host__delete__icon"
                     />

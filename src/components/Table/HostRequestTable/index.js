@@ -177,10 +177,7 @@ const HostRequestTable = () => {
                     />
                     <RxCross2
                       onClick={() => {
-                        handleRejectedHostsAlert(
-                          data?._id,
-                          data?.rejectedReason
-                        );
+                        handleRejectedHostsAlert(data?._id);
                       }}
                       className="host__request__reject__icon"
                     />

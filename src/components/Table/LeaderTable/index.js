@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
 import "./style.css";
-import AlertPopUp from "../../AlertPopUp";
-import baseUrl from "../../../baseUrl";
-import axios from "axios";
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
 import {
   API_URL,
@@ -12,7 +9,9 @@ import TablePopUp from "../../TablePopUp";
 
 const LeaderTable = () => {
   const [showHostData, setShowHostData] = useState(false);
+  const [showHostList, setShowHostList] = useState([]);
   const [showLeaderList, setShowLeaderList] = useState([]);
+  const [id, setId] = useState("");
 
   const handleViewHostData = () => {
     setShowHostData(true);
@@ -20,6 +19,20 @@ const LeaderTable = () => {
 
   const handleViewHostDataClose = () => {
     setShowHostData(false);
+  };
+
+  const handleHostData = (id) => {
+    setId(id);
+  };
+
+  const fetchHostData = () => {
+    fetchDataFromAPI(API_URL + NetworkConfiguration.GETLEADERHOSTS + id, "GET")
+      .then((res) => {
+        setShowHostList(res.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   useEffect(() => {
@@ -70,7 +83,9 @@ const LeaderTable = () => {
                 <td className="leader__table__body">{data.city}</td>
                 <td className="leader__table__body">{data.pin}</td>
                 <td
-                  onClick={handleViewHostData}
+                  onClick={() => {
+                    handleHostData(data?._id);
+                  }}
                   className="leader__table__body leader__table__view"
                 >
                   View
@@ -85,8 +100,6 @@ const LeaderTable = () => {
         handleOpen={handleViewHostData}
         handleClose={handleViewHostDataClose}
       />
-
-      {/* <TablePopUp /> */}
     </div>
   );
 };

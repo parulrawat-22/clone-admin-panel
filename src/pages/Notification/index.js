@@ -20,9 +20,11 @@ const Notification = () => {
   const handleUserData = () => {
     setShowData("user");
   };
+
   const handleHostData = () => {
     setShowData("host");
   };
+
   return (
     <div>
       <div className="report__user__host__toggle send__notification__btn">
@@ -54,10 +56,27 @@ const Notification = () => {
       <NotificationTable />
       <FormAlertPopUp
         open={showSendNotification}
-        handleOpen={handleSendNotification}
         onRequestClose={handleSendNotificationClose}
       >
-        <NotificationForm />
+        <NotificationForm
+          dropdownOptions={[
+            {
+              name: "--Select--",
+            },
+            {
+              name: "Users",
+              value: "Users",
+            },
+            {
+              name: "Hosts",
+              value: "Hosts",
+            },
+            {
+              name: "Both",
+              value: "Both",
+            },
+          ]}
+        />
       </FormAlertPopUp>
     </div>
   );

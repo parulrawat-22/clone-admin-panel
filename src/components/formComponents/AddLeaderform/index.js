@@ -1,9 +1,12 @@
 import InputField from "../../library/InputField";
 import "./style.css";
 import Button from "../../library/Button";
-import { useEffect, useState } from "react";
-import baseUrl from "../../../baseUrl";
-import axios from "axios";
+import { useState } from "react";
+import { fetchDataFromAPI } from "../../../network/NetworkConnection";
+import {
+  API_URL,
+  NetworkConfiguration,
+} from "../../../network/NetworkConfiguration";
 
 const AddLeaderForm = ({ onSubmit }) => {
   const [leaderName, setLeaderName] = useState("");
@@ -33,40 +36,28 @@ const AddLeaderForm = ({ onSubmit }) => {
   });
 
   const handleAddLeader = () => {
-    validate();
-    let data = new FormData();
-    data.append("name", leaderName);
-    data.append("mobile number", mobileNumber);
-    data.append("email", email);
-    data.append("gender", gender);
-    data.append("group name", groupName);
-    data.append("pincode", pinCode);
-    data.append("country", country);
-    data.append("state", state);
-    data.append("city", city);
-    data.append("idProof", idProof);
-    data.append("password", password);
-    axios
-      .post(
-        baseUrl + "admin/adminAddleader",
-        {},
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + localStorage.getItem("token"),
-          },
-        }
-      )
-      .then((res) => {
-        console.log(res);
-        onSubmit();
+    if (validate()) {
+      fetchDataFromAPI(API_URL + NetworkConfiguration.ADDLEADER, "POST", {
+        name: leaderName,
+        mobileNumber: mobileNumber,
+        email: email,
+        groupName: groupName,
+        pinCode: pinCode,
+        country: country,
+        state: state,
+        city: city,
+        idProof: idProof,
+        password: password,
       })
-      .catch((err) => {
-        console.log(err);
-      });
+        .then((res) => {
+          console.log(res);
+          onSubmit();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
-
-  useEffect(() => {}, []);
 
   const handleLeaderName = (e) => {
     setError({ ...error, leaderNameError: "" });
@@ -99,6 +90,7 @@ const AddLeaderForm = ({ onSubmit }) => {
   };
 
   const handleCountry = (e) => {
+    console.log("handleCountry", e.target.value);
     setError({ ...error, countryError: "" });
     setCountry(e.target.value);
   };
@@ -125,45 +117,47 @@ const AddLeaderForm = ({ onSubmit }) => {
 
   const validate = () => {
     let result = true;
-    if (leaderName === "") {
-      setError({ ...error, setError: "Enter valid leader name" });
+    if (!leaderName) {
+      setError({ ...error, leaderNameError: "Enter valid leader name" });
       result = false;
-    } else if (mobileNumber === "") {
-      setError({ ...error, setError: "Enter valid mobile number" });
+    } else if (!mobileNumber) {
+      setError({ ...error, mobileNumberError: "Enter valid mobile number" });
       result = false;
-    } else if (email === "") {
-      setError({ ...error, setError: "Enter valid email address" });
+    } else if (!email) {
+      setError({ ...error, emailError: "Enter valid email address" });
       result = false;
-    } else if (gender === "") {
-      setError({ ...error, setError: "Enter valid gender" });
+    } else if (!gender) {
+      setError({ ...error, genderError: "Enter valid gender" });
       result = false;
-    } else if (groupName === "") {
-      setError({ ...error, setError: "Enter valid group name" });
+    } else if (!groupName) {
+      setError({ ...error, groupNameError: "Enter valid group name" });
       result = false;
-    } else if (pinCode === "") {
-      setError({ ...error, setError: "Enter valid pin code" });
+    } else if (!pinCode) {
+      setError({ ...error, pinCodeError: "Enter valid pin code" });
       result = false;
-    } else if (country === "") {
-      setError({ ...error, setError: "Enter valid country" });
+    } else if (!country) {
+      setError({ ...error, countryError: "Enter valid country" });
       result = false;
-    } else if (state === "") {
-      setError({ ...error, setError: "Enter valid country" });
+    } else if (!state) {
+      setError({ ...error, stateError: "Enter valid country" });
       result = false;
-    } else if (city === "") {
-      setError({ ...error, setError: "Enter valid state" });
+    } else if (!city) {
+      setError({ ...error, cityError: "Enter valid state" });
       result = false;
-    } else if (idProof === "") {
-      setError({ ...error, setError: "Enter valid proof" });
+    } else if (!idProof) {
+      setError({ ...error, idProofError: "Enter valid proof" });
       result = false;
-    } else if (password === "") {
-      setError({ ...error, setError: "Enter password" });
+    } else if (!password) {
+      setError({ ...error, passwordError: "Enter password" });
       result = false;
     }
     return result;
   };
   return (
     <div>
-      <div className="add__leader__styling">
+      <h2 className="add__leader__heading">Add Leader</h2>
+
+      <div className="add__leader__form">
         <InputField
           onChange={handleLeaderName}
           value={leaderName}
@@ -176,8 +170,7 @@ const AddLeaderForm = ({ onSubmit }) => {
           placeholder="Mobile Number"
           error={error.mobileNumberError}
         />
-      </div>
-      <div className="add__leader__styling">
+
         <InputField
           error={error.emailError}
           value={email}
@@ -185,12 +178,12 @@ const AddLeaderForm = ({ onSubmit }) => {
           placeholder="Email"
         />
         <InputField
+          value={gender}
           onChange={handleGender}
           placeholder="Gender"
           error={error.genderError}
         />
-      </div>
-      <div className="add__leader__styling">
+
         <InputField
           value={groupName}
           onChange={handleGroupName}
@@ -198,44 +191,48 @@ const AddLeaderForm = ({ onSubmit }) => {
           error={error.groupNameError}
         />
         <InputField
+          value={pinCode}
           onChange={handlePinCode}
+          type="number"
           placeholder="Pin Code"
           error={error.pinCodeError}
         />
-      </div>
-      <div className="add__leader__styling">
+
         <InputField
-          value={handleCountry}
+          value={country}
           onChange={handleCountry}
           placeholder="Country"
           error={error.countryError}
         />
         <InputField
+          value={state}
           onChange={handleState}
           placeholder="State"
           error={error.stateError}
         />
-      </div>
-      <div className="add__leader__styling">
+
         <InputField
-          value={handleCity}
+          value={city}
           onChange={handleCity}
           placeholder="City"
           error={error.cityError}
         />
         <InputField
-          value={handleIdProof}
+          value={idProof}
           onChange={handleIdProof}
+          type="number"
           placeholder="ID Proof"
           error={error.idProofError}
         />
+
+        <InputField
+          value={password}
+          onChange={handlePassword}
+          placeholder="Password"
+          error={error.passwordError}
+        />
       </div>
-      <InputField
-        value={handlePassword}
-        onChange={handlePassword}
-        placeholder="password"
-        error={error.passwordError}
-      />
+      <br />
       <Button
         onClick={handleAddLeader}
         className="add__leader__button"

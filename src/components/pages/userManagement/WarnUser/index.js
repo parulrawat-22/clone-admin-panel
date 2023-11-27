@@ -1,10 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "../../../library/Button";
-import Dropdown from "../../../library/Dropdown";
 import InputField from "../../../library/InputField";
 import "./style.css";
-import axios from "axios";
-import baseUrl from "../../../../baseUrl";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchDataFromAPI } from "../../../../network/NetworkConnection";
 import {
@@ -16,8 +13,10 @@ const WarnUser = () => {
   let navigate = useNavigate();
   const [selectTitle, setSelectTitle] = useState("");
   const [selectDescription, setSelectDescription] = useState("");
-  const [error, setError] = useState({});
-
+  const [error, setError] = useState({
+    title: "",
+    body: "",
+  });
   const { id } = useParams();
 
   const handleWarnedUsers = () => {
@@ -28,8 +27,8 @@ const WarnUser = () => {
       { id: id, title: selectTitle, body: selectDescription }
     )
       .then((res) => {
-        navigate("/warnedusers");
-        console.log(res);
+        navigate(`/warnedusers/?type=user&id=${id}`);
+        console.log(res, "!23456789");
       })
       .catch((err) => {
         console.log(err);
@@ -57,6 +56,7 @@ const WarnUser = () => {
     }
     return result;
   };
+
   return (
     <div className="user__management__warn__user">
       <h3 className="warn__user__heading">Send warning</h3>
