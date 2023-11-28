@@ -31,10 +31,10 @@ const TopTalentTable = ({ tableData, isHost }) => {
                   {data?.name ? data?.name : ""}
                 </td>
                 <td className="top__talent__data">
-                  {data?.stickerSpentCoins ? data?.stickerSpentCoins : ""}
+                  {data?.stickerCoins ? data?.stickerCoins : ""}
                 </td>
                 <td className="top__talent__data">
-                  {data?.giftSpentCoins ? data?.giftSpentCoins : ""}
+                  {data?.giftCoins ? data?.giftCoins : ""}
                 </td>
                 <td className="top__talent__data">
                   {data?.videoCoins ? data?.videoCoins : ""}
@@ -44,7 +44,7 @@ const TopTalentTable = ({ tableData, isHost }) => {
                 </td>
                 {isHost === false && (
                   <td className="top__talent__data">
-                    {data?.total_coins ? data?.total_coins : ""}
+                    {data?.total_coins ? data?.spentCoins : ""}
                   </td>
                 )}
                 {isHost === true && (

@@ -63,6 +63,7 @@ const StickerTable = () => {
 
   const handleStickerFormClose = () => {
     setShowStickerForm(false);
+    fetchSticker();
   };
 
   const handleDeleteApi = () => {
@@ -90,7 +91,6 @@ const StickerTable = () => {
           <th className="sticker__table__heading">Sticker Name</th>
           <th className="sticker__table__heading">Sticker Image</th>
           <th className="sticker__table__heading">Sticker Price</th>
-          <th className="sticker__table__heading">Offer Price</th>
           <th className="sticker__table__heading">Created At</th>
           <th className="sticker__table__heading">Updated At</th>
           <th className="sticker__table__heading">Action</th>
@@ -110,7 +110,6 @@ const StickerTable = () => {
                   />
                 </td>
                 <td className="sticker__table__data">{data?.price}</td>
-                <td className="sticker__table__data">{data?.offer}</td>
                 <td className="sticker__table__data">
                   {moment(data?.createdAt).format("DD/MM/YYYY LT")}
                 </td>
@@ -154,7 +153,7 @@ const StickerTable = () => {
         handleOpen={handleStickerForm}
         onRequestClose={handleStickerFormClose}
       >
-        <StickerForm onSubmit={handleDeleteAlertClose} />
+        <StickerForm onSubmit={handleStickerFormClose} />
       </FormAlertPopUp>
     </div>
   );

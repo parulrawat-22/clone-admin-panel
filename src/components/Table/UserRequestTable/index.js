@@ -96,7 +96,7 @@ const UserTable = () => {
           <th className="user__request__headers">Mobile Number</th>
           <th className="user__request__headers">Profession</th>
           <th className="user__request__headers">Bio</th>
-          <th className="user__request__headers">Image/Video</th>
+          {/* <th className="user__request__headers">Image/Video</th> */}
           <th className="user__request__headers">Profile Pic</th>
           <th className="user__request__headers">Created At </th>
           <th className="user__request__headers">View Profile</th>
@@ -119,14 +119,14 @@ const UserTable = () => {
                 <td className="user__request__data">{data.proffession}</td>
                 <td className="user__request__data">{data.addBio}</td>
 
-                <td className="user__request__data">
+                {/* <td className="user__request__data">
                   <BsFillEyeFill
                     onClick={() => {
                       handleEyeProfilePicPopUp(data?.presentationPic);
                     }}
                     className="user__request__eye__icon"
                   />
-                </td>
+                </td> */}
                 <td className="user__request__data">
                   <BsFillEyeFill
                     onClick={() => {

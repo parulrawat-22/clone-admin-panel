@@ -1,4 +1,3 @@
-// import { Modal } from "@mui/material";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 
@@ -9,7 +8,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "500px",
+  width: "auto",
   height: "auto",
   textAlign: "center",
   overflow: "scroll",
@@ -18,6 +17,7 @@ const style = {
   borderRadius: "10px",
   bgcolor: "white",
   boxShadow: 24,
+  padding: "1rem",
   p: 2,
 };
 

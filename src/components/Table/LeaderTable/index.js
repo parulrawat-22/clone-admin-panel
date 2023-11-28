@@ -9,30 +9,16 @@ import TablePopUp from "../../TablePopUp";
 
 const LeaderTable = () => {
   const [showHostData, setShowHostData] = useState(false);
-  const [showHostList, setShowHostList] = useState([]);
   const [showLeaderList, setShowLeaderList] = useState([]);
   const [id, setId] = useState("");
 
-  const handleViewHostData = () => {
+  const handleViewHostData = (id) => {
     setShowHostData(true);
+    setId(id);
   };
 
   const handleViewHostDataClose = () => {
     setShowHostData(false);
-  };
-
-  const handleHostData = (id) => {
-    setId(id);
-  };
-
-  const fetchHostData = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETLEADERHOSTS + id, "GET")
-      .then((res) => {
-        setShowHostList(res.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   useEffect(() => {
@@ -84,7 +70,7 @@ const LeaderTable = () => {
                 <td className="leader__table__body">{data.pin}</td>
                 <td
                   onClick={() => {
-                    handleHostData(data?._id);
+                    handleViewHostData(data?._id);
                   }}
                   className="leader__table__body leader__table__view"
                 >
@@ -97,8 +83,8 @@ const LeaderTable = () => {
       </table>
       <TablePopUp
         open={showHostData}
-        handleOpen={handleViewHostData}
         handleClose={handleViewHostDataClose}
+        id={id}
       />
     </div>
   );

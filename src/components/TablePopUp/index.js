@@ -1,13 +1,23 @@
 import { Box, Modal } from "@mui/material";
 import "./style.css";
+import { fetchDataFromAPI } from "../../network/NetworkConnection";
+import {
+  API_URL,
+  NetworkConfiguration,
+} from "../../network/NetworkConfiguration";
+import { useEffect, useState } from "react";
+import { BsFillEyeFill } from "react-icons/bs";
+import moment from "moment";
+import { useNavigate } from "react-router-dom";
+import ImagePopUpModal from "../ImagePopUpModal";
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 800,
-  height: 300,
+  width: "80%",
+  height: "auto",
   border: "none",
   outline: "none",
   borderRadius: "10px",
@@ -16,7 +26,38 @@ const style = {
   p: 2,
 };
 
-const TablePopUp = ({ open, handleClose, header, data }) => {
+const TablePopUp = ({ open, handleClose, id }) => {
+  let navigate = useNavigate();
+  const [showHostList, setShowHostList] = useState([]);
+  const [showImage, setShowImage] = useState(false);
+  const [img, setImg] = useState("");
+
+  const handleEyeProfilePicPopUp = (img) => {
+    setShowImage(true);
+    setImg(img);
+  };
+
+  const handleEyeProfilePicPopUpClose = () => {
+    setShowImage(false);
+  };
+
+  useEffect(() => {
+    handleHostList(id);
+  }, [id]);
+
+  const handleHostList = (id) => {
+    fetchDataFromAPI(
+      API_URL + NetworkConfiguration.GETLEADERHOSTS + `/${id}`,
+      "GET"
+    )
+      .then((res) => {
+        setShowHostList(res.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   return (
     <div>
       <Modal
@@ -27,12 +68,72 @@ const TablePopUp = ({ open, handleClose, header, data }) => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <table className="table__pop__up__table">
+          <table className="user__request__table">
             <thead>
-              <th className="table__pop__up__header">{header}</th>
+              <th className="user__request__headers">S.No.</th>
+              <th className="user__request__headers">User ID</th>
+              <th className="user__request__headers">Name</th>
+              <th className="user__request__headers">Gender</th>
+              <th className="user__request__headers">Date Of Birth</th>
+              <th className="user__request__headers">Age</th>
+              <th className="user__request__headers">Country</th>
+              <th className="user__request__headers">State</th>
+              <th className="user__request__headers">City</th>
+              <th className="user__request__headers">Mobile Number</th>
+              <th className="user__request__headers">Profession</th>
+              <th className="user__request__headers">Bio</th>
+              <th className="user__request__headers">Profile Pic</th>
+              <th className="user__request__headers">Created At </th>
+              <th className="user__request__headers">View Profile</th>
             </thead>
             <tbody>
-              <td className="table__pop__up__data">{data}</td>
+              {showHostList?.map((data, index) => {
+                return (
+                  <tr>
+                    <td className="user__request__data">{index + 1}</td>
+                    <td className="user__request__data">{data.userId}</td>
+                    <td className="user__request__data">{data.name}</td>
+                    <td className="user__request__data">{data.gender}</td>
+                    <td className="user__request__data">{data.dateOfBirth}</td>
+                    <td className="user__request__data">{data.age}</td>
+                    <td className="user__request__data">{data.country}</td>
+                    <td className="user__request__data">{data.state}</td>
+                    <td className="user__request__data">{data.city}</td>
+                    <td className="user__request__data">{data.mobileNumber}</td>
+                    <td className="user__request__data">{data.proffession}</td>
+                    <td className="user__request__data">{data.addBio}</td>
+                    <td className="user__request__data">
+                      {data?.profilePic && (
+                        <BsFillEyeFill
+                          onClick={() => {
+                            handleEyeProfilePicPopUp(data?.profilePic);
+                          }}
+                          className="user__request__eye__icon"
+                        />
+                      )}
+                    </td>
+                    <td className="user__request__data">
+                      {" "}
+                      {moment(data.createdAt).format("MM/DD/YYYY LT")}
+                    </td>
+                    <td
+                      className="user__request__data user__management__view__btn"
+                      onClick={() => {
+                        navigate(`/usermanagement/${data._id}`);
+                      }}
+                    >
+                      View more...
+                    </td>
+                  </tr>
+                );
+              })}
+
+              <ImagePopUpModal
+                open={showImage}
+                handleOpen={handleEyeProfilePicPopUp}
+                handleClose={handleEyeProfilePicPopUpClose}
+                img={img}
+              />
             </tbody>
           </table>
         </Box>

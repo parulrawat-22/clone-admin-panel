@@ -133,22 +133,22 @@ const AddLeaderForm = ({ onSubmit }) => {
       setError({ ...error, groupNameError: "Enter valid group name" });
       result = false;
     } else if (!pinCode) {
-      setError({ ...error, pinCodeError: "Enter valid pin code" });
+      setError({ ...error, pinCodeError: "Enter valid pin Code" });
       result = false;
     } else if (!country) {
-      setError({ ...error, countryError: "Enter valid country" });
+      setError({ ...error, countryError: "Enter valid Country" });
       result = false;
     } else if (!state) {
-      setError({ ...error, stateError: "Enter valid country" });
+      setError({ ...error, stateError: "Enter valid State" });
       result = false;
     } else if (!city) {
-      setError({ ...error, cityError: "Enter valid state" });
+      setError({ ...error, cityError: "Enter valid City" });
       result = false;
     } else if (!idProof) {
-      setError({ ...error, idProofError: "Enter valid proof" });
+      setError({ ...error, idProofError: "Enter valid Id Proof" });
       result = false;
     } else if (!password) {
-      setError({ ...error, passwordError: "Enter password" });
+      setError({ ...error, passwordError: "Enter Password" });
       result = false;
     }
     return result;

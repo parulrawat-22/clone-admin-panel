@@ -40,9 +40,9 @@ const TopGrowing = () => {
       }
 
       case "Weekly Star": {
-        fetchDataFromAPI(API_URL + NetworkConfiguration.WEEKLYTALENT, "GET")
+        fetchDataFromAPI(API_URL + NetworkConfiguration.WEEKLYSTAR, "GET")
           .then((res) => {
-            setTableData(res.result);
+            setTableData(res.hostUsers);
             setIsHost(true);
           })
           .catch((err) => {

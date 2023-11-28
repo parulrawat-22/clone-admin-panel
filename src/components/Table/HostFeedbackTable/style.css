@@ -17,10 +17,13 @@
   text-align: center;
   border: none;
   border-bottom: 1px solid grey;
-  padding: 10px 0;
+  padding: 10px 5px;
 }
 
-.host__feedback__table__eye__icon {
-  font-size: 18px;
+.host__feedback__view__btn {
+  cursor: pointer;
+}
+.host__feedback__eye__icon {
+  font-size: 20px;
   cursor: pointer;
 }

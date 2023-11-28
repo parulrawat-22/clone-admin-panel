@@ -35,6 +35,7 @@ const SuspendUser = () => {
           setEndDate(e.target.value);
         }}
         type="date"
+        min={new Date().toISOString().split("T")[0]}
       />
       <br />
       <Button

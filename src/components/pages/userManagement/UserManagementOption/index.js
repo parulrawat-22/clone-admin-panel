@@ -23,7 +23,7 @@ const UserManagementOption = () => {
         return <FeedbackUserTable />;
       }
 
-      case "moments": {
+      case "moment": {
         return <MomentTable />;
       }
 

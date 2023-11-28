@@ -17,13 +17,15 @@ const HostMomentTable = () => {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [img, setImg] = useState("");
   const { id } = useParams();
+  const [getId, setGetId] = useState("");
 
   useEffect(() => {
     fetchHostMoment();
   }, []);
 
-  const handleDeleteMoment = () => {
+  const handleDeleteMoment = (id) => {
     setShowDeleteAlert(true);
+    setGetId(id);
   };
 
   const handleDeleteMomentClose = () => {
@@ -39,9 +41,20 @@ const HostMomentTable = () => {
     setShowImageAlert(false);
   };
 
-  // const handleHostMoment = () =>{
-  //   fetchDataFromAPI(API_URL + NetworkConfiguration)
-  // }
+  const handleMomentDelete = () => {
+    fetchDataFromAPI(
+      API_URL + NetworkConfiguration.DELETEHOSTMOMENT + `/${getId}`,
+      "DELETE"
+    )
+      .then((res) => {
+        console.log(res);
+        fetchHostMoment();
+        setShowDeleteAlert(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const fetchHostMoment = () => {
     fetchDataFromAPI(
@@ -59,96 +72,61 @@ const HostMomentTable = () => {
 
   return (
     <div className="host__moment__container">
-      {id ? (
-        <table className="host__moment__table">
-          <thead>
-            <th className="host__moment__header">S.No</th>
-            <th className="host__moment__header">Caption</th>
-            <th className="host__moment__header">Likes</th>
-            <th className="host__moment__header">Image/Video</th>
-            <th className="host__moment__header">Created At</th>
-            <th className="host__moment__header">Updated At</th>
-            <th className="host__moment__header">Action</th>
-          </thead>
-          <tbody>
-            {getHostMoment.map((data, index) => {
-              return (
-                <tr>
-                  <td className="host__moment__data">{index + 1}</td>
-                  <td className="host__moment__data">{data?.caption}</td>
-                  <td className="host__moment__data">{data?.likes}</td>
-                  <td className="host__moment__data">
-                    <AiFillEye
-                      onClick={() => {
-                        handleImageAlert(data?.postImage);
-                      }}
-                      className="host__moment__eye__icon"
-                    />
-                  </td>
-                  <td className="host__moment__data">{data?.postDate}</td>
-                  <td className="host__moment__data">{data?.updatedAt}</td>
-                  <td className="host__moment__data">
-                    <AiFillEdit className="host__moment__edit__icon" />
-                    <AiFillDelete className="host__moment__delete__icon" />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      ) : (
-        <table className="host__moment__table">
-          <thead>
-            <th className="host__moment__header">S.No</th>
-            <th className="host__moment__header">Host Name</th>
-            <th className="host__moment__header">Caption</th>
-            <th className="host__moment__header">Likes</th>
-            <th className="host__moment__header">Image/Video</th>
-            <th className="host__moment__header">Created At</th>
-            <th className="host__moment__header">Action</th>
-          </thead>
-          <tbody>
-            {getHostMoment.map((data, index) => {
-              return (
-                <tr>
-                  <td className="host__moment__data">{index + 1}</td>
-                  <td className="host__moment__data">{data?.hostName}</td>
-                  <td className="host__moment__data">{data?.subject}</td>
-                  <td className="host__moment__data">{data?.likes}</td>
-                  <td className="host__moment__data ">
-                    <AiFillEye
-                      onClick={() => {
-                        handleImageAlert(data?.postImage);
-                      }}
-                      className="host__moment__eye__icon"
-                    />
-                  </td>
-                  <td className="host__moment__data">
-                    {moment(data?.postDate).format("DD/MM/YYYY , LT")}
-                  </td>
-                  <td className="host__moment__data">
-                    <AiFillEdit className="host__moment__edit__icon" />
-                    <AiFillDelete
-                      onClick={() => {
-                        handleDeleteMoment(data?._id);
-                      }}
-                      className="host__moment__delete__icon"
-                    />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      )}
+      <table className="host__moment__table">
+        <thead>
+          <th className="host__moment__header">S.No</th>
+          {!id && <th className="host__moment__header">Host Name</th>}
+          <th className="host__moment__header">Caption</th>
+          <th className="host__moment__header">Likes</th>
+          <th className="host__moment__header">Image/Video</th>
+          <th className="host__moment__header">Created At</th>
+          <th className="host__moment__header">Action</th>
+        </thead>
+        <tbody>
+          {getHostMoment.map((data, index) => {
+            return (
+              <tr>
+                <td className="host__moment__data">{index + 1}</td>
+                {!id && (
+                  <td className="host__moment__data">{data?.hostId?.name}</td>
+                )}
+                <td className="host__moment__data">{data?.subject}</td>
+                <td className="host__moment__data">{data?.likes}</td>
+                <td className="host__moment__data ">
+                  <AiFillEye
+                    onClick={() => {
+                      handleImageAlert(data?.postImage);
+                    }}
+                    className="host__moment__eye__icon"
+                  />
+                </td>
+                <td className="host__moment__data">
+                  {moment(data?.postDate).format("DD/MM/YYYY , LT")}
+                </td>
+                <td className="host__moment__data">
+                  <AiFillEdit className="host__moment__edit__icon" />
+                  <AiFillDelete
+                    onClick={() => {
+                      handleDeleteMoment(data?._id);
+                    }}
+                    className="host__moment__delete__icon"
+                  />
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
 
       <AlertPopUp
         open={showDeleteAlert}
         handleOpen={handleDeleteMoment}
         handleClose={handleDeleteMomentClose}
+        submitText="Yes"
+        cancelText="No"
         header="Delete Alert"
         description="Are you sure you want to delete this host moment?"
-        // onSubmitClick={handleHostMoment}
+        onSubmitClick={handleMomentDelete}
         onCancelClick={handleDeleteMomentClose}
       />
       <ImagePopUpModal

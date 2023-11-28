@@ -44,6 +44,7 @@ const GiftTable = () => {
   };
 
   const handleAddGiftClose = () => {
+    fetchGift();
     setShowGiftForm(false);
   };
 
@@ -92,7 +93,6 @@ const GiftTable = () => {
             <th className="gift__table__heading">Gift Name</th>
             <th className="gift__table__heading">Gift Image</th>
             <th className="gift__table__heading">Gift Price</th>
-            <th className="gift__table__heading">Offer Price</th>
             <th className="gift__table__heading">Created At</th>
             <th className="gift__table__heading">Updated At</th>
             <th className="gift__table__heading">Action</th>
@@ -114,7 +114,6 @@ const GiftTable = () => {
                     />
                   </td>
                   <td className="gift__table__body">{data?.price}</td>
-                  <td className="gift__table__body">{data?.offer}</td>
                   <td className="gift__table__body">
                     {moment(data?.createdAt).format("DD/MM/YYYY LT")}
                   </td>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "../../library/Button";
 import InputField from "../../library/InputField";
 import "./style.css";
@@ -17,10 +17,6 @@ const StickerForm = ({ onSubmit }) => {
     price: "",
     image: "",
   });
-
-  useEffect(() => {
-    validate();
-  }, []);
 
   const handleStickerName = (e) => {
     setError({ ...error, name: "" });
@@ -46,27 +42,35 @@ const StickerForm = ({ onSubmit }) => {
       setError({ ...error, price: "Enter valid Sticker Price" });
       result = false;
     } else if (!stickerImage) {
-      setError({ ...error, image: "Enter valid Sticker Image" });
+      setError({ ...error, image: "Upload Sticker Image" });
       result = false;
     }
     return result;
   };
 
   const handleStickerForm = () => {
-    let data = new FormData();
-    data.append("name", stickerName);
-    data.append("price", stickerPrice);
-    data.append("image", stickerImage);
-    console.log(stickerImage, "12345");
-    fetchDataFromAPI(API_URL + NetworkConfiguration.ADDSTICKER, "POST", data, {
-      "Content-Type": "multipart/form-data",
-    })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (validate()) {
+      let data = new FormData();
+      data.append("name", stickerName);
+      data.append("price", stickerPrice);
+      data.append("image", stickerImage);
+      console.log(stickerImage, "12345");
+      fetchDataFromAPI(
+        API_URL + NetworkConfiguration.ADDSTICKER,
+        "POST",
+        data,
+        {
+          "Content-Type": "multipart/form-data",
+        }
+      )
+        .then((res) => {
+          console.log(res);
+          onSubmit();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   return (
