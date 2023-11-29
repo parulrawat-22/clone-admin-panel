@@ -1,21 +1,21 @@
-.payment__history__container {
+.user__gift__container {
   padding: 3rem 0;
 }
 
-.payment__history__table {
+.user__gift__table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.payment__history__header {
+.user__gift__header {
   background-color: #f20094;
   color: white;
   padding: 10px;
 }
 
-.payment__history__data {
+.user__gift__data {
   text-align: center;
-  border: none;
-  border-bottom: 1px solid grey;
   padding: 10px;
+  border: none;
+  border-collapse: collapse;
 }

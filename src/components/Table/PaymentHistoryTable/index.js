@@ -26,6 +26,7 @@ const PaymentHistoryTable = () => {
         console.log(err);
       });
   };
+
   return (
     <div className="payment__history__container">
       <table className="payment__history__table">
@@ -34,7 +35,7 @@ const PaymentHistoryTable = () => {
           <th className="payment__history__header">Coins</th>
           <th className="payment__history__header">Price</th>
           <th className="payment__history__header">Mode</th>
-          <th className="payment__history__header">Phone</th>
+          {/* <th className="payment__history__header">Phone</th> */}
           <th className="payment__history__header">createdAt</th>
           <th className="payment__history__header">Status</th>
         </thead>
@@ -48,7 +49,7 @@ const PaymentHistoryTable = () => {
                 <td className="payment__history__data">
                   {data?.paymentThrough}
                 </td>
-                <td className="payment__history__data">{data?.phone}</td>
+                {/* <td className="payment__history__data">{data?.phone}</td> */}
                 <td className="payment__history__data">{data?.paymentDate}</td>
                 <td className="payment__history__data">{data?.status}</td>
               </tr>
