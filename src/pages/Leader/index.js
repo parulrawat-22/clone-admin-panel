@@ -38,14 +38,15 @@ const Leader = () => {
   };
 
   const onSubmit = () => {
+    console.log("Parul");
     setshowAddLeaderAlert(false);
     getAllLeaders();
   };
 
   return (
     <Layout>
-      <div className="add__leader__styling" onClick={handleAddLeader}>
-        <Button text="Add Leader" />
+      <div className="add__leader__styling">
+        <Button text="Add Leader" onClick={handleAddLeader} />
       </div>
       <LeaderTable showLeaderList={showLeaderList} />
       <FormAlertPopUp

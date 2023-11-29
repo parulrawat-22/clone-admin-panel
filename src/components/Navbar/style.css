@@ -23,17 +23,19 @@
 }
 
 .navbar__country {
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   border-radius: 50px;
   background-color: #f20094;
+  display: flex;
+  justify-content: flex-end;
+  cursor: pointer;
 }
 
 .navbar__profile_details {
-  width: 20vw;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  gap: 20px;
 }
 
 .navbar__content {

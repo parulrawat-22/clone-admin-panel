@@ -1,0 +1,16 @@
+.edit__profile__container {
+  padding: 3rem 0;
+}
+
+.edit__profile__box {
+  padding: 3rem;
+  width: 100%;
+  background-color: rgb(255, 244, 244);
+  box-shadow: 1px 1px 1px 1px rgb(255, 219, 219);
+  border-radius: 15px;
+}
+
+.edit__profile__icon {
+  width: 18rem;
+  cursor: pointer;
+}

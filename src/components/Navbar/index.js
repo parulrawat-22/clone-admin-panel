@@ -1,24 +1,57 @@
 import SeachInput from "./SearchInput";
 import { FiSearch } from "react-icons/fi";
 import "./style.css";
+import { useEffect, useRef, useState } from "react";
+import PopMenu from "../PopUpMenu";
 
 const Navbar = () => {
+  const [popOpen, setPopOpen] = useState(false);
+  const myRef = useRef();
+
+  const handleProfileClick = () => {
+    setPopOpen(true);
+  };
+
+  const handleClickOutside = (e) => {
+    console.log(e.target.className, "567890");
+    if (
+      !myRef.current.contains(e.target) &&
+      e.target.className !== "logout_para"
+    ) {
+      setPopOpen(false);
+    }
+  };
+
+  useEffect(() => {
+    if (popOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+      return () =>
+        document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, [popOpen]);
+
   const searchIcon = () => {
     return <FiSearch />;
   };
+
   return (
     <nav className="navbar__container">
       <div className="navbar__search_bar">
         <SeachInput placeholder="Search" icon={searchIcon()} />
       </div>
       <div className="navbar__profile_details">
-        <div className="navbar__country" />
-        <div className="navbar__details"> | </div>
-        <div className="navbar__content">
-          <p className="navbar__details">Customer Name</p>
-          <p className="navbar__details">Edit Profile</p>
-        </div>
-        <div className="navbar__country" />
+        <p className="navbar__details">Welcome Admin!</p>
+        <PopMenu popOpen={popOpen}>
+          <div
+            ref={myRef}
+            className="navbar__country"
+            onClick={handleProfileClick}
+          >
+            {/* <img src={Profile} alt="profile" className="profile" /> */}
+          </div>
+
+          {/* <div className="navbar__country" onClick={handleProfileClick} /> */}
+        </PopMenu>
       </div>
     </nav>
   );

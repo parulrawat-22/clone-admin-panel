@@ -1,15 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./style.css";
-import { fetchDataFromAPI } from "../../../network/NetworkConnection";
-import {
-  API_URL,
-  NetworkConfiguration,
-} from "../../../network/NetworkConfiguration";
 import TablePopUp from "../../TablePopUp";
 
-const LeaderTable = () => {
+const LeaderTable = ({ showLeaderList }) => {
   const [showHostData, setShowHostData] = useState(false);
-  const [showLeaderList, setShowLeaderList] = useState([]);
   const [id, setId] = useState("");
 
   const handleViewHostData = (id) => {
@@ -21,19 +15,6 @@ const LeaderTable = () => {
     setShowHostData(false);
   };
 
-  useEffect(() => {
-    getAllLeaders();
-  }, []);
-
-  const getAllLeaders = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETLEADER, "GET")
-      .then((res) => {
-        setShowLeaderList(res.result);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
   return (
     <div className="leader__table__container">
       <table className="leader__table">

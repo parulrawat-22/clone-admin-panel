@@ -38,13 +38,14 @@ const AddLeaderForm = ({ onSubmit }) => {
   const handleAddLeader = () => {
     if (validate()) {
       fetchDataFromAPI(API_URL + NetworkConfiguration.ADDLEADER, "POST", {
-        name: leaderName,
+        leaderName: leaderName,
         mobileNumber: mobileNumber,
         email: email,
         groupName: groupName,
-        pinCode: pinCode,
+        pin: pinCode,
         country: country,
         state: state,
+        gender: gender,
         city: city,
         idProof: idProof,
         password: password,

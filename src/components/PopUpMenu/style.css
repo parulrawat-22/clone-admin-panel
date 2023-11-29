@@ -1,0 +1,37 @@
+.profile_container {
+  position: relative;
+}
+
+.pop_container {
+  position: absolute;
+  width: auto;
+  font-size: 18px;
+  font-weight: 500;
+  color: black;
+  border-radius: 5px;
+  right: 20px;
+  background-color: white;
+  text-align: center;
+  border: none;
+  outline: none;
+  z-index: 2;
+  box-shadow: 1px 1px 1px 1px rgb(255, 232, 236);
+}
+
+.pop_container p {
+  margin: 10px;
+}
+
+.dotted_line {
+  border-top: 1px dashed rgb(255, 255, 255);
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.popup_text p {
+  font-size: var(--fontsize-small);
+  font-family: var(--fontfamily-serif);
+  border-bottom: 1px solid grey;
+  padding: 5px;
+  cursor: pointer;
+}

@@ -58,6 +58,11 @@ const Coin = () => {
       });
   };
 
+  const onSubmit = () => {
+    setShowCreateWallet(false);
+    fetchCoin();
+  };
+
   const handleCreateWallet = () => {
     setShowCreateWallet(true);
   };
@@ -115,7 +120,7 @@ const Coin = () => {
         onRequestClose={handleCreateWalletClose}
         modalOf="wallet"
       >
-        <CreateWalletForm />
+        <CreateWalletForm onSubmit={onSubmit} />
       </FormAlertPopUp>
 
       <AlertPopUp

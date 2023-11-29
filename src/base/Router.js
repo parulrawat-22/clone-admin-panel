@@ -36,6 +36,7 @@ import Notification from "../pages/Notification";
 import MomentTable from "../components/Table/MomentTable";
 import UserManagementOption from "../components/pages/userManagement/UserManagementOption";
 import HostManagementOption from "../components/pages/hostManagement/HostManagementOption";
+import EditProfile from "../pages/EditProfile";
 
 // import Coin from "../pages/Coin";
 
@@ -135,6 +136,14 @@ const Router = () => {
           element={
             <Layout>
               <Notification />
+            </Layout>
+          }
+        />
+        <Route
+          path="/editprofile"
+          element={
+            <Layout>
+              <EditProfile />
             </Layout>
           }
         />
