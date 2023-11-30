@@ -65,11 +65,6 @@ export const UserManagementData = [
   },
 
   {
-    name: "interest",
-    icon: interest,
-  },
-
-  {
     name: "followers",
     icon: followers,
   },

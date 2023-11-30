@@ -1,26 +1,21 @@
-.user__gift__container {
+.user__notification__container {
   padding: 3rem 0;
 }
 
-.user__gift__table {
+.user__notification__table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.user__gift__header {
+.user__notification__header {
+  padding: 10px;
   background-color: #f20094;
   color: white;
-  padding: 10px;
 }
 
-.user__gift__data {
+.user__notification__data {
   text-align: center;
   padding: 10px;
   border: none;
   border-bottom: 1px solid grey;
-}
-
-.user__gift__icon {
-  cursor: pointer;
-  font-size: 20px;
 }

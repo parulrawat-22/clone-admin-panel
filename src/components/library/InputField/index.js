@@ -26,6 +26,7 @@ const InputField = (props) => {
         onChange={props.onChange}
         value={props.value}
         min={props.min}
+        name={props.name}
       />
       <div onClick={props.onEyeClick} className="input__eye__icon">
         {props.icon}

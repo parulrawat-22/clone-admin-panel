@@ -7,6 +7,11 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import baseUrl from "../../baseUrl";
 import { FaUsers, FaUsersSlash } from "react-icons/fa";
+import { fetchDataFromAPI } from "../../network/NetworkConnection";
+import {
+  API_URL,
+  NetworkConfiguration,
+} from "../../network/NetworkConfiguration";
 
 const Dashboard = () => {
   useEffect(() => {
@@ -14,6 +19,8 @@ const Dashboard = () => {
     handleOfflineHost();
     handleOnlineHost();
     handleOfflineUser();
+    handleHostEarning();
+    handleUserPurchase();
   }, []);
 
   // let adminOnlineUser = 0;
@@ -23,13 +30,7 @@ const Dashboard = () => {
   const [adminOfflineUser, setAdminOfflineUser] = useState(0);
 
   const handleOnlineUser = () => {
-    axios
-      .get(baseUrl + "admin/adminOnlineUser", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
+    fetchDataFromAPI(API_URL + NetworkConfiguration.ONLINEUSER, "GET")
       .then((res) => {
         console.log(res, "res========");
         setAdminOnlineUser(res.data.result);
@@ -40,13 +41,7 @@ const Dashboard = () => {
   };
 
   const handleOfflineHost = () => {
-    axios
-      .get(baseUrl + "admin/findOfflineHost", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
+    fetchDataFromAPI(API_URL + NetworkConfiguration.OFFLINEHOST, "GET")
       .then((res) => {
         console.log(res, "res========");
         setAdminOfflineHost(res.data.result);
@@ -57,13 +52,7 @@ const Dashboard = () => {
   };
 
   const handleOnlineHost = () => {
-    axios
-      .get(baseUrl + "admin/findOnlineHost", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
+    fetchDataFromAPI(API_URL + NetworkConfiguration.ONLINEHOST, "GET")
       .then((res) => {
         console.log(res, "res========");
         setAdminOnlineHost(res.data.result);
@@ -74,19 +63,39 @@ const Dashboard = () => {
   };
 
   const handleOfflineUser = () => {
-    axios
-      .get(baseUrl + "admin/adminOfflineUser", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
+    fetchDataFromAPI(API_URL + NetworkConfiguration.OFFLINEUSER, "GET")
       .then((res) => {
         console.log(res, "res========");
         setAdminOfflineUser(res.data.result);
       })
       .catch((err) => {
         console.log(err, "err========");
+      });
+  };
+  const handleHostEarning = () => {
+    fetchDataFromAPI(API_URL + NetworkConfiguration.HOSTEARNING, "POST", {
+      startDate: "2023-11-27",
+      endDate: "2023-11-28",
+    })
+      .then((res) => {
+        console.log(res, "resjsjsjs========");
+        //setAdminOfflineUser(res.data.result);
+      })
+      .catch((err) => {
+        console.log(err, "err========");
+      });
+  };
+
+  const handleUserPurchase = () => {
+    fetchDataFromAPI(API_URL + NetworkConfiguration.USERPURCHASE, "POST", {
+      startDate: "2023-11-27",
+      endDate: "2023-11-28",
+    })
+      .then((res) => {
+        console.log("12345678910", res);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 

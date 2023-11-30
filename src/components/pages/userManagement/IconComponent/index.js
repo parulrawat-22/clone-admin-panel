@@ -1,5 +1,4 @@
 import "./style.css";
-import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { UserManagementData } from "../../../../utils/UserManagementData";
 

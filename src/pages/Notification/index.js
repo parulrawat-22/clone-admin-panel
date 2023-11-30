@@ -6,7 +6,7 @@ import FormAlertPopUp from "../../components/FormAlertPopUp";
 import NotificationForm from "../../components/formComponents/NotificationForm";
 
 const Notification = () => {
-  const [showData, setShowData] = useState("user");
+  // const [showData, setShowData] = useState("user");
   const [showSendNotification, setShowSendNotification] = useState(false);
 
   const handleSendNotification = () => {
@@ -17,39 +17,9 @@ const Notification = () => {
     setShowSendNotification(false);
   };
 
-  const handleUserData = () => {
-    setShowData("user");
-  };
-
-  const handleHostData = () => {
-    setShowData("host");
-  };
-
   return (
     <div>
-      <div className="report__user__host__toggle send__notification__btn">
-        <div className="report_toggle_btns">
-          <p
-            className={
-              showData === "user"
-                ? "report__toggle__active__button"
-                : "report__toggle__inactive__button"
-            }
-            onClick={handleUserData}
-          >
-            User
-          </p>
-          <p
-            className={
-              showData === "host"
-                ? "report__toggle__active__button"
-                : "report__toggle__inactive__button"
-            }
-            onClick={handleHostData}
-          >
-            Host
-          </p>
-        </div>
+      <div className="send__notification__btn">
         <Button text="Send Notification" onClick={handleSendNotification} />
       </div>
 

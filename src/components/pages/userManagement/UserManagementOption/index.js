@@ -13,6 +13,8 @@ import RechargeTable from "../../../Table/RechargeTable";
 import StickerTable from "../../../Table/StickerTable";
 import FeedbackUserTable from "../../../Table/FeedbackTable";
 import Bucket from "../../../../pages/Bucket";
+import UserNotificationTable from "../../../Table/UserNotificationTable";
+import UserGiftTable from "../../../Table/UserGiftTable";
 
 const UserManagementOption = () => {
   const { selectedOption } = useParams();
@@ -28,10 +30,10 @@ const UserManagementOption = () => {
       }
 
       case "notification": {
-        return <NotificationTable />;
+        return <UserNotificationTable />;
       }
       case "gifts": {
-        return <GiftTable />;
+        return <UserGiftTable />;
       }
 
       case "stickers": {
@@ -55,10 +57,6 @@ const UserManagementOption = () => {
       }
 
       case "call history": {
-        return <CallHistory />;
-      }
-
-      case "interest": {
         return <CallHistory />;
       }
 

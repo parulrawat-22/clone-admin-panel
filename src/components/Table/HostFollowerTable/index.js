@@ -42,19 +42,11 @@ const HostFollowerTable = () => {
             return (
               <tr>
                 <td className="host__follower__data">{index + 1}</td>
-                <td className="host__follower__data">{data?.followers?._id}</td>
-                <td className="host__follower__data">
-                  {data?.followers?.name}
-                </td>
-                <td className="host__follower__data">
-                  {data?.followers?.dateOfBirth}
-                </td>
-                <td className="host__follower__data">
-                  {data?.followers?.email}
-                </td>
-                <td className="host__follower__data">
-                  {data?.followers?.mobileNumber}
-                </td>
+                <td className="host__follower__data">{data?._id}</td>
+                <td className="host__follower__data">{data?.name}</td>
+                <td className="host__follower__data">{data?.dateOfBirth}</td>
+                <td className="host__follower__data">{data?.email}</td>
+                <td className="host__follower__data">{data?.mobileNumber}</td>
               </tr>
             );
           })}

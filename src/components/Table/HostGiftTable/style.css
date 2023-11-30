@@ -1,26 +1,26 @@
-.user__gift__container {
+.host__gift__container {
   padding: 3rem 0;
 }
 
-.user__gift__table {
+.host__gift__table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.user__gift__header {
+.host__gift__header {
   background-color: #f20094;
   color: white;
   padding: 10px;
 }
 
-.user__gift__data {
+.host__gift__data {
   text-align: center;
   padding: 10px;
   border: none;
   border-bottom: 1px solid grey;
 }
 
-.user__gift__icon {
-  cursor: pointer;
+.host__gift__icon {
   font-size: 20px;
+  cursor: pointer;
 }

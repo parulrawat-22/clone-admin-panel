@@ -16,13 +16,15 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
       />
       {sidebarData.map((data, index) => {
+        console.log(data, "qwertyu");
         return (
           <div
             style={{ paddingLeft: `${isSidebarOpen ? "3rem" : "1.9rem"}` }}
             className="sidebar__content"
             key={index}
           >
-            <p className="sidebar__icon">{data.icon}</p>
+            <img src={data.icon} alt="sidebar icon" className="sidebar__icon" />
+
             <NavLink className={handleNavLinkClassName} to={data.link}>
               {data.label}
             </NavLink>

@@ -150,7 +150,7 @@ const UserTable = () => {
                 <td className="user__request__data">
                   <AiFillEdit
                     onClick={() => {
-                      navigate("/edituser");
+                      navigate("/edituser", { state: { id: data?._id } });
                     }}
                     className="accepted__user__edit__icon"
                   />

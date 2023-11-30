@@ -87,46 +87,56 @@ const TablePopUp = ({ open, handleClose, id }) => {
               <th className="user__request__headers">View Profile</th>
             </thead>
             <tbody>
-              {showHostList?.map((data, index) => {
-                return (
-                  <tr>
-                    <td className="user__request__data">{index + 1}</td>
-                    <td className="user__request__data">{data.userId}</td>
-                    <td className="user__request__data">{data.name}</td>
-                    <td className="user__request__data">{data.gender}</td>
-                    <td className="user__request__data">{data.dateOfBirth}</td>
-                    <td className="user__request__data">{data.age}</td>
-                    <td className="user__request__data">{data.country}</td>
-                    <td className="user__request__data">{data.state}</td>
-                    <td className="user__request__data">{data.city}</td>
-                    <td className="user__request__data">{data.mobileNumber}</td>
-                    <td className="user__request__data">{data.proffession}</td>
-                    <td className="user__request__data">{data.addBio}</td>
-                    <td className="user__request__data">
-                      {data?.profilePic && (
-                        <BsFillEyeFill
-                          onClick={() => {
-                            handleEyeProfilePicPopUp(data?.profilePic);
-                          }}
-                          className="user__request__eye__icon"
-                        />
-                      )}
-                    </td>
-                    <td className="user__request__data">
-                      {" "}
-                      {moment(data.createdAt).format("MM/DD/YYYY LT")}
-                    </td>
-                    <td
-                      className="user__request__data user__management__view__btn"
-                      onClick={() => {
-                        navigate(`/usermanagement/${data._id}`);
-                      }}
-                    >
-                      View more...
-                    </td>
-                  </tr>
-                );
-              })}
+              {showHostList?.length === 0 ? (
+                <p>No data available</p>
+              ) : (
+                showHostList?.map((data, index) => {
+                  return (
+                    <tr>
+                      <td className="user__request__data">{index + 1}</td>
+                      <td className="user__request__data">{data.userId}</td>
+                      <td className="user__request__data">{data.name}</td>
+                      <td className="user__request__data">{data.gender}</td>
+                      <td className="user__request__data">
+                        {data.dateOfBirth}
+                      </td>
+                      <td className="user__request__data">{data.age}</td>
+                      <td className="user__request__data">{data.country}</td>
+                      <td className="user__request__data">{data.state}</td>
+                      <td className="user__request__data">{data.city}</td>
+                      <td className="user__request__data">
+                        {data.mobileNumber}
+                      </td>
+                      <td className="user__request__data">
+                        {data.proffession}
+                      </td>
+                      <td className="user__request__data">{data.addBio}</td>
+                      <td className="user__request__data">
+                        {data?.profilePic && (
+                          <BsFillEyeFill
+                            onClick={() => {
+                              handleEyeProfilePicPopUp(data?.profilePic);
+                            }}
+                            className="user__request__eye__icon"
+                          />
+                        )}
+                      </td>
+                      <td className="user__request__data">
+                        {" "}
+                        {moment(data.createdAt).format("MM/DD/YYYY LT")}
+                      </td>
+                      <td
+                        className="user__request__data user__management__view__btn"
+                        onClick={() => {
+                          navigate(`/usermanagement/${data._id}`);
+                        }}
+                      >
+                        View more...
+                      </td>
+                    </tr>
+                  );
+                })
+              )}
 
               <ImagePopUpModal
                 open={showImage}

@@ -28,7 +28,8 @@
   border-radius: 50px;
   background-color: #f20094;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
 }
 
@@ -44,4 +45,10 @@
 
 .navbar__details {
   color: #f20094;
+}
+
+.admin__image {
+  font-size: 25px;
+  text-align: center;
+  color: white;
 }

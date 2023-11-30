@@ -23,9 +23,11 @@
 .notification__table__edit__icon {
   font-size: 25px;
   color: rgb(0, 128, 255);
+  cursor: pointer;
 }
 
 .notification__table__delete__icon {
   font-size: 25px;
   color: red;
+  cursor: pointer;
 }

@@ -2,6 +2,7 @@ import SeachInput from "./SearchInput";
 import { FiSearch } from "react-icons/fi";
 import "./style.css";
 import { useEffect, useRef, useState } from "react";
+import { FaUserTie } from "react-icons/fa6";
 import PopMenu from "../PopUpMenu";
 
 const Navbar = () => {
@@ -47,7 +48,7 @@ const Navbar = () => {
             className="navbar__country"
             onClick={handleProfileClick}
           >
-            {/* <img src={Profile} alt="profile" className="profile" /> */}
+            <FaUserTie className="admin__image" />
           </div>
 
           {/* <div className="navbar__country" onClick={handleProfileClick} /> */}

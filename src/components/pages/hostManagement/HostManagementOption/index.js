@@ -13,6 +13,8 @@ import HostBlockTable from "../../../Table/HostBlockTable";
 import HostCallHistoryTable from "../../../Table/HostCallHistoryTable";
 import HostMomentTable from "../../../Table/HostMomentTable";
 import "./style.css";
+import HostNotification from "../../../Table/HostNotificationTable";
+import HostGiftTable from "../../../Table/HostGiftTable";
 
 const HostManagementOption = () => {
   const { selectedOption } = useParams();
@@ -29,11 +31,11 @@ const HostManagementOption = () => {
       }
 
       case "notification": {
-        return <NotificationTable />;
+        return <HostNotification />;
       }
 
-      case "gifts": {
-        return <GiftTable />;
+      case "gift": {
+        return <HostGiftTable />;
       }
 
       case "stickers": {
