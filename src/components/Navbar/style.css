@@ -45,6 +45,7 @@
 
 .navbar__details {
   color: #f20094;
+  font-family: var(--fontfamily-sansserif);
 }
 
 .admin__image {

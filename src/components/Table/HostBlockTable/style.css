@@ -8,11 +8,17 @@
 }
 
 .host__block__header {
-  background-color: #f20094;
-  color: white;
+  background-color: var(--color-pink);
+  color: var(--color-white);
+  font-family: var(--fontfamily-sansserif);
+  font-weight: var(--fontweight-medium);
   padding: 10px;
 }
 
 .host__block__data {
   text-align: center;
+  font-family: var(--fontfamily-sansserif);
+  border: none;
+  border-bottom: 1px solid black;
+  padding: 10px;
 }

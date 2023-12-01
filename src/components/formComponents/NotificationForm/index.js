@@ -50,39 +50,41 @@ const NotificationForm = ({ dropdownOptions }) => {
     return result;
   };
   return (
-    <div className="notification__form">
+    <div className="notification__form__container">
       <h2 className="notification__form__heading">Send Notification</h2>
-      <Dropdown
-        value={selectWho}
-        onChange={handleSelectChange}
-        options={dropdownOptions}
-      />
-      <br />
-      <Dropdown
-        value={name}
-        onChange={(e) => {
-          setName(e.target.value);
-        }}
-        options={dropdownOptions}
-      />
-      <br />
-      <InputField
-        value={title}
-        onChange={handleTitle}
-        placeholder="Enter Title"
-      />
-      <br />
-      <InputField
-        value={body}
-        onChange={handleBody}
-        placeholder="Enter Message"
-      />
-      <br />
-      <Button
-        onClick={handleSendNotification}
-        text="Send"
-        style={{ margin: "auto" }}
-      />
+      <div className="notification__form">
+        <Dropdown
+          value={selectWho}
+          onChange={handleSelectChange}
+          options={dropdownOptions}
+        />
+        <br />
+        <Dropdown
+          value={name}
+          onChange={(e) => {
+            setName(e.target.value);
+          }}
+          options={dropdownOptions}
+        />
+        <br />
+        <InputField
+          value={title}
+          onChange={handleTitle}
+          placeholder="Enter Title"
+        />
+        <br />
+        <InputField
+          value={body}
+          onChange={handleBody}
+          placeholder="Enter Message"
+        />
+        <br />
+        <Button
+          onClick={handleSendNotification}
+          text="Send"
+          style={{ margin: "auto" }}
+        />
+      </div>
     </div>
   );
 };

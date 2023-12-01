@@ -1,3 +1,11 @@
 .create__wallet__btn {
   margin: auto;
 }
+
+.create__wallet__header {
+  text-align: center;
+  font-family: var(--fontfamily-sansserif);
+  padding: 0.5rem;
+  font-weight: var(--fontweight-medium);
+  border-bottom: 1px solid black;
+}

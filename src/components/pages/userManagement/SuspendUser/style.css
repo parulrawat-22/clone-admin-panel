@@ -15,4 +15,6 @@
   text-align: center;
   font-size: 25px;
   margin-bottom: 20px;
+  font-family: var(--fontfamily-sansserif);
+  font-weight: var(--fontweight-medium);
 }

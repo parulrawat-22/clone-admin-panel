@@ -8,6 +8,7 @@
   bottom: 0.5rem;
   z-index: 1;
   transition: all 0.2s ease-in-out;
+  font-family: var(--fontfamily-sansserif);
 }
 
 .input__styling {
@@ -16,8 +17,9 @@
   border: none;
   outline: none;
   border-bottom: 2px solid#f20094;
+  font-family: var(--fontfamily-sansserif);
   background-color: transparent;
-  font-size: 15px;
+  font-size: var(--fontsize-small);
 }
 
 .input__eye__icon {
@@ -29,4 +31,6 @@
 
 .input__error {
   color: red;
+  font-family: var(--fontfamily-sansserif);
+  font-size: var(--fontsize-xsmall);
 }

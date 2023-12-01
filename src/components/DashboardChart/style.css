@@ -1,0 +1,12 @@
+.chart_box input {
+  height: 40px;
+  width: 150px;
+  border-radius: 5px;
+  outline: none;
+  font-size: 16px;
+}
+
+.dashboard_card_btn_row {
+  display: flex;
+  gap: 20px;
+}

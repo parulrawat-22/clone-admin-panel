@@ -10,6 +10,7 @@ const TextArea = (props) => {
         placeholder={props.placeholder}
         onChange={props.onChange}
         style={props.style}
+        name={props.name}
       />
     </div>
   );

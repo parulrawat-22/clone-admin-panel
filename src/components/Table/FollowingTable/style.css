@@ -8,12 +8,15 @@
 }
 
 .following__header {
-  background-color: #f20094;
-  color: white;
+  background-color: var(--color-pink);
+  font-family: var(--fontfamily-sansserif);
+  color: var(--color-white);
+  font-weight: var(--fontweight-medium);
   padding: 10px;
 }
 
 .following__data {
+  font-family: var(--fontfamily-sansserif);
   text-align: center;
   padding: 10px;
   border: none;

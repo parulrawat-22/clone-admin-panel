@@ -77,23 +77,23 @@ const SuspendedHostTable = () => {
               return (
                 <tr>
                   <td className="suspended__host__table__data">{index + 1}</td>
-                  <td className="suspended__host__table__data">{data._id}</td>
+                  <td className="suspended__host__table__data">{data?._id}</td>
                   <td className="suspended__host__table__data">
-                    {data.hostId.name}
+                    {data?.hostId?.name}
                   </td>
 
                   <td className="suspended__host__table__data">
-                    {moment(data.createdAt).format("DD/MM/YYYY , LT")}
+                    {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
                   </td>
                   <td className="suspended__host__table__data">
-                    {moment(data.suspensionEndDate).format("DD/MM/YYYY , LT")}
+                    {moment(data?.suspensionEndDate).format("DD/MM/YYYY , LT")}
                   </td>
                   <td className="suspended__host__table__data">
                     <AiFillEdit className="suspended__host__table__edit__icon" />
                     <AiFillDelete
                       onClick={() => {
-                        handleOnClickAlert(data._id);
-                        console.log(data._id, "data id");
+                        handleOnClickAlert(data?._id);
+                        console.log(data?._id, "data id");
                       }}
                       className="suspended__host__table__delete__icon"
                     />
@@ -118,23 +118,23 @@ const SuspendedHostTable = () => {
               return (
                 <tr>
                   <td className="suspended__host__table__data">{index + 1}</td>
-                  <td className="suspended__host__table__data">{data._id}</td>
+                  <td className="suspended__host__table__data">{data?._id}</td>
                   <td className="suspended__host__table__data">
-                    {data.hostId.name}
+                    {data.hostId?.name}
                   </td>
 
                   <td className="suspended__host__table__data">
-                    {moment(data.createdAt).format("DD/MM/YYYY , LT")}
+                    {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
                   </td>
                   <td className="suspended__host__table__data">
-                    {moment(data.suspensionEndDate).format("DD/MM/YYYY , LT")}
+                    {moment(data?.suspensionEndDate).format("DD/MM/YYYY , LT")}
                   </td>
                   <td className="suspended__host__table__data suspended__host__table__icons">
                     <AiFillEdit className="suspended__host__table__edit__icon" />
                     <AiFillDelete
                       onClick={() => {
-                        handleOnClickAlert(data._id);
-                        console.log(data._id, "data id");
+                        handleOnClickAlert(data?._id);
+                        console.log(data?._id, "data id");
                       }}
                       className="suspended__host__table__delete__icon"
                     />

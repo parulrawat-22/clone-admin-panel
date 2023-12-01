@@ -5,6 +5,11 @@
   gap: 25px;
 }
 
+.host__management__header {
+  font-family: var(--fontfamily-sansserif);
+  font-weight: var(--fontweight-medium);
+}
+
 .host__management__profile {
   display: flex;
   width: 10rem;
@@ -19,4 +24,5 @@
 .host__management__data {
   display: flex;
   gap: 10px;
+  font-family: var(--fontfamily-sansserif);
 }

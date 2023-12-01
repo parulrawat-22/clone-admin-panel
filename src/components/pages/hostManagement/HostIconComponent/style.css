@@ -1,0 +1,4 @@
+.icon__name {
+  font-family: var(--fontfamily-sansserif);
+  text-transform: capitalize;
+}

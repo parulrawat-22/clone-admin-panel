@@ -8,13 +8,19 @@
 }
 
 .user__sticker__header {
-  background-color: #f20094;
-  color: white;
+  background-color: var(--color-pink);
+  color: var(--color-white);
+  font-family: var(--fontfamily-sansserif);
+  font-weight: var(--fontweight-medium);
   padding: 10px;
 }
 
 .user__sticker__data {
   text-align: center;
+  font-family: var(--fontfamily-sansserif);
+  padding: 10px;
+  border: none;
+  border-bottom: 1px solid grey;
 }
 
 .user__sticker__eye__icon {

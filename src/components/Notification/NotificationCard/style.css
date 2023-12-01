@@ -28,21 +28,23 @@
 }
 
 .notification__card__content h4 {
-  font-family: "Courier New", Courier, monospace;
-  font-size: 18px;
-  font-weight: 800;
+  font-family: var(--fontfamily-sansserif);
+  font-size: var(--fontsize-regular);
+  font-weight: var(--fontweight-medium);
 }
 
 .notification__card__content p {
-  font-size: 14px;
+  font-size: var(--fontsize-xsmall);
+  font-family: var(--fontfamily-sansserif);
   margin-bottom: 10px;
 }
 
 .notification__card_feedback {
   padding: 5px;
   border-radius: 55px;
-  color: white;
-  background-color: blue;
+  font-family: var(--fontfamily-sansserif);
+  color: var(--color-white);
+  background-color: var(--color-pink);
   font-size: 14px;
   margin: 3.2rem;
 }

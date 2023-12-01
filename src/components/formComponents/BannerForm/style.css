@@ -1,11 +1,19 @@
 .banner__container {
-  width: 25vw;
-  height: auto;
-  border-radius: 10px;
-  text-align: center;
-  padding: 2rem 0;
+  padding: 2px 0;
+}
+
+.banner__fields__gap {
+  padding: 1rem 2rem;
 }
 
 .add__banner__button {
   margin: auto;
+}
+
+.banner__heading {
+  text-align: center;
+  font-family: var(--fontfamily-sansserif);
+  font-weight: var(--fontweight-medium);
+  border-bottom: 1px solid black;
+  padding: 0.5rem;
 }

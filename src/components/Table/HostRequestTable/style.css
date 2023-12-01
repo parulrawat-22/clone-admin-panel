@@ -12,6 +12,8 @@
   padding: 10px 5px;
   border: none;
   border-bottom: 1px solid grey;
+  font-family: var(--fontfamily-sansserif);
+  font-size: var(--fontsize-small);
   text-align: center;
 }
 
@@ -38,6 +40,9 @@
 
 .host__request__header {
   background-color: #f20094;
+  font-size: var(--fontsize-regular);
+  font-family: var(--fontfamily-sansserif);
+  font-weight: var(--fontweight-medium);
   color: white;
   padding: 10px;
 }

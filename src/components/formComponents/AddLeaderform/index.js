@@ -155,7 +155,7 @@ const AddLeaderForm = ({ onSubmit }) => {
     return result;
   };
   return (
-    <div>
+    <div style={{ padding: "5px 0" }}>
       <h2 className="add__leader__heading">Add Leader</h2>
 
       <div className="add__leader__form">
@@ -233,7 +233,6 @@ const AddLeaderForm = ({ onSubmit }) => {
           error={error.passwordError}
         />
       </div>
-      <br />
       <Button
         onClick={handleAddLeader}
         className="add__leader__button"

@@ -70,30 +70,30 @@ const AddGiftForm = ({ onSubmit }) => {
   return (
     <div className="add__gift__container">
       <h2 className="add__gift__heading">Add Gift</h2>
-      <InputField
-        value={giftName}
-        onChange={handleGiftName}
-        placeholder="Gift Name"
-        error={error.name}
-      />
-      <br />
-      <InputField
-        value={giftPrice}
-        onChange={handlePrice}
-        type="number"
-        placeholder="Gift Price"
-        error={error.price}
-      />
-      <br />
+      <div className="add__gift__form">
+        <InputField
+          value={giftName}
+          onChange={handleGiftName}
+          placeholder="Gift Name"
+          error={error.name}
+        />
+        <br />
+        <InputField
+          value={giftPrice}
+          onChange={handlePrice}
+          type="number"
+          placeholder="Gift Price"
+          error={error.price}
+        />
+        <br />
 
-      <InputField
-        type="file"
-        onChange={handleImage}
-        placeholder="Upload Image"
-        error={error.uploadImage}
-      />
-      <br />
-      <div className="add" style={{ display: "flex", gap: "20px" }}>
+        <InputField
+          type="file"
+          onChange={handleImage}
+          placeholder="Upload Image"
+          error={error.uploadImage}
+        />
+        <br />
         <Button
           className="add__gift__form__btn"
           text="Save"

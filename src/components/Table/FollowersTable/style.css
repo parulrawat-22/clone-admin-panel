@@ -8,8 +8,10 @@
 }
 
 .followers__header {
-  background-color: #f20094;
-  color: white;
+  background-color: var(--color-pink);
+  color: var(--color-white);
+  font-family: var(--fontfamily-sansserif);
+  font-weight: var(--fontweight-medium);
   padding: 10px;
 }
 
@@ -17,5 +19,6 @@
   text-align: center;
   padding: 10px;
   border: none;
+  font-family: var(--fontfamily-sansserif);
   border-bottom: 1px solid grey;
 }

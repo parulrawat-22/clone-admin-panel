@@ -9,14 +9,18 @@
 
 .host__feedback__table__heading {
   padding: 10px;
-  background-color: #f20094;
-  color: white;
+  background-color: var(--color-pink);
+  color: var(--color-white);
+  font-family: var(--fontfamily-sansserif);
+  font-weight: var(--fontweight-medium);
 }
 
 .host__feedback__table__data {
   text-align: center;
   border: none;
   border-bottom: 1px solid grey;
+  font-family: var(--fontfamily-sansserif);
+
   padding: 10px 5px;
 }
 

@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import "./style.css";
-import baseUrl from "../../../baseUrl";
-import axios from "axios";
 import moment from "moment";
 import { AiFillDelete, AiFillEdit, AiFillEye } from "react-icons/ai";
 import AlertPopUp from "../../AlertPopUp";

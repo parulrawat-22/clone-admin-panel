@@ -9,8 +9,10 @@
 
 .host__report__header {
   padding: 10px;
-  background-color: #f20094;
-  color: white;
+  background-color: var(--color-pink);
+  color: var(--color-white);
+  font-family: var(--fontfamily-sansserif);
+  font-weight: var(--fontweight-medium);
 }
 
 .host__report__data {
@@ -18,4 +20,5 @@
   padding: 10px 5px;
   border: none;
   border-bottom: 1px solid grey;
+  font-family: var(--fontfamily-sansserif);
 }

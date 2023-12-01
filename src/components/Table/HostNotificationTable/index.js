@@ -53,26 +53,26 @@ const HostNotification = () => {
   };
 
   return (
-    <div className="user__notification__container">
-      <table className="user__notification__table">
+    <div className="host__notification__container">
+      <table className="host__notification__table">
         <thead>
-          <th className="user__notification__header">S.No</th>
-          <th className="user__notification__header">Title</th>
-          <th className="user__notification__header">Body</th>
-          <th className="user__notification__header">Date&Time</th>
+          <th className="host__notification__header">S.No</th>
+          <th className="host__notification__header">Title</th>
+          <th className="host__notification__header">Body</th>
+          <th className="host__notification__header">Date&Time</th>
         </thead>
         <tbody>
           {getHostNotification.map((data, index) => {
             return (
               <tr>
-                <td className="user__notification__data">{index + 1}</td>
-                <td className="user__notification__data">
+                <td className="host__notification__data">{index + 1}</td>
+                <td className="host__notification__data">
                   {getNotification(data).title}
                 </td>
-                <td className="user__notification__data">
+                <td className="host__notification__data">
                   {getNotification(data).body}
                 </td>
-                <td className="user__notification__data">
+                <td className="host__notification__data">
                   {moment(getNotification(data).followTime).format(
                     "DD/MM/YYYY ,LT"
                   )}

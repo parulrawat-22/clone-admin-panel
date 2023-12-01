@@ -10,6 +10,9 @@
 .warned__user__header {
   background-color: #f20094;
   color: white;
+  font-weight: var(--fontweight-medium);
+  font-family: var(--fontfamily-sansserif);
+
   padding: 10px;
 }
 
@@ -17,6 +20,7 @@
   text-align: center;
   padding: 10px 0;
   border: none;
+  font-family: var(--fontfamily-sansserif);
   border-bottom: 1px solid grey;
 }
 

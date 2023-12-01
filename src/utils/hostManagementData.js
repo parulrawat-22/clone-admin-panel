@@ -32,11 +32,6 @@ export const HostManagementData = [
   },
 
   {
-    name: "interest",
-    icon: interest,
-  },
-
-  {
     name: "moment",
     icon: moment,
   },

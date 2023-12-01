@@ -8,14 +8,18 @@
 }
 
 .gift__table__heading {
-  color: white;
-  background-color: #f20094;
+  color: var(--color-white);
+  background-color: var(--color-pink);
+  font-weight: var(--fontweight-medium);
+  font-family: var(--fontfamily-sansserif);
   padding: 10px 0;
 }
 
 .gift__table__body {
   text-align: center;
   padding: 10px 5px;
+  font-family: var(--fontfamily-sansserif);
+  font-size: var(--fontsize--small);
   border: none;
   border-bottom: 1px solid grey;
 }

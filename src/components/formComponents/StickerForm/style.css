@@ -1,13 +1,19 @@
 .sticker__form__container {
-  padding: 0 1rem;
+  padding: 2px 0;
 }
 
 .sticker__form__header {
   text-align: center;
-  text-align: center;
-  padding-bottom: 0.5rem;
+  font-family: var(--fontfamily-sansserif);
+  font-weight: var(--fontweight-medium);
+  border-bottom: 1px solid black;
+  padding: 0.5rem 0;
 }
 
 .sticker__submit__btn {
   margin: auto;
+}
+
+.sticker__form {
+  padding: 1rem 2rem;
 }

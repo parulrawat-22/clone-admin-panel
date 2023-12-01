@@ -7,10 +7,11 @@ import {
 } from "../../network/NetworkConfiguration";
 import { fetchDataFromAPI } from "../../network/NetworkConnection";
 import "./style.css";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import Button from "../../components/library/Button";
 
 const EditUser = ({ id }) => {
+  let navigate = useNavigate();
   const [data, setData] = useState();
   const { state } = useLocation();
   console.log("State", state);
@@ -31,6 +32,7 @@ const EditUser = ({ id }) => {
     )
       .then((res) => {
         console.log(res);
+        delete res.getOneUser?._id;
         setData(res.getOneUser);
       })
       .catch((err) => {
@@ -40,17 +42,17 @@ const EditUser = ({ id }) => {
 
   const handleEditUser = () => {
     fetchDataFromAPI(API_URL + NetworkConfiguration.UPDATEUSER, "PUT", {
-      id: id,
-      ...data, // Include the updated data in the request
+      id: state.id,
+      ...data,
     })
       .then((res) => {
         console.log(res);
+        navigate("/allusers");
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  //console.log("1234567", data);
   return (
     <div className="edit__user__inputs">
       <InputField value={data?.name} onChange={handleChange} name="name" />
@@ -65,13 +67,21 @@ const EditUser = ({ id }) => {
         onChange={handleChange}
         name="mobileNumber"
       />
-      <InputField value={data?.email} onChange={handleChange} />
-      {/* <InputField value={data.pin} ode" /> */}
-      <InputField value={data?.country} onChange={handleChange} />
-      <InputField value={data?.state} onChange={handleChange} />
-      <InputField value={data?.city} onChange={handleChange} />
-      <InputField value={data?.proffession} onChange={handleChange} />
-      <TextArea value={data?.addBio} onChange={handleChange} />
+
+      <InputField value={data?.email} onChange={handleChange} name="email" />
+      <InputField
+        value={data?.country}
+        onChange={handleChange}
+        name="country"
+      />
+      <InputField value={data?.state} onChange={handleChange} name="state" />
+      <InputField value={data?.city} onChange={handleChange} name="city" />
+      <InputField
+        value={data?.proffession}
+        onChange={handleChange}
+        name="proffession"
+      />
+      <TextArea value={data?.addBio} onChange={handleChange} name="addBio" />
       <div>
         <Button onClick={handleEditUser} text="Update" />
       </div>

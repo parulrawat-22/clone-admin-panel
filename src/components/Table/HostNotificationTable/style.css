@@ -1,0 +1,24 @@
+.host__notification__container {
+  padding: 3rem 0;
+}
+
+.host__notification__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.host__notification__header {
+  background-color: var(--color-pink);
+  color: var(--color-white);
+  font-family: var(--fontfamily-sansserif);
+  font-weight: var(--fontweight-medium);
+  padding: 10px 0;
+}
+
+.host__notification__data {
+  text-align: center;
+  font-family: var(--fontfamily-sansserif);
+  border: none;
+  border-bottom: 1px solid black;
+  padding: 10px;
+}

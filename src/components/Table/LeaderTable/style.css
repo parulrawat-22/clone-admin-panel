@@ -10,12 +10,15 @@
 .leader__table__header {
   padding: 10px;
   background-color: #f20094;
+  font-family: var(--fontfamily-sansserif);
+  font-weight: var(--fontweight-medium);
   color: white;
 }
 
 .leader__table__body {
   text-align: center;
   padding: 10px 5px;
+  font-family: var(--fontfamily-sansserif);
   border: none;
   border-bottom: 1px solid grey;
 }

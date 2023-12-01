@@ -71,7 +71,7 @@ export const NetworkConfiguration = {
   DELETEHOSTMOMENT: "admin/adminDeletedHostMoment",
   DELETEHOST: "admin/adminDeletedHost",
   UPDATELEADER: "admin/addleaderId",
-  UPDATEUSER: "admin/acceptUserRequest",
+  UPDATEUSER: "admin/adminUpdateUser",
   UPDATEHOSTCHARGE: "admin/adminUpdateHostBalance",
   UPDATEPREMIUMCOINS: "admin/AdminSetPostCoins",
   UPDATEWALLET: "wallet/addWallet",

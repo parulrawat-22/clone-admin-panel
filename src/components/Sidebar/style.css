@@ -33,13 +33,14 @@
 .sidebar__content {
   display: flex;
   align-items: center;
+  font-family: var(--fontfamily-sansserif);
   cursor: pointer;
   width: calc(100% + 20%);
 }
 
 .sidebar__data {
   text-decoration: none;
-  font-size: 20px;
+  font-size: var(--fontsize-regular);
   color: white;
   padding: 10px;
 }

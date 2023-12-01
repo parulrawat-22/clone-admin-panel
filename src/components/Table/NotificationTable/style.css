@@ -8,14 +8,17 @@
 }
 
 .notification__table__header {
-  background-color: #f20094;
-  color: white;
+  background-color: var(--color-pink);
+  color: var(--color-white);
+  font-family: var(--fontfamily-sansserif);
+  font-weight: var(--fontweight-medium);
   padding: 10px;
 }
 
 .notification__table__data {
   text-align: center;
   padding: 10px;
+  font-family: var(--fontfamily-sansserif);
   border: none;
   border-bottom: 1px solid grey;
 }

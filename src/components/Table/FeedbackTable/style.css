@@ -8,20 +8,22 @@
 }
 
 .feedback__table__heading {
-  background-color: #f20094;
-  color: white;
+  background-color: var(--color-pink);
+  color: var(--color-white);
   padding: 10px;
+  font-weight: var(--fontweight-medium);
+  font-family: var(--fontfamily-sansserif);
 }
 
 .feedback__table__data {
-  color: black;
   padding: 10px 0;
   text-align: center;
   border: none;
   border-bottom: 1px solid grey;
-  cursor: pointer;
+  font-family: var(--fontfamily-sansserif);
 }
 
 .feedback__table__eye__icon {
   font-size: 20px;
+  cursor: pointer;
 }

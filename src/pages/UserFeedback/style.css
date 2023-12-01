@@ -15,9 +15,11 @@
   width: 6rem;
   height: 4rem;
   border: none;
-  background-color: purple;
-  font-size: 20px;
-  color: white;
+  background-color: var(--color-pink);
+  font-family: var(--fontfamily-sansserif);
+  font-weight: var(--fontweight-medium);
+  font-size: var(--fontsize-regular);
+  color: var(--color-white);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -28,8 +30,9 @@
   width: 6rem;
   height: 4rem;
   border: none;
+  font-family: var(--fontfamily-sansserif);
+  font-size: var(--fontsize-small);
   background-color: rgb(220, 220, 220);
-
   display: flex;
   align-items: center;
   justify-content: center;

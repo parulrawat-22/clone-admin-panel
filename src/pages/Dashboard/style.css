@@ -45,6 +45,9 @@
   margin-top: 80px;
   border-radius: 10px;
   box-shadow: 2px 2px 5.5px #fb56bc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .dashboard__graphs__loaders {
@@ -80,5 +83,6 @@
 }
 
 .dashboard__loader__heading {
+  font-family: var(--fontfamily-sansserif);
   margin-bottom: 15px;
 }

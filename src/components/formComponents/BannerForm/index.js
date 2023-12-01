@@ -81,6 +81,7 @@ const BannerForm = ({ onSubmit }) => {
   };
   return (
     <div className="banner__container">
+      <h2 className="banner__heading">Add Banner</h2>
       <div className="banner__fields__gap">
         <InputField
           onChange={handleSetBannerName}
@@ -94,7 +95,7 @@ const BannerForm = ({ onSubmit }) => {
           type="file"
           error={error.imageUrl}
         />
-        <br /> <br />
+        <br />
         <Button
           text="Submit"
           onClick={handleOnSubmit}

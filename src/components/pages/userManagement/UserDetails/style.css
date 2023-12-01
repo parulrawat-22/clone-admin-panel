@@ -13,10 +13,17 @@
 
 .user__table__data {
   display: flex;
+  align-items: center;
   gap: 10px;
   padding: 10px 0;
 }
 
 .user__table__data th {
-  background-color: none !important;
+  font-family: var(--fontfamily-sansserif);
+  font-weight: var(--fontweight-medium);
+}
+
+.user__table__data td {
+  font-family: var(--fontfamily-sansserif);
+  font-weight: var(--fontweight-regular);
 }

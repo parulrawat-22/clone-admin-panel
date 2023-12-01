@@ -14,14 +14,18 @@
 
 .user__request__headers {
   border: none;
-  color: white;
+  color: var(--color-white);
   padding: 10px;
-  background-color: #f20094;
+  font-weight: var(--fontweight-medium);
+  font-family: var(--fontfamily-sansserif);
+  background-color: var(--color-pink);
 }
 
 .user__request__data {
   text-align: center;
   padding: 10px 5px;
+  font-family: var(--fontfamily-sansserif);
+
   border: none;
   border-bottom: 1px solid grey;
 }

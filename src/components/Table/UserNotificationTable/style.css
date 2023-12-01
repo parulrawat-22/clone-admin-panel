@@ -9,13 +9,16 @@
 
 .user__notification__header {
   padding: 10px;
-  background-color: #f20094;
-  color: white;
+  background-color: var(--color-pink);
+  font-family: var(--fontfamily-sansserif);
+  font-weight: var(--fontweight-medium);
+  color: var(--color-white);
 }
 
 .user__notification__data {
   text-align: center;
   padding: 10px;
   border: none;
+  font-family: var(--fontfamily-sansserif);
   border-bottom: 1px solid grey;
 }

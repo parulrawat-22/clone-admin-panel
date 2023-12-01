@@ -8,13 +8,18 @@
 }
 
 .top__talent__header {
-  background-color: #f20094;
-  color: white;
+  background-color: var(--color-pink);
+  color: var(--color-white);
+  font-weight: var(--fontweight-medium);
+  font-family: var(--fontfamily-sansserif);
+
   padding: 10px 0;
 }
 
 .top__talent__data {
   text-align: center;
+  font-family: var(--fontfamily-sansserif);
+
   padding: 10px 0;
   border: none;
   border-bottom: 1px solid grey;

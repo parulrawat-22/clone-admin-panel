@@ -1,16 +1,20 @@
 .add__leader__button {
   margin: auto;
+  cursor: pointer;
 }
 
 .add__leader__form {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  padding: 1rem 0;
   gap: 10px;
 }
 
 .add__leader__heading {
   text-align: center;
-  margin-bottom: 15px;
-  text-decoration: underline 0.5px;
+  padding: 0.5rem 0;
+  font-family: var(--fontfamily-sansserif);
+  font-weight: var(--fontweight-bold);
+  border-bottom: 1px solid black;
 }

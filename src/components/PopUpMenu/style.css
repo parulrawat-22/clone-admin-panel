@@ -5,12 +5,12 @@
 .pop_container {
   position: absolute;
   width: auto;
-  font-size: 18px;
+  font-size: var(--fontsize-regular);
   font-weight: 500;
-  color: black;
+  color: var(--color-black);
   border-radius: 5px;
   right: 20px;
-  background-color: white;
+  background-color: var(--color-white);
   text-align: center;
   border: none;
   outline: none;
@@ -18,20 +18,9 @@
   box-shadow: 1px 1px 1px 1px rgb(255, 232, 236);
 }
 
-.pop_container p {
-  margin: 10px;
-}
-
-.dotted_line {
-  border-top: 1px dashed rgb(255, 255, 255);
-  margin-left: 5px;
-  margin-right: 5px;
-}
-
 .popup_text p {
-  font-size: var(--fontsize-small);
-  font-family: var(--fontfamily-serif);
-  border-bottom: 1px solid grey;
-  padding: 5px;
+  font-family: var(--fontfamily-sansserif);
+  border-bottom: 1px solid black;
   cursor: pointer;
+  padding: 0.5rem;
 }

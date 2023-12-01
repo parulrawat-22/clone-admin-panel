@@ -76,32 +76,34 @@ const StickerForm = ({ onSubmit }) => {
   return (
     <div className="sticker__form__container">
       <h2 className="sticker__form__header">Add Sticker</h2>
-      <InputField
-        value={stickerName}
-        onChange={handleStickerName}
-        placeholder="Sticker Name"
-        error={error.name}
-      />
-      <br />
-      <InputField
-        value={stickerPrice}
-        onChange={handleStickerPrice}
-        placeholder="Sticker Price"
-        error={error.price}
-      />
-      <br />
-      <InputField
-        onChange={handleStickerImage}
-        type="file"
-        placeholder="Sticker Image"
-        error={error.image}
-      />
-      <br />
-      <Button
-        onClick={handleStickerForm}
-        className="sticker__submit__btn"
-        text="Submit"
-      />
+      <div className="sticker__form">
+        <InputField
+          value={stickerName}
+          onChange={handleStickerName}
+          placeholder="Sticker Name"
+          error={error.name}
+        />
+        <br />
+        <InputField
+          value={stickerPrice}
+          onChange={handleStickerPrice}
+          placeholder="Sticker Price"
+          error={error.price}
+        />
+        <br />
+        <InputField
+          onChange={handleStickerImage}
+          type="file"
+          placeholder="Sticker Image"
+          error={error.image}
+        />
+        <br />
+        <Button
+          onClick={handleStickerForm}
+          className="sticker__submit__btn"
+          text="Submit"
+        />
+      </div>
     </div>
   );
 };

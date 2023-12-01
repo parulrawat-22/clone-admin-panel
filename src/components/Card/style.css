@@ -16,7 +16,8 @@
 }
 
 .card__heading {
-  font-size: 18px;
+  font-family: var(--fontfamily-sansserif);
+  font-size: var(--fontsize-regular);
   margin-bottom: 10px;
 }
 
@@ -28,7 +29,7 @@
 }
 
 .card__icon {
-  font-size: 25px;
+  font-size: var(--fontsize-large);
 }
 
 .card__number {

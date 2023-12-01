@@ -9,12 +9,16 @@
 
 .user__report__header {
   padding: 10px;
-  background-color: #f20094;
-  color: white;
+  background-color: var(--color-pink);
+  color: var(--color-white);
+  font-weight: var(--fontweight-medium);
+  font-family: var(--fontfamily-sansserif);
 }
 
 .user__report__data {
   text-align: center;
+  font-family: var(--fontfamily-sansserif);
+
   padding: 10px 0;
   border: none;
   border-bottom: 1px solid grey;

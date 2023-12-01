@@ -9,12 +9,16 @@
 
 .suspended__table__header {
   background-color: #f20094;
+  font-family: var(--fontfamily-sansserif);
+  font-weight: var(--fontweight-medium);
   padding: 1rem 0;
   color: white;
 }
 
 .suspended__table__data {
   text-align: center;
+  font-family: var(--fontfamily-sansserif);
+
   padding: 10px 0;
   border: none;
   border-bottom: 1px solid grey;

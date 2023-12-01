@@ -28,7 +28,6 @@ const FormAlertPopUp = ({
     borderRadius: "10px",
     backgroundColor: "rgba(0, 0, 0, 0.9)",
     bgcolor: "white",
-    p: 2,
   };
 
   console.log("Open modal", open);

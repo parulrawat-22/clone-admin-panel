@@ -1,12 +1,12 @@
 .search__input__container {
   position: relative;
-  color: #f20094;
+  color: var(--color-pink);
 }
 
 .search__input {
   padding-left: 40px;
-  font-size: 15px;
-  background-color: #ffdff3;
+  font-size: var(--fontsize-small);
+  background-color: var(--color-lightpink);
 }
 
 .search__icon {

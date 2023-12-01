@@ -20,7 +20,14 @@ const Notification = () => {
   return (
     <div>
       <div className="send__notification__btn">
-        <Button text="Send Notification" onClick={handleSendNotification} />
+        <Button
+          text="Send Notification"
+          style={{
+            cursor: "pointer",
+            textAlign: "center",
+          }}
+          onClick={handleSendNotification}
+        />
       </div>
 
       <NotificationTable />

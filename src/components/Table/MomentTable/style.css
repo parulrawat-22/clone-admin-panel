@@ -10,10 +10,15 @@
 
 .moment__table__head {
   padding: 10px 0;
+  background-color: var(--color-pink);
+  font-family: var(--fontfamily-sansserif);
+  font-weight: var(--fontweight-medium);
+  color: var(--color-white);
 }
 
 .moment__table__body {
   text-align: center;
+  font-family: var(--fontfamily-sansserif);
   border: none;
   border-bottom: 1px solid grey;
   padding: 10px 0;

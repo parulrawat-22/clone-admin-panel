@@ -41,7 +41,7 @@ const CreateWalletForm = ({ onSubmit }) => {
   };
 
   const handlePrice = (e) => {
-    setError({ ...error, price: "" });
+    setError({ ...error, priceError: "" });
     setPrice(e.target.value);
   };
 
@@ -58,24 +58,38 @@ const CreateWalletForm = ({ onSubmit }) => {
   };
 
   return (
-    <div>
-      <InputField type="number" onChange={handleCoin} placeholder="Coin" />
-      <br />
-      <InputField type="number" onChange={handlePrice} placeholder="Price" />
-      <br />
-      <InputField
-        type="number"
-        onChange={(e) => {
-          setOffer(e.target.value);
-        }}
-        placeholder="Offer Price"
-      />
-      <br />
-      <Button
-        onClick={handleCreateCoin}
-        className="create__wallet__btn"
-        text="Done"
-      />
+    <div style={{ padding: "2px 0" }}>
+      <h2 className="create__wallet__header">Create Coins</h2>
+
+      <div style={{ padding: "1rem 2rem" }}>
+        <InputField
+          type="number"
+          onChange={handleCoin}
+          placeholder="Coin"
+          error={error.coinError}
+        />
+        <br />
+        <InputField
+          type="number"
+          onChange={handlePrice}
+          placeholder="Price"
+          error={error.priceError}
+        />
+        <br />
+        <InputField
+          type="number"
+          onChange={(e) => {
+            setOffer(e.target.value);
+          }}
+          placeholder="Offer Price"
+        />
+        <br />
+        <Button
+          onClick={handleCreateCoin}
+          className="create__wallet__btn"
+          text="Done"
+        />
+      </div>
     </div>
   );
 };

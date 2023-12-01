@@ -20,7 +20,7 @@ const IconContainer = ({ id }) => {
               }}
             >
               <img className="icon" src={data?.icon} alt="" />
-              <p style={{ textTransform: "capitalize" }}>{data?.name}</p>
+              <p className="icon__name">{data?.name}</p>
             </div>
           );
         })}

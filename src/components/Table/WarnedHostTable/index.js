@@ -111,15 +111,15 @@ const WarnedHostTable = () => {
               return (
                 <tr>
                   <td className="warned__host__data">{index + 1}</td>
-                  <td className="warned__host__data">{data.hostId._id}</td>
-                  <td className="warned__host__data">{data.hostId.name}</td>
-                  <td className="warned__host__data">{data.title}</td>
-                  <td className="warned__host__data">{data.body}</td>
+                  <td className="warned__host__data">{data?.hostId?._id}</td>
+                  <td className="warned__host__data">{data?.hostId?.name}</td>
+                  <td className="warned__host__data">{data?.title}</td>
+                  <td className="warned__host__data">{data?.body}</td>
                   <td className="warned__host__data warned__host__icon">
                     <AiFillEdit className="warned__host__edit__icon" />
                     <AiFillDelete
                       onClick={() => {
-                        handleOnClickAlert(data._id);
+                        handleOnClickAlert(data?._id);
                       }}
                       className="warned__host__delete__icon"
                     />

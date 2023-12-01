@@ -10,11 +10,14 @@
 .banner__list__table__head {
   padding: 10px 0;
   background-color: #f20094;
+  font-weight: var(--fontweight-medium);
+  font-family: var(--fontfamily-sansserif);
+
   color: white;
 }
 
 .banner__list__eye__icon {
-  font-size: 18px;
+  font-size: 20px;
   cursor: pointer;
 }
 
@@ -33,6 +36,7 @@
 .banner__list__data {
   border: none;
   text-align: center;
+  font-family: var(--fontfamily-sansserif);
   padding: 10px 0;
   border-bottom: 1px solid grey;
 }
