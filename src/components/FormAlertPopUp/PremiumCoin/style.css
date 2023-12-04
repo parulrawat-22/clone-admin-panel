@@ -1,4 +1,16 @@
 .premium__coin__heading {
   text-align: center;
   font-family: var(--fontfamily-sansserif);
+  font-weight: var(--fontweight-medium);
+  padding: 0.5rem 1rem;
+  border: none;
+  border-bottom: 1px solid black;
+}
+
+.premium__coin__container {
+  padding: 0.5rem 1rem;
+}
+
+.premium__coin {
+  padding: 0.5rem;
 }

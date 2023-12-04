@@ -9,12 +9,17 @@ import {
 } from "../../../network/NetworkConfiguration";
 import AlertPopUp from "../../AlertPopUp";
 import { useSearchParams } from "react-router-dom";
+import InputField from "../../library/InputField";
+import Button from "../../library/Button";
+import WebModal from "../../WebModal";
 
 const SuspendedUserTable = () => {
   const [suspendedUserList, setSuspendedUserList] = useState([]);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [showEditAlert, setShowEditAlert] = useState(false);
   const [id, setId] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
+  const [data, setData] = useState("");
 
   const handleDeleteAlert = () => {
     setShowDeleteAlert(true);
@@ -47,6 +52,15 @@ const SuspendedUserTable = () => {
     setId(id);
   };
 
+  const handleOnClickEdit = (id) => {
+    setShowEditAlert(true);
+    setId(id);
+  };
+
+  const handleOnClickEditClose = () => {
+    setShowEditAlert(false);
+  };
+
   const handleAlertDelete = () => {
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.DELETESUSPENSION + `/${id}`,
@@ -67,8 +81,6 @@ const SuspendedUserTable = () => {
         <table className="suspended__table">
           <thead>
             <th className="suspended__table__header">S.no</th>
-            <th className="suspended__table__header">User ID</th>
-            <th className="suspended__table__header">User Name</th>
             <th className="suspended__table__header">Suspended From</th>
             <th className="suspended__table__header">Suspended To</th>
             <th className="suspended__table__header">Action</th>
@@ -78,10 +90,6 @@ const SuspendedUserTable = () => {
               return (
                 <tr>
                   <td className="suspended__table__data">{index + 1}</td>
-                  <td className="suspended__table__data">{data?._id}</td>
-                  <td className="suspended__table__data">
-                    {data?.userId?.name}
-                  </td>
                   <td className="suspended__table__data">
                     {moment(data?.createdAt).format("DD/MM/YYYY")}
                   </td>
@@ -89,7 +97,11 @@ const SuspendedUserTable = () => {
                     {moment(data?.suspensionEndDate).format("DD/MM/YYYY")}
                   </td>
                   <td className="suspended__table__data suspended__table__edit__icon ">
-                    <AiFillEdit />
+                    <AiFillEdit
+                      onClick={() => {
+                        handleOnClickEdit(data?._id);
+                      }}
+                    />
                     <AiFillDelete
                       className="suspended__table__delete__icon"
                       onClick={() => {
@@ -128,7 +140,11 @@ const SuspendedUserTable = () => {
                     {moment(data?.suspensionEndDate).format("DD/MM/YYYY")}
                   </td>
                   <td className="suspended__table__data suspended__table__edit__icon ">
-                    <AiFillEdit />
+                    <AiFillEdit
+                      onClick={() => {
+                        handleOnClickEdit(data?._id);
+                      }}
+                    />
                     <AiFillDelete
                       className="suspended__table__delete__icon"
                       onClick={() => {
@@ -154,6 +170,14 @@ const SuspendedUserTable = () => {
         onSubmitClick={handleAlertDelete}
         onCancelClick={handleDeleteAlertClose}
       />
+
+      <WebModal open={showEditAlert} onRequestClose={handleOnClickEditClose}>
+        <h2>Edit Suspended User</h2>
+        <br />
+        <InputField type="date" />
+        <br />
+        <Button text="Update" />
+      </WebModal>
     </div>
   );
 };

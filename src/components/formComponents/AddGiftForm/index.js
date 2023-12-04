@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   API_URL,
   NetworkConfiguration,
@@ -8,15 +8,35 @@ import Button from "../../library/Button";
 import InputField from "../../library/InputField";
 import "./style.css";
 
-const AddGiftForm = ({ onSubmit }) => {
+const AddGiftForm = ({ onSubmit, edit, onClickEdit, editedGift }) => {
   const [giftName, setGiftName] = useState("");
   const [giftPrice, setGiftPrice] = useState("");
   const [giftUploadImage, setGiftUploadImage] = useState("");
+  const [id, setId] = useState("");
   const [error, setError] = useState({
+    id: "",
     name: "",
     price: "",
     uploadImage: "",
   });
+
+  useEffect(() => {
+    if (edit && editedGift) {
+      setGiftData(
+        editedGift?.giftId,
+        editedGift?.giftName,
+        editedGift?.giftPrice,
+        editedGift?.giftImage
+      );
+    }
+  }, [edit]);
+
+  const setGiftData = (giftId, giftName, giftPrice, giftImage) => {
+    setId(giftId);
+    setGiftName(giftName);
+    setGiftPrice(giftPrice);
+    setGiftUploadImage(giftImage);
+  };
 
   const handleGiftForm = () => {
     let data = new FormData();
@@ -35,6 +55,21 @@ const AddGiftForm = ({ onSubmit }) => {
           console.log(err);
         });
     }
+  };
+
+  const handleEditForm = () => {
+    fetchDataFromAPI(API_URL + NetworkConfiguration.UPDATEGIFT, "PUT", {
+      id,
+      name: giftName,
+      price: giftPrice,
+    })
+      .then((res) => {
+        console.log(res);
+        onClickEdit();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleGiftName = (e) => {
@@ -69,7 +104,11 @@ const AddGiftForm = ({ onSubmit }) => {
 
   return (
     <div className="add__gift__container">
-      <h2 className="add__gift__heading">Add Gift</h2>
+      {edit ? (
+        <h2 className="add__gift__heading">Update Gift</h2>
+      ) : (
+        <h2 className="add__gift__heading">Add Gift</h2>
+      )}
       <div className="add__gift__form">
         <InputField
           value={giftName}
@@ -96,10 +135,9 @@ const AddGiftForm = ({ onSubmit }) => {
         <br />
         <Button
           className="add__gift__form__btn"
-          text="Save"
-          onClick={handleGiftForm}
+          text={edit ? "Update" : "Save"}
+          onClick={edit ? handleEditForm : handleGiftForm}
         />
-        {/* <Button className="add__gift__form__btn" text="Cancel" /> */}
       </div>
     </div>
   );

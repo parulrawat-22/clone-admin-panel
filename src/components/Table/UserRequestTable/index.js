@@ -119,14 +119,6 @@ const UserTable = () => {
                 <td className="user__request__data">{data.proffession}</td>
                 <td className="user__request__data">{data.addBio}</td>
 
-                {/* <td className="user__request__data">
-                  <BsFillEyeFill
-                    onClick={() => {
-                      handleEyeProfilePicPopUp(data?.presentationPic);
-                    }}
-                    className="user__request__eye__icon"
-                  />
-                </td> */}
                 <td className="user__request__data">
                   <BsFillEyeFill
                     onClick={() => {

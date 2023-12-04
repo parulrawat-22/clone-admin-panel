@@ -25,19 +25,21 @@ const PremiumCoin = ({ onSubmit }) => {
   };
 
   return (
-    <div>
+    <div className="premium__coin__container">
       <h2 className="premium__coin__heading">Set Premium Coins</h2>
-      <InputField
-        onChange={(e) => {
-          setPremiumCoins(e.target.value);
-        }}
-      />
-      <br />
-      <Button
-        onClick={handleSetPremiumCoin}
-        text="Update"
-        style={{ margin: "auto" }}
-      />
+      <div className="premium__coin">
+        <InputField
+          onChange={(e) => {
+            setPremiumCoins(e.target.value);
+          }}
+        />
+        <br />
+        <Button
+          onClick={handleSetPremiumCoin}
+          text="Update"
+          style={{ margin: "auto" }}
+        />
+      </div>
     </div>
   );
 };

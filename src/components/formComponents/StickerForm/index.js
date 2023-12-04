@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../library/Button";
 import InputField from "../../library/InputField";
 import "./style.css";
@@ -8,15 +8,28 @@ import {
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 
-const StickerForm = ({ onSubmit }) => {
+const StickerForm = ({ onSubmit, edit, editedSticker, onClickEdit }) => {
   const [stickerName, setStickerName] = useState("");
   const [stickerPrice, setStickerPrice] = useState("");
   const [stickerImage, setStickerImage] = useState("");
+  const [id, setId] = useState("");
   const [error, setError] = useState({
     name: "",
     price: "",
     image: "",
   });
+
+  useEffect(() => {
+    if (edit && editedSticker) {
+      setStickerData(editedSticker?.name, editedSticker?.price);
+    }
+  }, [edit]);
+
+  const setStickerData = (stickerName, stickerPrice, stickerImage) => {
+    setStickerName(stickerName);
+    setStickerPrice(stickerPrice);
+    setStickerImage(stickerImage);
+  };
 
   const handleStickerName = (e) => {
     setError({ ...error, name: "" });
@@ -48,6 +61,24 @@ const StickerForm = ({ onSubmit }) => {
     return result;
   };
 
+  const handleEditForm = () => {
+    fetchDataFromAPI(
+      API_URL + NetworkConfiguration.UPDATESTICKER + `/${id}`,
+      "PUT",
+      {
+        name: stickerName,
+        price: stickerPrice,
+      }
+    )
+      .then((res) => {
+        onClickEdit();
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   const handleStickerForm = () => {
     if (validate()) {
       let data = new FormData();
@@ -75,7 +106,11 @@ const StickerForm = ({ onSubmit }) => {
 
   return (
     <div className="sticker__form__container">
-      <h2 className="sticker__form__header">Add Sticker</h2>
+      {edit ? (
+        <h2 className="sticker__form__header">Update Sticker</h2>
+      ) : (
+        <h2 className="sticker__form__header">Add Sticker</h2>
+      )}
       <div className="sticker__form">
         <InputField
           value={stickerName}
@@ -99,9 +134,9 @@ const StickerForm = ({ onSubmit }) => {
         />
         <br />
         <Button
-          onClick={handleStickerForm}
+          onClick={edit ? handleEditForm : handleStickerForm}
           className="sticker__submit__btn"
-          text="Submit"
+          text={edit ? "Update" : "Submit"}
         />
       </div>
     </div>

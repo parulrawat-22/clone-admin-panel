@@ -81,12 +81,17 @@ const Banner = () => {
         showBannerData={showBannerData}
         setBannerId={setBannerId}
         setShowDeleteAlert={setShowDeleteAlert}
+        fetchBannerList={fetchBannerList}
       />
       <FormAlertPopUp
         open={showBannerForm}
         onRequestClose={handleAddBannerClose}
       >
-        <BannerForm onSubmit={onSubmit} handleClose={handleAddBannerClose} />
+        <BannerForm
+          onSubmit={onSubmit}
+          handleClose={handleAddBannerClose}
+          fetchBannerList={fetchBannerList}
+        />
       </FormAlertPopUp>
 
       <AlertPopUp

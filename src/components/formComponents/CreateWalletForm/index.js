@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   API_URL,
   NetworkConfiguration,
@@ -8,10 +8,12 @@ import Button from "../../library/Button";
 import InputField from "../../library/InputField";
 import "./style.css";
 
-const CreateWalletForm = ({ onSubmit }) => {
+const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
+  console.log(onClickEdit, "234567987654");
   const [coins, setCoins] = useState("");
   const [price, setPrice] = useState("");
   const [offer, setOffer] = useState("");
+  //const [edit, setEdit] = useState("");
   const [error, setError] = useState({
     coinError: "",
     priceError: "",
@@ -20,7 +22,7 @@ const CreateWalletForm = ({ onSubmit }) => {
 
   const handleCreateCoin = () => {
     if (validate()) {
-      fetchDataFromAPI(API_URL + NetworkConfiguration.UPDATEWALLET, "POST", {
+      fetchDataFromAPI(API_URL + NetworkConfiguration.ADDWALLET, "POST", {
         coins,
         price,
         offer,
@@ -33,6 +35,42 @@ const CreateWalletForm = ({ onSubmit }) => {
           console.log(err);
         });
     }
+  };
+
+  useEffect(() => {
+    getOneCoin();
+  }, []);
+
+  const handleEditCoin = () => {
+    fetchDataFromAPI(API_URL + NetworkConfiguration.UPDATEWALLET, "PUT", {
+      id: id,
+      coins: coins,
+      price: price,
+      offer: offer,
+    })
+      .then((res) => {
+        console.log(res);
+        onClickEdit();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const getOneCoin = () => {
+    fetchDataFromAPI(
+      API_URL + NetworkConfiguration.GETONECOIN + `/${id}`,
+      "GET"
+    )
+      .then((res) => {
+        console.log(res);
+        setCoins(res.result.coins);
+        setOffer(res.result.offer);
+        setPrice(res.result.price);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleCoin = (e) => {
@@ -67,6 +105,7 @@ const CreateWalletForm = ({ onSubmit }) => {
           onChange={handleCoin}
           placeholder="Coin"
           error={error.coinError}
+          value={coins}
         />
         <br />
         <InputField
@@ -74,6 +113,7 @@ const CreateWalletForm = ({ onSubmit }) => {
           onChange={handlePrice}
           placeholder="Price"
           error={error.priceError}
+          value={price}
         />
         <br />
         <InputField
@@ -82,12 +122,13 @@ const CreateWalletForm = ({ onSubmit }) => {
             setOffer(e.target.value);
           }}
           placeholder="Offer Price"
+          value={offer}
         />
         <br />
         <Button
-          onClick={handleCreateCoin}
+          onClick={edit ? handleEditCoin : handleCreateCoin}
           className="create__wallet__btn"
-          text="Done"
+          text={edit ? "Update" : "Done"}
         />
       </div>
     </div>

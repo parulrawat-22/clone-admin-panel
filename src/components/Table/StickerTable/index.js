@@ -19,7 +19,13 @@ const StickerTable = () => {
   const [showImageAlert, setShowImageAlert] = useState(false);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [showStickerForm, setShowStickerForm] = useState(false);
+  const [showEditAlert, setShowEditAlert] = useState(false);
   const [id, setId] = useState("");
+  const [editedSticker, setEditedSticker] = useState({
+    name: "",
+    price: "",
+    stickerUrl: "",
+  });
 
   const handleDeleteAlert = () => {
     setShowDeleteAlert(true);
@@ -63,6 +69,28 @@ const StickerTable = () => {
 
   const handleStickerFormClose = () => {
     setShowStickerForm(false);
+    fetchSticker();
+  };
+
+  const handleOnClickEdit = (id, sticker) => {
+    setShowEditAlert(true);
+    setId(id);
+    setEditedSticker({
+      name: sticker?.name,
+      price: sticker?.price,
+      stickerUrl: sticker?.stickerUrl,
+    });
+    setId(id);
+  };
+
+  console.log("jgjhgj", handleOnClickEdit(0, {}));
+
+  const handleOnClickEditClose = () => {
+    setShowEditAlert(false);
+  };
+
+  const onClickEdit = () => {
+    setShowEditAlert(false);
     fetchSticker();
   };
 
@@ -117,7 +145,12 @@ const StickerTable = () => {
                   {moment(data?.updatedAt).format("DD/MM/YYYY LT")}
                 </td>
                 <td className="sticker__table__data">
-                  <AiFillEdit className="sticker__table__edit__icon" />
+                  <AiFillEdit
+                    onClick={() => {
+                      handleOnClickEdit(data?._id, data);
+                    }}
+                    className="sticker__table__edit__icon"
+                  />
                   <AiFillDelete
                     onClick={() => {
                       handleOnClickAlert(data?._id);
@@ -154,6 +187,18 @@ const StickerTable = () => {
         onRequestClose={handleStickerFormClose}
       >
         <StickerForm onSubmit={handleStickerFormClose} />
+      </FormAlertPopUp>
+
+      <FormAlertPopUp
+        open={showEditAlert}
+        handleOpen={handleOnClickEdit}
+        onRequestClose={handleOnClickEditClose}
+      >
+        <StickerForm
+          edit={true}
+          editedSticker={editedSticker}
+          onClickEdit={onClickEdit}
+        />
       </FormAlertPopUp>
     </div>
   );

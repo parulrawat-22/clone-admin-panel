@@ -10,9 +10,12 @@ import {
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 
-const BannerForm = ({ onSubmit }) => {
+const BannerForm = ({ onSubmit, edit, id, onClickEdit, fetchBannerList }) => {
   const [bannerName, setBannerName] = useState("");
   const [image, setImage] = useState("");
+  const [preview, setPreview] = useState("");
+
+  console.log("id", id);
 
   const [error, setError] = useState({
     name: "",
@@ -30,7 +33,8 @@ const BannerForm = ({ onSubmit }) => {
   };
 
   useEffect(() => {
-    fetchBannerList();
+    ///fetchBannerList();
+    handleSingleFetch();
   }, []);
 
   const validate = () => {
@@ -45,16 +49,36 @@ const BannerForm = ({ onSubmit }) => {
     return result;
   };
 
-  const fetchBannerList = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETBANNER, "GET")
+  const handleEdit = () => {
+    fetchDataFromAPI(
+      API_URL + NetworkConfiguration.UPDATEBANNERNAME + `/${id}`,
+      "PUT",
+      { name: bannerName }
+    )
       .then((res) => {
-        console.log("Banner List", res.data.result);
+        console.log(res);
+        fetchBannerList();
+        onClickEdit();
       })
       .catch((err) => {
-        console.log("err", err);
+        console.log(err);
       });
   };
 
+  const handleSingleFetch = () => {
+    fetchDataFromAPI(
+      API_URL + NetworkConfiguration.GETONEBANNER + `/${id}`,
+      "GET"
+    )
+      .then((res) => {
+        console.log(res);
+        setBannerName(res.data.name);
+        setPreview(res.data.imageUrl);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
   const handleOnSubmit = (e) => {
     e.preventDefault();
     validate();
@@ -72,7 +96,7 @@ const BannerForm = ({ onSubmit }) => {
         setBannerName("");
         setImage(null);
         onSubmit();
-        fetchBannerList();
+        //fetchBannerList();
         // window.location.reload();
       })
       .catch((err) => {
@@ -95,10 +119,11 @@ const BannerForm = ({ onSubmit }) => {
           type="file"
           error={error.imageUrl}
         />
+        <p>{preview ? preview : ""}</p>
         <br />
         <Button
-          text="Submit"
-          onClick={handleOnSubmit}
+          text={edit ? "Update" : "Submit"}
+          onClick={edit ? handleEdit : handleOnSubmit}
           className="add__banner__button"
         />
       </div>

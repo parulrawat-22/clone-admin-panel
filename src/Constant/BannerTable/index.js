@@ -5,11 +5,34 @@ import { useState } from "react";
 import { AiFillEye } from "react-icons/ai";
 
 import ImagePopUpModal from "../../components/ImagePopUpModal";
+import FormAlertPopUp from "../../components/FormAlertPopUp";
+import BannerForm from "../../components/formComponents/BannerForm";
 
-const BannerTable = ({ setBannerId, showBannerData, setShowDeleteAlert }) => {
+const BannerTable = ({
+  setBannerId,
+  showBannerData,
+  setShowDeleteAlert,
+  fetchBannerList,
+}) => {
   // let navigate = useNavigate();
   const [showImageAlert, setShowImageAlert] = useState(false);
+  const [showEditAlert, setShowEditAlert] = useState(false);
+  const [id, setId] = useState("");
   const [img, setImg] = useState();
+
+  const handleOnClickEdit = (id) => {
+    console.log(id, "-------------");
+    setShowEditAlert(true);
+    setId(id);
+  };
+
+  const onClickEdit = () => {
+    setShowEditAlert(false);
+  };
+
+  const handleOnClickEditClose = () => {
+    setShowEditAlert(false);
+  };
 
   const handleOpenBannerImage = (img) => {
     setShowImageAlert(true);
@@ -51,7 +74,12 @@ const BannerTable = ({ setBannerId, showBannerData, setShowDeleteAlert }) => {
                   />
                 </td>
                 <td className="banner__list__data">
-                  <AiFillEdit className="banner__list__edit__action" />
+                  <AiFillEdit
+                    onClick={() => {
+                      handleOnClickEdit(data?._id);
+                    }}
+                    className="banner__list__edit__action"
+                  />
                   <AiTwotoneDelete
                     className="banner__list__delete__action"
                     onClick={() => {
@@ -70,6 +98,18 @@ const BannerTable = ({ setBannerId, showBannerData, setShowDeleteAlert }) => {
         handleClose={handleCloseBannerImage}
         img={img}
       />
+
+      <FormAlertPopUp
+        open={showEditAlert}
+        onRequestClose={handleOnClickEditClose}
+      >
+        <BannerForm
+          onClickEdit={onClickEdit}
+          edit={true}
+          id={id}
+          fetchBannerList={fetchBannerList}
+        />
+      </FormAlertPopUp>
     </div>
   );
 };

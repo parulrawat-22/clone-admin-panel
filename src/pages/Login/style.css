@@ -35,13 +35,14 @@
 
 .login__forgot_password {
   cursor: pointer;
-  font-size: 14px;
+  font-size: var(--fontsize-xsmall);
   margin-left: 11vw;
+  font-family: var(--fontfamily-sansserif);
   margin-top: 12px;
 }
 
 .login__heading {
-  font-family: var(--font-family-sansserif);
+  font-family: var(--fontfamily-sansserif);
   font-weight: 700px;
   font-size: 40px;
   text-align: center;

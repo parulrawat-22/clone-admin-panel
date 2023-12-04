@@ -18,9 +18,16 @@ const GiftTable = () => {
   const [showGiftForm, setShowGiftForm] = useState(false);
   const [getGift, setGetGift] = useState([]);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [showEditAlert, setShowEditAlert] = useState(false);
   const [showImageAlert, setShowImageAlert] = useState(false);
   const [img, setImg] = useState("");
   const [id, setId] = useState("");
+  const [editedGift, setEditedGift] = useState({
+    giftId: id,
+    giftName: "",
+    giftPrice: "",
+    giftImage: "",
+  });
 
   const handleOnClickAlert = (img) => {
     setShowImageAlert(true);
@@ -58,7 +65,7 @@ const GiftTable = () => {
   }, []);
 
   const fetchGift = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETGIFT)
+    fetchDataFromAPI(API_URL + NetworkConfiguration.GETGIFT, "GET")
       .then((res) => {
         setGetGift(res.result);
       })
@@ -81,6 +88,25 @@ const GiftTable = () => {
       });
   };
 
+  const handleOnClickEdit = (id, gift) => {
+    setShowEditAlert(true);
+    setEditedGift({
+      giftId: id,
+      giftName: gift?.name,
+      giftPrice: gift?.price,
+      giftImage: gift?.giftUrl,
+    });
+    setId(id);
+  };
+
+  const handleOnClickEditClose = () => {
+    setShowEditAlert(false);
+  };
+
+  const onClickEdit = () => {
+    setShowEditAlert(false);
+    fetchGift();
+  };
   return (
     <div>
       <div onClick={handleAddGift} className="add__gift">
@@ -121,7 +147,12 @@ const GiftTable = () => {
                     {moment(data?.updatedAt).format("DD/MM/YYYY LT")}
                   </td>
                   <td className="gift__table__body ">
-                    <AiFillEdit className="gift__table__edit__icon" />
+                    <AiFillEdit
+                      onClick={() => {
+                        handleOnClickEdit(data?._id, data);
+                      }}
+                      className="gift__table__edit__icon"
+                    />
                     <AiFillDelete
                       onClick={() => {
                         handleOnClickDelete(data?._id);
@@ -155,6 +186,16 @@ const GiftTable = () => {
         handleClose={handleOnClickAlertClose}
         img={img}
       />
+      <FormAlertPopUp
+        open={showEditAlert}
+        onRequestClose={handleOnClickEditClose}
+      >
+        <AddGiftForm
+          edit={true}
+          editedGift={editedGift}
+          onClickEdit={onClickEdit}
+        />
+      </FormAlertPopUp>
     </div>
   );
 };

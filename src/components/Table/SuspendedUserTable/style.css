@@ -35,3 +35,7 @@
   color: red;
   cursor: pointer;
 }
+
+.edit__suspended__user {
+  border-bottom: 1px solid grey;
+}

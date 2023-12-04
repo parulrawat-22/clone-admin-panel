@@ -16,6 +16,7 @@ const Coin = () => {
   const [showCreateWallet, setShowCreateWallet] = useState(false);
   const [getCoin, setGetCoin] = useState([]);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [showEditAlert, setShowEditAlert] = useState(false);
   const [id, setId] = useState("");
 
   const handleDeleteAlert = () => {
@@ -70,6 +71,21 @@ const Coin = () => {
   const handleCreateWalletClose = () => {
     setShowCreateWallet(false);
   };
+
+  const handleOnClickEdit = (id) => {
+    setShowEditAlert(true);
+    setId(id);
+  };
+
+  const handleOnClickEditClose = () => {
+    setShowEditAlert(false);
+  };
+
+  const onClickEdit = () => {
+    setShowEditAlert(false);
+    fetchCoin();
+  };
+
   return (
     <div>
       <div onClick={handleCreateWallet} className="add__wallet">
@@ -101,7 +117,12 @@ const Coin = () => {
                     {moment(data?.updatedAt).format("DD/MM/YYYY LT")}
                   </td>
                   <td className="wallet__data wallet__icons">
-                    <AiFillEdit className="wallet__edit__icon" />
+                    <AiFillEdit
+                      onClick={() => {
+                        handleOnClickEdit(data?._id);
+                      }}
+                      className="wallet__edit__icon"
+                    />
                     <AiFillDelete
                       onClick={() => {
                         handleOnClickAlert(data._id);
@@ -118,7 +139,6 @@ const Coin = () => {
       <FormAlertPopUp
         open={showCreateWallet}
         onRequestClose={handleCreateWalletClose}
-        modalOf="wallet"
       >
         <CreateWalletForm onSubmit={onSubmit} />
       </FormAlertPopUp>
@@ -134,6 +154,13 @@ const Coin = () => {
         onSubmitClick={handleDelete}
         onCancelClick={handleDeleteAlertClose}
       />
+
+      <FormAlertPopUp
+        open={showEditAlert}
+        onRequestClose={handleOnClickEditClose}
+      >
+        <CreateWalletForm onClickEdit={onClickEdit} id={id} edit={true} />
+      </FormAlertPopUp>
     </div>
   );
 };

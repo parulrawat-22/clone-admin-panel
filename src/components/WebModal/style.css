@@ -1,0 +1,31 @@
+.web__modal__container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.183);
+  z-index: 10000000;
+}
+
+.web__modal__heading {
+  border: none;
+  border-bottom: 1px solid grey;
+}
+
+.web__modal__content {
+  background-color: var(--color-white);
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 25rem;
+  height: auto;
+  padding: 1rem;
+  font-weight: var(--fontweight-medium);
+  border-radius: 10px;
+  font-family: var(--fontfamily-sansserif);
+}
