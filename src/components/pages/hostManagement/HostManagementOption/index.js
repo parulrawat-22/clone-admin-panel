@@ -26,7 +26,7 @@ const HostManagementOption = () => {
         return <HostFeedbackTable />;
       }
 
-      case "moments": {
+      case "moment": {
         return <HostMomentTable />;
       }
 

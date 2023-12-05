@@ -1,0 +1,15 @@
+.secondary__btn__container {
+  width: auto;
+  height: auto;
+  padding: 0.5rem 1rem;
+  background-color: var(--color-pink);
+  border-radius: 5px;
+}
+
+.secondary__btn__text {
+  font-family: var(--fontfamily-sansserif);
+  font-size: var(--fontsize-small);
+  font-weight: var(--fontweight-medium);
+  /* margin: 1rem; */
+  color: var(--color-white);
+}

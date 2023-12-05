@@ -6,13 +6,12 @@ import {
   API_URL,
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
-import { useParams } from "react-router-dom";
 import AlertPopUp from "../../AlertPopUp";
+import { errorToast, successToast } from "../../../utils/toast";
 
 const NotificationTable = () => {
   const [getNotification, setGetNotification] = useState([]);
   const [showDeleteAlert, setShowDeleteAlert] = useState("");
-  // const { id } = useParams();
   const [id, setId] = useState("");
 
   const handleDeleteNotification = (id) => {
@@ -46,9 +45,11 @@ const NotificationTable = () => {
       .then((res) => {
         console.log(res);
         setShowDeleteAlert(false);
+        successToast(res.message);
         fetchNotification();
       })
       .catch((err) => {
+        errorToast(err.message);
         console.log(err);
       });
   };
@@ -71,7 +72,6 @@ const NotificationTable = () => {
                 <td className="notification__table__data">{data?.title}</td>
                 <td className="notification__table__data">{data?.body}</td>
                 <td className="notification__table__data">
-                  <AiFillEdit className="notification__table__edit__icon" />
                   <AiFillDelete
                     onClick={() => {
                       handleDeleteNotification(data?._id);

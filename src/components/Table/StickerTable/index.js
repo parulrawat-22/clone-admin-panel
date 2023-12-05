@@ -12,6 +12,7 @@ import ImagePopUpModal from "../../ImagePopUpModal";
 import AlertPopUp from "../../AlertPopUp";
 import FormAlertPopUp from "../../FormAlertPopUp";
 import StickerForm from "../../formComponents/StickerForm";
+import { errorToast, successToast } from "../../../utils/toast";
 
 const StickerTable = () => {
   const [getSticker, setGetSticker] = useState([]);
@@ -83,8 +84,6 @@ const StickerTable = () => {
     setId(id);
   };
 
-  console.log("jgjhgj", handleOnClickEdit(0, {}));
-
   const handleOnClickEditClose = () => {
     setShowEditAlert(false);
   };
@@ -101,10 +100,12 @@ const StickerTable = () => {
     )
       .then((res) => {
         setShowDeleteAlert(false);
+        successToast(res.message);
         fetchSticker();
       })
       .catch((err) => {
         console.log(err);
+        errorToast(err.message);
       });
   };
 
@@ -198,6 +199,7 @@ const StickerTable = () => {
           edit={true}
           editedSticker={editedSticker}
           onClickEdit={onClickEdit}
+          id={id}
         />
       </FormAlertPopUp>
     </div>

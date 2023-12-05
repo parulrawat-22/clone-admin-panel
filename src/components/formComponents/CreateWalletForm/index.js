@@ -7,6 +7,7 @@ import { fetchDataFromAPI } from "../../../network/NetworkConnection";
 import Button from "../../library/Button";
 import InputField from "../../library/InputField";
 import "./style.css";
+import { errorToast, successToast } from "../../../utils/toast";
 
 const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
   console.log(onClickEdit, "234567987654");
@@ -29,9 +30,11 @@ const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
       })
         .then((res) => {
           console.log(res);
+          successToast(res.message);
           onSubmit();
         })
         .catch((err) => {
+          errorToast(err.message);
           console.log(err);
         });
     }
@@ -51,9 +54,11 @@ const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
       .then((res) => {
         console.log(res);
         onClickEdit();
+        successToast(res.message);
       })
       .catch((err) => {
         console.log(err);
+        errorToast(err.message);
       });
   };
 
@@ -97,7 +102,11 @@ const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
 
   return (
     <div style={{ padding: "2px 0" }}>
-      <h2 className="create__wallet__header">Create Coins</h2>
+      {edit ? (
+        <h2 className="create__wallet__header">Update Coins</h2>
+      ) : (
+        <h2 className="create__wallet__header">Create Coins</h2>
+      )}
 
       <div style={{ padding: "1rem 2rem" }}>
         <InputField

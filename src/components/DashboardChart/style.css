@@ -8,5 +8,6 @@
 
 .dashboard_card_btn_row {
   display: flex;
+  justify-content: space-evenly;
   gap: 20px;
 }

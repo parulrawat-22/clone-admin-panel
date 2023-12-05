@@ -18,7 +18,7 @@ export const fetchDataFromAPI = (url, method, body, requestHeaders) => {
             resolve(res.data);
           })
           .catch((err) => {
-            reject(err);
+            reject(err.response.data);
           });
       });
     }
@@ -32,7 +32,7 @@ export const fetchDataFromAPI = (url, method, body, requestHeaders) => {
             resolve(res.data);
           })
           .catch((err) => {
-            reject(err);
+            reject(err.response.data);
           });
       });
     }
@@ -45,7 +45,7 @@ export const fetchDataFromAPI = (url, method, body, requestHeaders) => {
             resolve(res.data);
           })
           .catch((err) => {
-            reject(err);
+            reject(err.response.data);
           });
       });
     }
@@ -60,7 +60,7 @@ export const fetchDataFromAPI = (url, method, body, requestHeaders) => {
             resolve(res.data);
           })
           .catch((err) => {
-            reject(err);
+            reject(err.response.data);
           });
       });
     }
@@ -74,7 +74,7 @@ export const fetchDataFromAPI = (url, method, body, requestHeaders) => {
             resolve(res.data);
           })
           .catch((err) => {
-            reject(err);
+            reject(err.response.data);
           });
       });
     }

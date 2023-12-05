@@ -6,8 +6,7 @@ import "./style.css";
 import { useState } from "react";
 import axios from "axios";
 import baseUrl from "../../baseUrl";
-// import { errorToast, successToast } from "../../components/Toast";
-// import { toast, ToastContainer } from "react-toastify";
+import { errorToast, successToast } from "../../utils/toast";
 
 const Login = () => {
   let navigate = useNavigate();
@@ -56,14 +55,14 @@ const Login = () => {
       )
       .then((res) => {
         console.log("Login successful");
-        // successToast(res.message);
-        // toast.success("yeahhhhh");
+        successToast(res.message);
         localStorage.setItem("token", res.data.token);
         navigate("/dashboard");
       })
       .catch((err) => {
-        console.log("Error: " + err);
-        // toast.error("yeahhhhh");
+        console.log("Error", err);
+        errorToast(err.response.data.message);
+        errorToast(err.response.data.responseMessage);
       });
   };
 
@@ -110,7 +109,6 @@ const Login = () => {
         </div>
       </div>
       <div className="login__right_half"></div>
-      {/* <ToastContainer /> */}
     </div>
   );
 };

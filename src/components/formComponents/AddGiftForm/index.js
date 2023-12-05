@@ -7,6 +7,7 @@ import { fetchDataFromAPI } from "../../../network/NetworkConnection";
 import Button from "../../library/Button";
 import InputField from "../../library/InputField";
 import "./style.css";
+import { errorToast, successToast } from "../../../utils/toast";
 
 const AddGiftForm = ({ onSubmit, edit, onClickEdit, editedGift }) => {
   const [giftName, setGiftName] = useState("");
@@ -49,9 +50,11 @@ const AddGiftForm = ({ onSubmit, edit, onClickEdit, editedGift }) => {
       })
         .then((res) => {
           console.log(res);
+          successToast(res.message);
           onSubmit();
         })
         .catch((err) => {
+          errorToast(err.message);
           console.log(err);
         });
     }
@@ -65,10 +68,12 @@ const AddGiftForm = ({ onSubmit, edit, onClickEdit, editedGift }) => {
     })
       .then((res) => {
         console.log(res);
+        successToast("Gift updated successfully");
         onClickEdit();
       })
       .catch((err) => {
         console.log(err);
+        errorToast(err.message);
       });
   };
 

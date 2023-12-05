@@ -1,11 +1,12 @@
-.helpline__header {
+.host__form__heading {
   font-family: var(--fontfamily-sansserif);
   font-size: var(--fontsize-large);
   font-weight: var(--fontweight-bold);
-  border-bottom: 1px solid black;
+  text-align: center;
   padding: 0.5rem;
+  border-bottom: 1px solid black;
 }
 
-.helpline__content {
-  margin: 1rem;
+.host__form__content {
+  margin: 1rem 2rem;
 }

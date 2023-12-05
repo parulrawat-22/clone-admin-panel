@@ -11,6 +11,7 @@ import {
 
 import "./style.css";
 import DashboardChart from "../../components/DashboardChart";
+import SecondaryButton from "../../components/library/SecondaryButton";
 
 const Dashboard = () => {
   useEffect(() => {
@@ -115,6 +116,9 @@ const Dashboard = () => {
             </div>
 
             <div>
+              <SecondaryButton text="year" />
+              <SecondaryButton text="month" />
+              <SecondaryButton text="week" />
               <div className="dashboard__loader">
                 <h3 className="dashboard__loader__heading">Host Revenue</h3>
                 <div class="progress-bar"></div>

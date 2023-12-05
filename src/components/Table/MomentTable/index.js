@@ -11,6 +11,7 @@ import {
 } from "../../../network/NetworkConfiguration";
 import moment from "moment";
 import ImagePopUpModal from "../../ImagePopUpModal";
+import { errorToast, successToast } from "../../../utils/toast";
 
 const MomentTable = () => {
   let navigate = useNavigate();
@@ -74,10 +75,12 @@ const MomentTable = () => {
     )
       .then((res) => {
         setShowDeleteAlert(false);
+        successToast(res.message);
         fetchUserMoment();
       })
       .catch((err) => {
         console.log(err);
+        errorToast(err.message);
       });
   };
   return (
@@ -85,7 +88,7 @@ const MomentTable = () => {
       <table className="moment__table__container">
         <thead>
           <th className="moment__table__head">S.No</th>
-          {id && <th className="moment__table__head">Name</th>}
+          {!id && <th className="moment__table__head">Name</th>}
           <th className="moment__table__head">Caption</th>
           <th className="moment__table__head">Likes</th>
           <th className="moment__table__head">Image/Video</th>
@@ -97,7 +100,7 @@ const MomentTable = () => {
             return (
               <tr>
                 <td className="moment__table__body">{index + 1}</td>
-                {id && (
+                {!id && (
                   <td className="moment__table__body">{data?.userId?.name}</td>
                 )}
                 <td className="moment__table__body">{data?.subject}</td>

@@ -107,7 +107,7 @@ const UserTable = () => {
             return (
               <tr>
                 <td className="user__request__data">{index + 1}</td>
-                <td className="user__request__data">{data.userId}</td>
+                <td className="user__request__data">{data._id}</td>
                 <td className="user__request__data">{data.name}</td>
                 <td className="user__request__data">{data.gender}</td>
                 <td className="user__request__data">{data.dateOfBirth}</td>

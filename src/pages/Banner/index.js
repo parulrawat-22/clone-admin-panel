@@ -11,6 +11,7 @@ import {
 } from "../../network/NetworkConfiguration";
 import BannerForm from "../../components/formComponents/BannerForm";
 import AlertPopUp from "../../components/AlertPopUp";
+import { errorToast, successToast } from "../../utils/toast";
 
 const Banner = () => {
   const [showBannerForm, setShowBannerForm] = useState(false);
@@ -65,10 +66,12 @@ const Banner = () => {
       .then((res) => {
         console.log(res);
         setShowDeleteAlert(false);
+        successToast(res.message);
         fetchBannerList();
       })
       .catch((err) => {
         console.log(err, "err==========");
+        errorToast(err.message);
       });
   };
 

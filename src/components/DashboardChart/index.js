@@ -7,12 +7,16 @@ import {
   API_URL,
   NetworkConfiguration,
 } from "../../network/NetworkConfiguration";
+import SecondaryButton from "../library/SecondaryButton";
 
 export default function DashboardChart() {
   ////////////////////////////////
   const [endDate, setEndDate] = useState(new Date());
   const [labels, setLabels] = useState([]);
   const [earnings, setEarnings] = useState([]);
+  const [month, setMonth] = useState(false);
+  const [week, setWeek] = useState(false);
+  const [year, setYear] = useState(false);
 
   const handleEnddate = (e) => {
     setEndDate(e.target.value);
@@ -28,10 +32,22 @@ export default function DashboardChart() {
 
   //host Earnings
   const handleHostEarning = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.HOSTEARNING, "POST", {
+    let hostEarningPayload = {
       startDate: moment(endDate).subtract(6, "days"),
       endDate: endDate,
-    })
+    };
+
+    if (year) hostEarningPayload = { year };
+    if (month) hostEarningPayload = { month };
+    if (week) hostEarningPayload = { week };
+
+    console.log("hostEarningPayload: ", JSON.stringify(hostEarningPayload));
+
+    fetchDataFromAPI(
+      API_URL + NetworkConfiguration.HOSTEARNING,
+      "POST",
+      hostEarningPayload
+    )
       .then((res) => {
         setEarnings(res.result);
       })
@@ -42,7 +58,19 @@ export default function DashboardChart() {
 
   useEffect(() => {
     handleHostEarning();
-  }, [endDate]);
+  }, [endDate, month, week, year]);
+
+  const handleMonthClick = () => {
+    setMonth(true);
+  };
+
+  const handleYearClick = () => {
+    setYear(true);
+  };
+
+  const handleWeekClick = () => {
+    setWeek(true);
+  };
 
   console.log("earnings", earnings);
   console.log("labels", labels);
@@ -53,9 +81,21 @@ export default function DashboardChart() {
     <div className="chart_box">
       <div className="dashboard_card_btn_row">
         <input type="date" value={endDate} onChange={handleEnddate} />
-        <button>Year</button>
-        <button>Month</button>
-        <button>Week</button>
+        <SecondaryButton
+          style={{ cursor: "pointer" }}
+          onClick={handleYearClick}
+          text="Year"
+        />
+        <SecondaryButton
+          style={{ cursor: "pointer" }}
+          onClick={handleMonthClick}
+          text="Month"
+        />
+        <SecondaryButton
+          style={{ cursor: "pointer" }}
+          onClick={handleWeekClick}
+          text="Week"
+        />
       </div>
       {labels.length ? (
         <LineChart

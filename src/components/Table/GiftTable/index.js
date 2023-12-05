@@ -13,6 +13,7 @@ import {
 import moment from "moment";
 import AlertPopUp from "../../AlertPopUp";
 import ImagePopUpModal from "../../ImagePopUpModal";
+import { errorToast, successToast } from "../../../utils/toast";
 
 const GiftTable = () => {
   const [showGiftForm, setShowGiftForm] = useState(false);
@@ -82,9 +83,11 @@ const GiftTable = () => {
       .then((res) => {
         setShowDeleteAlert(false);
         fetchGift();
+        successToast(res.message);
       })
       .catch((err) => {
         console.log(err);
+        errorToast(err.message);
       });
   };
 

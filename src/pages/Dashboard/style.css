@@ -2,6 +2,7 @@
   display: flex;
   justify-content: space-between;
   overflow: auto;
+  border-radius: 20px;
 }
 
 .dashboard__cards_info {
@@ -18,8 +19,7 @@
 .dashboard__notification {
   width: 16vw;
   height: auto;
-  border-radius: 10px;
-  margin-top: 3rem;
+  border-radius: 20px;
   background-color: #ff39b3;
   box-shadow: 2px 2px 5.5px rgb(168, 168, 168);
 }

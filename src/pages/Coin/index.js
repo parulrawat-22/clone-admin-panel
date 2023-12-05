@@ -11,6 +11,7 @@ import {
 } from "../../network/NetworkConfiguration";
 import moment from "moment";
 import AlertPopUp from "../../components/AlertPopUp";
+import { errorToast, successToast } from "../../utils/toast";
 
 const Coin = () => {
   const [showCreateWallet, setShowCreateWallet] = useState(false);
@@ -52,10 +53,12 @@ const Coin = () => {
     )
       .then((res) => {
         setShowDeleteAlert(false);
+        successToast(res.message);
         fetchCoin();
       })
       .catch((err) => {
         console.log(err);
+        errorToast(err.message);
       });
   };
 

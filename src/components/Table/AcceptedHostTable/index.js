@@ -9,6 +9,8 @@ import {
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 import { useNavigate } from "react-router-dom";
+import FormAlertPopUp from "../../FormAlertPopUp";
+import HostForm from "../../formComponents/BannerForm/HostForm";
 
 const AcceptedHostTable = () => {
   let navigate = useNavigate();
@@ -16,6 +18,7 @@ const AcceptedHostTable = () => {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [showChangeLeaderAlert, setShowChangeLeaderAlert] = useState(false);
   const [showChargeAlert, setShowChargeAlert] = useState(false);
+  const [showEditAlert, setShowEditAlert] = useState(false);
   const [id, setId] = useState("");
   const [leaderId, setLeaderId] = useState("");
   const [leaderName, setLeaderName] = useState("");
@@ -87,6 +90,15 @@ const AcceptedHostTable = () => {
     setShowDeleteAlert(true);
     setId(id);
   };
+
+  // const handleOnClickEdit = (id) => {
+  //   setShowEditAlert(true);
+  //   setId(id);
+  // };
+
+  // const handleOnClickEditClose = () => {
+  //   setShowEditAlert(false);
+  // };
 
   const handleHostLeader = () => {
     fetchDataFromAPI(API_URL + NetworkConfiguration.UPDATEHOSTCHARGE, "PUT", {
@@ -194,7 +206,12 @@ const AcceptedHostTable = () => {
                   View
                 </td>
                 <td className="accepted__host__data">
-                  <AiFillEdit className="accepted__host__edit__icon" />
+                  <AiFillEdit
+                    onClick={() => {
+                      navigate(`/hostmanagement/moment/${data?._id}/`);
+                    }}
+                    className="accepted__host__edit__icon"
+                  />
                   <AiFillDelete
                     onClick={() => {
                       handleDeleteAcceptedHost(data?._id);
@@ -243,6 +260,14 @@ const AcceptedHostTable = () => {
         onSubmitClick={handleHostLeader}
         onCancelClick={handleChangeChargeClose}
       />
+      {/* 
+      <FormAlertPopUp
+        open={showEditAlert}
+        onRequestClose={handleOnClickEditClose}
+        handleOpen={handleOnClickEdit}
+      >
+        <HostForm />
+      </FormAlertPopUp> */}
     </div>
   );
 };

@@ -47,21 +47,24 @@ const Helpline = ({ helplineNumber, onSubmit }) => {
   };
 
   return (
-    <div>
-      <h2 style={{ textAlign: "center" }}>Helpline Number</h2>
-
-      <InputField
-        value={mobileNumber}
-        onChange={(e) => {
-          setMobileNumber(e.target.value);
-        }}
-      />
-      <br />
-      <Button
-        style={{ margin: "auto" }}
-        onClick={helplineNumber ? handleCreateHelpline : handleHelpline}
-        text={helplineNumber ? "Update" : "Create"}
-      />
+    <div className="helpline__container">
+      <h2 className="helpline__header" style={{ textAlign: "center" }}>
+        Helpline Number
+      </h2>
+      <div className="helpline__content">
+        <InputField
+          value={mobileNumber}
+          onChange={(e) => {
+            setMobileNumber(e.target.value);
+          }}
+        />
+        <br />
+        <Button
+          style={{ margin: "auto", cursor: "pointer" }}
+          onClick={helplineNumber ? handleCreateHelpline : handleHelpline}
+          text={helplineNumber ? "Update" : "Create"}
+        />
+      </div>
     </div>
   );
 };

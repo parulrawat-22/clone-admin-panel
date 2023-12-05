@@ -7,12 +7,13 @@ import {
   API_URL,
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
+import { errorToast, successToast } from "../../../utils/toast";
 
-const StickerForm = ({ onSubmit, edit, editedSticker, onClickEdit }) => {
+const StickerForm = ({ onSubmit, edit, editedSticker, onClickEdit, id }) => {
   const [stickerName, setStickerName] = useState("");
   const [stickerPrice, setStickerPrice] = useState("");
   const [stickerImage, setStickerImage] = useState("");
-  const [id, setId] = useState("");
+  // const [id, setId] = useState("");
   const [error, setError] = useState({
     name: "",
     price: "",
@@ -73,9 +74,11 @@ const StickerForm = ({ onSubmit, edit, editedSticker, onClickEdit }) => {
       .then((res) => {
         onClickEdit();
         console.log(res);
+        successToast(res.message);
       })
       .catch((err) => {
         console.log(err);
+        errorToast(err.message);
       });
   };
 
@@ -97,9 +100,11 @@ const StickerForm = ({ onSubmit, edit, editedSticker, onClickEdit }) => {
         .then((res) => {
           console.log(res);
           onSubmit();
+          successToast(res.message);
         })
         .catch((err) => {
           console.log(err);
+          errorToast(err.message);
         });
     }
   };

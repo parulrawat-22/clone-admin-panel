@@ -9,6 +9,7 @@ import {
   API_URL,
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
+import { errorToast, successToast } from "../../../utils/toast";
 
 const BannerForm = ({ onSubmit, edit, id, onClickEdit, fetchBannerList }) => {
   const [bannerName, setBannerName] = useState("");
@@ -58,6 +59,7 @@ const BannerForm = ({ onSubmit, edit, id, onClickEdit, fetchBannerList }) => {
       .then((res) => {
         console.log(res);
         fetchBannerList();
+        successToast("Banner updated successfully");
         onClickEdit();
       })
       .catch((err) => {
@@ -96,16 +98,20 @@ const BannerForm = ({ onSubmit, edit, id, onClickEdit, fetchBannerList }) => {
         setBannerName("");
         setImage(null);
         onSubmit();
-        //fetchBannerList();
-        // window.location.reload();
+        successToast("Banner added successfully");
       })
       .catch((err) => {
         console.log(err);
+        errorToast("Image is mandatory");
       });
   };
   return (
     <div className="banner__container">
-      <h2 className="banner__heading">Add Banner</h2>
+      {edit ? (
+        <h2 className="banner__heading">Update Banner</h2>
+      ) : (
+        <h2 className="banner__heading">Add Banner</h2>
+      )}
       <div className="banner__fields__gap">
         <InputField
           onChange={handleSetBannerName}
