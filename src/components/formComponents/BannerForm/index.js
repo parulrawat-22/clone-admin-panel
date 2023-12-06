@@ -10,6 +10,7 @@ import {
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 import { errorToast, successToast } from "../../../utils/toast";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const BannerForm = ({ onSubmit, edit, id, onClickEdit, fetchBannerList }) => {
   const [bannerName, setBannerName] = useState("");
@@ -22,6 +23,8 @@ const BannerForm = ({ onSubmit, edit, id, onClickEdit, fetchBannerList }) => {
     name: "",
     imageUrl: "",
   });
+
+  const loader = useLoader();
 
   const handleSetBannerName = (e) => {
     setError({ ...error, name: "" });
@@ -51,37 +54,51 @@ const BannerForm = ({ onSubmit, edit, id, onClickEdit, fetchBannerList }) => {
   };
 
   const handleEdit = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.UPDATEBANNERNAME + `/${id}`,
       "PUT",
       { name: bannerName }
     )
       .then((res) => {
+        loader.showLoader(false);
+
         console.log(res);
         fetchBannerList();
         successToast("Banner updated successfully");
         onClickEdit();
       })
       .catch((err) => {
+        loader.showLoader(false);
+
         console.log(err);
       });
   };
 
   const handleSingleFetch = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.GETONEBANNER + `/${id}`,
       "GET"
     )
       .then((res) => {
+        loader.showLoader(false);
+
         console.log(res);
         setBannerName(res.data.name);
         setPreview(res.data.imageUrl);
       })
       .catch((err) => {
+        loader.showLoader(false);
+
         console.log(err);
       });
   };
   const handleOnSubmit = (e) => {
+    loader.showLoader(true);
+
     e.preventDefault();
     validate();
     let data = new FormData();
@@ -95,14 +112,18 @@ const BannerForm = ({ onSubmit, edit, id, onClickEdit, fetchBannerList }) => {
         },
       })
       .then((res) => {
+        loader.showLoader(false);
+
         setBannerName("");
         setImage(null);
         onSubmit();
         successToast("Banner added successfully");
       })
       .catch((err) => {
+        loader.showLoader(false);
+
         console.log(err);
-        errorToast("Image is mandatory");
+        errorToast(err.response.data.message);
       });
   };
   return (

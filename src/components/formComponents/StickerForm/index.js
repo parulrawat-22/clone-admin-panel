@@ -8,6 +8,7 @@ import {
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 import { errorToast, successToast } from "../../../utils/toast";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const StickerForm = ({ onSubmit, edit, editedSticker, onClickEdit, id }) => {
   const [stickerName, setStickerName] = useState("");
@@ -19,6 +20,8 @@ const StickerForm = ({ onSubmit, edit, editedSticker, onClickEdit, id }) => {
     price: "",
     image: "",
   });
+
+  const loader = useLoader();
 
   useEffect(() => {
     if (edit && editedSticker) {
@@ -63,6 +66,8 @@ const StickerForm = ({ onSubmit, edit, editedSticker, onClickEdit, id }) => {
   };
 
   const handleEditForm = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.UPDATESTICKER + `/${id}`,
       "PUT",
@@ -73,17 +78,22 @@ const StickerForm = ({ onSubmit, edit, editedSticker, onClickEdit, id }) => {
     )
       .then((res) => {
         onClickEdit();
+        loader.showLoader(false);
+
         console.log(res);
         successToast(res.message);
       })
       .catch((err) => {
         console.log(err);
+        loader.showLoader(false);
         errorToast(err.message);
       });
   };
 
   const handleStickerForm = () => {
     if (validate()) {
+      loader.showLoader(true);
+
       let data = new FormData();
       data.append("name", stickerName);
       data.append("price", stickerPrice);
@@ -98,11 +108,15 @@ const StickerForm = ({ onSubmit, edit, editedSticker, onClickEdit, id }) => {
         }
       )
         .then((res) => {
+          loader.showLoader(false);
+
           console.log(res);
           onSubmit();
           successToast(res.message);
         })
         .catch((err) => {
+          loader.showLoader(false);
+
           console.log(err);
           errorToast(err.message);
         });

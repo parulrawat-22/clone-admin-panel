@@ -17,7 +17,6 @@ import HostManagement from "../pages/HostManagement";
 import AcceptedHost from "../pages/AcceptedHost";
 import HostRequest from "../pages/HostRequest";
 import RejectedHost from "../pages/RejectedHost";
-import UserFeedback from "../pages/UserFeedback";
 import Report from "../pages/Report";
 import SuspendedUsers from "../pages/SuspendedUsers";
 import WarnedUsers from "../pages/WarnedUser";
@@ -27,15 +26,14 @@ import Layout from "../components/Layout";
 import UserFollowing from "../pages/Following";
 import Coin from "../pages/Coin";
 import UserCallHistory from "../components/Table/CallHistoryTable";
-import BlockList from "../pages/BlockList";
 import PaymentHistory from "../pages/PaymentHistory";
 import TopGrowing from "../pages/TopGrowing";
 import TopTalentTable from "../components/Table/TopTalentTable";
 import Sticker from "../pages/Sticker";
 import Notification from "../pages/Notification";
-import MomentTable from "../components/Table/MomentTable";
 import UserManagementOption from "../components/pages/userManagement/UserManagementOption";
 import HostManagementOption from "../components/pages/hostManagement/HostManagementOption";
+import EditPassword from "../pages/EditPassword";
 import EditProfile from "../pages/EditProfile";
 
 // import Coin from "../pages/Coin";
@@ -136,6 +134,14 @@ const Router = () => {
           element={
             <Layout>
               <Notification />
+            </Layout>
+          }
+        />
+        <Route
+          path="/editpassword"
+          element={
+            <Layout>
+              <EditPassword />
             </Layout>
           }
         />

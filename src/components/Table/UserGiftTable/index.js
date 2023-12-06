@@ -9,12 +9,15 @@ import { useParams } from "react-router-dom";
 import moment from "moment";
 import { AiFillEye } from "react-icons/ai";
 import ImagePopUpModal from "../../ImagePopUpModal";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const UserGiftTable = () => {
   const [getUserGift, setGetUserGift] = useState([]);
   const [showGiftIcon, setShowGiftIcon] = useState(false);
   const [img, setImg] = useState("");
   const { id } = useParams();
+
+  const loader = useLoader();
 
   useEffect(() => {
     handleGift();
@@ -30,14 +33,18 @@ const UserGiftTable = () => {
   };
 
   const handleGift = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(API_URL + NetworkConfiguration.GETUSERGIFT, "POST", {
       id: id,
     })
       .then((res) => {
         setGetUserGift(res?.result);
+        loader.showLoader(false);
       })
       .catch((err) => {
         console.log(err);
+        loader.showLoader(false);
       });
   };
 

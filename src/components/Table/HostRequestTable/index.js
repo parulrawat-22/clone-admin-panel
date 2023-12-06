@@ -13,6 +13,7 @@ import {
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 import ImagePopUpModal from "../../ImagePopUpModal";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const HostRequestTable = () => {
   let navigate = useNavigate();
@@ -25,6 +26,8 @@ const HostRequestTable = () => {
   const [showImageAlert, setShowImageAlert] = useState("");
   const [img, setImg] = useState("");
 
+  const loader = useLoader();
+
   const handleReasonChange = (e) => {
     setRejectedReason(e.target.value);
   };
@@ -34,12 +37,15 @@ const HostRequestTable = () => {
   }, []);
 
   const getHostRequest = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(API_URL + NetworkConfiguration.PENDINGHOST, "POST", {})
       .then((res) => {
         setHostRequest(res?.result);
+        loader.showLoader(false);
       })
       .catch((err) => {
         console.log(err);
+        loader.showLoader(false);
       });
   };
 
@@ -53,19 +59,27 @@ const HostRequestTable = () => {
   };
 
   const handleAcceptedHost = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(API_URL + NetworkConfiguration.REQUESTEDHOST, "PUT", {
       id: id,
     })
       .then((res) => {
+        loader.showLoader(false);
+
         setShowAcceptedHostAlert(false);
         navigate("/acceptedhost");
       })
       .catch((err) => {
+        loader.showLoader(false);
+
         console.log(err, "err--------");
       });
   };
 
   const handleRejectedHost = () => {
+    loader.showLoader(true);
+
     console.log("Rejected Reason", rejectedReason);
     console.log("Rejected Id", id);
     fetchDataFromAPI(API_URL + NetworkConfiguration.REJECTHOST, "PUT", {
@@ -73,11 +87,14 @@ const HostRequestTable = () => {
       rejectedReason: rejectedReason,
     })
       .then((res) => {
+        loader.showLoader(false);
+
         setShowRejectedHostAlert(false);
         navigate("/rejectedhost");
       })
       .catch((err) => {
         console.log(err);
+        loader.showLoader(false);
       });
   };
 

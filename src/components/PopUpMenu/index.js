@@ -34,8 +34,9 @@ const PopMenu = ({ popOpen, children }) => {
     setLogoutAlert(false);
   };
 
-  const handlePremiumCoin = () => {
+  const handlePremiumCoin = (id) => {
     setPremiumCoins(true);
+    setId(id);
   };
 
   const handlePremiumCoinClose = () => {
@@ -47,7 +48,7 @@ const PopMenu = ({ popOpen, children }) => {
     setShowHelplineNumber(false);
   };
 
-  const handleHelplineNumber = (id) => {
+  const handleHelplineNumber = () => {
     setShowHelplineNumber(true);
   };
 
@@ -57,7 +58,22 @@ const PopMenu = ({ popOpen, children }) => {
 
   useEffect(() => {
     fetchHelplineNumber();
+    // fetchPremiumCoin();
   }, []);
+
+  // const fetchPremiumCoin = () => {
+  //   fetchDataFromAPI(API_URL + NetworkConfiguration.GETPREMIUMCOINS, "POST", {
+  //     id: id,
+  //   })
+  //     .then((res) => {
+  //       console.log(res);
+  //       setId(id);
+  //       onSubmit();
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
 
   const fetchHelplineNumber = () => {
     fetchDataFromAPI(API_URL + NetworkConfiguration.GETHELPLINENUMBER, "GET")
@@ -115,7 +131,7 @@ const PopMenu = ({ popOpen, children }) => {
         handleOpen={handlePremiumCoin}
         onRequestClose={handlePremiumCoinClose}
       >
-        <PremiumCoin onSubmit={onSubmit} />
+        <PremiumCoin onSubmit={onSubmit} id={id} />
       </FormAlertPopUp>
 
       <FormAlertPopUp

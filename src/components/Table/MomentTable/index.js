@@ -12,6 +12,7 @@ import {
 import moment from "moment";
 import ImagePopUpModal from "../../ImagePopUpModal";
 import { errorToast, successToast } from "../../../utils/toast";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const MomentTable = () => {
   let navigate = useNavigate();
@@ -22,6 +23,8 @@ const MomentTable = () => {
   const [momentId, setMomentId] = useState("");
   const [showImageAlert, setShowImageAlert] = useState("");
   const [img, setImg] = useState("");
+
+  const loader = useLoader();
 
   const handleImageAlert = (img) => {
     setShowImageAlert(true);
@@ -50,16 +53,21 @@ const MomentTable = () => {
   }, []);
 
   const fetchUserMoment = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.GETUSERMOMENT,
       "POST",
       id ? { userId: id } : {}
     )
       .then((res) => {
+        loader.showLoader(false);
+
         setGetUserMoment(res.result);
       })
       .catch((err) => {
         console.log(err);
+        loader.showLoader(false);
       });
   };
 
@@ -69,16 +77,22 @@ const MomentTable = () => {
   };
 
   const handleDeleteApi = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.DELETEUSERMOMENT + `/${momentId}`,
       "DELETE"
     )
       .then((res) => {
+        loader.showLoader(false);
+
         setShowDeleteAlert(false);
         successToast(res.message);
         fetchUserMoment();
       })
       .catch((err) => {
+        loader.showLoader(false);
+
         console.log(err);
         errorToast(err.message);
       });

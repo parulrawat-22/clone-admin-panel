@@ -9,12 +9,15 @@ import {
 import AlertPopUp from "../../AlertPopUp";
 import { useSearchParams } from "react-router-dom";
 import moment from "moment";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const WarnedUserTable = () => {
   const [warnedUserList, setWarnedUserList] = useState([]);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [id, setId] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const loader = useLoader();
 
   const handleDeleteAlert = () => {
     setShowDeleteAlert(true);
@@ -29,6 +32,8 @@ const WarnedUserTable = () => {
   }, []);
 
   const getWarnedUser = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.WARNEDUSER,
       "POST",
@@ -36,8 +41,11 @@ const WarnedUserTable = () => {
     )
       .then((res) => {
         setWarnedUserList(res.result);
+        loader.showLoader(false);
       })
       .catch((err) => {
+        loader.showLoader(false);
+
         console.log(err);
       });
   };
@@ -48,92 +56,69 @@ const WarnedUserTable = () => {
   };
 
   const handleDelete = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.DELETEWARNING + `/${id}`,
       "DELETE"
     )
       .then((res) => {
         setShowDeleteAlert(false);
+        loader.showLoader(false);
         getWarnedUser();
       })
       .catch((err) => {
         console.log(err);
+        loader.showLoader(false);
       });
   };
 
   return (
     <div className="warned__user__container">
-      {searchParams.get("id") ? (
-        <table className="warned__user__table">
-          <thead>
-            <th className="warned__user__header">S.No.</th>
-            <th className="warned__user__header">Title</th>
-            <th className="warned__user__header">Description</th>
-            <th className="warned__user__header">Created At</th>
-            <th className="warned__user__header">Action</th>
-          </thead>
-          <tbody>
-            {warnedUserList.map((data, index) => {
-              return (
-                <tr>
-                  <td className="warned__user__data">{index + 1}</td>
-                  <td className="warned__user__data">{data?.title}</td>
-                  <td className="warned__user__data">{data?.body}</td>
-                  <td className="warned__user__data">
-                    {moment(data?.createdAt).format("DD/MM/YYYY, LT")}
-                  </td>
-                  <td className="warned__user__data">
-                    <AiFillEdit className="warned__user__edit__icon" />
-                    <AiFillDelete
-                      onClick={() => {
-                        handleAlertDelete(data?._id);
-                      }}
-                      className="warned__user__delete__icon"
-                    />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      ) : (
-        <table className="warned__user__table">
-          <thead>
-            <th className="warned__user__header">S.No.</th>
-            <th className="warned__user__header">User ID</th>
-            <th className="warned__user__header">User Name</th>
-            <th className="warned__user__header">Title</th>
-            <th className="warned__user__header">Description</th>
-            <th className="warned__user__header">Created At</th>
-            <th className="warned__user__header">Action</th>
-          </thead>
-          <tbody>
-            {warnedUserList.map((data, index) => {
-              return (
-                <tr>
-                  <td className="warned__user__data">{index + 1}</td>
-                  <td className="warned__user__data">{data?._id}</td>
-                  <td className="warned__user__data">{data?.userId?.name}</td>
-                  <td className="warned__user__data">{data?.title}</td>
-                  <td className="warned__user__data">{data?.body}</td>
-                  <td className="warned__user__data">
-                    {moment(data?.createdAt).format("DD/MM/YYYY")}
-                  </td>
-                  <td className="warned__user__data">
-                    <AiFillEdit className="warned__user__edit__icon" />
-                    <AiFillDelete
-                      onClick={() => {
-                        handleAlertDelete(data?._id);
-                      }}
-                      className="warned__user__delete__icon"
-                    />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      )}
+      <table className="warned__user__table">
+        <thead>
+          <th className="warned__user__header">S.No.</th>
+          {!searchParams.get("id") && (
+            <>
+              <th className="warned__user__header">User ID</th>
+              <th className="warned__user__header">User Name</th>
+            </>
+          )}
+          <th className="warned__user__header">Title</th>
+          <th className="warned__user__header">Description</th>
+          <th className="warned__user__header">Created At</th>
+          <th className="warned__user__header">Action</th>
+        </thead>
+        <tbody>
+          {warnedUserList.map((data, index) => {
+            return (
+              <tr>
+                <td className="warned__user__data">{index + 1}</td>
+                {!searchParams.get("id") && (
+                  <>
+                    <td className="warned__user__data">{data?._id}</td>
+                    <td className="warned__user__data">{data?.userId?.name}</td>
+                  </>
+                )}
+                <td className="warned__user__data">{data?.title}</td>
+                <td className="warned__user__data">{data?.body}</td>
+                <td className="warned__user__data">
+                  {moment(data?.createdAt).format("DD/MM/YYYY")}
+                </td>
+                <td className="warned__user__data">
+                  <AiFillEdit className="warned__user__edit__icon" />
+                  <AiFillDelete
+                    onClick={() => {
+                      handleAlertDelete(data?._id);
+                    }}
+                    className="warned__user__delete__icon"
+                  />
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
 
       <AlertPopUp
         open={showDeleteAlert}

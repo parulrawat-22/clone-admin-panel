@@ -14,6 +14,7 @@ import moment from "moment";
 import AlertPopUp from "../../AlertPopUp";
 import ImagePopUpModal from "../../ImagePopUpModal";
 import { errorToast, successToast } from "../../../utils/toast";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const GiftTable = () => {
   const [showGiftForm, setShowGiftForm] = useState(false);
@@ -29,6 +30,8 @@ const GiftTable = () => {
     giftPrice: "",
     giftImage: "",
   });
+
+  const loader = useLoader();
 
   const handleOnClickAlert = (img) => {
     setShowImageAlert(true);
@@ -66,26 +69,32 @@ const GiftTable = () => {
   }, []);
 
   const fetchGift = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(API_URL + NetworkConfiguration.GETGIFT, "GET")
       .then((res) => {
+        loader.showLoader(false);
         setGetGift(res.result);
       })
       .catch((err) => {
         console.log(err);
+        loader.showLoader(false);
       });
   };
 
   const handleDeleteApi = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.DELETEGIFT + `/${id}`,
       "DELETE"
     )
       .then((res) => {
+        loader.showLoader(false);
         setShowDeleteAlert(false);
         fetchGift();
         successToast(res.message);
       })
       .catch((err) => {
+        loader.showLoader(false);
         console.log(err);
         errorToast(err.message);
       });

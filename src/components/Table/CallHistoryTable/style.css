@@ -8,9 +8,12 @@
 }
 
 .user__call__history__header {
-  background-color: #f20094;
-  color: white;
-  padding: 10px;
+  background-color: var(--color-pink);
+  color: var(--color-white);
+  padding: 10px 0;
+  font-family: var(--fontfamily-sansserif);
+  font-size: var(--fontsize-regular);
+  font-weight: var(--fontweight-medium);
 }
 
 .user__call__history__data {
@@ -18,4 +21,5 @@
   padding: 10px 5px;
   border: none;
   border-bottom: 1px solid grey;
+  font-family: var(--fontfamily-sansserif);
 }

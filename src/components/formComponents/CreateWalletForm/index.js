@@ -8,6 +8,7 @@ import Button from "../../library/Button";
 import InputField from "../../library/InputField";
 import "./style.css";
 import { errorToast, successToast } from "../../../utils/toast";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
   console.log(onClickEdit, "234567987654");
@@ -21,19 +22,27 @@ const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
     offerError: "",
   });
 
+  const loader = useLoader();
+
   const handleCreateCoin = () => {
     if (validate()) {
+      loader.showLoader(true);
+
       fetchDataFromAPI(API_URL + NetworkConfiguration.ADDWALLET, "POST", {
         coins,
         price,
         offer,
       })
         .then((res) => {
+          loader.showLoader(false);
+
           console.log(res);
           successToast(res.message);
           onSubmit();
         })
         .catch((err) => {
+          loader.showLoader(false);
+
           errorToast(err.message);
           console.log(err);
         });
@@ -45,6 +54,8 @@ const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
   }, []);
 
   const handleEditCoin = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(API_URL + NetworkConfiguration.UPDATEWALLET, "PUT", {
       id: id,
       coins: coins,
@@ -54,26 +65,36 @@ const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
       .then((res) => {
         console.log(res);
         onClickEdit();
+        loader.showLoader(false);
+
         successToast(res.message);
       })
       .catch((err) => {
         console.log(err);
+        loader.showLoader(false);
+
         errorToast(err.message);
       });
   };
 
   const getOneCoin = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.GETONECOIN + `/${id}`,
       "GET"
     )
       .then((res) => {
         console.log(res);
+        loader.showLoader(false);
+
         setCoins(res.result.coins);
         setOffer(res.result.offer);
         setPrice(res.result.price);
       })
       .catch((err) => {
+        loader.showLoader(false);
+
         console.log(err);
       });
   };

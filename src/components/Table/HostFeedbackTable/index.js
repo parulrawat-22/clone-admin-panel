@@ -11,6 +11,7 @@ import {
 import { AiFillEye } from "react-icons/ai";
 import ImagePopUpModal from "../../ImagePopUpModal";
 import { useParams } from "react-router-dom";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const HostFeedbackTable = () => {
   const [hostFeedback, setHostFeeback] = useState([]);
@@ -20,6 +21,8 @@ const HostFeedbackTable = () => {
   const { id } = useParams();
   const [getId, setGetId] = useState("");
   const [replyFeedback, setReplyFeedback] = useState("");
+
+  const loader = useLoader();
 
   const handleOnClickAlert = (img) => {
     setImg(img);
@@ -44,30 +47,36 @@ const HostFeedbackTable = () => {
   }, []);
 
   const handleReply = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(API_URL + NetworkConfiguration.SENDREPLYHOST, "PUT", {
       id: getId,
       replyFeedback: replyFeedback,
     })
       .then((res) => {
+        loader.showLoader(false);
         console.log(res);
         setShowRevertAlert(false);
         getAllHostsFeedback();
       })
       .catch((err) => {
+        loader.showLoader(false);
         console.log(err);
       });
   };
 
   const getAllHostsFeedback = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.GETHOSTFEEDBACK,
       "POST",
       id ? { hostId: id } : {}
     )
       .then((res) => {
+        loader.showLoader(false);
         setHostFeeback(res.result);
       })
       .catch((err) => {
+        loader.showLoader(false);
         console.log(err);
       });
   };

@@ -9,8 +9,7 @@ import {
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 import { useNavigate } from "react-router-dom";
-import FormAlertPopUp from "../../FormAlertPopUp";
-import HostForm from "../../formComponents/BannerForm/HostForm";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const AcceptedHostTable = () => {
   let navigate = useNavigate();
@@ -18,7 +17,7 @@ const AcceptedHostTable = () => {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [showChangeLeaderAlert, setShowChangeLeaderAlert] = useState(false);
   const [showChargeAlert, setShowChargeAlert] = useState(false);
-  const [showEditAlert, setShowEditAlert] = useState(false);
+  // const [showEditAlert, setShowEditAlert] = useState(false);
   const [id, setId] = useState("");
   const [leaderId, setLeaderId] = useState("");
   const [leaderName, setLeaderName] = useState("");
@@ -29,6 +28,8 @@ const AcceptedHostTable = () => {
     },
   ]);
   const [hostuser_fees, setHostuser_fees] = useState("");
+
+  const loader = useLoader();
 
   useEffect(() => {
     getAcceptedHost();
@@ -63,8 +64,10 @@ const AcceptedHostTable = () => {
   };
 
   const getHostLeader = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(API_URL + NetworkConfiguration.GETLEADER, "GET")
       .then((res) => {
+        loader.showLoader(false);
         console.log(res.result, "987654");
         const leaders = res?.result?.map((leader) => ({
           name: leader.leaderName,
@@ -73,16 +76,22 @@ const AcceptedHostTable = () => {
         console.log(leaders, "qwertyu");
         setLeaderNames([...leaderNames, ...leaders]);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        loader.showLoader(false);
+        console.log(err);
+      });
   };
 
   const getAcceptedHost = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(API_URL + NetworkConfiguration.ACCEPTEDHOST, "POST", {})
       .then((res) => {
         setAcceptedHost(res.result);
+        loader.showLoader(false);
       })
       .catch((err) => {
         console.log(err, "err");
+        loader.showLoader(false);
       });
   };
 
@@ -90,16 +99,6 @@ const AcceptedHostTable = () => {
     setShowDeleteAlert(true);
     setId(id);
   };
-
-  // const handleOnClickEdit = (id) => {
-  //   setShowEditAlert(true);
-  //   setId(id);
-  // };
-
-  // const handleOnClickEditClose = () => {
-  //   setShowEditAlert(false);
-  // };
-
   const handleHostLeader = () => {
     fetchDataFromAPI(API_URL + NetworkConfiguration.UPDATEHOSTCHARGE, "PUT", {
       id: id,
@@ -108,9 +107,11 @@ const AcceptedHostTable = () => {
       .then((res) => {
         getAcceptedHost();
         setShowChargeAlert(false);
+        loader.showLoader(false);
       })
       .catch((err) => {
         console.log(err, "2345");
+        loader.showLoader(false);
       });
   };
 
@@ -122,8 +123,11 @@ const AcceptedHostTable = () => {
       .then((res) => {
         setShowDeleteAlert(false);
         getAcceptedHost();
+        loader.showLoader(false);
       })
       .catch((err) => {
+        loader.showLoader(false);
+
         console.log(err);
       });
   };
@@ -138,10 +142,13 @@ const AcceptedHostTable = () => {
       }
     )
       .then((res) => {
+        loader.showLoader(false);
+
         getAcceptedHost();
         setShowChangeLeaderAlert(false);
       })
       .catch((err) => {
+        loader.showLoader(false);
         console.log(err);
       });
   };

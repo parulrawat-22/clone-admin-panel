@@ -10,6 +10,7 @@ import {
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 import ImagePopUpModal from "../../ImagePopUpModal";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const RejectedHostTable = () => {
   let navigate = useNavigate();
@@ -19,6 +20,8 @@ const RejectedHostTable = () => {
   const [rejectedReason, setRejectedReason] = useState("");
   const [showImageAlert, setShowImageAlert] = useState(false);
   const [img, setImg] = useState("");
+
+  const loader = useLoader();
 
   const handleImageAlert = (img) => {
     setShowImageAlert(true);
@@ -34,15 +37,19 @@ const RejectedHostTable = () => {
   }, []);
 
   const getRejectedHost = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(API_URL + NetworkConfiguration.REJECTEDHOST, "POST", {
       id: id,
       rejectedReason: rejectedReason,
     })
       .then((res) => {
         setRejectedHost(res.result);
+        loader.showLoader(false);
       })
       .catch((err) => {
         console.log(err);
+        loader.showLoader(false);
       });
   };
 
@@ -62,6 +69,8 @@ const RejectedHostTable = () => {
   };
 
   const handleDeleteRejectedHost = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.DELETEHOST + `/${id}`,
       "DELETE"
@@ -69,9 +78,11 @@ const RejectedHostTable = () => {
       .then((res) => {
         setShowDeleteAlert(false);
         getRejectedHost();
+        loader.showLoader(false);
       })
       .catch((err) => {
         console.log(err);
+        loader.showLoader(false);
       });
   };
 
@@ -113,7 +124,7 @@ const RejectedHostTable = () => {
                 </td>
                 {/* <td className="rejected__host__data">View</td> */}
                 <td className="rejected__host__data">
-                  <AiFillEdit className="rejected__host__edit__icon" />
+                  {/* <AiFillEdit className="rejected__host__edit__icon" /> */}
                   <AiFillDelete
                     className="rejected__host__delete__icon"
                     onClick={() => handleRejectedHostDelete(data._id)}

@@ -6,25 +6,34 @@ import {
 } from "../../../network/NetworkConfiguration";
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
 import { useParams } from "react-router-dom";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const UserReportTable = () => {
   const { id } = useParams();
   const [userReportList, setUserReportList] = useState([]);
+
+  const loader = useLoader();
 
   useEffect(() => {
     getUserReport();
   }, []);
 
   const getUserReport = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.USERREPORT,
       "POST",
       id ? { userId: id } : {}
     )
       .then((res) => {
+        loader.showLoader(false);
+
         setUserReportList(res.result);
       })
       .catch((err) => {
+        loader.showLoader(false);
+
         console.log(err);
       });
   };

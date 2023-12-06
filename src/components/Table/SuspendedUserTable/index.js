@@ -12,6 +12,7 @@ import { useSearchParams } from "react-router-dom";
 import InputField from "../../library/InputField";
 import Button from "../../library/Button";
 import WebModal from "../../WebModal";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const SuspendedUserTable = () => {
   const [suspendedUserList, setSuspendedUserList] = useState([]);
@@ -19,7 +20,9 @@ const SuspendedUserTable = () => {
   const [showEditAlert, setShowEditAlert] = useState(false);
   const [id, setId] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
-  const [data, setData] = useState("");
+  // const [data, setData] = useState("");
+
+  const loader = useLoader();
 
   const handleDeleteAlert = () => {
     setShowDeleteAlert(true);
@@ -30,15 +33,21 @@ const SuspendedUserTable = () => {
   };
 
   const getSuspendedUserList = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.SUSPENDEDUSER,
       "POST",
       searchParams.get("id") ? { userId: searchParams.get("id") } : {}
     )
       .then((res) => {
+        loader.showLoader(false);
+
         setSuspendedUserList(res.result);
       })
       .catch((err) => {
+        loader.showLoader(false);
+
         console.log(err);
       });
   };
@@ -62,15 +71,21 @@ const SuspendedUserTable = () => {
   };
 
   const handleAlertDelete = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.DELETESUSPENSION + `/${id}`,
       "DELETE"
     )
       .then((res) => {
+        loader.showLoader(false);
+
         setShowDeleteAlert(false);
         getSuspendedUserList();
       })
       .catch((err) => {
+        loader.showLoader(false);
+
         console.log(err);
       });
   };

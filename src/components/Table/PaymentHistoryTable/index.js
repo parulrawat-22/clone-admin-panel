@@ -6,24 +6,32 @@ import {
 } from "../../../network/NetworkConfiguration";
 import { useParams } from "react-router-dom";
 import "./style.css";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const PaymentHistoryTable = () => {
   const [getPaymentHistory, setGetPaymentHistory] = useState([]);
   const { id } = useParams();
+
+  const loader = useLoader();
 
   useEffect(() => {
     fetchPaymentHistory();
   }, []);
 
   const fetchPaymentHistory = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(API_URL + NetworkConfiguration.GETPAYMENTHISTORY, "POST", {
       id: id,
     })
       .then((res) => {
+        loader.showLoader(false);
+
         setGetPaymentHistory(res.result?.payment_history);
       })
       .catch((err) => {
         console.log(err);
+        loader.showLoader(false);
       });
   };
 
@@ -36,7 +44,7 @@ const PaymentHistoryTable = () => {
           <th className="payment__history__header">Price</th>
           <th className="payment__history__header">Mode</th>
           {/* <th className="payment__history__header">Phone</th> */}
-          <th className="payment__history__header">createdAt</th>
+          <th className="payment__history__header">CreatedAt</th>
           <th className="payment__history__header">Status</th>
         </thead>
         <tbody>

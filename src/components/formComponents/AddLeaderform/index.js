@@ -7,6 +7,7 @@ import {
   API_URL,
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const AddLeaderForm = ({ onSubmit }) => {
   const [leaderName, setLeaderName] = useState("");
@@ -35,8 +36,12 @@ const AddLeaderForm = ({ onSubmit }) => {
     passwordError: "",
   });
 
+  const loader = useLoader();
+
   const handleAddLeader = () => {
     if (validate()) {
+      loader.showLoader(true);
+
       fetchDataFromAPI(API_URL + NetworkConfiguration.ADDLEADER, "POST", {
         leaderName: leaderName,
         mobileNumber: mobileNumber,
@@ -51,10 +56,14 @@ const AddLeaderForm = ({ onSubmit }) => {
         password: password,
       })
         .then((res) => {
+          loader.showLoader(false);
+
           console.log(res);
           onSubmit();
         })
         .catch((err) => {
+          loader.showLoader(false);
+
           console.log(err);
         });
     }

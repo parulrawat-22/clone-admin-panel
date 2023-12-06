@@ -7,19 +7,25 @@ import { fetchDataFromAPI } from "../../../network/NetworkConnection";
 import Button from "../../library/Button";
 import InputField from "../../library/InputField";
 import "./style.css";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
-const PremiumCoin = ({ onSubmit }) => {
+const PremiumCoin = () => {
   const [premiumCoins, setPremiumCoins] = useState("");
 
+  const loader = useLoader();
+
   const handleSetPremiumCoin = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(API_URL + NetworkConfiguration.UPDATEPREMIUMCOINS, "PUT", {
       setPostCoins: premiumCoins,
     })
       .then((res) => {
+        loader.showLoader(false);
         console.log(res);
-        onSubmit();
+        // onSubmit();
       })
       .catch((err) => {
+        loader.showLoader(false);
         console.log(err);
       });
   };
@@ -29,6 +35,7 @@ const PremiumCoin = ({ onSubmit }) => {
       <h2 className="premium__coin__heading">Set Premium Coins</h2>
       <div className="premium__coin">
         <InputField
+          placeholder="Set Coins"
           onChange={(e) => {
             setPremiumCoins(e.target.value);
           }}

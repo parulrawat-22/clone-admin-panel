@@ -6,25 +6,32 @@ import {
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 import { useParams } from "react-router-dom";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const CallHistory = () => {
   const [getCallHistory, setGetCallHistory] = useState([]);
   const { id } = useParams();
+
+  const loader = useLoader();
 
   useEffect(() => {
     fetchCallHistory();
   }, []);
 
   const fetchCallHistory = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.GETUSERCALLHISTORY,
       "POST",
       { id: id }
     )
       .then((res) => {
-        setGetCallHistory(res.result?.userCallhistorys);
+        loader.showLoader(false);
+        console.log(res);
+        setGetCallHistory(res.result);
       })
       .catch((err) => {
+        loader.showLoader(false);
         console.log(err);
       });
   };
@@ -38,7 +45,7 @@ const CallHistory = () => {
           <th className="user__call__history__header">Coin Spend</th>
           <th className="user__call__history__header">Mode</th>
           <th className="user__call__history__header">Time Duration</th>
-          <th className="user__call__history__header">Status</th>
+          {/* <th className="user__call__history__header">Status</th> */}
         </thead>
         <tbody>
           {getCallHistory.map((data, index) => {
@@ -46,11 +53,17 @@ const CallHistory = () => {
               <tr>
                 <td className="user__call__history__data">{index + 1}</td>
                 <td className="user__call__history__data">{data?._id}</td>
-                <td className="user__call__history__data">{data?.name}</td>
-                <td className="user__call__history__data">{data?.coin}</td>
-                <td className="user__call__history__data">{data?.mode}</td>
-                <td className="user__call__history__data">{data?.time}</td>
-                <td className="user__call__history__data">{data?.status}</td>
+                <td className="user__call__history__data">
+                  {data?.targetId?.name}
+                </td>
+                <td className="user__call__history__data">
+                  {data?.videoCoins}
+                </td>
+                <td className="user__call__history__data">{data?.callType}</td>
+                <td className="user__call__history__data">
+                  {data?.total_minute}
+                </td>
+                {/* <td className="user__call__history__data">{data?.status}</td> */}
               </tr>
             );
           })}

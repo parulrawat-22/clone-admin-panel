@@ -7,10 +7,13 @@ import { fetchDataFromAPI } from "../../../network/NetworkConnection";
 import Button from "../../library/Button";
 import InputField from "../../library/InputField";
 import "./style.css";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const Helpline = ({ helplineNumber, onSubmit }) => {
   const [mobileNumber, setMobileNumber] = useState(helplineNumber);
   const [id, setId] = useState("");
+
+  const loader = useLoader();
 
   useEffect(() => {
     console.log("cfgfjyul", helplineNumber);
@@ -18,19 +21,26 @@ const Helpline = ({ helplineNumber, onSubmit }) => {
   }, [helplineNumber]);
 
   const handleHelpline = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(API_URL + NetworkConfiguration.ADDHELPLINE, "POST", {
       mobileNumber: mobileNumber,
     })
       .then((res) => {
+        loader.showLoader(false);
         console.log(res);
         onSubmit();
       })
       .catch((err) => {
+        loader.showLoader(false);
+
         console.log(err);
       });
   };
 
   const handleCreateHelpline = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.UPDATEHELPLINE + `/${id}`,
       "PUT",
@@ -39,9 +49,13 @@ const Helpline = ({ helplineNumber, onSubmit }) => {
       }
     )
       .then((res) => {
+        loader.showLoader(false);
+
         console.log(res);
       })
       .catch((err) => {
+        loader.showLoader(false);
+
         console.log(err);
       });
   };

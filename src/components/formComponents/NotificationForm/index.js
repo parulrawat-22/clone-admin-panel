@@ -3,6 +3,7 @@ import Button from "../../library/Button";
 import Dropdown from "../../library/Dropdown";
 import InputField from "../../library/InputField";
 import "./style.css";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const NotificationForm = ({ dropdownOptions }) => {
   const [selectWho, setSelectWho] = useState("");
@@ -14,6 +15,8 @@ const NotificationForm = ({ dropdownOptions }) => {
     titleError: "",
     bodyError: "",
   });
+
+  // const loader= useLoader();
 
   const handleSelectChange = (e) => {
     setError({ ...error, selection: "" });

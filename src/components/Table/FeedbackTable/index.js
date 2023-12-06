@@ -11,6 +11,7 @@ import {
 import ImagePopUpModal from "../../ImagePopUpModal";
 import { useParams } from "react-router-dom";
 import { AiFillEye } from "react-icons/ai";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const FeedbackUserTable = () => {
   const { id } = useParams();
@@ -21,6 +22,8 @@ const FeedbackUserTable = () => {
   const [img, setImg] = useState("");
   const [getId, setGetId] = useState("");
   const [replyFeedback, setReplyFeedback] = useState("");
+
+  const loader = useLoader();
 
   const handleShowImage = (img) => {
     setShowImageAlert(true);
@@ -36,35 +39,42 @@ const FeedbackUserTable = () => {
   }, []);
 
   const getAllUsersFeedback = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.GETUSERFEEDBACK,
       "POST",
       id ? { userId: id } : {}
     )
       .then((res) => {
+        loader.showLoader(false);
         setFeedback(res.result);
       })
       .catch((err) => {
+        loader.showLoader(false);
         console.log(err);
       });
   };
 
   const handleFeedbackReply = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(API_URL + NetworkConfiguration.SENDREPLYUSER, "PUT", {
       id: getId,
       replyFeedback: replyFeedback,
     })
       .then((res) => {
+        loader.showLoader(false);
         setShowRevertAlert(false);
         getAllUsersFeedback();
       })
       .catch((err) => {
+        loader.showLoader(false);
+
         console.log(err);
       });
   };
 
   const handleFeedbackRevert = (id) => {
-    setShowRevertAlert(true);
+    setShowRevertAlert(false);
     setGetId(id);
   };
 

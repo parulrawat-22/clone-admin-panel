@@ -7,9 +7,12 @@ import {
 } from "../../../network/NetworkConfiguration";
 import { useParams } from "react-router-dom";
 import moment from "moment";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const UserNotificationTable = () => {
   const { id } = useParams();
+
+  const loader = useLoader();
 
   const [getUserNotification, setGetUserNotification] = useState([]);
 
@@ -18,16 +21,22 @@ const UserNotificationTable = () => {
   }, []);
 
   const fetchUserNotification = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.GETUSERNOTIFICATION,
       "POST",
       { id: id }
     )
       .then((res) => {
+        loader.showLoader(false);
+
         console.log(res);
         setGetUserNotification(res.result1);
       })
       .catch((err) => {
+        loader.showLoader(false);
+
         console.log(err);
       });
   };

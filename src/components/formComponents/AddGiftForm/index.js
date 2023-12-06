@@ -8,6 +8,7 @@ import Button from "../../library/Button";
 import InputField from "../../library/InputField";
 import "./style.css";
 import { errorToast, successToast } from "../../../utils/toast";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const AddGiftForm = ({ onSubmit, edit, onClickEdit, editedGift }) => {
   const [giftName, setGiftName] = useState("");
@@ -20,6 +21,8 @@ const AddGiftForm = ({ onSubmit, edit, onClickEdit, editedGift }) => {
     price: "",
     uploadImage: "",
   });
+
+  const loader = useLoader();
 
   useEffect(() => {
     if (edit && editedGift) {
@@ -40,6 +43,8 @@ const AddGiftForm = ({ onSubmit, edit, onClickEdit, editedGift }) => {
   };
 
   const handleGiftForm = () => {
+    loader.showLoader(true);
+
     let data = new FormData();
     data.append("name", giftName);
     data.append("price", giftPrice);
@@ -49,11 +54,15 @@ const AddGiftForm = ({ onSubmit, edit, onClickEdit, editedGift }) => {
         "Content-Type": "multipart/form-data",
       })
         .then((res) => {
+          loader.showLoader(false);
+
           console.log(res);
           successToast(res.message);
           onSubmit();
         })
         .catch((err) => {
+          loader.showLoader(false);
+
           errorToast(err.message);
           console.log(err);
         });
@@ -61,17 +70,23 @@ const AddGiftForm = ({ onSubmit, edit, onClickEdit, editedGift }) => {
   };
 
   const handleEditForm = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(API_URL + NetworkConfiguration.UPDATEGIFT, "PUT", {
       id,
       name: giftName,
       price: giftPrice,
     })
       .then((res) => {
+        loader.showLoader(false);
+
         console.log(res);
         successToast("Gift updated successfully");
         onClickEdit();
       })
       .catch((err) => {
+        loader.showLoader(false);
+
         console.log(err);
         errorToast(err.message);
       });

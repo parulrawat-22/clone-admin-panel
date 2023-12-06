@@ -6,23 +6,29 @@ import {
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 import { useParams } from "react-router-dom";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const HostBlockTable = () => {
   const [getBlockList, setGetBlockList] = useState([]);
   const { id } = useParams();
+
+  const loader = useLoader();
 
   useEffect(() => {
     fetchBlockList();
   }, []);
 
   const fetchBlockList = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(API_URL + NetworkConfiguration.HOSTBLOCKDETAILS, "POST", {
       id: id,
     })
       .then((res) => {
+        loader.showLoader(false);
         setGetBlockList(res.result.block);
       })
       .catch((err) => {
+        loader.showLoader(false);
         console.log(err);
       });
   };

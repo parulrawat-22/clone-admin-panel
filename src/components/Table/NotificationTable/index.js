@@ -8,11 +8,14 @@ import {
 } from "../../../network/NetworkConfiguration";
 import AlertPopUp from "../../AlertPopUp";
 import { errorToast, successToast } from "../../../utils/toast";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const NotificationTable = () => {
   const [getNotification, setGetNotification] = useState([]);
   const [showDeleteAlert, setShowDeleteAlert] = useState("");
   const [id, setId] = useState("");
+
+  const loader = useLoader();
 
   const handleDeleteNotification = (id) => {
     setShowDeleteAlert(true);
@@ -28,27 +31,37 @@ const NotificationTable = () => {
   }, []);
 
   const fetchNotification = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(API_URL + NetworkConfiguration.GETNOTIFICATION, "GET")
       .then((res) => {
         setGetNotification(res.result);
+        loader.showLoader(false);
       })
       .catch((err) => {
         console.log(err);
+        loader.showLoader(false);
       });
   };
 
   const handleNotification = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.DELETENOTIFICATION + `/${id}`,
       "DELETE"
     )
       .then((res) => {
+        loader.showLoader(false);
+
         console.log(res);
         setShowDeleteAlert(false);
         successToast(res.message);
         fetchNotification();
       })
       .catch((err) => {
+        loader.showLoader(false);
+
         errorToast(err.message);
         console.log(err);
       });

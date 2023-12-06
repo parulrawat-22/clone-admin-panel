@@ -6,24 +6,30 @@ import {
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 import { useParams } from "react-router-dom";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const FollowingTable = () => {
   const [getFollowingList, setGetFollowingList] = useState([]);
   const { id } = useParams();
+
+  const loader = useLoader();
 
   useEffect(() => {
     fetchFollowingList();
   }, []);
 
   const fetchFollowingList = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(API_URL + NetworkConfiguration.GETUSERFOLLOWING, "POST", {
       id: id,
     })
       .then((res) => {
+        loader.showLoader(false);
         setGetFollowingList(res.result?.followings);
       })
       .catch((err) => {
         console.log(err);
+        loader.showLoader(false);
       });
   };
 

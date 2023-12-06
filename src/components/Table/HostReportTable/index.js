@@ -6,21 +6,27 @@ import {
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 import { useParams } from "react-router-dom";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const HostReportTable = () => {
   const [getHostReport, setGetHostReport] = useState([]);
   const { id } = useParams();
 
+  const loader = useLoader();
+
   const getHostReportList = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.HOSTREPORT,
       "POST",
       id ? { hostId: id } : {}
     )
       .then((res) => {
+        loader.showLoader(false);
         setGetHostReport(res.result);
       })
       .catch((err) => {
+        loader.showLoader(false);
         console.log(err);
       });
   };

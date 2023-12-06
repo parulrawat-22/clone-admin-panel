@@ -6,23 +6,29 @@ import {
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 import { useParams } from "react-router-dom";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const HostCallHistoryTable = () => {
   const [getCallHistory, setGetCallHistory] = useState([]);
   const { id } = useParams();
+
+  const loader = useLoader();
 
   useEffect(() => {
     fetchCallHistory();
   }, []);
 
   const fetchCallHistory = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(API_URL + NetworkConfiguration.HOSTCALLHISTORY, "POST", {
       id: id,
     })
       .then((res) => {
-        setGetCallHistory(res.result.userCallhistorys);
+        loader.showLoader(false);
+        setGetCallHistory(res?.result);
       })
       .catch((err) => {
+        loader.showLoader(false);
         console.log(err);
       });
   };
@@ -37,7 +43,7 @@ const HostCallHistoryTable = () => {
           <th className="host__call__history__header">Coin Spend</th>
           <th className="host__call__history__header">Mode</th>
           <th className="host__call__history__header">Time Duration</th>
-          <th className="host__call__history__header">Status</th>
+          {/* <th className="host__call__history__header">Status</th> */}
         </thead>
         <tbody>
           {getCallHistory.map((data, index) => {
@@ -45,15 +51,17 @@ const HostCallHistoryTable = () => {
               <tr>
                 <td className="host__call__history__data">{index + 1}</td>
                 <td className="host__call__history__data">{data?._id}</td>
-                <td className="host__call__history__data">{data?.name}</td>
                 <td className="host__call__history__data">
-                  {data?.coin_spend}
+                  {data?.targetId?.name}
                 </td>
-                <td className="host__call__history__data">{data?.mode}</td>
                 <td className="host__call__history__data">
-                  {data?.timeDuration}
+                  {data?.videoCoins}
                 </td>
-                <td className="host__call__history__data">{data?.status}</td>
+                <td className="host__call__history__data">{data?.callType}</td>
+                <td className="host__call__history__data">
+                  {data?.total_minute}
+                </td>
+                {/* <td className="host__call__history__data">{data?.status}</td> */}
               </tr>
             );
           })}

@@ -40,6 +40,7 @@ export const NetworkConfiguration = {
   GETPAYMENTHISTORY: "admin/userPaymentDetails",
   CHANGEPASSWORD: "admin/adminSetPassword",
   GETUSERFOLLOWING: "admin/userFollowingsList",
+  GETPREMIUMCOINS: "admin/adminGetSetCoins",
   GETUSERFOLLOWER: "admin/userFollowerDetails",
   GETTOPTALENT: "admin/findTopTalentUser",
   REJECTEDHOST: "admin/getHostRejected",

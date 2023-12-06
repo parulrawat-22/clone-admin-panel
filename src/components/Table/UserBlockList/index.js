@@ -6,24 +6,31 @@ import {
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 import { useParams } from "react-router-dom";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const UserBlockedList = () => {
   const { id } = useParams();
   const [getBlockedList, setGetBlockedList] = useState([]);
+
+  const loader = useLoader();
 
   useEffect(() => {
     fetchBlockList();
   }, []);
 
   const fetchBlockList = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(API_URL + NetworkConfiguration.GETUSERBLOCKLIST, "POST", {
       id: id,
     })
       .then((res) => {
         setGetBlockedList(res.result?.block);
+        loader.showLoader(false);
       })
       .catch((err) => {
         console.log(err);
+        loader.showLoader(false);
       });
   };
   return (

@@ -6,12 +6,14 @@ import {
   API_URL,
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
+import { useLoader } from "../../../base/Context/loaderProvider";
 // import { useParams } from "react-router-dom";
 
 const HostManagementTable = ({ id }) => {
   const [showDeleteAlert, setShowDeleteAlert] = useState();
   const [getOneHost, setGetOneHost] = useState("");
-  console.log("123456", getOneHost);
+
+  const loader = useLoader();
 
   const handleDelete = () => {
     setShowDeleteAlert(true);
@@ -30,14 +32,17 @@ const HostManagementTable = ({ id }) => {
   }, []);
 
   const fetchOneHost = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.GETONEHOST + `/${id}`,
       "GET"
     )
       .then((res) => {
+        loader.showLoader(false);
         setGetOneHost(res.result);
       })
       .catch((err) => {
+        loader.showLoader(false);
         console.log(err);
       });
   };

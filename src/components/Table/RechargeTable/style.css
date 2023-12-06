@@ -1,14 +1,24 @@
 .recharge__table__container {
+  padding: 3rem 0;
+}
+
+.recharge__table {
   width: 100%;
   border-collapse: collapse;
 }
+
 .recharge__table__heading {
-  background-color: #f20094;
+  background-color: var(--color-pink);
   padding: 10px 0;
-  color: white;
+  color: var(--color-white);
+  font-family: var(--fontfamily-sansserif);
+  font-size: var(--fontsize-regular);
+  font-weight: var(--fontweight-medium);
 }
 
 .recharge__table__body {
   padding: 10px 0;
   text-align: center;
+  font-family: var(--fontfamily-sansserif);
+  border-bottom: 1px solid grey;
 }

@@ -10,6 +10,7 @@ import { useParams } from "react-router-dom";
 import ImagePopUpModal from "../../ImagePopUpModal";
 import moment from "moment";
 import AlertPopUp from "../../AlertPopUp";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const HostMomentTable = () => {
   const [getHostMoment, setGetHostMoment] = useState([]);
@@ -18,6 +19,8 @@ const HostMomentTable = () => {
   const [img, setImg] = useState("");
   const { id } = useParams();
   const [getId, setGetId] = useState("");
+
+  const loader = useLoader();
 
   useEffect(() => {
     fetchHostMoment();
@@ -42,30 +45,36 @@ const HostMomentTable = () => {
   };
 
   const handleMomentDelete = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.DELETEHOSTMOMENT + `/${getId}`,
       "DELETE"
     )
       .then((res) => {
+        loader.showLoader(false);
         console.log(res);
         fetchHostMoment();
         setShowDeleteAlert(false);
       })
       .catch((err) => {
+        loader.showLoader(false);
         console.log(err);
       });
   };
 
   const fetchHostMoment = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.HOSTMOMENT,
       "POST",
       id ? { hostId: id } : {}
     )
       .then((res) => {
+        loader.showLoader(false);
         setGetHostMoment(res.result);
       })
       .catch((err) => {
+        loader.showLoader(false);
         console.log(err);
       });
   };

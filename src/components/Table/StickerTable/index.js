@@ -13,6 +13,7 @@ import AlertPopUp from "../../AlertPopUp";
 import FormAlertPopUp from "../../FormAlertPopUp";
 import StickerForm from "../../formComponents/StickerForm";
 import { errorToast, successToast } from "../../../utils/toast";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const StickerTable = () => {
   const [getSticker, setGetSticker] = useState([]);
@@ -28,6 +29,8 @@ const StickerTable = () => {
     stickerUrl: "",
   });
 
+  const loader = useLoader();
+
   const handleDeleteAlert = () => {
     setShowDeleteAlert(true);
   };
@@ -41,12 +44,16 @@ const StickerTable = () => {
   }, []);
 
   const fetchSticker = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(API_URL + NetworkConfiguration.GETSTICKER, "GET")
       .then((res) => {
         setGetSticker(res.result);
+        loader.showLoader(false);
       })
       .catch((err) => {
         console.log(err);
+        loader.showLoader(false);
       });
   };
 
@@ -94,16 +101,22 @@ const StickerTable = () => {
   };
 
   const handleDeleteApi = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.DELETESTICKER + `/${id}`,
       "DELETE"
     )
       .then((res) => {
         setShowDeleteAlert(false);
+        loader.showLoader(false);
+
         successToast(res.message);
         fetchSticker();
       })
       .catch((err) => {
+        loader.showLoader(false);
+
         console.log(err);
         errorToast(err.message);
       });

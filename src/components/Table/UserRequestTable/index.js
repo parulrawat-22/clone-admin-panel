@@ -14,6 +14,7 @@ import {
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 import Swiper from "swiper";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const UserTable = () => {
   let navigate = useNavigate();
@@ -24,6 +25,8 @@ const UserTable = () => {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [id, setId] = useState("");
   const [img, setImg] = useState("");
+
+  const loader = useLoader();
 
   useEffect(() => {
     getUserRequest();
@@ -70,13 +73,18 @@ const UserTable = () => {
       });
   };
 
+  //get users
+
   const getUserRequest = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(API_URL + NetworkConfiguration.GETUSERS, "POST", {})
       .then((res) => {
         setUserRequest(res.result);
+        loader.showLoader(false);
       })
       .catch((err) => {
         console.log(err, "err==========");
+        loader.showLoader(false);
       });
   };
 
@@ -96,7 +104,7 @@ const UserTable = () => {
           <th className="user__request__headers">Mobile Number</th>
           <th className="user__request__headers">Profession</th>
           <th className="user__request__headers">Bio</th>
-          {/* <th className="user__request__headers">Image/Video</th> */}
+          <th className="user__request__headers">Image/Video</th>
           <th className="user__request__headers">Profile Pic</th>
           <th className="user__request__headers">Created At </th>
           <th className="user__request__headers">View Profile</th>
@@ -123,6 +131,15 @@ const UserTable = () => {
                   <BsFillEyeFill
                     onClick={() => {
                       handleEyeProfilePicPopUp(data?.profilePic);
+                    }}
+                    className="user__request__eye__icon"
+                  />
+                </td>
+
+                <td className="user__request__data">
+                  <BsFillEyeFill
+                    onClick={() => {
+                      handleEyeProfilePicPopUp(data?.presentationPic);
                     }}
                     className="user__request__eye__icon"
                   />

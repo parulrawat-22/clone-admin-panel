@@ -12,6 +12,7 @@ import {
 import "./style.css";
 import DashboardChart from "../../components/DashboardChart";
 import SecondaryButton from "../../components/library/SecondaryButton";
+import { useLoader } from "../../base/Context/loaderProvider";
 
 const Dashboard = () => {
   useEffect(() => {
@@ -22,6 +23,8 @@ const Dashboard = () => {
     handleUserPurchase();
   }, []);
 
+  const loader = useLoader();
+
   // let adminOnlineUser = 0;
   const [adminOnlineUser, setAdminOnlineUser] = useState(0);
   const [adminOfflineHost, setAdminOfflineHost] = useState(0);
@@ -29,54 +32,80 @@ const Dashboard = () => {
   const [adminOfflineUser, setAdminOfflineUser] = useState(0);
 
   const handleOnlineUser = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(API_URL + NetworkConfiguration.ONLINEUSER, "GET")
       .then((res) => {
+        loader.showLoader(false);
         setAdminOnlineUser(res.data.result);
       })
       .catch((err) => {
+        loader.showLoader(false);
+
         console.log(err, "err========");
       });
   };
 
   const handleOfflineHost = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(API_URL + NetworkConfiguration.OFFLINEHOST, "GET")
       .then((res) => {
+        loader.showLoader(false);
+
         setAdminOfflineHost(res.data.result);
       })
       .catch((err) => {
+        loader.showLoader(false);
+
         console.log(err, "err========");
       });
   };
 
   const handleOnlineHost = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(API_URL + NetworkConfiguration.ONLINEHOST, "GET")
       .then((res) => {
         setAdminOnlineHost(res.data.result);
+        loader.showLoader(false);
       })
       .catch((err) => {
+        loader.showLoader(false);
+
         console.log(err, "err========");
       });
   };
 
   const handleOfflineUser = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(API_URL + NetworkConfiguration.OFFLINEUSER, "GET")
       .then((res) => {
         setAdminOfflineUser(res.data.result);
+        loader.showLoader(false);
       })
       .catch((err) => {
+        loader.showLoader(false);
+
         console.log(err, "err========");
       });
   };
 
   const handleUserPurchase = () => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(API_URL + NetworkConfiguration.USERPURCHASE, "POST", {
       startDate: "2023-11-27",
       endDate: "2023-11-28",
     })
       .then((res) => {
+        loader.showLoader(false);
+
         console.log("12345678910", res);
       })
       .catch((err) => {
+        loader.showLoader(false);
+
         console.log(err);
       });
   };

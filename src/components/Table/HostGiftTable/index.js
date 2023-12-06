@@ -9,6 +9,7 @@ import moment from "moment";
 import { AiFillEye } from "react-icons/ai";
 import { useParams } from "react-router-dom";
 import ImagePopUpModal from "../../ImagePopUpModal";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const HostGiftTable = () => {
   const [getHostGift, setGetHostGift] = useState([]);
@@ -16,18 +17,23 @@ const HostGiftTable = () => {
   const [img, setImg] = useState("");
   const { id } = useParams();
 
+  const loader = useLoader();
+
   useEffect(() => {
     fetchHostGift();
   }, []);
 
   const fetchHostGift = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(API_URL + NetworkConfiguration.GETHOSTGIFT, "POST", {
       id: id,
     })
       .then((res) => {
+        loader.showLoader(false);
         setGetHostGift(res.result);
       })
       .catch((err) => {
+        loader.showLoader(false);
         console.log(err);
       });
   };

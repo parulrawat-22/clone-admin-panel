@@ -10,6 +10,7 @@ import { BsFillEyeFill } from "react-icons/bs";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import ImagePopUpModal from "../ImagePopUpModal";
+import { useLoader } from "../../base/Context/loaderProvider";
 
 const style = {
   position: "absolute",
@@ -32,6 +33,8 @@ const TablePopUp = ({ open, handleClose, id }) => {
   const [showImage, setShowImage] = useState(false);
   const [img, setImg] = useState("");
 
+  const loader = useLoader();
+
   const handleEyeProfilePicPopUp = (img) => {
     setShowImage(true);
     setImg(img);
@@ -46,14 +49,20 @@ const TablePopUp = ({ open, handleClose, id }) => {
   }, [id]);
 
   const handleHostList = (id) => {
+    loader.showLoader(true);
+
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.GETLEADERHOSTS + `/${id}`,
       "GET"
     )
       .then((res) => {
+        loader.showLoader(false);
+
         setShowHostList(res.result);
       })
       .catch((err) => {
+        loader.showLoader(false);
+
         console.log(err);
       });
   };
