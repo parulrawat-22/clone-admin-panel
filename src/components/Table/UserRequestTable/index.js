@@ -1,6 +1,5 @@
 import { BsFillEyeFill } from "react-icons/bs";
-import baseUrl from "../../../baseUrl";
-import axios from "axios";
+
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import AlertPopUp from "../../AlertPopUp";
@@ -13,7 +12,6 @@ import {
   API_URL,
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
-import Swiper from "swiper";
 import { useLoader } from "../../../base/Context/loaderProvider";
 
 const UserTable = () => {
@@ -23,6 +21,8 @@ const UserTable = () => {
   // const [showEyeAlert, setShowEyeAlert] = useState();
   const [showProfileAlert, setShowProfileAlert] = useState(false);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [showImageVideo, setShowImageVideo] = useState(false);
+  const [images, setImages] = useState("");
   const [id, setId] = useState("");
   const [img, setImg] = useState("");
 
@@ -59,16 +59,29 @@ const UserTable = () => {
     setShowProfileAlert(false);
   };
 
+  const handleImageVideoPopUp = (images) => {
+    console.log("1234", images);
+    setShowImageVideo(true);
+    setImages(images);
+  };
+
+  const handleImageVideoPopUpClose = () => {
+    setShowImageVideo(false);
+  };
+
   const handleUserDelete = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.DELETEUSER + `/${id}`,
       "DELETE"
     )
       .then((res) => {
+        loader.showLoader(false);
         setShowDeleteAlert(false);
         getUserRequest();
       })
       .catch((err) => {
+        loader.showLoader(false);
         console.log(err, "err----------");
       });
   };
@@ -104,8 +117,8 @@ const UserTable = () => {
           <th className="user__request__headers">Mobile Number</th>
           <th className="user__request__headers">Profession</th>
           <th className="user__request__headers">Bio</th>
-          <th className="user__request__headers">Image/Video</th>
           <th className="user__request__headers">Profile Pic</th>
+          <th className="user__request__headers">Image/Video</th>
           <th className="user__request__headers">Created At </th>
           <th className="user__request__headers">View Profile</th>
           <th className="user__request__headers">Action</th>
@@ -139,7 +152,7 @@ const UserTable = () => {
                 <td className="user__request__data">
                   <BsFillEyeFill
                     onClick={() => {
-                      handleEyeProfilePicPopUp(data?.presentationPic);
+                      handleImageVideoPopUp(data?.presentationPic);
                     }}
                     className="user__request__eye__icon"
                   />
@@ -191,6 +204,13 @@ const UserTable = () => {
             handleOpen={handleEyeProfilePicPopUp}
             handleClose={handleEyeProfilePicPopUpClose}
             img={img}
+          />
+
+          <ImagePopUpModal
+            open={showImageVideo}
+            handleOpen={handleImageVideoPopUp}
+            handleClose={handleImageVideoPopUpClose}
+            images={images}
           />
         </tbody>
       </table>

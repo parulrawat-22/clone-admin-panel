@@ -1,22 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import "./style.css";
 import AlertPopUp from "../AlertPopUp";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import FormAlertPopUp from "../FormAlertPopUp";
-import PremiumCoin from "../FormAlertPopUp/PremiumCoin";
 import Helpline from "../FormAlertPopUp/Helpline";
-import { fetchDataFromAPI } from "../../network/NetworkConnection";
-import {
-  API_URL,
-  NetworkConfiguration,
-} from "../../network/NetworkConfiguration";
 
 const PopMenu = ({ popOpen, children }) => {
   const [logoutAlert, setLogoutAlert] = useState(false);
-  const [premiumCoins, setPremiumCoins] = useState(false);
   const [showHelplineNumber, setShowHelplineNumber] = useState(false);
-  const [helplineNumber, setHelplineNumber] = useState("");
-  const [id, setId] = useState("");
 
   let navigate = useNavigate();
 
@@ -34,17 +25,7 @@ const PopMenu = ({ popOpen, children }) => {
     setLogoutAlert(false);
   };
 
-  const handlePremiumCoin = (id) => {
-    setPremiumCoins(true);
-    setId(id);
-  };
-
-  const handlePremiumCoinClose = () => {
-    setPremiumCoins(false);
-  };
-
   const onSubmit = () => {
-    setPremiumCoins(false);
     setShowHelplineNumber(false);
   };
 
@@ -54,36 +35,6 @@ const PopMenu = ({ popOpen, children }) => {
 
   const handleHelplineNumberClose = () => {
     setShowHelplineNumber(false);
-  };
-
-  useEffect(() => {
-    fetchHelplineNumber();
-    // fetchPremiumCoin();
-  }, []);
-
-  // const fetchPremiumCoin = () => {
-  //   fetchDataFromAPI(API_URL + NetworkConfiguration.GETPREMIUMCOINS, "POST", {
-  //     id: id,
-  //   })
-  //     .then((res) => {
-  //       console.log(res);
-  //       setId(id);
-  //       onSubmit();
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-
-  const fetchHelplineNumber = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETHELPLINENUMBER, "GET")
-      .then((res) => {
-        setHelplineNumber(res?.result[0]?.mobileNumber);
-        setId(id);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   };
 
   return (
@@ -100,11 +51,9 @@ const PopMenu = ({ popOpen, children }) => {
               navigate("/editprofile");
             }}
           >
-            Change Password
+            Edit Profile
           </p>
-          <p className="logout_para" onClick={handlePremiumCoin}>
-            Set Premium Coins
-          </p>
+
           <p className="logout_para" onClick={handleHelplineNumber}>
             Helpline
           </p>
@@ -127,19 +76,11 @@ const PopMenu = ({ popOpen, children }) => {
       ></AlertPopUp>
 
       <FormAlertPopUp
-        open={premiumCoins}
-        handleOpen={handlePremiumCoin}
-        onRequestClose={handlePremiumCoinClose}
-      >
-        <PremiumCoin onSubmit={onSubmit} id={id} />
-      </FormAlertPopUp>
-
-      <FormAlertPopUp
         open={showHelplineNumber}
         handleOpen={handleHelplineNumber}
         onRequestClose={handleHelplineNumberClose}
       >
-        <Helpline helplineNumber={helplineNumber} onSubmit={onSubmit} />
+        <Helpline onSubmit={onSubmit} />
       </FormAlertPopUp>
     </div>
   );

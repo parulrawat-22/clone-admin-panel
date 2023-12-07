@@ -17,7 +17,8 @@ const AcceptedHostTable = () => {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [showChangeLeaderAlert, setShowChangeLeaderAlert] = useState(false);
   const [showChargeAlert, setShowChargeAlert] = useState(false);
-  // const [showEditAlert, setShowEditAlert] = useState(false);
+  const [audioCallFees, setAudioCallFees] = useState("");
+  const [showAudioAlert, setShowAudioAlert] = useState(false);
   const [id, setId] = useState("");
   const [leaderId, setLeaderId] = useState("");
   const [leaderName, setLeaderName] = useState("");
@@ -35,6 +36,15 @@ const AcceptedHostTable = () => {
     getAcceptedHost();
     getHostLeader();
   }, []);
+
+  const handleAudioCallCharge = (hostId) => {
+    setShowAudioAlert(true);
+    setId(hostId);
+  };
+
+  const handleAudioCallChargeClose = () => {
+    setShowAudioAlert(false);
+  };
 
   const handleChangeCharge = (hostId) => {
     setShowChargeAlert(true);
@@ -153,6 +163,28 @@ const AcceptedHostTable = () => {
       });
   };
 
+  const handleAudioCharges = () => {
+    loader.showLoader(true);
+    fetchDataFromAPI(
+      API_URL + NetworkConfiguration.UPDATEAUDIOCALLCHARGE,
+      "PUT",
+      {
+        id: id,
+        audioCall_fees: audioCallFees,
+      }
+    )
+      .then((res) => {
+        console.log(res);
+        loader.showLoader(false);
+        getAcceptedHost();
+        handleAudioCallChargeClose();
+      })
+      .catch((err) => {
+        console.log(err);
+        loader.showLoader(false);
+      });
+  };
+
   return (
     <div className="accepted__host__container">
       <table className="accepted__host__table">
@@ -165,6 +197,7 @@ const AcceptedHostTable = () => {
           <th className="accepted__host__header">Mobile Number</th>
           <th className="accepted__host__header">Email ID</th>
           <th className="accepted__host__header">Accepted At</th>
+          <th className="accepted__host__header">Audio Charge/min</th>
           <th className="accepted__host__header">Charge/min</th>
           <th className="accepted__host__header">Leader</th>
           <th className="accepted__host__header">Details</th>
@@ -184,7 +217,17 @@ const AcceptedHostTable = () => {
                 <td className="accepted__host__data">
                   {moment(data?.acceptedDate).format("DD/MM/YYYY LT")}
                 </td>
-                <td className="accepted__host__data host__charge__edit">
+                <td className="accepted__host__data">
+                  {data?.audioCall_fees}
+
+                  <AiFillEdit
+                    className="accepted__host__edit_icon"
+                    onClick={() => {
+                      handleAudioCallCharge(data?._id, data?.audioCall_fees);
+                    }}
+                  />
+                </td>
+                <td className="accepted__host__data">
                   {data?.hostuser_fees}
                   <AiFillEdit
                     className="accepted__host__edit_icon"
@@ -267,14 +310,18 @@ const AcceptedHostTable = () => {
         onSubmitClick={handleHostLeader}
         onCancelClick={handleChangeChargeClose}
       />
-      {/* 
-      <FormAlertPopUp
-        open={showEditAlert}
-        onRequestClose={handleOnClickEditClose}
-        handleOpen={handleOnClickEdit}
-      >
-        <HostForm />
-      </FormAlertPopUp> */}
+      <AlertPopUp
+        open={showAudioAlert}
+        handleClose={handleAudioCallChargeClose}
+        handleOpen={handleAudioCallCharge}
+        submitText="Submit"
+        cancelText="Cancel"
+        textField={true}
+        onChangeField={(e) => setAudioCallFees(e.target.value)}
+        header="Update Audio Call Charge"
+        onSubmitClick={handleAudioCharges}
+        onCancelClick={handleAudioCallChargeClose}
+      />
     </div>
   );
 };

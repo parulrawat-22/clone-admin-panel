@@ -22,5 +22,5 @@
   font-family: var(--fontfamily-sansserif);
   border-bottom: 1px solid black;
   cursor: pointer;
-  padding: 0.5rem;
+  padding: 0.5rem 2rem;
 }

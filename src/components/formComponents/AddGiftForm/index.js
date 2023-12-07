@@ -43,8 +43,6 @@ const AddGiftForm = ({ onSubmit, edit, onClickEdit, editedGift }) => {
   };
 
   const handleGiftForm = () => {
-    loader.showLoader(true);
-
     let data = new FormData();
     data.append("name", giftName);
     data.append("price", giftPrice);
@@ -54,15 +52,11 @@ const AddGiftForm = ({ onSubmit, edit, onClickEdit, editedGift }) => {
         "Content-Type": "multipart/form-data",
       })
         .then((res) => {
-          loader.showLoader(false);
-
           console.log(res);
           successToast(res.message);
           onSubmit();
         })
         .catch((err) => {
-          loader.showLoader(false);
-
           errorToast(err.message);
           console.log(err);
         });

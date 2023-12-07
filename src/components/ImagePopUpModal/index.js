@@ -1,5 +1,10 @@
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import "swiper/css/navigation";
+
+import "swiper/css";
 
 import "./style.css";
 
@@ -21,7 +26,15 @@ const style = {
   p: 2,
 };
 
-const ImagePopUpModal = ({ open, handleClose, header, img }) => {
+const ImagePopUpModal = ({ open, handleClose, header, img, images }) => {
+  const SUPPORTED_IMAGE_FORMATS = ["jpg", "jpeg", "png", "webp"];
+
+  const getUrlExtension = (url) => {
+    return url.split(/[#?]/)[0].split(".").pop().trim();
+  };
+
+  console.log("images", images);
+
   return (
     <div>
       <Modal
@@ -35,6 +48,35 @@ const ImagePopUpModal = ({ open, handleClose, header, img }) => {
             <h3>{header}</h3>
             <img className="image__popup__styling" src={img} alt={header} />
           </div>
+          {images && (
+            <Swiper
+              navigation={true}
+              modules={[Navigation]}
+              className="swiper__container"
+              slidesPerView={1}
+              onSlideChange={() => console.log("slide change")}
+              onSwiper={(swiper) => console.log(swiper)}
+            >
+              {images.length > 0 &&
+                images.map((image) => (
+                  <SwiperSlide className="swiper__container">
+                    {SUPPORTED_IMAGE_FORMATS.includes(
+                      getUrlExtension(image)
+                    ) ? (
+                      <img
+                        className="image__popup__styling"
+                        src={image}
+                        alt={header}
+                      />
+                    ) : (
+                      <video width="400" height="300" controls autoPlay loop>
+                        <source src={image} type="video/mp4" />
+                      </video>
+                    )}
+                  </SwiperSlide>
+                ))}
+            </Swiper>
+          )}
         </Box>
       </Modal>
     </div>

@@ -9,66 +9,62 @@ import {
 } from "../../../network/NetworkConfiguration";
 import { useLoader } from "../../../base/Context/loaderProvider";
 
-export const SetRandomCallTime = ({ onSubmit }) => {
-  const [randomCallTime, setRandomCallTime] = useState("");
+const NormalCallTime = ({ onSubmit }) => {
+  const [normalCallTime, setNormalCallTime] = useState("");
 
   const loader = useLoader();
 
   useEffect(() => {
-    fetchRandomCallTime();
+    fetchNormalCallTime();
   }, []);
 
-  const fetchRandomCallTime = () => {
+  const fetchNormalCallTime = () => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETRANDOMCALLTIME, "GET")
+    fetchDataFromAPI(API_URL + NetworkConfiguration.GETNORMALCALLTIME, "GET")
       .then((res) => {
         console.log(res);
         loader.showLoader(false);
-
-        setRandomCallTime(res.result);
+        setNormalCallTime(res.result);
       })
       .catch((err) => {
         loader.showLoader(false);
-
         console.log(err);
       });
   };
-  const handleRandomCallTime = () => {
+
+  const handleNormalCallTime = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.UPDATERANDOMCALLTIME,
+      API_URL + NetworkConfiguration.UPDATENORMALCALLTIME,
       "PUT",
       {
-        randomCallSecondTime: randomCallTime,
+        perSecondCharge: normalCallTime,
       }
     )
       .then((res) => {
-        loader.showLoader(false);
-
         console.log(res);
+        loader.showLoader(false);
         onSubmit();
       })
       .catch((err) => {
         loader.showLoader(false);
-
         console.log(err);
       });
   };
-
   return (
     <div className="premium__coin__container">
-      <h2 className="premium__coin__heading">Set Random Call Time</h2>
+      <h2 className="premium__coin__heading">Set Normal Call Charges</h2>
       <div className="premium__coin">
         <InputField
-          value={randomCallTime}
-          placeholder="Set Random Call Time in sec"
+          value={normalCallTime}
+          placeholder="Set Normal Call Time in sec"
           onChange={(e) => {
-            setRandomCallTime(e.target.value);
+            setNormalCallTime(e.target.value);
           }}
         />
         <br />
         <Button
-          onClick={handleRandomCallTime}
+          onClick={handleNormalCallTime}
           text="Update"
           style={{ margin: "auto" }}
         />
@@ -76,3 +72,5 @@ export const SetRandomCallTime = ({ onSubmit }) => {
     </div>
   );
 };
+
+export default NormalCallTime;

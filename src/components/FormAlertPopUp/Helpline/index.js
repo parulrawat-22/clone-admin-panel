@@ -10,52 +10,39 @@ import "./style.css";
 import { useLoader } from "../../../base/Context/loaderProvider";
 
 const Helpline = ({ helplineNumber, onSubmit }) => {
-  const [mobileNumber, setMobileNumber] = useState(helplineNumber);
-  const [id, setId] = useState("");
+  const [mobileNumber, setMobileNumber] = useState("");
 
   const loader = useLoader();
 
   useEffect(() => {
-    console.log("cfgfjyul", helplineNumber);
-    setMobileNumber(helplineNumber);
-  }, [helplineNumber]);
+    fetchHelplineNumber();
+  }, []);
 
-  const handleHelpline = () => {
+  const fetchHelplineNumber = () => {
     loader.showLoader(true);
-
-    fetchDataFromAPI(API_URL + NetworkConfiguration.ADDHELPLINE, "POST", {
-      mobileNumber: mobileNumber,
-    })
+    fetchDataFromAPI(API_URL + NetworkConfiguration.GETHELPLINENUMBER, "GET")
       .then((res) => {
         loader.showLoader(false);
-        console.log(res);
-        onSubmit();
+        setMobileNumber(res.result);
       })
       .catch((err) => {
-        loader.showLoader(false);
-
         console.log(err);
+        loader.showLoader(false);
       });
   };
 
   const handleCreateHelpline = () => {
     loader.showLoader(true);
-
-    fetchDataFromAPI(
-      API_URL + NetworkConfiguration.UPDATEHELPLINE + `/${id}`,
-      "PUT",
-      {
-        mobileNumber: mobileNumber,
-      }
-    )
+    fetchDataFromAPI(API_URL + NetworkConfiguration.UPDATEHELPLINE, "PUT", {
+      mobileNumber: mobileNumber,
+    })
       .then((res) => {
         loader.showLoader(false);
-
+        onSubmit();
         console.log(res);
       })
       .catch((err) => {
         loader.showLoader(false);
-
         console.log(err);
       });
   };
@@ -75,7 +62,7 @@ const Helpline = ({ helplineNumber, onSubmit }) => {
         <br />
         <Button
           style={{ margin: "auto", cursor: "pointer" }}
-          onClick={helplineNumber ? handleCreateHelpline : handleHelpline}
+          onClick={handleCreateHelpline}
           text={helplineNumber ? "Update" : "Create"}
         />
       </div>

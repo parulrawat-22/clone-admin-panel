@@ -159,7 +159,7 @@ const FeedbackUserTable = () => {
       <ImagePopUpModal
         open={showImageAlert}
         handleClose={handleShowImageClose}
-        img={img}
+        images={img}
       />
     </div>
   );

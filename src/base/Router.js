@@ -33,7 +33,6 @@ import Sticker from "../pages/Sticker";
 import Notification from "../pages/Notification";
 import UserManagementOption from "../components/pages/userManagement/UserManagementOption";
 import HostManagementOption from "../components/pages/hostManagement/HostManagementOption";
-import EditPassword from "../pages/EditPassword";
 import EditProfile from "../pages/EditProfile";
 
 // import Coin from "../pages/Coin";
@@ -134,14 +133,6 @@ const Router = () => {
           element={
             <Layout>
               <Notification />
-            </Layout>
-          }
-        />
-        <Route
-          path="/editpassword"
-          element={
-            <Layout>
-              <EditPassword />
             </Layout>
           }
         />

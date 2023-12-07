@@ -1,10 +1,5 @@
-.edit__profile__container {
-  padding: 3rem 0;
-}
-
 .edit__profile__box {
   padding: 3rem;
-  width: 100%;
   background-color: var(--color-lightpink);
   box-shadow: 1px 1px 1px 1px rgb(255, 219, 219);
   border-radius: 15px;

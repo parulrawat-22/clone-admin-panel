@@ -249,7 +249,7 @@ const HostRequestTable = () => {
         open={showImageAlert}
         handleOpen={handleImageAlert}
         handleClose={handleImageAlertClose}
-        img={img}
+        images={img}
       />
     </div>
   );

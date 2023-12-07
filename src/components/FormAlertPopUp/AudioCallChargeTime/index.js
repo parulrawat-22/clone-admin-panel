@@ -9,66 +9,63 @@ import {
 } from "../../../network/NetworkConfiguration";
 import { useLoader } from "../../../base/Context/loaderProvider";
 
-export const SetRandomCallTime = ({ onSubmit }) => {
-  const [randomCallTime, setRandomCallTime] = useState("");
+const AudioChargeCall = ({ onSubmit }) => {
+  const [audioCallChargeTime, setAudioCallChargeTime] = useState("");
 
   const loader = useLoader();
 
   useEffect(() => {
-    fetchRandomCallTime();
+    fetchAudioCallTime();
   }, []);
 
-  const fetchRandomCallTime = () => {
+  const fetchAudioCallTime = () => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETRANDOMCALLTIME, "GET")
+    fetchDataFromAPI(API_URL + NetworkConfiguration.GETAUDIOCALLTIME, "GET")
       .then((res) => {
-        console.log(res);
+        setAudioCallChargeTime(res.result);
         loader.showLoader(false);
-
-        setRandomCallTime(res.result);
       })
       .catch((err) => {
-        loader.showLoader(false);
-
         console.log(err);
+        loader.showLoader(false);
       });
   };
-  const handleRandomCallTime = () => {
+
+  const handleAudioCallTime = () => {
     loader.showLoader(true);
+
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.UPDATERANDOMCALLTIME,
+      API_URL + NetworkConfiguration.UPDATEAUDIOCALLTIME,
       "PUT",
       {
-        randomCallSecondTime: randomCallTime,
+        audioCallTimeset: audioCallChargeTime,
       }
     )
       .then((res) => {
+        onSubmit();
         loader.showLoader(false);
 
         console.log(res);
-        onSubmit();
       })
       .catch((err) => {
-        loader.showLoader(false);
-
         console.log(err);
+        loader.showLoader(false);
       });
   };
-
   return (
     <div className="premium__coin__container">
-      <h2 className="premium__coin__heading">Set Random Call Time</h2>
+      <h2 className="premium__coin__heading">Set Audio Call Charge Time</h2>
       <div className="premium__coin">
         <InputField
-          value={randomCallTime}
+          value={audioCallChargeTime}
           placeholder="Set Random Call Time in sec"
           onChange={(e) => {
-            setRandomCallTime(e.target.value);
+            setAudioCallChargeTime(e.target.value);
           }}
         />
         <br />
         <Button
-          onClick={handleRandomCallTime}
+          onClick={handleAudioCallTime}
           text="Update"
           style={{ margin: "auto" }}
         />
@@ -76,3 +73,5 @@ export const SetRandomCallTime = ({ onSubmit }) => {
     </div>
   );
 };
+
+export default AudioChargeCall;
