@@ -15,6 +15,7 @@ import HostMomentTable from "../../../Table/HostMomentTable";
 import "./style.css";
 import HostNotification from "../../../Table/HostNotificationTable";
 import HostGiftTable from "../../../Table/HostGiftTable";
+import EarningTable from "../../../Table/EarningTable";
 
 const HostManagementOption = () => {
   const { selectedOption } = useParams();
@@ -56,6 +57,10 @@ const HostManagementOption = () => {
 
       case "payment history": {
         return <PaymentHistoryTable />;
+      }
+
+      case "earnings": {
+        return <EarningTable />;
       }
 
       case "call history": {

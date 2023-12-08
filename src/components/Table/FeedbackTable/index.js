@@ -87,7 +87,7 @@ const FeedbackUserTable = () => {
       <table className="feedback__table__container">
         <thead>
           <th className="feedback__table__heading">S.No.</th>
-          {id && (
+          {!id && (
             <>
               <th className="feedback__table__heading">User ID</th>
               <th className="feedback__table__heading">User Name</th>
@@ -104,7 +104,7 @@ const FeedbackUserTable = () => {
             return (
               <tr>
                 <td className="feedback__table__data"> {index + 1}</td>
-                {id && (
+                {!id && (
                   <>
                     <td className="feedback__table__data">{data?._id}</td>
                     <td className="feedback__table__data">

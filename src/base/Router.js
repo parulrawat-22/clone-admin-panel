@@ -34,6 +34,7 @@ import Notification from "../pages/Notification";
 import UserManagementOption from "../components/pages/userManagement/UserManagementOption";
 import HostManagementOption from "../components/pages/hostManagement/HostManagementOption";
 import EditProfile from "../pages/EditProfile";
+import Earnings from "../pages/Earnings";
 
 // import Coin from "../pages/Coin";
 
@@ -144,6 +145,15 @@ const Router = () => {
             </Layout>
           }
         />
+
+        <Route
+          path="/earnings"
+          element={
+            <Layout>
+              <Earnings />
+            </Layout>
+          }
+        ></Route>
       </Routes>
     </BrowserRouter>
   );

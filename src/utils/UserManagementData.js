@@ -11,7 +11,6 @@ import callHistory from "../base/Assets/call history.png";
 import followers from "../base/Assets/followers.png";
 import following from "../base/Assets/following.png";
 import blockList from "../base/Assets/blocked.png";
-import interest from "../base/Assets/interest.png";
 
 export const UserManagementData = [
   {
@@ -42,11 +41,6 @@ export const UserManagementData = [
   {
     name: "bucket",
     icon: bucket,
-  },
-
-  {
-    name: "recharge",
-    icon: recharge,
   },
 
   {

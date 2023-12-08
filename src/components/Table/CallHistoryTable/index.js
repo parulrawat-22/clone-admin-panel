@@ -35,6 +35,7 @@ const CallHistory = () => {
         console.log(err);
       });
   };
+
   return (
     <div className="user__call__history__container">
       <table className="user__call__history__table">
@@ -45,7 +46,6 @@ const CallHistory = () => {
           <th className="user__call__history__header">Coin Spend</th>
           <th className="user__call__history__header">Mode</th>
           <th className="user__call__history__header">Time Duration</th>
-          {/* <th className="user__call__history__header">Status</th> */}
         </thead>
         <tbody>
           {getCallHistory.map((data, index) => {
@@ -63,7 +63,6 @@ const CallHistory = () => {
                 <td className="user__call__history__data">
                   {data?.total_minute}
                 </td>
-                {/* <td className="user__call__history__data">{data?.status}</td> */}
               </tr>
             );
           })}

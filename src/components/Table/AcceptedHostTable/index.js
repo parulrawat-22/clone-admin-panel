@@ -10,6 +10,9 @@ import {
 } from "../../../network/NetworkConfiguration";
 import { useNavigate } from "react-router-dom";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import FormAlertPopUp from "../../FormAlertPopUp";
+import HostVideoCallCharge from "../../FormAlertPopUp/HostVideoCallCharge";
+import HostAudioCharge from "../../FormAlertPopUp/HostAudioCharge";
 
 const AcceptedHostTable = () => {
   let navigate = useNavigate();
@@ -17,7 +20,6 @@ const AcceptedHostTable = () => {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [showChangeLeaderAlert, setShowChangeLeaderAlert] = useState(false);
   const [showChargeAlert, setShowChargeAlert] = useState(false);
-  const [audioCallFees, setAudioCallFees] = useState("");
   const [showAudioAlert, setShowAudioAlert] = useState(false);
   const [id, setId] = useState("");
   const [leaderId, setLeaderId] = useState("");
@@ -28,7 +30,6 @@ const AcceptedHostTable = () => {
       value: "",
     },
   ]);
-  const [hostuser_fees, setHostuser_fees] = useState("");
 
   const loader = useLoader();
 
@@ -109,23 +110,9 @@ const AcceptedHostTable = () => {
     setShowDeleteAlert(true);
     setId(id);
   };
-  const handleHostLeader = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.UPDATEHOSTCHARGE, "PUT", {
-      id: id,
-      hostuser_fees: hostuser_fees,
-    })
-      .then((res) => {
-        getAcceptedHost();
-        setShowChargeAlert(false);
-        loader.showLoader(false);
-      })
-      .catch((err) => {
-        console.log(err, "2345");
-        loader.showLoader(false);
-      });
-  };
 
   const handleDeletedAcceptedHost = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.DELETEHOST + `/${id}`,
       "DELETE"
@@ -163,28 +150,6 @@ const AcceptedHostTable = () => {
       });
   };
 
-  const handleAudioCharges = () => {
-    loader.showLoader(true);
-    fetchDataFromAPI(
-      API_URL + NetworkConfiguration.UPDATEAUDIOCALLCHARGE,
-      "PUT",
-      {
-        id: id,
-        audioCall_fees: audioCallFees,
-      }
-    )
-      .then((res) => {
-        console.log(res);
-        loader.showLoader(false);
-        getAcceptedHost();
-        handleAudioCallChargeClose();
-      })
-      .catch((err) => {
-        console.log(err);
-        loader.showLoader(false);
-      });
-  };
-
   return (
     <div className="accepted__host__container">
       <table className="accepted__host__table">
@@ -197,8 +162,8 @@ const AcceptedHostTable = () => {
           <th className="accepted__host__header">Mobile Number</th>
           <th className="accepted__host__header">Email ID</th>
           <th className="accepted__host__header">Accepted At</th>
-          <th className="accepted__host__header">Audio Charge/min</th>
-          <th className="accepted__host__header">Charge/min</th>
+          <th className="accepted__host__header">Audio Charge/sec</th>
+          <th className="accepted__host__header">Video Charge/sec</th>
           <th className="accepted__host__header">Leader</th>
           <th className="accepted__host__header">Details</th>
           <th className="accepted__host__header">Action</th>
@@ -299,29 +264,29 @@ const AcceptedHostTable = () => {
         onCancelClick={handleChangeLeaderClose}
       />
 
-      <AlertPopUp
+      <FormAlertPopUp
         open={showChargeAlert}
-        handleOpen={handleChangeCharge}
-        handleClose={handleChangeChargeClose}
+        onRequestClose={handleChangeChargeClose}
         submitText="Submit"
-        cancelText="Cancel"
-        textField={true}
-        onChangeField={(e) => setHostuser_fees(e.target.value)}
-        onSubmitClick={handleHostLeader}
-        onCancelClick={handleChangeChargeClose}
-      />
-      <AlertPopUp
+      >
+        <HostVideoCallCharge
+          id={id}
+          getAcceptedHost={getAcceptedHost}
+          setShowChargeAlert={setShowChargeAlert}
+        />
+      </FormAlertPopUp>
+
+      <FormAlertPopUp
         open={showAudioAlert}
-        handleClose={handleAudioCallChargeClose}
+        onRequestClose={handleAudioCallChargeClose}
         handleOpen={handleAudioCallCharge}
-        submitText="Submit"
-        cancelText="Cancel"
-        textField={true}
-        onChangeField={(e) => setAudioCallFees(e.target.value)}
-        header="Update Audio Call Charge"
-        onSubmitClick={handleAudioCharges}
-        onCancelClick={handleAudioCallChargeClose}
-      />
+      >
+        <HostAudioCharge
+          id={id}
+          getAcceptedHost={getAcceptedHost}
+          setShowAudioAlert={setShowAudioAlert}
+        />
+      </FormAlertPopUp>
     </div>
   );
 };

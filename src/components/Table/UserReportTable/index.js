@@ -7,6 +7,7 @@ import {
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
 import { useParams } from "react-router-dom";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import moment from "moment";
 
 const UserReportTable = () => {
   const { id } = useParams();
@@ -28,7 +29,6 @@ const UserReportTable = () => {
     )
       .then((res) => {
         loader.showLoader(false);
-
         setUserReportList(res.result);
       })
       .catch((err) => {
@@ -50,6 +50,7 @@ const UserReportTable = () => {
             <th className="user__report__header">Report ID</th>
             <th className="user__report__header">Title</th>
             <th className="user__report__header">Reason</th>
+            <th className="user__report__header">Date & Time</th>
           </thead>
           <tbody>
             {userReportList.map((data, index) => {
@@ -66,6 +67,9 @@ const UserReportTable = () => {
                     {data?.Choose_the_Reason}
                   </td>
                   <td className="user__report__data">{data?.comment}</td>
+                  <td className="user__report__data">
+                    {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
+                  </td>
                 </tr>
               );
             })}
@@ -81,6 +85,7 @@ const UserReportTable = () => {
             <th className="user__report__header">Report ID</th>
             <th className="user__report__header">Title</th>
             <th className="user__report__header">Reason</th>
+            <th className="user__report__header">Date & Time</th>
           </thead>
           <tbody>
             {userReportList.map((data, index) => {
@@ -97,6 +102,9 @@ const UserReportTable = () => {
                     {data?.Choose_the_Reason}
                   </td>
                   <td className="user__report__data">{data?.comment}</td>
+                  <td className="user__report__data">
+                    {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
+                  </td>
                 </tr>
               );
             })}

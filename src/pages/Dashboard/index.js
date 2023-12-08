@@ -36,7 +36,7 @@ const Dashboard = () => {
     fetchDataFromAPI(API_URL + NetworkConfiguration.ONLINEUSER, "GET")
       .then((res) => {
         loader.showLoader(false);
-        setAdminOnlineUser(res.data.result);
+        setAdminOnlineUser(res.result);
       })
       .catch((err) => {
         loader.showLoader(false);
@@ -52,7 +52,7 @@ const Dashboard = () => {
       .then((res) => {
         loader.showLoader(false);
 
-        setAdminOfflineHost(res.data.result);
+        setAdminOfflineHost(res.result);
       })
       .catch((err) => {
         loader.showLoader(false);
@@ -66,7 +66,7 @@ const Dashboard = () => {
 
     fetchDataFromAPI(API_URL + NetworkConfiguration.ONLINEHOST, "GET")
       .then((res) => {
-        setAdminOnlineHost(res.data.result);
+        setAdminOnlineHost(res.result);
         loader.showLoader(false);
       })
       .catch((err) => {
@@ -81,7 +81,7 @@ const Dashboard = () => {
 
     fetchDataFromAPI(API_URL + NetworkConfiguration.OFFLINEUSER, "GET")
       .then((res) => {
-        setAdminOfflineUser(res.data.result);
+        setAdminOfflineUser(res.result);
         loader.showLoader(false);
       })
       .catch((err) => {

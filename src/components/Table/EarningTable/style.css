@@ -1,24 +1,24 @@
-.user__report__container {
+.earnings__table__container {
   padding: 3rem 0;
 }
 
-.user__report__table {
+.earnings__table {
   width: 100%;
   border-collapse: collapse;
 }
 
-.user__report__header {
-  padding: 10px;
+.earnings__table__header {
   background-color: var(--color-pink);
   color: var(--color-white);
-  font-weight: var(--fontweight-medium);
   font-family: var(--fontfamily-sansserif);
+  font-weight: var(--fontweight-medium);
+  font-size: var(--fontsize-regular);
+  padding: 10px 0;
 }
 
-.user__report__data {
+.earnings__table__data {
   text-align: center;
   font-family: var(--fontfamily-sansserif);
+  border-bottom: 1px solid black;
   padding: 10px 5px;
-  border: none;
-  border-bottom: 1px solid grey;
 }

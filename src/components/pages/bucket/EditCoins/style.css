@@ -1,0 +1,9 @@
+.edit__coins__heading {
+  font-family: var(--fontfamily-sansserif);
+  font-weight: var(--fontweight-medium);
+  font-size: var(--fontsize-medium);
+}
+
+.edit__coin__btn {
+  cursor: pointer;
+}

@@ -7,6 +7,7 @@ import {
 } from "../../../network/NetworkConfiguration";
 import { useParams } from "react-router-dom";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import moment from "moment";
 
 const HostReportTable = () => {
   const [getHostReport, setGetHostReport] = useState([]);
@@ -47,6 +48,7 @@ const HostReportTable = () => {
             <th className="host__report__header">Report ID</th>
             <th className="host__report__header">Title</th>
             <th className="host__report__header">Reason</th>
+            <th className="host__report__header">Date & Time</th>
           </thead>
           <tbody>
             {getHostReport.map((data, index) => {
@@ -63,6 +65,9 @@ const HostReportTable = () => {
                     {data?.Choose_the_Reason}
                   </td>
                   <td className="host__report__data">{data?.comment}</td>
+                  <td className="host__report__data">
+                    {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
+                  </td>
                 </tr>
               );
             })}
@@ -78,6 +83,7 @@ const HostReportTable = () => {
             <th className="host__report__header">Report ID</th>
             <th className="host__report__header">Title</th>
             <th className="host__report__header">Reason</th>
+            <th className="host__report__header">Date & Time</th>
           </thead>
           <tbody>
             {getHostReport.map((data, index) => {
@@ -94,6 +100,9 @@ const HostReportTable = () => {
                     {data?.Choose_the_Reason}
                   </td>
                   <td className="host__report__data">{data?.comment}</td>
+                  <td className="host__report__data">
+                    {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
+                  </td>
                 </tr>
               );
             })}
