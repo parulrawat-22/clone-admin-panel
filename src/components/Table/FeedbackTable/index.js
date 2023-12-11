@@ -74,7 +74,7 @@ const FeedbackUserTable = () => {
   };
 
   const handleFeedbackRevert = (id) => {
-    setShowRevertAlert(false);
+    setShowRevertAlert(true);
     setGetId(id);
   };
 
@@ -133,9 +133,9 @@ const FeedbackUserTable = () => {
                 ) : (
                   <td
                     onClick={() => handleFeedbackRevert(data?._id)}
-                    className="feedback__table__data"
+                    className="feedback__table__data feedback__table__reply"
                   >
-                    Reply{" "}
+                    Reply
                   </td>
                 )}
               </tr>

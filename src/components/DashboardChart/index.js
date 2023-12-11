@@ -33,18 +33,21 @@ export default function DashboardChart() {
   //host Earnings
   const handleHostEarning = () => {
     let hostEarningPayload = {
-      startDate: moment(endDate).subtract(6, "days"),
-      endDate: endDate,
+      // startDate: moment(endDate).subtract(6, "days"),
+      // endDate: endDate,
+      month,
+      year,
+      week,
     };
 
-    if (year) hostEarningPayload = { year };
-    if (month) hostEarningPayload = { month };
-    if (week) hostEarningPayload = { week };
+    // if (year) hostEarningPayload = { year };
+    // if (month) hostEarningPayload = { month };
+    // if (week) hostEarningPayload = { week };
 
-    console.log("hostEarningPayload: ", JSON.stringify(hostEarningPayload));
+    // console.log("hostEarningPayload: ", JSON.stringify(hostEarningPayload));
 
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.HOSTEARNING,
+      API_URL + NetworkConfiguration.TOTALHOST,
       "POST",
       hostEarningPayload
     )
@@ -61,15 +64,26 @@ export default function DashboardChart() {
   }, [endDate, month, week, year]);
 
   const handleMonthClick = () => {
+    console.log("hereeee");
     setMonth(true);
+    setYear(false);
+    setWeek(false);
+    //handleHostEarning();
   };
 
   const handleYearClick = () => {
+    console.log("heree");
     setYear(true);
+    setWeek(false);
+    setMonth(false);
+    let data = ["01/23", "02/23", "03/23", "01/23", "02/23", "03/23", "01/23"];
+    setLabels(data);
   };
 
   const handleWeekClick = () => {
     setWeek(true);
+    setYear(false);
+    setMonth(false);
   };
 
   console.log("earnings", earnings);

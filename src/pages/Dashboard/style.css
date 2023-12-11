@@ -18,25 +18,11 @@
 
 .dashboard__notification {
   width: 16vw;
-  height: auto;
+  height: 100vh;
   border-radius: 20px;
   background-color: #ff39b3;
   box-shadow: 2px 2px 5.5px rgb(168, 168, 168);
-}
-
-.progress-bar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, white 79%, transparent 80% 100%),
-    conic-gradient(hotpink 75%, pink 0);
-}
-
-.progress-bar::before {
-  content: "75%";
+  overflow: scroll;
 }
 
 .dashboard__graph {
@@ -53,7 +39,6 @@
 .dashboard__graphs__loaders {
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
 .dashboard__loader {
@@ -64,9 +49,11 @@
   border-radius: 10px;
   display: flex;
   flex-direction: column;
+  gap: 10px;
   justify-content: center;
+  padding: 0.5rem;
   align-items: center;
-  margin-top: 5rem;
+  /* margin-top: 20px; */
 }
 
 .dashboard__loader_2 {
@@ -77,12 +64,34 @@
   border-radius: 10px;
   display: flex;
   flex-direction: column;
+  gap: 10px;
+
   justify-content: center;
+  padding: 0.5rem;
   align-items: center;
   margin-top: 1rem;
 }
 
 .dashboard__loader__heading {
   font-family: var(--fontfamily-sansserif);
-  margin-bottom: 15px;
+  /* margin-bottom: 15px; */
+}
+
+.dashboard_filter_btn_row {
+  display: flex;
+  gap: 10px;
+  margin-top: 80px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.dashboard__host__revenue {
+  width: 70%;
+  height: 70%;
+}
+
+.dashboard__input {
+  width: 7rem;
+  height: 3rem;
+  border-radius: 5px;
 }

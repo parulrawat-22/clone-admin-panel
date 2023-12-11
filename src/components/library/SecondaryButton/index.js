@@ -1,8 +1,8 @@
 import "./style.css";
 
-const SecondaryButton = ({ text, style }) => {
+const SecondaryButton = ({ text, style, onClick }) => {
   return (
-    <div className="secondary__btn__container" style={style}>
+    <div onClick={onClick} className="secondary__btn__container" style={style}>
       <p className="secondary__btn__text">{text}</p>
     </div>
   );

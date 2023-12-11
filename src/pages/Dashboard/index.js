@@ -11,18 +11,12 @@ import {
 
 import "./style.css";
 import DashboardChart from "../../components/DashboardChart";
+import { CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 import SecondaryButton from "../../components/library/SecondaryButton";
 import { useLoader } from "../../base/Context/loaderProvider";
 
 const Dashboard = () => {
-  useEffect(() => {
-    handleOnlineUser();
-    handleOfflineHost();
-    handleOnlineHost();
-    handleOfflineUser();
-    handleUserPurchase();
-  }, []);
-
   const loader = useLoader();
 
   // let adminOnlineUser = 0;
@@ -30,6 +24,20 @@ const Dashboard = () => {
   const [adminOfflineHost, setAdminOfflineHost] = useState(0);
   const [adminOnlineHost, setAdminOnlineHost] = useState(0);
   const [adminOfflineUser, setAdminOfflineUser] = useState(0);
+  const [hostEarning, setHostEarning] = useState([]);
+  const [userPurchase, setUserPurchase] = useState([]);
+  const [year, setYear] = useState(false);
+  const [month, setMonth] = useState(false);
+  const [week, setWeek] = useState(false);
+
+  useEffect(() => {
+    handleOnlineUser();
+    handleOfflineHost();
+    handleOnlineHost();
+    handleOfflineUser();
+    handleUserPurchase();
+    handleHostEarning();
+  }, [year, month, week]);
 
   const handleOnlineUser = () => {
     loader.showLoader(true);
@@ -56,7 +64,6 @@ const Dashboard = () => {
       })
       .catch((err) => {
         loader.showLoader(false);
-
         console.log(err, "err========");
       });
   };
@@ -71,7 +78,6 @@ const Dashboard = () => {
       })
       .catch((err) => {
         loader.showLoader(false);
-
         console.log(err, "err========");
       });
   };
@@ -86,32 +92,69 @@ const Dashboard = () => {
       })
       .catch((err) => {
         loader.showLoader(false);
-
         console.log(err, "err========");
       });
   };
 
   const handleUserPurchase = () => {
     loader.showLoader(true);
-
     fetchDataFromAPI(API_URL + NetworkConfiguration.USERPURCHASE, "POST", {
       startDate: "2023-11-27",
       endDate: "2023-11-28",
+      month,
+      year,
+      week,
     })
       .then((res) => {
+        setUserPurchase(res.totalPercentage.toFixed(2));
         loader.showLoader(false);
-
         console.log("12345678910", res);
       })
       .catch((err) => {
         loader.showLoader(false);
-
         console.log(err);
       });
   };
 
   ////////////////////////////////
   //host Earnings
+
+  const handleHostEarning = () => {
+    loader.showLoader(true);
+    fetchDataFromAPI(API_URL + NetworkConfiguration.TOTALHOSTEARNING, "POST", {
+      startDate: "2023-11-27",
+      endDate: "2023-11-28",
+      month,
+      year,
+      week,
+    })
+      .then((res) => {
+        console.log(res.totalPercentage);
+        setHostEarning(res.totalPercentage.toFixed(2));
+        loader.showLoader(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleYear = () => {
+    setYear(true);
+    setMonth(false);
+    setWeek(false);
+  };
+
+  const handleMonth = () => {
+    setMonth(true);
+    setYear(false);
+    setWeek(false);
+  };
+
+  const handleWeek = () => {
+    setMonth(false);
+    setYear(false);
+    setWeek(true);
+  };
 
   return (
     <Layout>
@@ -145,16 +188,42 @@ const Dashboard = () => {
             </div>
 
             <div>
-              <SecondaryButton text="year" />
-              <SecondaryButton text="month" />
-              <SecondaryButton text="week" />
-              <div className="dashboard__loader">
-                <h3 className="dashboard__loader__heading">Host Revenue</h3>
-                <div class="progress-bar"></div>
+              <div className="dashboard_filter_btn_row">
+                <SecondaryButton onClick={handleYear} text="Year" />
+                <SecondaryButton onClick={handleMonth} text="Month" />
+                <SecondaryButton onClick={handleWeek} text="Week" />
               </div>
-              <div className="dashboard__loader_2">
-                <h3 className="dashboard__loader__heading">User Purchase</h3>
-                <div class="progress-bar"></div>
+              <div>
+                <div className="dashboard__loader">
+                  <h3 className="dashboard__loader__heading">Host Revenue</h3>
+                  <input className="dashboard__input" type="date" />
+
+                  <CircularProgressbar
+                    className="dashboard__host__revenue"
+                    styles={{
+                      path: {
+                        stroke: `	rgba(242, 0, 148, ${50 / 100})`,
+                      },
+                    }}
+                    value={hostEarning}
+                    text={`${hostEarning}%`}
+                  />
+                </div>
+                <div className="dashboard__loader_2">
+                  <h3 className="dashboard__loader__heading">User Purchase</h3>
+                  <input className="dashboard__input" type="date" />
+
+                  <CircularProgressbar
+                    className="dashboard__host__revenue"
+                    styles={{
+                      path: {
+                        stroke: `rgba(242, 0, 148, ${50 / 100})`,
+                      },
+                    }}
+                    value={userPurchase}
+                    text={`${userPurchase}%`}
+                  />
+                </div>
               </div>
             </div>
           </div>

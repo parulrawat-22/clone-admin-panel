@@ -7,21 +7,23 @@
   margin: 10px;
 }
 
-.notification_search_icon {
-  position: absolute;
-  margin: 7px 0 0 30px;
-  z-index: 10;
+.notification__search_icon_bar {
+  width: 13rem;
+  background-color: white;
+  border-radius: 10rem;
+  height: 2rem;
+  align-items: center;
+  display: flex;
+  padding: 0 0.5rem;
+  margin-left: 20px;
 }
 
 .notification__search {
-  width: 13rem;
+  width: 80%;
   position: relative;
-  height: 2rem;
   border-radius: 10rem;
-  background-color: white;
-  margin-left: 20px;
   border: none;
   outline: none;
-  padding-left: 30px;
+  padding-left: 10px;
   font-size: var(--fontsize-small);
 }

@@ -1,7 +1,9 @@
 export const API_URL = "https://apiclone.instacash.land/api/";
 
 export const NetworkConfiguration = {
-  HOSTEARNING: "admin/adminFindHostEarning",
+  DEVICETOKEN: "admin/updateDeviceToken",
+  ADMINLOGIN: "admin/adminlogin",
+  TOTALHOST: "admin/getMontlyHost",
   USERPURCHASE: "admin/adminFindUserEarning",
   ONLINEUSER: "admin/adminOnlineUser",
   OFFLINEHOST: "admin/findOfflineHost",
@@ -41,6 +43,7 @@ export const NetworkConfiguration = {
   GETHOSTGIFT: "admin/adminGetHostSendGift",
   GETBUCKETLIST: "admin/findIncDecCoins",
   GETPAYMENTHISTORY: "admin/userPaymentDetails",
+  TOTALHOSTEARNING: "admin/adminFindHostEarning",
   CHANGEPASSWORD: "admin/adminSetPassword",
   GETUSERFOLLOWING: "admin/userFollowingsList",
   GETPREMIUMCOINS: "admin/adminGetSetCoins",

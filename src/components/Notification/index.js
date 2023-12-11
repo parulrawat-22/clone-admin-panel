@@ -10,7 +10,7 @@ const Notification = () => {
     <div>
       <h2 className="notification__heading">Recent Notifications</h2>
       <div className="notification__search_icon_bar">
-        <i className="notification_search_icon">{notificationSearchIcon()}</i>
+        <i>{notificationSearchIcon()}</i>
         <input
           className="notification__search"
           placeholder="search connections"

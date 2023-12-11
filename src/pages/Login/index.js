@@ -3,10 +3,16 @@ import { useNavigate } from "react-router-dom";
 import Button from "../../components/library/Button";
 import InputField from "../../components/library/InputField";
 import "./style.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import baseUrl from "../../baseUrl";
 import { errorToast, successToast } from "../../utils/toast";
+import { requestForToken } from "../../firebase";
+import { fetchDataFromAPI } from "../../network/NetworkConnection";
+import {
+  API_URL,
+  NetworkConfiguration,
+} from "../../network/NetworkConfiguration";
 
 const Login = () => {
   let navigate = useNavigate();
@@ -31,6 +37,7 @@ const Login = () => {
     email: null,
     password: null,
   });
+  const [deviceToken, setDeviceToken] = useState("");
 
   const handleOnSubmit = () => {
     if (!email.match(/^[a-zA-Z0-9_\-.]{3,}@[A-Za-z0-9]{2,}.[a-zA-Z]{2,5}$/)) {
@@ -42,29 +49,79 @@ const Login = () => {
       return;
     }
 
-    axios
-      .post(
-        baseUrl + "admin/adminlogin",
-        {
-          email: email,
-          password: password,
-        },
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      )
+    // useEffect(()=>{
+    //   adminLogin();
+    // }, []);
+
+    const adminLogin = () => {
+      fetchDataFromAPI(API_URL + NetworkConfiguration.ADMINLOGIN, "POST", {
+        email: email,
+        password: password,
+        deviceToken,
+      })
+        .then((res) => {
+          console.log("Login successful");
+          successToast(res.message);
+          localStorage.setItem("token", res.data.token);
+          navigate("/dashboard");
+        })
+        .catch((err) => {
+          console.log("Error", err);
+          errorToast(err.response.data.message);
+          errorToast(err.response.data.responseMessage);
+        });
+    };
+    // axios
+    //   .post(
+    //     baseUrl + "admin/adminlogin",
+    //     {
+    //       email: email,
+    //       password: password,
+    //       deviceToken,
+    //     },
+    //     {
+    //       headers: { "Content-Type": "application/json" },
+    //     }
+    //   )
+    //   .then((res) => {
+    //     console.log("Login successful");
+    //     successToast(res.message);
+    //     localStorage.setItem("token", res.data.token);
+    //     navigate("/dashboard");
+    //   })
+    //   .catch((err) => {
+    //     console.log("Error", err);
+    //     errorToast(err.response.data.message);
+    //     errorToast(err.response.data.responseMessage);
+    //   });
+  // };
+
+  useEffect(() => {
+    requestForToken().then((res) => {
+      setDeviceToken(res);
+    });
+  }, []);
+
+  const handleDeviceToken = () => {
+    fetchDataFromAPI(API_URL + NetworkConfiguration.DEVICETOKEN, "PUT", {
+      deviceToken,
+    })
       .then((res) => {
-        console.log("Login successful");
-        successToast(res.message);
-        localStorage.setItem("token", res.data.token);
-        navigate("/dashboard");
+        console.log(res);
+        setDeviceToken(res);
       })
       .catch((err) => {
-        console.log("Error", err);
-        errorToast(err.response.data.message);
-        errorToast(err.response.data.responseMessage);
+        console.log(err);
       });
   };
+
+  useEffect(() => {
+    if (deviceToken) {
+      handleDeviceToken();
+    }
+  }, [deviceToken]);
+
+  console.log("deviceToken", deviceToken);
 
   return (
     <div className="login__container">
@@ -92,7 +149,7 @@ const Login = () => {
               placeholder="Password"
               type={inputType()}
               error={error.password}
-              icon={eyeIcon()} // Pass the result of the eyeIcon function as the icon prop
+              icon={eyeIcon()}
               onEyeClick={toHideShowPassword}
             />
 
