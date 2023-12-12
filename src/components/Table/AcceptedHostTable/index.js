@@ -13,6 +13,8 @@ import { useLoader } from "../../../base/Context/loaderProvider";
 import FormAlertPopUp from "../../FormAlertPopUp";
 import HostVideoCallCharge from "../../FormAlertPopUp/HostVideoCallCharge";
 import HostAudioCharge from "../../FormAlertPopUp/HostAudioCharge";
+import SearchInput from "../../SearchInput";
+import { FiSearch } from "react-icons/fi";
 
 const AcceptedHostTable = () => {
   let navigate = useNavigate();
@@ -31,12 +33,14 @@ const AcceptedHostTable = () => {
     },
   ]);
 
+  const [value, setValue] = useState("");
+
   const loader = useLoader();
 
   useEffect(() => {
     getAcceptedHost();
     getHostLeader();
-  }, []);
+  }, [value]);
 
   const handleAudioCallCharge = (hostId) => {
     setShowAudioAlert(true);
@@ -95,7 +99,9 @@ const AcceptedHostTable = () => {
 
   const getAcceptedHost = () => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.ACCEPTEDHOST, "POST", {})
+    fetchDataFromAPI(API_URL + NetworkConfiguration.ACCEPTEDHOST, "POST", {
+      key: value,
+    })
       .then((res) => {
         setAcceptedHost(res.result);
         loader.showLoader(false);
@@ -150,8 +156,24 @@ const AcceptedHostTable = () => {
       });
   };
 
+  const searchIcon = () => {
+    return <FiSearch />;
+  };
+
+  const handleText = (e) => {
+    setValue(e.target.value);
+  };
+
   return (
     <div className="accepted__host__container">
+      <div className="accepted__host__search__btn">
+        <SearchInput
+          onChange={handleText}
+          value={value}
+          placeholder="Search"
+          icon={searchIcon()}
+        />
+      </div>
       <table className="accepted__host__table">
         <thead>
           <th className="accepted__host__header">S.No.</th>

@@ -7,6 +7,8 @@ import {
   API_URL,
   NetworkConfiguration,
 } from "../../network/NetworkConfiguration";
+import { FiSearch } from "react-icons/fi";
+import SearchInput from "../../components/SearchInput";
 
 const TopGrowing = () => {
   const [getSetValue, setGetSetValue] = useState();
@@ -81,6 +83,10 @@ const TopGrowing = () => {
     console.log("onChangeDropdown: ", e.target.value);
   };
 
+  const searchIcon = () => {
+    return <FiSearch />;
+  };
+
   return (
     <div>
       <div className="top__growing__dropdown">
@@ -96,6 +102,9 @@ const TopGrowing = () => {
         ></Dropdown>
       </div>
       <TopTalentTable isHost={isHost} tableData={tableData} />
+      <div className="banner__search__btn">
+        <SearchInput placeholder="Search" icon={searchIcon()} />
+      </div>
     </div>
   );
 };

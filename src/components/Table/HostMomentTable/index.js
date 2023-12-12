@@ -11,6 +11,8 @@ import ImagePopUpModal from "../../ImagePopUpModal";
 import moment from "moment";
 import AlertPopUp from "../../AlertPopUp";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import { FiSearch } from "react-icons/fi";
+import SearchInput from "../../SearchInput";
 
 const HostMomentTable = () => {
   const [getHostMoment, setGetHostMoment] = useState([]);
@@ -19,12 +21,13 @@ const HostMomentTable = () => {
   const [img, setImg] = useState("");
   const { id } = useParams();
   const [getId, setGetId] = useState("");
+  const [value, setValue] = useState("");
 
   const loader = useLoader();
 
   useEffect(() => {
     fetchHostMoment();
-  }, []);
+  }, [value]);
 
   const handleDeleteMoment = (id) => {
     setShowDeleteAlert(true);
@@ -67,7 +70,11 @@ const HostMomentTable = () => {
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.HOSTMOMENT,
       "POST",
-      id ? { hostId: id } : {}
+      id
+        ? { hostId: id }
+        : {
+            key: value,
+          }
     )
       .then((res) => {
         loader.showLoader(false);
@@ -79,8 +86,23 @@ const HostMomentTable = () => {
       });
   };
 
+  const searchIcon = () => {
+    return <FiSearch />;
+  };
+
+  const handleText = (e) => {
+    setValue(e.target.value);
+  };
   return (
     <div className="host__moment__container">
+      <div className="banner__search__btn">
+        <SearchInput
+          value={value}
+          onChange={handleText}
+          placeholder="Search"
+          icon={searchIcon()}
+        />
+      </div>
       <table className="host__moment__table">
         <thead>
           <th className="host__moment__header">S.No</th>

@@ -50,3 +50,10 @@
 .accepted__host__edit_icon {
   cursor: pointer;
 }
+
+.accepted__host__search__btn {
+  position: absolute;
+  left: 200;
+  top: 20px;
+  z-index: 100;
+}

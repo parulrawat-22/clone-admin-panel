@@ -4,8 +4,6 @@ import Button from "../../components/library/Button";
 import InputField from "../../components/library/InputField";
 import "./style.css";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import baseUrl from "../../baseUrl";
 import { errorToast, successToast } from "../../utils/toast";
 import { requestForToken } from "../../firebase";
 import { fetchDataFromAPI } from "../../network/NetworkConnection";
@@ -37,23 +35,12 @@ const Login = () => {
     email: null,
     password: null,
   });
-  const [deviceToken, setDeviceToken] = useState("");
 
-  const handleOnSubmit = () => {
-    if (!email.match(/^[a-zA-Z0-9_\-.]{3,}@[A-Za-z0-9]{2,}.[a-zA-Z]{2,5}$/)) {
-      setError({ ...error, email: "Please enter a valid email " });
-      return;
-    } else if (password === "") {
-      setError({ ...error, password: "Password is required" });
-      console.log("Password is required");
-      return;
-    }
-
-    // useEffect(()=>{
-    //   adminLogin();
-    // }, []);
-
-    const adminLogin = () => {
+  const handleOnSubmit = async () => {
+    if (validateLoginData()) {
+      let deviceToken = await requestForToken().then((res) => {
+        return res;
+      });
       fetchDataFromAPI(API_URL + NetworkConfiguration.ADMINLOGIN, "POST", {
         email: email,
         password: password,
@@ -62,7 +49,7 @@ const Login = () => {
         .then((res) => {
           console.log("Login successful");
           successToast(res.message);
-          localStorage.setItem("token", res.data.token);
+          localStorage.setItem("token", res.token);
           navigate("/dashboard");
         })
         .catch((err) => {
@@ -70,58 +57,72 @@ const Login = () => {
           errorToast(err.response.data.message);
           errorToast(err.response.data.responseMessage);
         });
-    };
-    // axios
-    //   .post(
-    //     baseUrl + "admin/adminlogin",
-    //     {
-    //       email: email,
-    //       password: password,
-    //       deviceToken,
-    //     },
-    //     {
-    //       headers: { "Content-Type": "application/json" },
-    //     }
-    //   )
-    //   .then((res) => {
-    //     console.log("Login successful");
-    //     successToast(res.message);
-    //     localStorage.setItem("token", res.data.token);
-    //     navigate("/dashboard");
-    //   })
-    //   .catch((err) => {
-    //     console.log("Error", err);
-    //     errorToast(err.response.data.message);
-    //     errorToast(err.response.data.responseMessage);
-    //   });
+    }
+  };
+
+  const validateLoginData = () => {
+    let validate = true;
+    if (!email.match(/^[a-zA-Z0-9_\-.]{3,}@[A-Za-z0-9]{2,}.[a-zA-Z]{2,5}$/)) {
+      setError({ ...error, email: "Please enter a valid email " });
+      validate = false;
+    } else if (password === "") {
+      setError({ ...error, password: "Password is required" });
+      console.log("Password is required");
+      validate = false;
+    }
+    return validate;
+  };
+
+  useEffect(() => {
+    // adminLogin();
+  }, []);
+
+  const adminLogin = () => {};
+  // axios
+  //   .post(
+  //     baseUrl + "admin/adminlogin",
+  //     {
+  //       email: email,
+  //       password: password,
+  //       deviceToken,
+  //     },
+  //     {
+  //       headers: { "Content-Type": "application/json" },
+  //     }
+  //   )
+  //   .then((res) => {
+  //     console.log("Login successful");
+  //     successToast(res.message);
+  //     localStorage.setItem("token", res.data.token);
+  //     navigate("/dashboard");
+  //   })
+  //   .catch((err) => {
+  //     console.log("Error", err);
+  //     errorToast(err.response.data.message);
+  //     errorToast(err.response.data.responseMessage);
+  //   });
   // };
 
   useEffect(() => {
-    requestForToken().then((res) => {
-      setDeviceToken(res);
-    });
+    let loginToken = localStorage.getItem("token");
+    if (loginToken) {
+      requestForToken().then((res) => {
+        handleDeviceToken(res);
+      });
+    }
   }, []);
 
-  const handleDeviceToken = () => {
+  const handleDeviceToken = (deviceToken) => {
     fetchDataFromAPI(API_URL + NetworkConfiguration.DEVICETOKEN, "PUT", {
       deviceToken,
     })
       .then((res) => {
         console.log(res);
-        setDeviceToken(res);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-
-  useEffect(() => {
-    if (deviceToken) {
-      handleDeviceToken();
-    }
-  }, [deviceToken]);
-
-  console.log("deviceToken", deviceToken);
 
   return (
     <div className="login__container">

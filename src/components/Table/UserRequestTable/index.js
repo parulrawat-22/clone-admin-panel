@@ -13,6 +13,8 @@ import {
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import SearchInput from "../../SearchInput";
+import { FiSearch } from "react-icons/fi";
 
 const UserTable = () => {
   let navigate = useNavigate();
@@ -25,12 +27,13 @@ const UserTable = () => {
   const [images, setImages] = useState("");
   const [id, setId] = useState("");
   const [img, setImg] = useState("");
+  const [value, setValue] = useState("");
 
   const loader = useLoader();
 
   useEffect(() => {
     getUserRequest();
-  }, []);
+  }, [value]);
 
   const handleDeleteAlert = () => {
     setShowDeleteAlert(true);
@@ -90,7 +93,9 @@ const UserTable = () => {
 
   const getUserRequest = () => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETUSERS, "POST", {})
+    fetchDataFromAPI(API_URL + NetworkConfiguration.GETUSERS, "POST", {
+      key: value,
+    })
       .then((res) => {
         setUserRequest(res.result);
         loader.showLoader(false);
@@ -101,8 +106,24 @@ const UserTable = () => {
       });
   };
 
+  const handleText = (e) => {
+    setValue(e.target.value);
+  };
+
+  const searchIcon = () => {
+    return <FiSearch />;
+  };
+
   return (
     <div className="user__request__table__container">
+      <div className="banner__search__btn">
+        <SearchInput
+          onChange={handleText}
+          placeholder="Search"
+          icon={searchIcon()}
+          value={value}
+        />
+      </div>
       <table className="user__request__table">
         <thead>
           <th className="user__request__headers">S.No.</th>

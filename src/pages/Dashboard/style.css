@@ -95,3 +95,10 @@
   height: 3rem;
   border-radius: 5px;
 }
+
+.dashboard__search__btn {
+  position: absolute;
+  left: 280px;
+  top: 14px;
+  z-index: 122222;
+}

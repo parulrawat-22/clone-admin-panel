@@ -12,6 +12,8 @@ import {
 import moment from "moment";
 import AlertPopUp from "../../components/AlertPopUp";
 import { errorToast, successToast } from "../../utils/toast";
+import SearchInput from "../../components/SearchInput";
+import { FiSearch } from "react-icons/fi";
 
 const Coin = () => {
   const [showCreateWallet, setShowCreateWallet] = useState(false);
@@ -89,10 +91,17 @@ const Coin = () => {
     fetchCoin();
   };
 
+  const searchIcon = () => {
+    return <FiSearch />;
+  };
+
   return (
     <div>
       <div onClick={handleCreateWallet} className="add__wallet">
         <Button text="Create Coin" />
+      </div>
+      <div className="banner__search__btn">
+        <SearchInput placeholder="Search" icon={searchIcon()} />
       </div>
       <div className="wallet__container">
         <table className="wallet__table">

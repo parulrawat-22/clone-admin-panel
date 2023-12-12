@@ -87,8 +87,8 @@ const BannerForm = ({ onSubmit, edit, id, onClickEdit, fetchBannerList }) => {
         loader.showLoader(false);
 
         console.log(res);
-        setBannerName(res.data.name);
-        setPreview(res.data.imageUrl);
+        setBannerName(res.name);
+        setPreview(res.imageUrl);
       })
       .catch((err) => {
         loader.showLoader(false);

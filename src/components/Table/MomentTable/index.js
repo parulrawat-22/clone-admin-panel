@@ -13,6 +13,8 @@ import moment from "moment";
 import ImagePopUpModal from "../../ImagePopUpModal";
 import { errorToast, successToast } from "../../../utils/toast";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import SearchInput from "../../SearchInput";
+import { FiSearch } from "react-icons/fi";
 
 const MomentTable = () => {
   let navigate = useNavigate();
@@ -23,6 +25,7 @@ const MomentTable = () => {
   const [momentId, setMomentId] = useState("");
   const [showImageAlert, setShowImageAlert] = useState("");
   const [img, setImg] = useState("");
+  const [value, setValue] = useState("");
 
   const loader = useLoader();
 
@@ -50,15 +53,18 @@ const MomentTable = () => {
 
   useEffect(() => {
     fetchUserMoment();
-  }, []);
+  }, [value]);
 
   const fetchUserMoment = () => {
     loader.showLoader(true);
-
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.GETUSERMOMENT,
       "POST",
-      id ? { userId: id } : {}
+      id
+        ? { userId: id }
+        : {
+            key: value,
+          }
     )
       .then((res) => {
         loader.showLoader(false);
@@ -97,8 +103,24 @@ const MomentTable = () => {
         errorToast(err.message);
       });
   };
+
+  const handleText = (e) => {
+    setValue(e.target.value);
+  };
+
+  const searchIcon = () => {
+    return <FiSearch />;
+  };
   return (
     <div className="moment__container">
+      <div className="banner__search__btn">
+        <SearchInput
+          value={value}
+          onChange={handleText}
+          placeholder="Search"
+          icon={searchIcon()}
+        />
+      </div>
       <table className="moment__table__container">
         <thead>
           <th className="moment__table__head">S.No</th>

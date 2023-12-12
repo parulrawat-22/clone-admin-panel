@@ -8,36 +8,53 @@ import {
 import { useParams } from "react-router-dom";
 import { useLoader } from "../../../base/Context/loaderProvider";
 import moment from "moment";
+import SearchInput from "../../SearchInput";
+import { FiSearch } from "react-icons/fi";
+import { useDebounce } from "use-debounce";
 
 const HostReportTable = () => {
   const [getHostReport, setGetHostReport] = useState([]);
   const { id } = useParams();
+  const [value, setValue] = useState("");
 
   const loader = useLoader();
 
   const getHostReportList = () => {
-    loader.showLoader(true);
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.HOSTREPORT,
       "POST",
-      id ? { hostId: id } : {}
+      id ? { hostId: id } : { key: value }
     )
       .then((res) => {
-        loader.showLoader(false);
         setGetHostReport(res.result);
       })
       .catch((err) => {
-        loader.showLoader(false);
         console.log(err);
       });
   };
 
   useEffect(() => {
     getHostReportList();
-  }, []);
+  }, [value]);
+
+  const searchIcon = () => {
+    return <FiSearch />;
+  };
+
+  const handleText = (e) => {
+    setValue(e.target.value);
+  };
 
   return (
     <div className="host__report__container">
+      <div className="banner__search__btn">
+        <SearchInput
+          onChange={handleText}
+          value={value}
+          placeholder="Search"
+          icon={searchIcon()}
+        />
+      </div>
       {id ? (
         <table className="host__report__table">
           <thead>

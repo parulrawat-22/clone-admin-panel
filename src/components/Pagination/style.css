@@ -1,0 +1,97 @@
+.active_page_btn {
+  background-color: var(--green-color);
+  color: var(--white-color);
+  font-size: var(--font-small);
+  border-radius: 5px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  outline: none;
+  margin: 0 5px;
+  box-shadow: 0 1px 2px 1px #ccc;
+  font-weight: 500;
+}
+
+.page_btn {
+  background-color: var(--white-color);
+  font-size: var(--font-small);
+  border-radius: 5px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  outline: none;
+  margin: 0 5px;
+  box-shadow: 0 1px 2px 1px #ccc;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.pagination_row {
+  display: flex;
+  justify-content: center;
+}
+
+.pagination_icon {
+  font-size: var(--font-regular);
+}
+
+.dot_btns {
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background-color: antiquewhite; */
+  font-size: 20px;
+}
+
+.pagination_box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.per_page_div {
+  background-color: var(--white-color);
+  font-size: var(--font-small);
+  border-radius: 5px;
+  height: 40px;
+  border: none;
+  outline: none;
+  box-shadow: 0 1px 2px 1px #ccc;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 10px;
+  margin-left: 5px;
+}
+
+.per_page_div select {
+  margin-left: 10px;
+  border: 1px solid black;
+  border-radius: 2px;
+  height: 25px;
+  font-size: var(--font-small);
+  cursor: pointer;
+  outline: none;
+}
+
+.per_page_div div {
+  margin-left: 10px;
+  border: 1px solid black;
+  border-radius: 2px;
+  height: 25px;
+  font-size: var(--font-small);
+  cursor: pointer;
+  padding: 0 5px;
+}
+
+.pagination_select_row {
+  display: flex;
+  justify-content: space-between;
+  width: 270px;
+}

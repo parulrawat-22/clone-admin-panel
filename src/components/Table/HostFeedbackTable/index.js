@@ -12,6 +12,8 @@ import { AiFillEye } from "react-icons/ai";
 import ImagePopUpModal from "../../ImagePopUpModal";
 import { useParams } from "react-router-dom";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import { FiSearch } from "react-icons/fi";
+import SearchInput from "../../SearchInput";
 
 const HostFeedbackTable = () => {
   const [hostFeedback, setHostFeeback] = useState([]);
@@ -80,8 +82,15 @@ const HostFeedbackTable = () => {
         console.log(err);
       });
   };
+
+  const searchIcon = () => {
+    return <FiSearch />;
+  };
   return (
     <div className="host__feedback__container">
+      <div className="banner__search__btn">
+        <SearchInput placeholder="Search" icon={searchIcon()} />
+      </div>
       <table className="host__feedback__table__container">
         <thead>
           <th className="host__feedback__table__heading">S.No.</th>

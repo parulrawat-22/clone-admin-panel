@@ -1,4 +1,4 @@
-import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import { AiFillDelete } from "react-icons/ai";
 import "./style.css";
 import { useEffect, useState } from "react";
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
@@ -9,6 +9,8 @@ import {
 import AlertPopUp from "../../AlertPopUp";
 import { errorToast, successToast } from "../../../utils/toast";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import { FiSearch } from "react-icons/fi";
+import SearchInput from "../../SearchInput";
 
 const NotificationTable = () => {
   const [getNotification, setGetNotification] = useState([]);
@@ -66,8 +68,15 @@ const NotificationTable = () => {
         console.log(err);
       });
   };
+
+  const searchIcon = () => {
+    return <FiSearch />;
+  };
   return (
     <div className="notification__table__container">
+      <div className="banner__search__btn">
+        <SearchInput placeholder="Search" icon={searchIcon()} />
+      </div>
       <table className="notification__table__table">
         <thead>
           <th className="notification__table__header">S.No.</th>

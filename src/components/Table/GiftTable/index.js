@@ -15,6 +15,9 @@ import AlertPopUp from "../../AlertPopUp";
 import ImagePopUpModal from "../../ImagePopUpModal";
 import { errorToast, successToast } from "../../../utils/toast";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import { FiSearch } from "react-icons/fi";
+import SearchInput from "../../SearchInput";
+import { RxValue } from "react-icons/rx";
 
 const GiftTable = () => {
   const [showGiftForm, setShowGiftForm] = useState(false);
@@ -30,6 +33,8 @@ const GiftTable = () => {
     giftPrice: "",
     giftImage: "",
   });
+
+  const [value, setValue] = useState("");
 
   const loader = useLoader();
 
@@ -66,11 +71,13 @@ const GiftTable = () => {
 
   useEffect(() => {
     fetchGift();
-  }, []);
+  }, [value]);
 
   const fetchGift = () => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETGIFT, "GET")
+    fetchDataFromAPI(API_URL + NetworkConfiguration.GETGIFT, "POST", {
+      key: value,
+    })
       .then((res) => {
         loader.showLoader(false);
         setGetGift(res.result);
@@ -119,10 +126,26 @@ const GiftTable = () => {
     setShowEditAlert(false);
     fetchGift();
   };
+
+  const handleText = (e) => {
+    setValue(e.target.value);
+  };
+
+  const searchIcon = () => {
+    return <FiSearch />;
+  };
   return (
     <div>
       <div onClick={handleAddGift} className="add__gift">
         <Button text="Add Gift" />
+      </div>
+      <div className="banner__search__btn">
+        <SearchInput
+          value={value}
+          onChange={handleText}
+          placeholder="Search"
+          icon={searchIcon()}
+        />
       </div>
       <div className="gift__container">
         <table className="gift__table__container">

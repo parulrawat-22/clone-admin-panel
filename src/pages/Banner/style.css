@@ -2,3 +2,10 @@
   display: flex;
   justify-content: flex-end;
 }
+
+.banner__search__btn {
+  position: absolute;
+  left: 200;
+  top: 20px;
+  z-index: 100;
+}

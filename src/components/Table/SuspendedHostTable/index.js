@@ -10,12 +10,15 @@ import {
 import AlertPopUp from "../../AlertPopUp";
 import { useSearchParams } from "react-router-dom";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import { FiSearch } from "react-icons/fi";
+import SearchInput from "../../SearchInput";
 
 const SuspendedHostTable = () => {
   const [suspendedHostList, setSuspendedHostList] = useState([]);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [id, setId] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
+  const [value, setValue] = useState("");
 
   const loader = useLoader();
 
@@ -29,7 +32,7 @@ const SuspendedHostTable = () => {
 
   useEffect(() => {
     getSuspendedHost();
-  }, []);
+  }, [value]);
 
   const getSuspendedHost = () => {
     loader.showLoader(true);
@@ -37,11 +40,14 @@ const SuspendedHostTable = () => {
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.SUSPENDEDHOST,
       "POST",
-      searchParams.get("id") ? { hostId: searchParams.get("id") } : {}
+      searchParams.get("id")
+        ? { hostId: searchParams.get("id") }
+        : {
+            key: value,
+          }
     )
       .then((res) => {
         loader.showLoader(false);
-
         setSuspendedHostList(res.result);
       })
       .catch((err) => {
@@ -75,8 +81,24 @@ const SuspendedHostTable = () => {
         console.log(err);
       });
   };
+
+  const handleText = (e) => {
+    setValue(e.target.value);
+  };
+
+  const searchIcon = () => {
+    return <FiSearch />;
+  };
   return (
     <div className="suspended__host__table__container">
+      <div className="banner__search__btn">
+        <SearchInput
+          value={value}
+          onChange={handleText}
+          placeholder="Search"
+          icon={searchIcon()}
+        />
+      </div>
       <table className="suspended__table">
         <thead>
           <th className="suspended__host__table__header">S.no</th>

@@ -12,6 +12,8 @@ import ImagePopUpModal from "../../ImagePopUpModal";
 import { useParams } from "react-router-dom";
 import { AiFillEye } from "react-icons/ai";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import { FiSearch } from "react-icons/fi";
+import SearchInput from "../../SearchInput";
 
 const FeedbackUserTable = () => {
   const { id } = useParams();
@@ -82,8 +84,15 @@ const FeedbackUserTable = () => {
     setShowRevertAlert(false);
   };
 
+  const searchIcon = () => {
+    return <FiSearch />;
+  };
+
   return (
     <div className="feedback__container">
+      <div className="banner__search__btn">
+        <SearchInput placeholder="Search" icon={searchIcon()} />
+      </div>
       <table className="feedback__table__container">
         <thead>
           <th className="feedback__table__heading">S.No.</th>

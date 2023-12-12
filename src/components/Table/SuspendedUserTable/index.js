@@ -13,6 +13,8 @@ import InputField from "../../library/InputField";
 import Button from "../../library/Button";
 import WebModal from "../../WebModal";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import SearchInput from "../../SearchInput";
+import { FiSearch } from "react-icons/fi";
 
 const SuspendedUserTable = () => {
   const [suspendedUserList, setSuspendedUserList] = useState([]);
@@ -20,7 +22,7 @@ const SuspendedUserTable = () => {
   const [showEditAlert, setShowEditAlert] = useState(false);
   const [id, setId] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
-  // const [data, setData] = useState("");
+  const [value, setValue] = useState("");
 
   const loader = useLoader();
 
@@ -38,23 +40,25 @@ const SuspendedUserTable = () => {
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.SUSPENDEDUSER,
       "POST",
-      searchParams.get("id") ? { userId: searchParams.get("id") } : {}
+      searchParams.get("id")
+        ? { userId: searchParams.get("id") }
+        : {
+            key: value,
+          }
     )
       .then((res) => {
         loader.showLoader(false);
-
         setSuspendedUserList(res.result);
       })
       .catch((err) => {
         loader.showLoader(false);
-
         console.log(err);
       });
   };
 
   useEffect(() => {
     getSuspendedUserList();
-  }, []);
+  }, [value]);
 
   const handleOnClickDelete = (id) => {
     setShowDeleteAlert(true);
@@ -90,8 +94,24 @@ const SuspendedUserTable = () => {
       });
   };
 
+  const handleText = (e) => {
+    setValue(e.target.value);
+  };
+
+  const searchIcon = () => {
+    return <FiSearch />;
+  };
+
   return (
     <div className="suspended__table__container">
+      <div className="banner__search__btn">
+        <SearchInput
+          value={value}
+          onChange={handleText}
+          placeholder="Search"
+          icon={searchIcon()}
+        />
+      </div>
       {searchParams.get("id") ? (
         <table className="suspended__table">
           <thead>

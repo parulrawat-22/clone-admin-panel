@@ -10,12 +10,20 @@ import AlertPopUp from "../../AlertPopUp";
 import { useSearchParams } from "react-router-dom";
 // import moment from "moment";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import { FiSearch } from "react-icons/fi";
+import SearchInput from "../../SearchInput";
+import { useDebounce } from "use-debounce";
 
 const WarnedHostTable = () => {
   const [warnedHostList, setWarnedHostList] = useState([]);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const [id, setId] = useState("");
+  const [value, setValue] = useState("");
+  const [key] = useDebounce(value, 1000);
+
+  console.log("key", key);
+  console.log("value", value);
 
   const loader = useLoader();
 
@@ -29,21 +37,22 @@ const WarnedHostTable = () => {
 
   useEffect(() => {
     getWarnedHost();
-  }, []);
+  }, [value]);
 
   const getWarnedHost = () => {
-    loader.showLoader(true);
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.WARNEDHOST,
       "POST",
-      searchParams.get("id") ? { hostId: searchParams.get("id") } : {}
+      searchParams.get("id")
+        ? { hostId: searchParams.get("id") }
+        : {
+            key: key,
+          }
     )
       .then((res) => {
-        loader.showLoader(false);
         setWarnedHostList(res.result);
       })
       .catch((err) => {
-        loader.showLoader(false);
         console.log(err);
       });
   };
@@ -71,8 +80,24 @@ const WarnedHostTable = () => {
       });
   };
 
+  const searchIcon = () => {
+    return <FiSearch />;
+  };
+
+  const handleText = (e) => {
+    setValue(e.target.value);
+  };
+
   return (
     <div className="warned__host__container">
+      <div className="banner__search__btn">
+        <SearchInput
+          value={value}
+          onChange={handleText}
+          placeholder="Search"
+          icon={searchIcon()}
+        />
+      </div>
       <table className="warned__host__table">
         <thead>
           <th className="warned__host__header">S.No.</th>

@@ -1,9 +1,7 @@
-import { FiSearch } from "react-icons/fi";
 import "./style.css";
 import { useEffect, useRef, useState } from "react";
 import { FaUserTie } from "react-icons/fa6";
 import PopMenu from "../PopUpMenu";
-import SearchInput from "./SearchInput";
 
 const Navbar = () => {
   const [popOpen, setPopOpen] = useState(false);
@@ -31,15 +29,8 @@ const Navbar = () => {
     }
   }, [popOpen]);
 
-  const searchIcon = () => {
-    return <FiSearch />;
-  };
-
   return (
     <nav className="navbar__container">
-      <div className="navbar__search_bar">
-        <SearchInput placeholder="Search" icon={searchIcon()} />
-      </div>
       <div className="navbar__profile_details">
         <p className="navbar__details">Welcome Admin!</p>
         <PopMenu popOpen={popOpen}>
@@ -50,8 +41,6 @@ const Navbar = () => {
           >
             <FaUserTie className="admin__image" />
           </div>
-
-          {/* <div className="navbar__country" onClick={handleProfileClick} /> */}
         </PopMenu>
       </div>
     </nav>

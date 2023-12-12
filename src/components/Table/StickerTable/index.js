@@ -14,6 +14,8 @@ import FormAlertPopUp from "../../FormAlertPopUp";
 import StickerForm from "../../formComponents/StickerForm";
 import { errorToast, successToast } from "../../../utils/toast";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import { FiSearch } from "react-icons/fi";
+import SearchInput from "../../SearchInput";
 
 const StickerTable = () => {
   const [getSticker, setGetSticker] = useState([]);
@@ -29,6 +31,8 @@ const StickerTable = () => {
     stickerUrl: "",
   });
 
+  const [value, setValue] = useState("");
+
   const loader = useLoader();
 
   const handleDeleteAlert = () => {
@@ -41,19 +45,17 @@ const StickerTable = () => {
 
   useEffect(() => {
     fetchSticker();
-  }, []);
+  }, [value]);
 
   const fetchSticker = () => {
-    loader.showLoader(true);
-
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETSTICKER, "GET")
+    fetchDataFromAPI(API_URL + NetworkConfiguration.GETSTICKER, "POST", {
+      key: value,
+    })
       .then((res) => {
         setGetSticker(res.result);
-        loader.showLoader(false);
       })
       .catch((err) => {
         console.log(err);
-        loader.showLoader(false);
       });
   };
 
@@ -122,10 +124,26 @@ const StickerTable = () => {
       });
   };
 
+  const searchIcon = () => {
+    return <FiSearch />;
+  };
+
+  const handleText = (e) => {
+    setValue(e.target.value);
+  };
+
   return (
     <div className="sticker__container">
       <div className="add__sticker" onClick={handleStickerForm}>
         <Button text="Add Sticker" />
+      </div>
+      <div className="banner__search__btn">
+        <SearchInput
+          value={value}
+          onChange={handleText}
+          placeholder="Search"
+          icon={searchIcon()}
+        />
       </div>
       <table className="sticker__table">
         <thead>

@@ -11,6 +11,8 @@ import {
 } from "../../../network/NetworkConfiguration";
 import ImagePopUpModal from "../../ImagePopUpModal";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import SearchInput from "../../SearchInput";
+import { FiSearch } from "react-icons/fi";
 
 const RejectedHostTable = () => {
   let navigate = useNavigate();
@@ -20,6 +22,7 @@ const RejectedHostTable = () => {
   const [rejectedReason, setRejectedReason] = useState("");
   const [showImageAlert, setShowImageAlert] = useState(false);
   const [img, setImg] = useState("");
+  const [value, setValue] = useState("");
 
   const loader = useLoader();
 
@@ -86,8 +89,24 @@ const RejectedHostTable = () => {
       });
   };
 
+  const searchIcon = () => {
+    return <FiSearch />;
+  };
+
+  const handleText = (e) => {
+    setValue(e.target.value);
+  };
+
   return (
     <div className="rejected__host__container">
+      <div className="banner__search__btn">
+        <SearchInput
+          value={value}
+          onChange={handleText}
+          placeholder="Search"
+          icon={searchIcon()}
+        />
+      </div>
       <table className="rejected__host__table">
         <thead>
           <th className="rejected__host__header">S.No.</th>

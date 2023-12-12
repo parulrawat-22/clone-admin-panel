@@ -15,6 +15,8 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import SecondaryButton from "../../components/library/SecondaryButton";
 import { useLoader } from "../../base/Context/loaderProvider";
+import SearchInput from "../../components/SearchInput";
+import { FiSearch } from "react-icons/fi";
 
 const Dashboard = () => {
   const loader = useLoader();
@@ -156,9 +158,16 @@ const Dashboard = () => {
     setWeek(true);
   };
 
+  const searchIcon = () => {
+    return <FiSearch />;
+  };
+
   return (
     <Layout>
       <div className="dashboard__container">
+        <div className="dashboard__search__btn">
+          <SearchInput placeholder="Search" icon={searchIcon()} />
+        </div>
         <div>
           <div className="dashboard__cards_info">
             <Card

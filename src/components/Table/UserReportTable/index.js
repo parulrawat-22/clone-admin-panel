@@ -8,38 +8,52 @@ import { fetchDataFromAPI } from "../../../network/NetworkConnection";
 import { useParams } from "react-router-dom";
 import { useLoader } from "../../../base/Context/loaderProvider";
 import moment from "moment";
+import { FiSearch } from "react-icons/fi";
+import SearchInput from "../../SearchInput";
 
 const UserReportTable = () => {
   const { id } = useParams();
   const [userReportList, setUserReportList] = useState([]);
+  const [value, setValue] = useState("");
 
   const loader = useLoader();
 
   useEffect(() => {
     getUserReport();
-  }, []);
+  }, [value]);
 
   const getUserReport = () => {
-    loader.showLoader(true);
-
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.USERREPORT,
       "POST",
-      id ? { userId: id } : {}
+      id ? { userId: id } : { key: value }
     )
       .then((res) => {
-        loader.showLoader(false);
         setUserReportList(res.result);
       })
       .catch((err) => {
-        loader.showLoader(false);
-
         console.log(err);
       });
   };
 
+  const searchIcon = () => {
+    return <FiSearch />;
+  };
+
+  const handleText = (e) => {
+    setValue(e.target.value);
+  };
+
   return (
     <div className="user__report__container">
+      <div className="banner__search__btn">
+        <SearchInput
+          value={value}
+          onChange={handleText}
+          placeholder="Search"
+          icon={searchIcon()}
+        />
+      </div>
       {id ? (
         <table className="user__report__table">
           <thead>

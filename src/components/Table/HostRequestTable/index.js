@@ -14,6 +14,8 @@ import {
 } from "../../../network/NetworkConfiguration";
 import ImagePopUpModal from "../../ImagePopUpModal";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import SearchInput from "../../SearchInput";
+import { FiSearch } from "react-icons/fi";
 
 const HostRequestTable = () => {
   let navigate = useNavigate();
@@ -25,6 +27,7 @@ const HostRequestTable = () => {
   const [rejectedReason, setRejectedReason] = useState("");
   const [showImageAlert, setShowImageAlert] = useState("");
   const [img, setImg] = useState("");
+  const [value, setValue] = useState("");
 
   const loader = useLoader();
 
@@ -34,11 +37,13 @@ const HostRequestTable = () => {
 
   useEffect(() => {
     getHostRequest();
-  }, []);
+  }, [value]);
 
   const getHostRequest = () => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.PENDINGHOST, "POST", {})
+    fetchDataFromAPI(API_URL + NetworkConfiguration.PENDINGHOST, "POST", {
+      key: value,
+    })
       .then((res) => {
         setHostRequest(res?.result);
         loader.showLoader(false);
@@ -141,8 +146,24 @@ const HostRequestTable = () => {
     setShowImageAlert(false);
   };
 
+  const searchIcon = () => {
+    return <FiSearch />;
+  };
+
+  const handleText = (e) => {
+    setValue(e.target.value);
+  };
+
   return (
     <div className="host__request__container">
+      <div className="banner__search__btn">
+        <SearchInput
+          onChange={handleText}
+          value={value}
+          placeholder="Search"
+          icon={searchIcon()}
+        />
+      </div>
       <table className="host__request__table">
         <thead>
           <th className="host__request__header">S.No.</th>

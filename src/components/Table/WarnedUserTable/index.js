@@ -10,12 +10,18 @@ import AlertPopUp from "../../AlertPopUp";
 import { useSearchParams } from "react-router-dom";
 import moment from "moment";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import SearchInput from "../../SearchInput";
+import { FiSearch } from "react-icons/fi";
+import { useDebounce } from "use-debounce";
 
 const WarnedUserTable = () => {
   const [warnedUserList, setWarnedUserList] = useState([]);
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [id, setId] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
+  const [value, setValue] = useState("");
+
+  const [key] = useDebounce(value, 1000);
 
   const loader = useLoader();
 
@@ -29,23 +35,22 @@ const WarnedUserTable = () => {
 
   useEffect(() => {
     getWarnedUser();
-  }, []);
+  }, [value]);
 
   const getWarnedUser = () => {
-    loader.showLoader(true);
-
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.WARNEDUSER,
       "POST",
-      searchParams.get("id") ? { userId: searchParams.get("id") } : {}
+      searchParams.get("id")
+        ? { userId: searchParams.get("id") }
+        : {
+            key: key,
+          }
     )
       .then((res) => {
         setWarnedUserList(res.result);
-        loader.showLoader(false);
       })
       .catch((err) => {
-        loader.showLoader(false);
-
         console.log(err);
       });
   };
@@ -73,8 +78,24 @@ const WarnedUserTable = () => {
       });
   };
 
+  const searchIcon = () => {
+    return <FiSearch />;
+  };
+
+  const handleText = (e) => {
+    setValue(e.target.value);
+  };
+
   return (
     <div className="warned__user__container">
+      <div className="banner__search__btn">
+        <SearchInput
+          value={value}
+          onChange={handleText}
+          placeholder="Search"
+          icon={searchIcon()}
+        />
+      </div>
       <table className="warned__user__table">
         <thead>
           <th className="warned__user__header">S.No.</th>

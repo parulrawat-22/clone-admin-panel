@@ -12,12 +12,15 @@ import {
 import BannerForm from "../../components/formComponents/BannerForm";
 import AlertPopUp from "../../components/AlertPopUp";
 import { errorToast, successToast } from "../../utils/toast";
+import SearchInput from "../../components/SearchInput";
+import { FiSearch } from "react-icons/fi";
 
 const Banner = () => {
   const [showBannerForm, setShowBannerForm] = useState(false);
   const [showBannerData, setShowBannerData] = useState([]);
   const [showDeleteAlert, setShowDeleteAlert] = useState();
   const [bannerId, setBannerId] = useState("");
+  const [value, setValue] = useState("");
 
   const handleShowDeleteAlert = () => {
     setShowDeleteAlert(true);
@@ -34,10 +37,12 @@ const Banner = () => {
 
   useEffect(() => {
     fetchBannerList();
-  }, []);
+  }, [value]);
 
   const fetchBannerList = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETBANNER, "GET")
+    fetchDataFromAPI(API_URL + NetworkConfiguration.GETBANNER, "POST", {
+      key: value,
+    })
       .then((res) => {
         setShowBannerData(res.result);
       })
@@ -45,6 +50,7 @@ const Banner = () => {
         console.log("err", err);
       });
   };
+
   const handleAddBanner = () => {
     setShowBannerForm(true);
   };
@@ -75,11 +81,29 @@ const Banner = () => {
       });
   };
 
+  const handleText = (e) => {
+    setValue(e.target.value);
+  };
+
+  const searchIcon = () => {
+    return <FiSearch />;
+  };
+  console.log(value);
+
   return (
     <Layout>
-      <div className="add__banner__styling" onClick={handleAddBanner}>
-        <Button text="Add Banner" />
+      <div className="banner__search__btn">
+        <SearchInput
+          onChange={handleText}
+          placeholder="Search"
+          icon={searchIcon()}
+          value={value}
+        />
       </div>
+      <div className="add__banner__styling">
+        <Button text="Add Banner" onClick={handleAddBanner} />
+      </div>
+
       <BannerTable
         showBannerData={showBannerData}
         setBannerId={setBannerId}
