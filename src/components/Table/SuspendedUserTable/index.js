@@ -42,6 +42,7 @@ const SuspendedUserTable = () => {
   };
 
   const getSuspendedUserList = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.SUSPENDEDUSER,
       "POST",
@@ -54,11 +55,13 @@ const SuspendedUserTable = () => {
           }
     )
       .then((res) => {
+        loader.showLoader(false);
         setSuspendedUserList(res.result);
         setTotalCount(res?.totalCount);
         setTotalPages(res?.totalPages);
       })
       .catch((err) => {
+        loader.showLoader(false);
         console.log(err);
       });
   };

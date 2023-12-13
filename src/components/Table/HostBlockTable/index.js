@@ -7,6 +7,8 @@ import {
 } from "../../../network/NetworkConfiguration";
 import { useParams } from "react-router-dom";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import Lottie from "react-lottie";
+import noData from "../../../base/Animation/No Data Found.json";
 
 const HostBlockTable = () => {
   const [getBlockList, setGetBlockList] = useState([]);
@@ -44,18 +46,27 @@ const HostBlockTable = () => {
           <th className="host__block__header">Mobile Number</th>
         </thead>
         <tbody>
-          {getBlockList.map((data, index) => {
-            return (
-              <tr>
-                <td className="host__block__data">{index + 1}</td>
-                <td className="host__block__data">{data?._id}</td>
-                <td className="host__block__data">{data?.name}</td>
-                <td className="host__block__data">{data?.dateOfBirth}</td>
-                <td className="host__block__data">{data?.email}</td>
-                <td className="host__block__data">{data?.mobileNumber}</td>
-              </tr>
-            );
-          })}
+          {getBlockList.length > 0
+            ? getBlockList.map((data, index) => {
+                return (
+                  <tr>
+                    <td className="host__block__data">{index + 1}</td>
+                    <td className="host__block__data">{data?._id}</td>
+                    <td className="host__block__data">{data?.name}</td>
+                    <td className="host__block__data">{data?.dateOfBirth}</td>
+                    <td className="host__block__data">{data?.email}</td>
+                    <td className="host__block__data">{data?.mobileNumber}</td>
+                  </tr>
+                );
+              })
+            : !loader.loaderPopup && (
+                <div>
+                  <Lottie
+                    options={{ animationData: noData, loop: true }}
+                    style={{ width: "10rem", height: "10rem" }}
+                  />
+                </div>
+              )}
         </tbody>
       </table>
     </div>

@@ -17,6 +17,8 @@ import { useLoader } from "../../../base/Context/loaderProvider";
 import { FiSearch } from "react-icons/fi";
 import SearchInput from "../../SearchInput";
 import Pagination from "../../Pagination";
+import Lottie from "react-lottie";
+import noData from "../../../base/Animation/No Data Found.json";
 
 const StickerTable = () => {
   const [getSticker, setGetSticker] = useState([]);
@@ -53,17 +55,20 @@ const StickerTable = () => {
   }, [value, page, perPage]);
 
   const fetchSticker = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(API_URL + NetworkConfiguration.GETSTICKER, "POST", {
       key: value,
       page,
       perPage,
     })
       .then((res) => {
+        loader.showLoader(false);
         setGetSticker(res.result);
         setTotalCount(res.totalCount);
         setTotalPages(res.totalPages);
       })
       .catch((err) => {
+        loader.showLoader(false);
         console.log(err);
       });
   };
@@ -165,57 +170,70 @@ const StickerTable = () => {
           <th className="sticker__table__heading">Action</th>
         </thead>
         <tbody>
-          {getSticker.map((data, index) => {
-            return (
-              <tr>
-                <td className="sticker__table__data">
-                  {(page - 1) * perPage + index + 1}
-                </td>
-                <td className="sticker__table__data">{data?.name}</td>
-                <td className="sticker__table__data">
-                  <AiFillEye
-                    className="sticker__table__eye__icon"
-                    onClick={() => {
-                      handleEyeOnClick(data?.stickerUrl);
-                    }}
-                  />
-                </td>
-                <td className="sticker__table__data">{data?.price}</td>
-                <td className="sticker__table__data">
-                  {moment(data?.createdAt).format("DD/MM/YYYY LT")}
-                </td>
-                <td className="sticker__table__data">
-                  {moment(data?.updatedAt).format("DD/MM/YYYY LT")}
-                </td>
-                <td className="sticker__table__data">
-                  <AiFillEdit
-                    onClick={() => {
-                      handleOnClickEdit(data?._id, data);
-                    }}
-                    className="sticker__table__edit__icon"
-                  />
-                  <AiFillDelete
-                    onClick={() => {
-                      handleOnClickAlert(data?._id);
-                    }}
-                    className="sticker__table__delete__icon"
-                  />
-                </td>
-              </tr>
-            );
-          })}
+          {getSticker.length > 0
+            ? getSticker.map((data, index) => {
+                return (
+                  <tr>
+                    <td className="sticker__table__data">
+                      {(page - 1) * perPage + index + 1}
+                    </td>
+                    <td className="sticker__table__data">{data?.name}</td>
+                    <td className="sticker__table__data">
+                      <AiFillEye
+                        className="sticker__table__eye__icon"
+                        onClick={() => {
+                          handleEyeOnClick(data?.stickerUrl);
+                        }}
+                      />
+                    </td>
+                    <td className="sticker__table__data">{data?.price}</td>
+                    <td className="sticker__table__data">
+                      {moment(data?.createdAt).format("DD/MM/YYYY LT")}
+                    </td>
+                    <td className="sticker__table__data">
+                      {moment(data?.updatedAt).format("DD/MM/YYYY LT")}
+                    </td>
+                    <td className="sticker__table__data">
+                      <AiFillEdit
+                        onClick={() => {
+                          handleOnClickEdit(data?._id, data);
+                        }}
+                        className="sticker__table__edit__icon"
+                      />
+                      <AiFillDelete
+                        onClick={() => {
+                          handleOnClickAlert(data?._id);
+                        }}
+                        className="sticker__table__delete__icon"
+                      />
+                    </td>
+                  </tr>
+                );
+              })
+            : null}
         </tbody>
       </table>
 
-      <Pagination
-        page={page}
-        setPage={setPage}
-        perPage={perPage}
-        setPerPage={setPerPage}
-        totalCount={totalCount}
-        totalPages={totalPages}
-        options={[5, 10, 15, 20]}
-      />
+      {getSticker.length > 0 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          perPage={perPage}
+          setPerPage={setPerPage}
+          totalCount={totalCount}
+          totalPages={totalPages}
+          options={[5, 10, 15, 20]}
+        />
+      ) : (
+        !loader.loaderPopup && (
+          <div>
+            <Lottie
+              options={{ animationData: noData, loop: true }}
+              style={{ width: "10rem", height: "10rem" }}
+            />
+          </div>
+        )
+      )}
 
       <ImagePopUpModal
         open={showImageAlert}

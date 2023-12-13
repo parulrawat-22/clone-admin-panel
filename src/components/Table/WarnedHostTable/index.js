@@ -14,6 +14,8 @@ import { FiSearch } from "react-icons/fi";
 import SearchInput from "../../SearchInput";
 import { useDebounce } from "use-debounce";
 import Pagination from "../../Pagination";
+import Lottie from "react-lottie";
+import noData from "../../../base/Animation/No Data Found.json";
 
 const WarnedHostTable = () => {
   const [warnedHostList, setWarnedHostList] = useState([]);
@@ -122,48 +124,61 @@ const WarnedHostTable = () => {
             <th className="warned__host__header">Action</th>
           </thead>
           <tbody>
-            {warnedHostList.map((data, index) => {
-              return (
-                <tr>
-                  <td className="warned__host__data">
-                    {(page - 1) * perPage + index + 1}
-                  </td>
-                  {!searchParams.get("id") && (
-                    <>
+            {warnedHostList.length > 0
+              ? warnedHostList.map((data, index) => {
+                  return (
+                    <tr>
                       <td className="warned__host__data">
-                        {data?.hostId?._id}
+                        {(page - 1) * perPage + index + 1}
                       </td>
-                      <td className="warned__host__data">
-                        {data?.hostId?.name}
+                      {!searchParams.get("id") && (
+                        <>
+                          <td className="warned__host__data">
+                            {data?.hostId?._id}
+                          </td>
+                          <td className="warned__host__data">
+                            {data?.hostId?.name}
+                          </td>
+                        </>
+                      )}
+                      <td className="warned__host__data">{data?.title}</td>
+                      <td className="warned__host__data">{data?.body}</td>
+                      <td className="warned__host__data warned__host__icon">
+                        <AiFillDelete
+                          onClick={() => {
+                            handleOnClickAlert(data?._id);
+                          }}
+                          className="warned__host__delete__icon"
+                        />
                       </td>
-                    </>
-                  )}
-                  <td className="warned__host__data">{data?.title}</td>
-                  <td className="warned__host__data">{data?.body}</td>
-                  <td className="warned__host__data warned__host__icon">
-                    <AiFillDelete
-                      onClick={() => {
-                        handleOnClickAlert(data?._id);
-                      }}
-                      className="warned__host__delete__icon"
-                    />
-                  </td>
-                </tr>
-              );
-            })}
+                    </tr>
+                  );
+                })
+              : null}
           </tbody>
         </table>
       </div>
 
-      <Pagination
-        page={page}
-        setPage={setPage}
-        totalCount={totalCount}
-        totalPages={totalPages}
-        perPage={perPage}
-        setPerPage={setPerPage}
-        options={[5, 10, 15, 20]}
-      />
+      {warnedHostList.length > 0 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          totalCount={totalCount}
+          totalPages={totalPages}
+          perPage={perPage}
+          setPerPage={setPerPage}
+          options={[5, 10, 15, 20]}
+        />
+      ) : (
+        !loader.loaderPopup && (
+          <div>
+            <Lottie
+              options={{ animationData: noData, loop: true }}
+              style={{ width: "10rem", height: "10rem" }}
+            />
+          </div>
+        )
+      )}
 
       <AlertPopUp
         open={showDeleteAlert}

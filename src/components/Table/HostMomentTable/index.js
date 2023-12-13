@@ -14,6 +14,8 @@ import { useLoader } from "../../../base/Context/loaderProvider";
 import { FiSearch } from "react-icons/fi";
 import SearchInput from "../../SearchInput";
 import Pagination from "../../Pagination";
+import Lottie from "react-lottie";
+import noData from "../../../base/Animation/No Data Found.json";
 
 const HostMomentTable = () => {
   const [getHostMoment, setGetHostMoment] = useState([]);
@@ -124,53 +126,68 @@ const HostMomentTable = () => {
             <th className="host__moment__header">Action</th>
           </thead>
           <tbody>
-            {getHostMoment.map((data, index) => {
-              return (
-                <tr>
-                  <td className="host__moment__data">
-                    {(page - 1) * perPage + index + 1}
-                  </td>
-                  {!id && (
-                    <td className="host__moment__data">{data?.hostId?.name}</td>
-                  )}
-                  <td className="host__moment__data">{data?.subject}</td>
-                  <td className="host__moment__data">{data?.likes}</td>
-                  <td className="host__moment__data ">
-                    <AiFillEye
-                      onClick={() => {
-                        handleImageAlert(data?.postImage);
-                      }}
-                      className="host__moment__eye__icon"
-                    />
-                  </td>
-                  <td className="host__moment__data">
-                    {moment(data?.postDate).format("DD/MM/YYYY , LT")}
-                  </td>
-                  <td className="host__moment__data">
-                    <AiFillEdit className="host__moment__edit__icon" />
-                    <AiFillDelete
-                      onClick={() => {
-                        handleDeleteMoment(data?._id);
-                      }}
-                      className="host__moment__delete__icon"
-                    />
-                  </td>
-                </tr>
-              );
-            })}
+            {getHostMoment.length > 0
+              ? getHostMoment.map((data, index) => {
+                  return (
+                    <tr>
+                      <td className="host__moment__data">
+                        {(page - 1) * perPage + index + 1}
+                      </td>
+                      {!id && (
+                        <td className="host__moment__data">
+                          {data?.hostId?.name}
+                        </td>
+                      )}
+                      <td className="host__moment__data">{data?.subject}</td>
+                      <td className="host__moment__data">{data?.likes}</td>
+                      <td className="host__moment__data ">
+                        <AiFillEye
+                          onClick={() => {
+                            handleImageAlert(data?.postImage);
+                          }}
+                          className="host__moment__eye__icon"
+                        />
+                      </td>
+                      <td className="host__moment__data">
+                        {moment(data?.postDate).format("DD/MM/YYYY , LT")}
+                      </td>
+                      <td className="host__moment__data">
+                        <AiFillEdit className="host__moment__edit__icon" />
+                        <AiFillDelete
+                          onClick={() => {
+                            handleDeleteMoment(data?._id);
+                          }}
+                          className="host__moment__delete__icon"
+                        />
+                      </td>
+                    </tr>
+                  );
+                })
+              : null}
           </tbody>
         </table>
       </div>
 
-      <Pagination
-        page={page}
-        setPage={setPage}
-        perPage={perPage}
-        setPerPage={setPerPage}
-        totalCount={totalCount}
-        totalPages={totalPages}
-        options={[5, 10, 15, 20]}
-      />
+      {getHostMoment.length > 0 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          perPage={perPage}
+          setPerPage={setPerPage}
+          totalCount={totalCount}
+          totalPages={totalPages}
+          options={[5, 10, 15, 20]}
+        />
+      ) : (
+        !loader.loaderPopup && (
+          <div>
+            <Lottie
+              options={{ animationData: noData, loop: true }}
+              style={{ width: "10rem", height: "10rem" }}
+            />
+          </div>
+        )
+      )}
 
       <AlertPopUp
         open={showDeleteAlert}

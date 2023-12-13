@@ -11,6 +11,8 @@ import moment from "moment";
 import { FiSearch } from "react-icons/fi";
 import SearchInput from "../../SearchInput";
 import Pagination from "../../Pagination";
+import Lottie from "react-lottie";
+import noData from "../../../base/Animation/No Data Found.json";
 
 const UserReportTable = () => {
   const { id } = useParams();
@@ -28,6 +30,7 @@ const UserReportTable = () => {
   }, [value, page, perPage]);
 
   const getUserReport = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.USERREPORT,
       "POST",
@@ -37,9 +40,11 @@ const UserReportTable = () => {
         setUserReportList(res.result);
         setTotalCount(res.totalCount);
         setTotalPages(res.totalPages);
+        loader.showLoader(false);
       })
       .catch((err) => {
         console.log(err);
+        loader.showLoader(false);
       });
   };
 
@@ -78,49 +83,62 @@ const UserReportTable = () => {
             <th className="user__report__header">Date & Time</th>
           </thead>
           <tbody>
-            {userReportList.map((data, index) => {
-              return (
-                <tr>
-                  <td className="user__report__data">
-                    {(page - 1) * perPage + index + 1}
-                  </td>
-                  {!id && (
-                    <>
+            {userReportList.length > 0
+              ? userReportList.map((data, index) => {
+                  return (
+                    <tr>
                       <td className="user__report__data">
-                        {data?.userId?._id}
+                        {(page - 1) * perPage + index + 1}
                       </td>
+                      {!id && (
+                        <>
+                          <td className="user__report__data">
+                            {data?.userId?._id}
+                          </td>
+                          <td className="user__report__data">
+                            {data?.userId?.name}
+                          </td>
+                        </>
+                      )}
                       <td className="user__report__data">
-                        {data?.userId?.name}
+                        {data?.targetId?.hostId?.name}
                       </td>
-                    </>
-                  )}
-                  <td className="user__report__data">
-                    {data?.targetId?.hostId?.name}
-                  </td>
-                  <td className="user__report__data">{data?._id}</td>
-                  <td className="user__report__data">
-                    {data?.Choose_the_Reason}
-                  </td>
-                  <td className="user__report__data">{data?.comment}</td>
-                  <td className="user__report__data">
-                    {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
-                  </td>
-                </tr>
-              );
-            })}
+                      <td className="user__report__data">{data?._id}</td>
+                      <td className="user__report__data">
+                        {data?.Choose_the_Reason}
+                      </td>
+                      <td className="user__report__data">{data?.comment}</td>
+                      <td className="user__report__data">
+                        {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
+                      </td>
+                    </tr>
+                  );
+                })
+              : null}
           </tbody>
         </table>
       </div>
 
-      <Pagination
-        page={page}
-        perPage={perPage}
-        totalCount={totalCount}
-        totalPages={totalPages}
-        setPage={setPage}
-        setPerPage={setPerPage}
-        options={[5, 10, 15, 20]}
-      />
+      {userReportList.length > 0 ? (
+        <Pagination
+          page={page}
+          perPage={perPage}
+          totalCount={totalCount}
+          totalPages={totalPages}
+          setPage={setPage}
+          setPerPage={setPerPage}
+          options={[5, 10, 15, 20]}
+        />
+      ) : (
+        !loader.loaderPopup && (
+          <div>
+            <Lottie
+              options={{ animationData: noData, loop: true }}
+              style={{ width: "10rem", height: "10rem" }}
+            />
+          </div>
+        )
+      )}
     </div>
   );
 };

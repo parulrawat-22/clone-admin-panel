@@ -14,6 +14,8 @@ import SearchInput from "../../SearchInput";
 import { FiSearch } from "react-icons/fi";
 import { useDebounce } from "use-debounce";
 import Pagination from "../../Pagination";
+import Lottie from "react-lottie";
+import noData from "../../../base/Animation/No Data Found.json";
 
 const WarnedUserTable = () => {
   const [warnedUserList, setWarnedUserList] = useState([]);
@@ -43,6 +45,7 @@ const WarnedUserTable = () => {
   }, [value, page, perPage]);
 
   const getWarnedUser = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.WARNEDUSER,
       "POST",
@@ -55,11 +58,13 @@ const WarnedUserTable = () => {
           }
     )
       .then((res) => {
+        loader.showLoader(false);
         setWarnedUserList(res.result);
         setTotalCount(res?.totalCount);
         setTotalPages(res?.totalPages);
       })
       .catch((err) => {
+        loader.showLoader(false);
         console.log(err);
       });
   };
@@ -121,50 +126,63 @@ const WarnedUserTable = () => {
             <th className="warned__user__header">Action</th>
           </thead>
           <tbody>
-            {warnedUserList.map((data, index) => {
-              return (
-                <tr>
-                  <td className="warned__user__data">
-                    {(page - 1) * perPage + index + 1}
-                  </td>
-                  {!searchParams.get("id") && (
-                    <>
-                      <td className="warned__user__data">{data?._id}</td>
+            {warnedUserList.length > 0
+              ? warnedUserList.map((data, index) => {
+                  return (
+                    <tr>
                       <td className="warned__user__data">
-                        {data?.userId?.name}
+                        {(page - 1) * perPage + index + 1}
                       </td>
-                    </>
-                  )}
-                  <td className="warned__user__data">{data?.title}</td>
-                  <td className="warned__user__data">{data?.body}</td>
-                  <td className="warned__user__data">
-                    {moment(data?.createdAt).format("DD/MM/YYYY")}
-                  </td>
-                  <td className="warned__user__data">
-                    <AiFillEdit className="warned__user__edit__icon" />
-                    <AiFillDelete
-                      onClick={() => {
-                        handleAlertDelete(data?._id);
-                      }}
-                      className="warned__user__delete__icon"
-                    />
-                  </td>
-                </tr>
-              );
-            })}
+                      {!searchParams.get("id") && (
+                        <>
+                          <td className="warned__user__data">{data?._id}</td>
+                          <td className="warned__user__data">
+                            {data?.userId?.name}
+                          </td>
+                        </>
+                      )}
+                      <td className="warned__user__data">{data?.title}</td>
+                      <td className="warned__user__data">{data?.body}</td>
+                      <td className="warned__user__data">
+                        {moment(data?.createdAt).format("DD/MM/YYYY")}
+                      </td>
+                      <td className="warned__user__data">
+                        <AiFillEdit className="warned__user__edit__icon" />
+                        <AiFillDelete
+                          onClick={() => {
+                            handleAlertDelete(data?._id);
+                          }}
+                          className="warned__user__delete__icon"
+                        />
+                      </td>
+                    </tr>
+                  );
+                })
+              : null}
           </tbody>
         </table>
       </div>
 
-      <Pagination
-        page={page}
-        perPage={perPage}
-        setPage={setPage}
-        setPerPage={setPerPage}
-        totalCount={totalCount}
-        totalPages={totalPages}
-        options={[5, 10, 15, 20, 25, 30]}
-      />
+      {warnedUserList.length > 0 ? (
+        <Pagination
+          page={page}
+          perPage={perPage}
+          setPage={setPage}
+          setPerPage={setPerPage}
+          totalCount={totalCount}
+          totalPages={totalPages}
+          options={[5, 10, 15, 20, 25, 30]}
+        />
+      ) : (
+        !loader.loaderPopup && (
+          <div>
+            <Lottie
+              options={{ animationData: noData, loop: true }}
+              style={{ width: "10rem", height: "10rem" }}
+            />
+          </div>
+        )
+      )}
 
       <AlertPopUp
         open={showDeleteAlert}

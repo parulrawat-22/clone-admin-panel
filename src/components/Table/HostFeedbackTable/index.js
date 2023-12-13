@@ -15,6 +15,8 @@ import { useLoader } from "../../../base/Context/loaderProvider";
 import { FiSearch } from "react-icons/fi";
 import SearchInput from "../../SearchInput";
 import Pagination from "../../Pagination";
+import noData from "../../../base/Animation/No Data Found.json";
+import Lottie from "react-lottie";
 
 const HostFeedbackTable = () => {
   const [hostFeedback, setHostFeeback] = useState([]);
@@ -70,6 +72,7 @@ const HostFeedbackTable = () => {
   };
 
   const getAllHostsFeedback = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.GETHOSTFEEDBACK,
       "POST",
@@ -82,11 +85,13 @@ const HostFeedbackTable = () => {
           }
     )
       .then((res) => {
+        loader.showLoader(false);
         setHostFeeback(res.result);
         setTotalCount(res.totalCount);
         setTotalPages(res.totalPages);
       })
       .catch((err) => {
+        loader.showLoader(false);
         console.log(err);
       });
   };
@@ -129,69 +134,82 @@ const HostFeedbackTable = () => {
             <th className="host__feedback__table__heading">Revert Back</th>
           </thead>
           <tbody>
-            {hostFeedback.map((data, index) => {
-              return (
-                <tr>
-                  <td className="host__feedback__table__data">
-                    {" "}
-                    {(page - 1) * perPage + index + 1}
-                  </td>
-                  {!id && (
-                    <>
+            {hostFeedback.length > 0
+              ? hostFeedback.map((data, index) => {
+                  return (
+                    <tr>
                       <td className="host__feedback__table__data">
-                        {data._id}
+                        {" "}
+                        {(page - 1) * perPage + index + 1}
+                      </td>
+                      {!id && (
+                        <>
+                          <td className="host__feedback__table__data">
+                            {data._id}
+                          </td>
+                          <td className="host__feedback__table__data">
+                            {data?.hostId?.name}
+                          </td>
+                        </>
+                      )}
+                      <td className="host__feedback__table__data">
+                        {data.feedbackType}
                       </td>
                       <td className="host__feedback__table__data">
-                        {data?.hostId?.name}
+                        {" "}
+                        {data.comment}
                       </td>
-                    </>
-                  )}
-                  <td className="host__feedback__table__data">
-                    {data.feedbackType}
-                  </td>
-                  <td className="host__feedback__table__data">
-                    {" "}
-                    {data.comment}
-                  </td>
-                  <td className="host__feedback__table__data">
-                    <AiFillEye
-                      onClick={() => {
-                        handleOnClickAlert(data?.feedbackImage);
-                      }}
-                      className="host__feedback__eye__icon"
-                    />
-                  </td>
-                  <td className="host__feedback__table__data">
-                    {moment(data.createdAt).format("DD/MM/YYYY LT")}
-                  </td>
-                  {data?.replyFeedback ? (
-                    <td className="host__feedback__table__data host__feedback__view__btn">
-                      {data?.replyFeedback}
-                    </td>
-                  ) : (
-                    <td
-                      onClick={() => handleHostFeedbackRevert(data?._id)}
-                      className="host__feedback__table__data host__feedback__view__btn"
-                    >
-                      Reply
-                    </td>
-                  )}
-                </tr>
-              );
-            })}
+                      <td className="host__feedback__table__data">
+                        <AiFillEye
+                          onClick={() => {
+                            handleOnClickAlert(data?.feedbackImage);
+                          }}
+                          className="host__feedback__eye__icon"
+                        />
+                      </td>
+                      <td className="host__feedback__table__data">
+                        {moment(data.createdAt).format("DD/MM/YYYY LT")}
+                      </td>
+                      {data?.replyFeedback ? (
+                        <td className="host__feedback__table__data host__feedback__view__btn">
+                          {data?.replyFeedback}
+                        </td>
+                      ) : (
+                        <td
+                          onClick={() => handleHostFeedbackRevert(data?._id)}
+                          className="host__feedback__table__data host__feedback__view__btn"
+                        >
+                          Reply
+                        </td>
+                      )}
+                    </tr>
+                  );
+                })
+              : null}
           </tbody>
         </table>
       </div>
 
-      <Pagination
-        page={page}
-        setPage={setPage}
-        totalCount={totalCount}
-        totalPages={totalPages}
-        setPerPage={setPerPage}
-        perPage={perPage}
-        options={[5, 10, 15, 20]}
-      />
+      {hostFeedback.length > 0 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          totalCount={totalCount}
+          totalPages={totalPages}
+          setPerPage={setPerPage}
+          perPage={perPage}
+          options={[5, 10, 15, 20]}
+        />
+      ) : (
+        !loader.loaderPopup && (
+          <div>
+            <Lottie
+              options={{ animationData: noData, loop: true }}
+              style={{ width: "10rem", height: "10rem" }}
+            />
+          </div>
+        )
+      )}
 
       <AlertPopUp
         open={showRevertAlert}

@@ -17,8 +17,9 @@ import { errorToast, successToast } from "../../../utils/toast";
 import { useLoader } from "../../../base/Context/loaderProvider";
 import { FiSearch } from "react-icons/fi";
 import SearchInput from "../../SearchInput";
-import { RxValue } from "react-icons/rx";
+import noData from "../../../base/Animation/No Data Found.json";
 import Pagination from "../../Pagination";
+import Lottie from "react-lottie";
 
 const GiftTable = () => {
   const [showGiftForm, setShowGiftForm] = useState(false);
@@ -170,59 +171,72 @@ const GiftTable = () => {
           </thead>
 
           <tbody>
-            {getGift.map((data, index) => {
-              return (
-                <tr>
-                  <td className="gift__table__body">
-                    {(page - 1) * perPage + index + 1}
-                  </td>
-                  <td className="gift__table__body">{data?.name}</td>
-                  <td className="gift__table__body">
-                    <BsFillEyeFill
-                      className="gift__table__eye__icon"
-                      onClick={() => {
-                        handleOnClickAlert(data?.giftUrl);
-                        console.log(data?.giftUrl, "12346");
-                      }}
-                    />
-                  </td>
-                  <td className="gift__table__body">{data?.price}</td>
-                  <td className="gift__table__body">
-                    {moment(data?.createdAt).format("DD/MM/YYYY LT")}
-                  </td>
-                  <td className="gift__table__body">
-                    {moment(data?.updatedAt).format("DD/MM/YYYY LT")}
-                  </td>
-                  <td className="gift__table__body ">
-                    <AiFillEdit
-                      onClick={() => {
-                        handleOnClickEdit(data?._id, data);
-                      }}
-                      className="gift__table__edit__icon"
-                    />
-                    <AiFillDelete
-                      onClick={() => {
-                        handleOnClickDelete(data?._id);
-                      }}
-                      className="gift__table__delete__icon"
-                    />
-                  </td>
-                </tr>
-              );
-            })}
+            {getGift.length > 0
+              ? getGift.map((data, index) => {
+                  return (
+                    <tr>
+                      <td className="gift__table__body">
+                        {(page - 1) * perPage + index + 1}
+                      </td>
+                      <td className="gift__table__body">{data?.name}</td>
+                      <td className="gift__table__body">
+                        <BsFillEyeFill
+                          className="gift__table__eye__icon"
+                          onClick={() => {
+                            handleOnClickAlert(data?.giftUrl);
+                            console.log(data?.giftUrl, "12346");
+                          }}
+                        />
+                      </td>
+                      <td className="gift__table__body">{data?.price}</td>
+                      <td className="gift__table__body">
+                        {moment(data?.createdAt).format("DD/MM/YYYY LT")}
+                      </td>
+                      <td className="gift__table__body">
+                        {moment(data?.updatedAt).format("DD/MM/YYYY LT")}
+                      </td>
+                      <td className="gift__table__body ">
+                        <AiFillEdit
+                          onClick={() => {
+                            handleOnClickEdit(data?._id, data);
+                          }}
+                          className="gift__table__edit__icon"
+                        />
+                        <AiFillDelete
+                          onClick={() => {
+                            handleOnClickDelete(data?._id);
+                          }}
+                          className="gift__table__delete__icon"
+                        />
+                      </td>
+                    </tr>
+                  );
+                })
+              : null}
           </tbody>
         </table>
       </div>
 
-      <Pagination
-        page={page}
-        setPage={setPage}
-        perPage={setPage}
-        setPerPage={setPerPage}
-        totalCount={totalCount}
-        totalPages={totalPages}
-        options={[5, 10, 15, 20]}
-      />
+      {getGift.length > 0 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          perPage={setPage}
+          setPerPage={setPerPage}
+          totalCount={totalCount}
+          totalPages={totalPages}
+          options={[5, 10, 15, 20]}
+        />
+      ) : (
+        !loader.loaderPopup && (
+          <div>
+            <Lottie
+              options={{ animationData: noData, loop: true }}
+              style={{ width: "10rem", height: "10rem" }}
+            />
+          </div>
+        )
+      )}
 
       <FormAlertPopUp open={showGiftForm} onRequestClose={handleAddGiftClose}>
         <AddGiftForm onSubmit={handleAddGiftClose} />

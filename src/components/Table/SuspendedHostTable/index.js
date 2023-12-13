@@ -42,6 +42,7 @@ const SuspendedHostTable = () => {
   }, [value, page, perPage]);
 
   const getSuspendedHost = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.SUSPENDEDHOST,
       "POST",
@@ -54,12 +55,14 @@ const SuspendedHostTable = () => {
           }
     )
       .then((res) => {
+        loader.showLoader(false);
         setSuspendedHostList(res.result);
         setTotalCount(res?.totalCount);
         setTotalPages(res?.totalPages);
       })
       .catch((err) => {
         console.log(err);
+        loader.showLoader(false);
       });
   };
 

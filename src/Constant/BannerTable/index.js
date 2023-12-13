@@ -63,44 +63,46 @@ const BannerTable = ({
           <th className="banner__list__table__head">Action</th>
         </thead>
         <tbody className="banner__list__body">
-          {showBannerData?.map((data, index) => {
-            return (
-              <tr key={index}>
-                <td className="banner__list__data">
-                  {(page - 1) * perPage + index + 1}
-                </td>
-                <td className="banner__list__data">{data?.name}</td>
-                <td className="banner__list__data">
-                  <AiFillEye
-                    onClick={() => {
-                      handleOpenBannerImage(data?.imageUrl);
-                    }}
-                    className="banner__list__eye__icon"
-                  />
-                </td>
-                <td className="banner__list__data">
-                  {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
-                </td>
-                <td className="banner__list__data">
-                  {moment(data?.updatedAt).format("DD/MM/YYYY , LT")}
-                </td>
-                <td className="banner__list__data">
-                  <AiFillEdit
-                    onClick={() => {
-                      handleOnClickEdit(data?._id);
-                    }}
-                    className="banner__list__edit__action"
-                  />
-                  <AiTwotoneDelete
-                    className="banner__list__delete__action"
-                    onClick={() => {
-                      handleDeleteBanner(data._id);
-                    }}
-                  />
-                </td>
-              </tr>
-            );
-          })}
+          {showBannerData.length > 0
+            ? showBannerData?.map((data, index) => {
+                return (
+                  <tr key={index}>
+                    <td className="banner__list__data">
+                      {(page - 1) * perPage + index + 1}
+                    </td>
+                    <td className="banner__list__data">{data?.name}</td>
+                    <td className="banner__list__data">
+                      <AiFillEye
+                        onClick={() => {
+                          handleOpenBannerImage(data?.imageUrl);
+                        }}
+                        className="banner__list__eye__icon"
+                      />
+                    </td>
+                    <td className="banner__list__data">
+                      {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
+                    </td>
+                    <td className="banner__list__data">
+                      {moment(data?.updatedAt).format("DD/MM/YYYY , LT")}
+                    </td>
+                    <td className="banner__list__data">
+                      <AiFillEdit
+                        onClick={() => {
+                          handleOnClickEdit(data?._id);
+                        }}
+                        className="banner__list__edit__action"
+                      />
+                      <AiTwotoneDelete
+                        className="banner__list__delete__action"
+                        onClick={() => {
+                          handleDeleteBanner(data._id);
+                        }}
+                      />
+                    </td>
+                  </tr>
+                );
+              })
+            : null}
         </tbody>
       </table>
 

@@ -12,7 +12,7 @@ export const LoaderProvider = ({ children }) => {
   };
 
   return (
-    <Loader.Provider value={{ showLoader }}>
+    <Loader.Provider value={{ showLoader, loaderPopup }}>
       {children}
       <AdminLoader showLoader={loaderPopup} />
     </Loader.Provider>

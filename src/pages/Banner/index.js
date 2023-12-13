@@ -15,6 +15,9 @@ import { errorToast, successToast } from "../../utils/toast";
 import SearchInput from "../../components/SearchInput";
 import { FiSearch } from "react-icons/fi";
 import Pagination from "../../components/Pagination";
+import Lottie from "react-lottie";
+import { useLoader } from "../../base/Context/loaderProvider";
+import noData from "../../base/Animation/No Data Found.json";
 
 const Banner = () => {
   const [showBannerForm, setShowBannerForm] = useState(false);
@@ -26,6 +29,8 @@ const Banner = () => {
   const [perPage, setPerPage] = useState(5);
   const [totalCount, setTotalCount] = useState("");
   const [totalPages, setTotalPages] = useState("");
+
+  const loader = useLoader("");
 
   const handleShowDeleteAlert = () => {
     setShowDeleteAlert(true);
@@ -44,17 +49,20 @@ const Banner = () => {
   }, [value, page, perPage]);
 
   const fetchBannerList = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(API_URL + NetworkConfiguration.GETBANNER, "POST", {
       key: value,
       page,
       perPage,
     })
       .then((res) => {
+        loader.showLoader(false);
         setShowBannerData(res.result);
         setTotalCount(res.totalCount);
         setTotalPages(res.totalPages);
       })
       .catch((err) => {
+        loader.showLoader(false);
         console.log("err", err);
       });
   };
@@ -132,15 +140,26 @@ const Banner = () => {
         />
       </FormAlertPopUp>
 
-      <Pagination
-        page={page}
-        setPage={setPage}
-        perPage={perPage}
-        setPerPage={setPerPage}
-        totalCount={totalCount}
-        totalPages={totalPages}
-        options={[5, 10, 15, 20]}
-      />
+      {showBannerData.length > 0 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          perPage={perPage}
+          setPerPage={setPerPage}
+          totalCount={totalCount}
+          totalPages={totalPages}
+          options={[5, 10, 15, 20]}
+        />
+      ) : (
+        !loader.loaderPopup && (
+          <div>
+            <Lottie
+              options={{ animationData: noData, loop: true }}
+              style={{ width: "10rem", height: "10rem" }}
+            />
+          </div>
+        )
+      )}
 
       <AlertPopUp
         open={showDeleteAlert}

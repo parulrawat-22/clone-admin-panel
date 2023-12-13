@@ -15,6 +15,8 @@ import { useLoader } from "../../../base/Context/loaderProvider";
 import { FiSearch } from "react-icons/fi";
 import SearchInput from "../../SearchInput";
 import Pagination from "../../Pagination";
+import Lottie from "react-lottie";
+import noData from "../../../base/Animation/No Data Found.json";
 
 const FeedbackUserTable = () => {
   const { id } = useParams();
@@ -133,65 +135,81 @@ const FeedbackUserTable = () => {
             <th className="feedback__table__heading">Revert Back</th>
           </thead>
           <tbody>
-            {feedback.map((data, index) => {
-              return (
-                <tr>
-                  <td className="feedback__table__data">
-                    {" "}
-                    {(page - 1) * perPage + index + 1}
-                  </td>
-                  {!id && (
-                    <>
-                      <td className="feedback__table__data">{data?._id}</td>
+            {feedback.length > 0
+              ? feedback.map((data, index) => {
+                  return (
+                    <tr>
                       <td className="feedback__table__data">
                         {" "}
-                        {data?.userId?.name}
+                        {(page - 1) * perPage + index + 1}
                       </td>
-                    </>
-                  )}
-                  <td className="feedback__table__data">
-                    {data?.feedbackType}
-                  </td>
-                  <td className="feedback__table__data"> {data?.comment}</td>
-                  <td className="feedback__table__data">
-                    <AiFillEye
-                      onClick={() => {
-                        handleShowImage(data?.feedbackImage);
-                      }}
-                      className="feedback__table__eye__icon"
-                    />
-                  </td>
-                  <td className="feedback__table__data">
-                    {moment(data.createdAt).format("DD/MM/YYYY LT")}
-                  </td>
-                  {data?.replyFeedback ? (
-                    <td className="feedback__table__data">
-                      {data?.replyFeedback}
-                    </td>
-                  ) : (
-                    <td
-                      onClick={() => handleFeedbackRevert(data?._id)}
-                      className="feedback__table__data feedback__table__reply"
-                    >
-                      Reply
-                    </td>
-                  )}
-                </tr>
-              );
-            })}
+                      {!id && (
+                        <>
+                          <td className="feedback__table__data">{data?._id}</td>
+                          <td className="feedback__table__data">
+                            {" "}
+                            {data?.userId?.name}
+                          </td>
+                        </>
+                      )}
+                      <td className="feedback__table__data">
+                        {data?.feedbackType}
+                      </td>
+                      <td className="feedback__table__data">
+                        {" "}
+                        {data?.comment}
+                      </td>
+                      <td className="feedback__table__data">
+                        <AiFillEye
+                          onClick={() => {
+                            handleShowImage(data?.feedbackImage);
+                          }}
+                          className="feedback__table__eye__icon"
+                        />
+                      </td>
+                      <td className="feedback__table__data">
+                        {moment(data.createdAt).format("DD/MM/YYYY LT")}
+                      </td>
+                      {data?.replyFeedback ? (
+                        <td className="feedback__table__data">
+                          {data?.replyFeedback}
+                        </td>
+                      ) : (
+                        <td
+                          onClick={() => handleFeedbackRevert(data?._id)}
+                          className="feedback__table__data feedback__table__reply"
+                        >
+                          Reply
+                        </td>
+                      )}
+                    </tr>
+                  );
+                })
+              : null}
           </tbody>
         </table>
       </div>
 
-      <Pagination
-        page={page}
-        setPage={setPage}
-        totalCount={totalCount}
-        totalPages={totalPages}
-        setPerPage={setPerPage}
-        perPage={perPage}
-        options={[5, 10, 15, 20]}
-      />
+      {feedback.length > 0 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          totalCount={totalCount}
+          totalPages={totalPages}
+          setPerPage={setPerPage}
+          perPage={perPage}
+          options={[5, 10, 15, 20]}
+        />
+      ) : (
+        !loader.loaderPopup && (
+          <div>
+            <Lottie
+              options={{ animationData: noData, loop: true }}
+              style={{ width: "10rem", height: "10rem" }}
+            />
+          </div>
+        )
+      )}
       <AlertPopUp
         open={showRevertAlert}
         handleOpen={handleFeedbackRevert}

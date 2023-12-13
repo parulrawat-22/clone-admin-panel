@@ -12,6 +12,8 @@ import SearchInput from "../../SearchInput";
 import { FiSearch } from "react-icons/fi";
 import { useDebounce } from "use-debounce";
 import Pagination from "../../Pagination";
+import Lottie from "react-lottie";
+import noData from "../../../base/Animation/No Data Found.json";
 
 const HostReportTable = () => {
   const [getHostReport, setGetHostReport] = useState([]);
@@ -25,17 +27,20 @@ const HostReportTable = () => {
   const loader = useLoader();
 
   const getHostReportList = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.HOSTREPORT,
       "POST",
       id ? { hostId: id } : { key: value, page, perPage }
     )
       .then((res) => {
+        loader.showLoader(false);
         setGetHostReport(res.result);
         setTotalCount(res?.totalCount);
         setTotalPages(res?.totalPages);
       })
       .catch((err) => {
+        loader.showLoader(false);
         console.log(err);
       });
   };
@@ -78,45 +83,62 @@ const HostReportTable = () => {
           <th className="host__report__header">Date & Time</th>
         </thead>
         <tbody>
-          {getHostReport.map((data, index) => {
-            return (
-              <tr>
-                <td className="host__report__data">
-                  {(page - 1) * perPage + index + 1}
-                </td>
-                {!id && (
-                  <>
-                    {" "}
-                    <td className="host__report__data">{data?.hostId?._id}</td>
-                    <td className="host__report__data">{data?.hostId?.name}</td>
-                  </>
-                )}
-                <td className="host__report__data">
-                  {data?.targetId?.userId?.name}
-                </td>
-                <td className="host__report__data">{data?._id}</td>
-                <td className="host__report__data">
-                  {data?.Choose_the_Reason}
-                </td>
-                <td className="host__report__data">{data?.comment}</td>
-                <td className="host__report__data">
-                  {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
-                </td>
-              </tr>
-            );
-          })}
+          {getHostReport.length > 0
+            ? getHostReport.map((data, index) => {
+                return (
+                  <tr>
+                    <td className="host__report__data">
+                      {(page - 1) * perPage + index + 1}
+                    </td>
+                    {!id && (
+                      <>
+                        {" "}
+                        <td className="host__report__data">
+                          {data?.hostId?._id}
+                        </td>
+                        <td className="host__report__data">
+                          {data?.hostId?.name}
+                        </td>
+                      </>
+                    )}
+                    <td className="host__report__data">
+                      {data?.targetId?.userId?.name}
+                    </td>
+                    <td className="host__report__data">{data?._id}</td>
+                    <td className="host__report__data">
+                      {data?.Choose_the_Reason}
+                    </td>
+                    <td className="host__report__data">{data?.comment}</td>
+                    <td className="host__report__data">
+                      {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
+                    </td>
+                  </tr>
+                );
+              })
+            : null}
         </tbody>
       </table>
 
-      <Pagination
-        page={page}
-        setPage={setPage}
-        setPerPage={setPerPage}
-        perPage={perPage}
-        totalCount={totalCount}
-        totalPages={totalPages}
-        options={[5, 10, 15, 20]}
-      />
+      {getHostReport.length > 0 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          setPerPage={setPerPage}
+          perPage={perPage}
+          totalCount={totalCount}
+          totalPages={totalPages}
+          options={[5, 10, 15, 20]}
+        />
+      ) : (
+        !loader.loaderPopup && (
+          <div>
+            <Lottie
+              options={{ animationData: noData, loop: true }}
+              style={{ width: "10rem", height: "10rem" }}
+            />
+          </div>
+        )
+      )}
     </div>
   );
 };

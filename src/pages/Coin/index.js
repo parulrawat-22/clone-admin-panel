@@ -15,6 +15,9 @@ import { errorToast, successToast } from "../../utils/toast";
 import SearchInput from "../../components/SearchInput";
 import { FiSearch } from "react-icons/fi";
 import Pagination from "../../components/Pagination";
+import Lottie from "react-lottie";
+import noData from "../../base/Animation/No Data Found.json";
+import { useLoader } from "../../base/Context/loaderProvider";
 
 const Coin = () => {
   const [showCreateWallet, setShowCreateWallet] = useState(false);
@@ -26,6 +29,7 @@ const Coin = () => {
   const [perPage, setPerPage] = useState(5);
   const [totalCount, setTotalCount] = useState("");
   const [totalPages, setTotalPages] = useState("");
+  const loader = useLoader();
 
   const handleDeleteAlert = () => {
     setShowDeleteAlert(true);
@@ -39,16 +43,19 @@ const Coin = () => {
   }, []);
 
   const fetchCoin = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(API_URL + NetworkConfiguration.GETWALLET, "POST", {
       page,
       perPage,
     })
       .then((res) => {
+        loader.showLoader(false);
         setGetCoin(res.result);
         setTotalCount(res.totalCount);
         setTotalPages(res.totalPages);
       })
       .catch((err) => {
+        loader.showLoader(false);
         console.log(err);
       });
   };
@@ -125,51 +132,64 @@ const Coin = () => {
             <th className="wallet__header">Action</th>
           </thead>
           <tbody>
-            {getCoin.map((data, index) => {
-              return (
-                <tr>
-                  <td className="wallet__data">
-                    {(page - 1) * perPage + index + 1}
-                  </td>
-                  <td className="wallet__data">{data?.coins}</td>
-                  <td className="wallet__data">{data?.price}</td>
-                  <td className="wallet__data">{data?.offer}</td>
-                  <td className="wallet__data">
-                    {moment(data?.createdAt).format("DD/MM/YYYY LT")}
-                  </td>
-                  <td className="wallet__data">
-                    {moment(data?.updatedAt).format("DD/MM/YYYY LT")}
-                  </td>
-                  <td className="wallet__data wallet__icons">
-                    <AiFillEdit
-                      onClick={() => {
-                        handleOnClickEdit(data?._id);
-                      }}
-                      className="wallet__edit__icon"
-                    />
-                    <AiFillDelete
-                      onClick={() => {
-                        handleOnClickAlert(data._id);
-                      }}
-                      className="wallet__delete__icon"
-                    />
-                  </td>
-                </tr>
-              );
-            })}
+            {getCoin.length > 0
+              ? getCoin.map((data, index) => {
+                  return (
+                    <tr>
+                      <td className="wallet__data">
+                        {(page - 1) * perPage + index + 1}
+                      </td>
+                      <td className="wallet__data">{data?.coins}</td>
+                      <td className="wallet__data">{data?.price}</td>
+                      <td className="wallet__data">{data?.offer}</td>
+                      <td className="wallet__data">
+                        {moment(data?.createdAt).format("DD/MM/YYYY LT")}
+                      </td>
+                      <td className="wallet__data">
+                        {moment(data?.updatedAt).format("DD/MM/YYYY LT")}
+                      </td>
+                      <td className="wallet__data wallet__icons">
+                        <AiFillEdit
+                          onClick={() => {
+                            handleOnClickEdit(data?._id);
+                          }}
+                          className="wallet__edit__icon"
+                        />
+                        <AiFillDelete
+                          onClick={() => {
+                            handleOnClickAlert(data._id);
+                          }}
+                          className="wallet__delete__icon"
+                        />
+                      </td>
+                    </tr>
+                  );
+                })
+              : null}
           </tbody>
         </table>
       </div>
 
-      <Pagination
-        page={page}
-        setPage={setPage}
-        totalCount={totalCount}
-        totalPages={totalPages}
-        perPage={perPage}
-        setPerPage={setPerPage}
-        options={[5, 10, 15, 20]}
-      />
+      {getCoin.length > 0 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          totalCount={totalCount}
+          totalPages={totalPages}
+          perPage={perPage}
+          setPerPage={setPerPage}
+          options={[5, 10, 15, 20]}
+        />
+      ) : (
+        !loader.loaderPopup && (
+          <div>
+            <Lottie
+              options={{ animationData: noData, loop: true }}
+              style={{ width: "10rem", height: "10rem" }}
+            />
+          </div>
+        )
+      )}
 
       <FormAlertPopUp
         open={showCreateWallet}

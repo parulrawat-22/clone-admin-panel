@@ -22,3 +22,7 @@
   font-family: var(--fontfamily-sansserif);
   border-bottom: 1px solid grey;
 }
+
+.block_no__data__found__icon {
+  text-align: center;
+}

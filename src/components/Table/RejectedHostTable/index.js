@@ -188,12 +188,14 @@ const RejectedHostTable = () => {
           setPerPage={setPerPage}
         />
       ) : (
-        <div>
-          <Lottie
-            options={{ animationData: noData, loop: true }}
-            style={{ width: "10rem", height: "10rem" }}
-          />
-        </div>
+        !loader.loaderPopup && (
+          <div>
+            <Lottie
+              options={{ animationData: noData, loop: true }}
+              style={{ width: "10rem", height: "10rem" }}
+            />
+          </div>
+        )
       )}
 
       <AlertPopUp

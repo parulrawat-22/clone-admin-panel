@@ -16,6 +16,8 @@ import { useLoader } from "../../../base/Context/loaderProvider";
 import SearchInput from "../../SearchInput";
 import { FiSearch } from "react-icons/fi";
 import Pagination from "../../Pagination";
+import Lottie from "react-lottie";
+import noData from "../../../base/Animation/No Data Found.json";
 
 const MomentTable = () => {
   let navigate = useNavigate();
@@ -141,56 +143,69 @@ const MomentTable = () => {
             <th className="moment__table__head">Action</th>
           </thead>
           <tbody>
-            {getUserMoment.map((data, index) => {
-              return (
-                <tr>
-                  <td className="moment__table__body">
-                    {(page - 1) * perPage + index + 1}
-                  </td>
-                  {!id && (
-                    <td className="moment__table__body">
-                      {data?.userId?.name}
-                    </td>
-                  )}
-                  <td className="moment__table__body">{data?.subject}</td>
-                  <td className="moment__table__body">{data?.likes}</td>
+            {getUserMoment.length > 0
+              ? getUserMoment.map((data, index) => {
+                  return (
+                    <tr>
+                      <td className="moment__table__body">
+                        {(page - 1) * perPage + index + 1}
+                      </td>
+                      {!id && (
+                        <td className="moment__table__body">
+                          {data?.userId?.name}
+                        </td>
+                      )}
+                      <td className="moment__table__body">{data?.subject}</td>
+                      <td className="moment__table__body">{data?.likes}</td>
 
-                  <td className="moment__table__body">
-                    <BsFillEyeFill
-                      onClick={() => {
-                        handleImageAlert(data?.postImage);
-                      }}
-                      className="moment__table__body__eye_icon"
-                    />
-                  </td>
-                  <td className="moment__table__body">
-                    {moment(data?.postDate).format("DD/MM/YYYY LT")}
-                  </td>
-                  <td className="moment__table__body">
-                    <AiFillEdit className="moment__table__edit_icon" />
-                    <AiTwotoneDelete
-                      onClick={() => {
-                        handleOnClickAlert(data._id);
-                      }}
-                      className="moment__table__delete_icon"
-                    />
-                  </td>
-                </tr>
-              );
-            })}
+                      <td className="moment__table__body">
+                        <BsFillEyeFill
+                          onClick={() => {
+                            handleImageAlert(data?.postImage);
+                          }}
+                          className="moment__table__body__eye_icon"
+                        />
+                      </td>
+                      <td className="moment__table__body">
+                        {moment(data?.postDate).format("DD/MM/YYYY LT")}
+                      </td>
+                      <td className="moment__table__body">
+                        <AiFillEdit className="moment__table__edit_icon" />
+                        <AiTwotoneDelete
+                          onClick={() => {
+                            handleOnClickAlert(data._id);
+                          }}
+                          className="moment__table__delete_icon"
+                        />
+                      </td>
+                    </tr>
+                  );
+                })
+              : null}
           </tbody>
         </table>
       </div>
 
-      <Pagination
-        page={page}
-        setPage={setPage}
-        perPage={perPage}
-        setPerPage={setPerPage}
-        totalCount={totalCount}
-        totalPages={totalPages}
-        options={[5, 10, 15, 20]}
-      />
+      {getUserMoment.length > 0 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          perPage={perPage}
+          setPerPage={setPerPage}
+          totalCount={totalCount}
+          totalPages={totalPages}
+          options={[5, 10, 15, 20]}
+        />
+      ) : (
+        !loader.loaderPopup && (
+          <div>
+            <Lottie
+              options={{ animationData: noData, loop: true }}
+              style={{ width: "10rem", height: "10rem" }}
+            />
+          </div>
+        )
+      )}
 
       <AlertPopUp
         open={showDeleteAlert}
