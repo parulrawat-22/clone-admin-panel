@@ -14,6 +14,7 @@ import AlertPopUp from "../../components/AlertPopUp";
 import { errorToast, successToast } from "../../utils/toast";
 import SearchInput from "../../components/SearchInput";
 import { FiSearch } from "react-icons/fi";
+import Pagination from "../../components/Pagination";
 
 const Banner = () => {
   const [showBannerForm, setShowBannerForm] = useState(false);
@@ -21,6 +22,10 @@ const Banner = () => {
   const [showDeleteAlert, setShowDeleteAlert] = useState();
   const [bannerId, setBannerId] = useState("");
   const [value, setValue] = useState("");
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
+  const [totalCount, setTotalCount] = useState("");
+  const [totalPages, setTotalPages] = useState("");
 
   const handleShowDeleteAlert = () => {
     setShowDeleteAlert(true);
@@ -32,19 +37,22 @@ const Banner = () => {
 
   const handleCancelDelete = () => {
     setShowDeleteAlert(false);
-    // navigate("/banner");
   };
 
   useEffect(() => {
     fetchBannerList();
-  }, [value]);
+  }, [value, page, perPage]);
 
   const fetchBannerList = () => {
     fetchDataFromAPI(API_URL + NetworkConfiguration.GETBANNER, "POST", {
       key: value,
+      page,
+      perPage,
     })
       .then((res) => {
         setShowBannerData(res.result);
+        setTotalCount(res.totalCount);
+        setTotalPages(res.totalPages);
       })
       .catch((err) => {
         console.log("err", err);
@@ -109,6 +117,9 @@ const Banner = () => {
         setBannerId={setBannerId}
         setShowDeleteAlert={setShowDeleteAlert}
         fetchBannerList={fetchBannerList}
+        value={value}
+        page={page}
+        perPage={perPage}
       />
       <FormAlertPopUp
         open={showBannerForm}
@@ -120,6 +131,16 @@ const Banner = () => {
           fetchBannerList={fetchBannerList}
         />
       </FormAlertPopUp>
+
+      <Pagination
+        page={page}
+        setPage={setPage}
+        perPage={perPage}
+        setPerPage={setPerPage}
+        totalCount={totalCount}
+        totalPages={totalPages}
+        options={[5, 10, 15, 20]}
+      />
 
       <AlertPopUp
         open={showDeleteAlert}

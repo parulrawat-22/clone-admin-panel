@@ -15,6 +15,7 @@ import {
 import { useLoader } from "../../../base/Context/loaderProvider";
 import SearchInput from "../../SearchInput";
 import { FiSearch } from "react-icons/fi";
+import Pagination from "../../Pagination";
 
 const UserTable = () => {
   let navigate = useNavigate();
@@ -29,11 +30,16 @@ const UserTable = () => {
   const [img, setImg] = useState("");
   const [value, setValue] = useState("");
 
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
+  const [totalCount, setTotalCount] = useState("");
+  const [totalPages, setTotalPages] = useState("");
+
   const loader = useLoader();
 
   useEffect(() => {
     getUserRequest();
-  }, [value]);
+  }, [value, page, perPage]);
 
   const handleDeleteAlert = () => {
     setShowDeleteAlert(true);
@@ -95,13 +101,19 @@ const UserTable = () => {
     loader.showLoader(true);
     fetchDataFromAPI(API_URL + NetworkConfiguration.GETUSERS, "POST", {
       key: value,
+      page,
+      perPage,
     })
       .then((res) => {
-        setUserRequest(res.result);
+        console.log("12345678o", res);
+        setUserRequest(res?.result);
         loader.showLoader(false);
+        setTotalCount(res.totalCount);
+        setTotalPages(res.totalPages);
       })
       .catch((err) => {
         console.log(err, "err==========");
+        setUserRequest([]);
         loader.showLoader(false);
       });
   };
@@ -114,6 +126,8 @@ const UserTable = () => {
     return <FiSearch />;
   };
 
+  console.log("user", userRequest);
+
   return (
     <div className="user__request__table__container">
       <div className="banner__search__btn">
@@ -124,117 +138,131 @@ const UserTable = () => {
           value={value}
         />
       </div>
-      <table className="user__request__table">
-        <thead>
-          <th className="user__request__headers">S.No.</th>
-          <th className="user__request__headers">User ID</th>
-          <th className="user__request__headers">Name</th>
-          <th className="user__request__headers">Gender</th>
-          <th className="user__request__headers">Date Of Birth</th>
-          <th className="user__request__headers">Age</th>
-          <th className="user__request__headers">Country</th>
-          <th className="user__request__headers">State</th>
-          <th className="user__request__headers">City</th>
-          <th className="user__request__headers">Mobile Number</th>
-          <th className="user__request__headers">Profession</th>
-          <th className="user__request__headers">Bio</th>
-          <th className="user__request__headers">Profile Pic</th>
-          <th className="user__request__headers">Image/Video</th>
-          <th className="user__request__headers">Created At </th>
-          <th className="user__request__headers">View Profile</th>
-          <th className="user__request__headers">Action</th>
-        </thead>
-        <tbody>
-          {userRequest?.map((data, index) => {
-            return (
-              <tr>
-                <td className="user__request__data">{index + 1}</td>
-                <td className="user__request__data">{data._id}</td>
-                <td className="user__request__data">{data.name}</td>
-                <td className="user__request__data">{data.gender}</td>
-                <td className="user__request__data">{data.dateOfBirth}</td>
-                <td className="user__request__data">{data.age}</td>
-                <td className="user__request__data">{data.country}</td>
-                <td className="user__request__data">{data.state}</td>
-                <td className="user__request__data">{data.city}</td>
-                <td className="user__request__data">{data.mobileNumber}</td>
-                <td className="user__request__data">{data.proffession}</td>
-                <td className="user__request__data">{data.addBio}</td>
+      <div className="table_parent_box">
+        <table className="user__request__table">
+          <thead>
+            <th className="user__request__headers">S.No.</th>
+            <th className="user__request__headers">User ID</th>
+            <th className="user__request__headers">Name</th>
+            <th className="user__request__headers">Gender</th>
+            <th className="user__request__headers">Date Of Birth</th>
+            <th className="user__request__headers">Age</th>
+            <th className="user__request__headers">Country</th>
+            <th className="user__request__headers">State</th>
+            <th className="user__request__headers">City</th>
+            <th className="user__request__headers">Mobile Number</th>
+            <th className="user__request__headers">Profession</th>
+            <th className="user__request__headers">Bio</th>
+            <th className="user__request__headers">Profile Pic</th>
+            <th className="user__request__headers">Image/Video</th>
+            <th className="user__request__headers">Created At </th>
+            <th className="user__request__headers">View Profile</th>
+            <th className="user__request__headers">Action</th>
+          </thead>
+          <tbody>
+            {userRequest?.map((data, index) => {
+              return (
+                <tr>
+                  <td className="user__request__data">
+                    {(page - 1) * perPage + index + 1}
+                  </td>
+                  <td className="user__request__data">{data._id}</td>
+                  <td className="user__request__data">{data.name}</td>
+                  <td className="user__request__data">{data.gender}</td>
+                  <td className="user__request__data">{data.dateOfBirth}</td>
+                  <td className="user__request__data">{data.age}</td>
+                  <td className="user__request__data">{data.country}</td>
+                  <td className="user__request__data">{data.state}</td>
+                  <td className="user__request__data">{data.city}</td>
+                  <td className="user__request__data">{data.mobileNumber}</td>
+                  <td className="user__request__data">{data.proffession}</td>
+                  <td className="user__request__data">{data.addBio}</td>
 
-                <td className="user__request__data">
-                  <BsFillEyeFill
+                  <td className="user__request__data">
+                    <BsFillEyeFill
+                      onClick={() => {
+                        handleEyeProfilePicPopUp(data?.profilePic);
+                      }}
+                      className="user__request__eye__icon"
+                    />
+                  </td>
+
+                  <td className="user__request__data">
+                    <BsFillEyeFill
+                      onClick={() => {
+                        handleImageVideoPopUp(data?.presentationPic);
+                      }}
+                      className="user__request__eye__icon"
+                    />
+                  </td>
+                  <td className="user__request__data">
+                    {" "}
+                    {moment(data.createdAt).format("MM/DD/YYYY LT")}
+                  </td>
+                  <td
+                    className="user__request__data user__management__view__btn"
                     onClick={() => {
-                      handleEyeProfilePicPopUp(data?.profilePic);
+                      navigate(`/usermanagement/${data._id}`);
                     }}
-                    className="user__request__eye__icon"
-                  />
-                </td>
+                  >
+                    View more...
+                  </td>
+                  <td className="user__request__data">
+                    <AiFillEdit
+                      onClick={() => {
+                        navigate("/edituser", { state: { id: data?._id } });
+                      }}
+                      className="accepted__user__edit__icon"
+                    />
+                    <AiFillDelete
+                      onClick={() => {
+                        handleUserDeleteAlert(data._id);
+                      }}
+                      className="accepted__user__delete__icon"
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
 
-                <td className="user__request__data">
-                  <BsFillEyeFill
-                    onClick={() => {
-                      handleImageVideoPopUp(data?.presentationPic);
-                    }}
-                    className="user__request__eye__icon"
-                  />
-                </td>
-                <td className="user__request__data">
-                  {" "}
-                  {moment(data.createdAt).format("MM/DD/YYYY LT")}
-                </td>
-                <td
-                  className="user__request__data user__management__view__btn"
-                  onClick={() => {
-                    navigate(`/usermanagement/${data._id}`);
-                  }}
-                >
-                  View more...
-                </td>
-                <td className="user__request__data">
-                  <AiFillEdit
-                    onClick={() => {
-                      navigate("/edituser", { state: { id: data?._id } });
-                    }}
-                    className="accepted__user__edit__icon"
-                  />
-                  <AiFillDelete
-                    onClick={() => {
-                      handleUserDeleteAlert(data._id);
-                    }}
-                    className="accepted__user__delete__icon"
-                  />
-                </td>
-              </tr>
-            );
-          })}
+      <Pagination
+        page={page}
+        setPage={setPage}
+        totalCount={totalCount}
+        totalPages={totalPages}
+        setPerPage={setPerPage}
+        perPage={perPage}
+        options={[5, 10, 15, 20]}
+      />
 
-          <AlertPopUp
-            open={showDeleteAlert}
-            handleOpen={handleDeleteAlert}
-            handleClose={handleDeleteAlertClose}
-            header="Delete Alert"
-            description="Are you sure you want to delete this User?"
-            submitText="Yes"
-            cancelText="No"
-            onSubmitClick={handleUserDelete}
-            onCancelClick={handleUserDeleteClose}
-          />
+      <AlertPopUp
+        open={showDeleteAlert}
+        handleOpen={handleDeleteAlert}
+        handleClose={handleDeleteAlertClose}
+        header="Delete Alert"
+        description="Are you sure you want to delete this User?"
+        submitText="Yes"
+        cancelText="No"
+        onSubmitClick={handleUserDelete}
+        onCancelClick={handleUserDeleteClose}
+      />
 
-          <ImagePopUpModal
-            open={showProfileAlert}
-            handleOpen={handleEyeProfilePicPopUp}
-            handleClose={handleEyeProfilePicPopUpClose}
-            img={img}
-          />
+      <ImagePopUpModal
+        open={showProfileAlert}
+        handleOpen={handleEyeProfilePicPopUp}
+        handleClose={handleEyeProfilePicPopUpClose}
+        img={img}
+      />
 
-          <ImagePopUpModal
-            open={showImageVideo}
-            handleOpen={handleImageVideoPopUp}
-            handleClose={handleImageVideoPopUpClose}
-            images={images}
-          />
-        </tbody>
-      </table>
+      <ImagePopUpModal
+        open={showImageVideo}
+        handleOpen={handleImageVideoPopUp}
+        handleClose={handleImageVideoPopUpClose}
+        images={images}
+      />
     </div>
   );
 };

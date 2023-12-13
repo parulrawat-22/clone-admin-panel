@@ -12,11 +12,16 @@ import {
 } from "../../network/NetworkConfiguration";
 import SearchInput from "../../components/SearchInput";
 import { FiSearch } from "react-icons/fi";
+import Pagination from "../../components/Pagination";
 
 const Leader = () => {
   const [showAddLeaderAlert, setshowAddLeaderAlert] = useState(false);
   const [showLeaderList, setShowLeaderList] = useState([]);
   const [value, setValue] = useState("");
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
+  const [totalCount, setTotalCount] = useState("");
+  const [totalPages, setTotalPages] = useState("");
 
   const handleAddLeader = () => {
     setshowAddLeaderAlert(true);
@@ -28,14 +33,18 @@ const Leader = () => {
 
   useEffect(() => {
     getAllLeaders();
-  }, [value]);
+  }, [value, page, perPage]);
 
   const getAllLeaders = () => {
     fetchDataFromAPI(API_URL + NetworkConfiguration.GETLEADER, "POST", {
       key: value,
+      page,
+      perPage,
     })
       .then((res) => {
         setShowLeaderList(res.result);
+        setTotalCount(res?.totalCount);
+        setTotalPages(res?.totalPages);
       })
       .catch((err) => {
         console.log(err);
@@ -69,13 +78,28 @@ const Leader = () => {
           icon={searchIcon()}
         />
       </div>
-      <LeaderTable showLeaderList={showLeaderList} />
+
+      <LeaderTable
+        page={page}
+        perPage={perPage}
+        showLeaderList={showLeaderList}
+      />
       <FormAlertPopUp
         open={showAddLeaderAlert}
         onRequestClose={handleAddLeaderClose}
       >
         <AddLeaderForm onSubmit={onSubmit} handleClose={handleAddLeaderClose} />
       </FormAlertPopUp>
+
+      <Pagination
+        page={page}
+        setPage={setPage}
+        perPage={perPage}
+        setPerPage={setPerPage}
+        totalCount={totalCount}
+        totalPages={totalPages}
+        options={[5, 10, 15, 20]}
+      />
     </Layout>
   );
 };

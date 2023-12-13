@@ -6,10 +6,9 @@
 }
 
 .user__request__table {
-  border: none;
-  border-bottom: 1px solid grey;
-  width: 100%;
+  width: max-content;
   border-collapse: collapse;
+  min-width: 100%;
 }
 
 .user__request__headers {

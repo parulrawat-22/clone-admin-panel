@@ -1,10 +1,11 @@
 .feedback__table__container {
-  width: 100%;
+  width: max-content;
   border-collapse: collapse;
+  min-width: 100%;
 }
 
 .feedback__container {
-  padding: 3rem 0;
+  padding: 1rem 0;
 }
 
 .feedback__table__heading {

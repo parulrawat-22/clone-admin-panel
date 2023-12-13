@@ -1,7 +1,7 @@
 .active_page_btn {
-  background-color: var(--green-color);
-  color: var(--white-color);
-  font-size: var(--font-small);
+  background-color: var(--color-pink);
+  color: var(--color-white);
+  font-size: var(--fontsize-regular);
   border-radius: 5px;
   width: 40px;
   height: 40px;
@@ -13,8 +13,8 @@
 }
 
 .page_btn {
-  background-color: var(--white-color);
-  font-size: var(--font-small);
+  background-color: var(--color-white);
+  font-size: var(--fontsize-regular);
   border-radius: 5px;
   width: 40px;
   height: 40px;
@@ -35,7 +35,7 @@
 }
 
 .pagination_icon {
-  font-size: var(--font-regular);
+  font-size: var(--fontsize-regular);
 }
 
 .dot_btns {
@@ -51,11 +51,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 2rem 0;
 }
 
 .per_page_div {
-  background-color: var(--white-color);
-  font-size: var(--font-small);
+  background-color: var(--color-white);
+  font-size: var(--fontsize-regular);
   border-radius: 5px;
   height: 40px;
   border: none;
@@ -75,7 +76,7 @@
   border: 1px solid black;
   border-radius: 2px;
   height: 25px;
-  font-size: var(--font-small);
+  font-size: var(--fontsize-regular);
   cursor: pointer;
   outline: none;
 }
@@ -85,7 +86,7 @@
   border: 1px solid black;
   border-radius: 2px;
   height: 25px;
-  font-size: var(--font-small);
+  font-size: var(--fontsize-regular);
   cursor: pointer;
   padding: 0 5px;
 }

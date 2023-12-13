@@ -11,12 +11,16 @@ import { errorToast, successToast } from "../../../utils/toast";
 import { useLoader } from "../../../base/Context/loaderProvider";
 import { FiSearch } from "react-icons/fi";
 import SearchInput from "../../SearchInput";
+import Pagination from "../../Pagination";
 
 const NotificationTable = () => {
   const [getNotification, setGetNotification] = useState([]);
   const [showDeleteAlert, setShowDeleteAlert] = useState("");
   const [id, setId] = useState("");
-
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
+  const [totalCount, setTotalCount] = useState("");
+  const [totalPages, setTotalPages] = useState("");
   const loader = useLoader();
 
   const handleDeleteNotification = (id) => {
@@ -30,15 +34,20 @@ const NotificationTable = () => {
 
   useEffect(() => {
     fetchNotification();
-  }, []);
+  }, [page, perPage]);
 
   const fetchNotification = () => {
     loader.showLoader(true);
 
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETNOTIFICATION, "GET")
+    fetchDataFromAPI(API_URL + NetworkConfiguration.GETNOTIFICATION, "POST", {
+      page,
+      perPage,
+    })
       .then((res) => {
         setGetNotification(res.result);
         loader.showLoader(false);
+        setTotalCount(res.totalCount);
+        setTotalPages(res.totalPages);
       })
       .catch((err) => {
         console.log(err);
@@ -106,6 +115,16 @@ const NotificationTable = () => {
           })}
         </tbody>
       </table>
+
+      <Pagination
+        page={page}
+        setPage={setPage}
+        perPage={perPage}
+        setPerPage={setPerPage}
+        totalCount={totalCount}
+        totalPages={totalPages}
+        options={[5, 10, 15, 20]}
+      />
       <AlertPopUp
         open={showDeleteAlert}
         handleOpen={handleDeleteNotification}

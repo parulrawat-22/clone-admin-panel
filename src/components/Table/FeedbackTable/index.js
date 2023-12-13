@@ -14,6 +14,7 @@ import { AiFillEye } from "react-icons/ai";
 import { useLoader } from "../../../base/Context/loaderProvider";
 import { FiSearch } from "react-icons/fi";
 import SearchInput from "../../SearchInput";
+import Pagination from "../../Pagination";
 
 const FeedbackUserTable = () => {
   const { id } = useParams();
@@ -24,6 +25,11 @@ const FeedbackUserTable = () => {
   const [img, setImg] = useState("");
   const [getId, setGetId] = useState("");
   const [replyFeedback, setReplyFeedback] = useState("");
+  const [value, setValue] = useState("");
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
+  const [totalCount, setTotalCount] = useState("");
+  const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
 
@@ -38,18 +44,26 @@ const FeedbackUserTable = () => {
 
   useEffect(() => {
     getAllUsersFeedback();
-  }, []);
+  }, [value, page, perPage]);
 
   const getAllUsersFeedback = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.GETUSERFEEDBACK,
       "POST",
-      id ? { userId: id } : {}
+      id
+        ? { userId: id }
+        : {
+            key: value,
+            page,
+            perPage,
+          }
     )
       .then((res) => {
         loader.showLoader(false);
         setFeedback(res.result);
+        setTotalCount(res.totalCount);
+        setTotalPages(res.totalPages);
       })
       .catch((err) => {
         loader.showLoader(false);
@@ -88,70 +102,96 @@ const FeedbackUserTable = () => {
     return <FiSearch />;
   };
 
+  const handleText = (e) => {
+    setValue(e.target.value);
+  };
+
   return (
     <div className="feedback__container">
       <div className="banner__search__btn">
-        <SearchInput placeholder="Search" icon={searchIcon()} />
+        <SearchInput
+          value={value}
+          onChange={handleText}
+          placeholder="Search"
+          icon={searchIcon()}
+        />
       </div>
-      <table className="feedback__table__container">
-        <thead>
-          <th className="feedback__table__heading">S.No.</th>
-          {!id && (
-            <>
-              <th className="feedback__table__heading">User ID</th>
-              <th className="feedback__table__heading">User Name</th>
-            </>
-          )}
-          <th className="feedback__table__heading">Title</th>
-          <th className="feedback__table__heading">Description</th>
-          <th className="feedback__table__heading">Image/Video</th>
-          <th className="feedback__table__heading">Created At</th>
-          <th className="feedback__table__heading">Revert Back</th>
-        </thead>
-        <tbody>
-          {feedback.map((data, index) => {
-            return (
-              <tr>
-                <td className="feedback__table__data"> {index + 1}</td>
-                {!id && (
-                  <>
-                    <td className="feedback__table__data">{data?._id}</td>
-                    <td className="feedback__table__data">
-                      {" "}
-                      {data?.userId?.name}
-                    </td>
-                  </>
-                )}
-                <td className="feedback__table__data">{data?.feedbackType}</td>
-                <td className="feedback__table__data"> {data?.comment}</td>
-                <td className="feedback__table__data">
-                  <AiFillEye
-                    onClick={() => {
-                      handleShowImage(data?.feedbackImage);
-                    }}
-                    className="feedback__table__eye__icon"
-                  />
-                </td>
-                <td className="feedback__table__data">
-                  {moment(data.createdAt).format("DD/MM/YYYY LT")}
-                </td>
-                {data?.replyFeedback ? (
+      <div className="table_parent_box">
+        <table className="feedback__table__container">
+          <thead>
+            <th className="feedback__table__heading">S.No.</th>
+            {!id && (
+              <>
+                <th className="feedback__table__heading">User ID</th>
+                <th className="feedback__table__heading">User Name</th>
+              </>
+            )}
+            <th className="feedback__table__heading">Title</th>
+            <th className="feedback__table__heading">Description</th>
+            <th className="feedback__table__heading">Image/Video</th>
+            <th className="feedback__table__heading">Created At</th>
+            <th className="feedback__table__heading">Revert Back</th>
+          </thead>
+          <tbody>
+            {feedback.map((data, index) => {
+              return (
+                <tr>
                   <td className="feedback__table__data">
-                    {data?.replyFeedback}
+                    {" "}
+                    {(page - 1) * perPage + index + 1}
                   </td>
-                ) : (
-                  <td
-                    onClick={() => handleFeedbackRevert(data?._id)}
-                    className="feedback__table__data feedback__table__reply"
-                  >
-                    Reply
+                  {!id && (
+                    <>
+                      <td className="feedback__table__data">{data?._id}</td>
+                      <td className="feedback__table__data">
+                        {" "}
+                        {data?.userId?.name}
+                      </td>
+                    </>
+                  )}
+                  <td className="feedback__table__data">
+                    {data?.feedbackType}
                   </td>
-                )}
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                  <td className="feedback__table__data"> {data?.comment}</td>
+                  <td className="feedback__table__data">
+                    <AiFillEye
+                      onClick={() => {
+                        handleShowImage(data?.feedbackImage);
+                      }}
+                      className="feedback__table__eye__icon"
+                    />
+                  </td>
+                  <td className="feedback__table__data">
+                    {moment(data.createdAt).format("DD/MM/YYYY LT")}
+                  </td>
+                  {data?.replyFeedback ? (
+                    <td className="feedback__table__data">
+                      {data?.replyFeedback}
+                    </td>
+                  ) : (
+                    <td
+                      onClick={() => handleFeedbackRevert(data?._id)}
+                      className="feedback__table__data feedback__table__reply"
+                    >
+                      Reply
+                    </td>
+                  )}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      <Pagination
+        page={page}
+        setPage={setPage}
+        totalCount={totalCount}
+        totalPages={totalPages}
+        setPerPage={setPerPage}
+        perPage={perPage}
+        options={[5, 10, 15, 20]}
+      />
       <AlertPopUp
         open={showRevertAlert}
         handleOpen={handleFeedbackRevert}

@@ -15,6 +15,9 @@ import WebModal from "../../WebModal";
 import { useLoader } from "../../../base/Context/loaderProvider";
 import SearchInput from "../../SearchInput";
 import { FiSearch } from "react-icons/fi";
+import Pagination from "../../Pagination";
+import Lottie from "react-lottie";
+import noData from "../../../base/Animation/No Data Found.json";
 
 const SuspendedUserTable = () => {
   const [suspendedUserList, setSuspendedUserList] = useState([]);
@@ -23,6 +26,10 @@ const SuspendedUserTable = () => {
   const [id, setId] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
   const [value, setValue] = useState("");
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
+  const [totalCount, setTotalCount] = useState("");
+  const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
 
@@ -35,8 +42,6 @@ const SuspendedUserTable = () => {
   };
 
   const getSuspendedUserList = () => {
-    loader.showLoader(true);
-
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.SUSPENDEDUSER,
       "POST",
@@ -44,21 +49,23 @@ const SuspendedUserTable = () => {
         ? { userId: searchParams.get("id") }
         : {
             key: value,
+            page,
+            perPage,
           }
     )
       .then((res) => {
-        loader.showLoader(false);
         setSuspendedUserList(res.result);
+        setTotalCount(res?.totalCount);
+        setTotalPages(res?.totalPages);
       })
       .catch((err) => {
-        loader.showLoader(false);
         console.log(err);
       });
   };
 
   useEffect(() => {
     getSuspendedUserList();
-  }, [value]);
+  }, [value, page, perPage]);
 
   const handleOnClickDelete = (id) => {
     setShowDeleteAlert(true);
@@ -83,7 +90,6 @@ const SuspendedUserTable = () => {
     )
       .then((res) => {
         loader.showLoader(false);
-
         setShowDeleteAlert(false);
         getSuspendedUserList();
       })
@@ -112,86 +118,76 @@ const SuspendedUserTable = () => {
           icon={searchIcon()}
         />
       </div>
-      {searchParams.get("id") ? (
+      <div className="table_parent_box">
         <table className="suspended__table">
           <thead>
             <th className="suspended__table__header">S.no</th>
+            {!searchParams.get("id") && (
+              <>
+                <th className="suspended__table__header">User ID</th>
+                <th className="suspended__table__header">User Name</th>
+              </>
+            )}
             <th className="suspended__table__header">Suspended From</th>
             <th className="suspended__table__header">Suspended To</th>
             <th className="suspended__table__header">Action</th>
           </thead>
           <tbody>
-            {suspendedUserList.map((data, index) => {
-              return (
-                <tr>
-                  <td className="suspended__table__data">{index + 1}</td>
-                  <td className="suspended__table__data">
-                    {moment(data?.createdAt).format("DD/MM/YYYY")}
-                  </td>
-                  <td className="suspended__table__data">
-                    {moment(data?.suspensionEndDate).format("DD/MM/YYYY")}
-                  </td>
-                  <td className="suspended__table__data suspended__table__edit__icon ">
-                    <AiFillEdit
-                      onClick={() => {
-                        handleOnClickEdit(data?._id);
-                      }}
-                    />
-                    <AiFillDelete
-                      className="suspended__table__delete__icon"
-                      onClick={() => {
-                        handleOnClickDelete(data?._id);
-                      }}
-                    />
-                  </td>
-                </tr>
-              );
-            })}
+            {suspendedUserList.length > 0
+              ? suspendedUserList.map((data, index) => {
+                  return (
+                    <tr>
+                      <td className="suspended__table__data">
+                        {(page - 1) * perPage + index + 1}
+                      </td>
+                      <td className="suspended__table__data">{data?._id}</td>
+                      <td className="suspended__table__data">
+                        {data?.userId?.name}
+                      </td>
+                      <td className="suspended__table__data">
+                        {moment(data?.createdAt).format("DD/MM/YYYY")}
+                      </td>
+                      <td className="suspended__table__data">
+                        {moment(data?.suspensionEndDate).format("DD/MM/YYYY")}
+                      </td>
+                      <td className="suspended__table__data suspended__table__edit__icon ">
+                        <AiFillEdit
+                          onClick={() => {
+                            handleOnClickEdit(data?._id);
+                          }}
+                        />
+                        <AiFillDelete
+                          className="suspended__table__delete__icon"
+                          onClick={() => {
+                            handleOnClickDelete(data?._id);
+                          }}
+                        />
+                      </td>
+                    </tr>
+                  );
+                })
+              : null}
           </tbody>
         </table>
+      </div>
+
+      {suspendedUserList.length > 0 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          totalCount={totalCount}
+          totalPages={totalPages}
+          setPerPage={setPerPage}
+          perPage={perPage}
+          options={[5, 10, 15, 20]}
+        />
       ) : (
-        <table className="suspended__table">
-          <thead>
-            <th className="suspended__table__header">S.no</th>
-            <th className="suspended__table__header">User ID</th>
-            <th className="suspended__table__header">User Name</th>
-            <th className="suspended__table__header">Suspended From</th>
-            <th className="suspended__table__header">Suspended To</th>
-            <th className="suspended__table__header">Action</th>
-          </thead>
-          <tbody>
-            {suspendedUserList.map((data, index) => {
-              return (
-                <tr>
-                  <td className="suspended__table__data">{index + 1}</td>
-                  <td className="suspended__table__data">{data?._id}</td>
-                  <td className="suspended__table__data">
-                    {data?.userId?.name}
-                  </td>
-                  <td className="suspended__table__data">
-                    {moment(data?.createdAt).format("DD/MM/YYYY")}
-                  </td>
-                  <td className="suspended__table__data">
-                    {moment(data?.suspensionEndDate).format("DD/MM/YYYY")}
-                  </td>
-                  <td className="suspended__table__data suspended__table__edit__icon ">
-                    <AiFillEdit
-                      onClick={() => {
-                        handleOnClickEdit(data?._id);
-                      }}
-                    />
-                    <AiFillDelete
-                      className="suspended__table__delete__icon"
-                      onClick={() => {
-                        handleOnClickDelete(data?._id);
-                      }}
-                    />
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+        <div>
+          <Lottie
+            options={{ animationData: noData, loop: true }}
+            style={{ width: "10rem", height: "10rem" }}
+          />
+        </div>
       )}
 
       <AlertPopUp
@@ -205,7 +201,6 @@ const SuspendedUserTable = () => {
         onSubmitClick={handleAlertDelete}
         onCancelClick={handleDeleteAlertClose}
       />
-
       <WebModal open={showEditAlert} onRequestClose={handleOnClickEditClose}>
         <h2>Edit Suspended User</h2>
         <br />

@@ -1,11 +1,11 @@
 .moment__table__container {
-  width: 100%;
+  min-width: 100%;
+  max-width: max-content;
   border-collapse: collapse;
 }
 
 .moment__container {
-  padding: 3rem 0;
-  overflow: auto;
+  padding: 1rem 0;
 }
 
 .moment__table__head {

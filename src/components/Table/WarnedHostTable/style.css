@@ -1,9 +1,10 @@
 .warned__host__container {
-  padding: 3rem 0;
+  padding: 1rem 0;
 }
 
 .warned__host__table {
-  width: 100%;
+  max-width: fit-content;
+  min-width: 100%;
   border-collapse: collapse;
 }
 

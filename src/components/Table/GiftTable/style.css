@@ -1,10 +1,11 @@
 .gift__table__container {
-  width: 100%;
+  max-width: max-content;
+  min-width: 100%;
   border-collapse: collapse;
 }
 
 .gift__container {
-  padding: 3rem 0;
+  padding: 1rem 0;
 }
 
 .gift__table__heading {

@@ -1,9 +1,10 @@
 .host__moment__container {
-  padding: 3rem 0;
+  padding: 1rem 0;
 }
 
 .host__moment__table {
-  width: 100%;
+  max-width: max-content;
+  min-width: 100%;
   border-collapse: collapse;
 }
 

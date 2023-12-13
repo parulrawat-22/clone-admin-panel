@@ -13,6 +13,9 @@ import ImagePopUpModal from "../../ImagePopUpModal";
 import { useLoader } from "../../../base/Context/loaderProvider";
 import SearchInput from "../../SearchInput";
 import { FiSearch } from "react-icons/fi";
+import Pagination from "../../Pagination";
+import Lottie from "react-lottie";
+import noData from "../../../base/Animation/No Data Found.json";
 
 const RejectedHostTable = () => {
   let navigate = useNavigate();
@@ -23,6 +26,10 @@ const RejectedHostTable = () => {
   const [showImageAlert, setShowImageAlert] = useState(false);
   const [img, setImg] = useState("");
   const [value, setValue] = useState("");
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
+  const [totalCount, setTotalCount] = useState("");
+  const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
 
@@ -37,7 +44,7 @@ const RejectedHostTable = () => {
 
   useEffect(() => {
     getRejectedHost();
-  }, []);
+  }, [value, page, perPage]);
 
   const getRejectedHost = () => {
     loader.showLoader(true);
@@ -45,10 +52,15 @@ const RejectedHostTable = () => {
     fetchDataFromAPI(API_URL + NetworkConfiguration.REJECTEDHOST, "POST", {
       id: id,
       rejectedReason: rejectedReason,
+      key: value,
+      page,
+      perPage,
     })
       .then((res) => {
         setRejectedHost(res.result);
         loader.showLoader(false);
+        setTotalCount(res?.totalCount);
+        setTotalPages(res?.totalPages);
       })
       .catch((err) => {
         console.log(err);
@@ -107,53 +119,83 @@ const RejectedHostTable = () => {
           icon={searchIcon()}
         />
       </div>
-      <table className="rejected__host__table">
-        <thead>
-          <th className="rejected__host__header">S.No.</th>
-          <th className="rejected__host__header">Host ID</th>
-          <th className="rejected__host__header">Name</th>
-          <th className="rejected__host__header">Date Of Birth</th>
-          <th className="rejected__host__header">Email</th>
-          <th className="rejected__host__header">Mobile Number</th>
-          <th className="rejected__host__header">Rejected At</th>
-          <th className="rejected__host__header">Rejected Reason</th>
-          <th className="rejected__host__header">Profile Pic</th>
-          {/* <th className="rejected__host__header">Details</th> */}
-          <th className="rejected__host__header">Action</th>
-        </thead>
-        <tbody>
-          {rejectedHost.map((data, index) => {
-            return (
-              <tr>
-                <td className="rejected__host__data">{index + 1}</td>
-                <td className="rejected__host__data">{data?._id}</td>
-                <td className="rejected__host__data">{data?.name}</td>
-                <td className="rejected__host__data">{data?.dateOfBirth}</td>
-                <td className="rejected__host__data">{data?.email}</td>
-                <td className="rejected__host__data">{data?.mobileNumber}</td>
-                <td className="rejected__host__data">
-                  {moment(data?.rejectedDate).format("DD/MM/YYYY LT")}
-                </td>
-                <td className="rejected__host__data">{data?.rejectedReason}</td>
-                <td className="rejected__host__data">
-                  <AiFillEye
-                    className="rejected__host__eye__icon"
-                    onClick={() => handleImageAlert(data?.profilePic)}
-                  />
-                </td>
-                {/* <td className="rejected__host__data">View</td> */}
-                <td className="rejected__host__data">
-                  {/* <AiFillEdit className="rejected__host__edit__icon" /> */}
-                  <AiFillDelete
-                    className="rejected__host__delete__icon"
-                    onClick={() => handleRejectedHostDelete(data._id)}
-                  />
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div className="table_parent_box">
+        <table className="rejected__host__table">
+          <thead>
+            <th className="rejected__host__header">S.No.</th>
+            <th className="rejected__host__header">Host ID</th>
+            <th className="rejected__host__header">Name</th>
+            <th className="rejected__host__header">Date Of Birth</th>
+            <th className="rejected__host__header">Email</th>
+            <th className="rejected__host__header">Mobile Number</th>
+            <th className="rejected__host__header">Rejected At</th>
+            <th className="rejected__host__header">Rejected Reason</th>
+            <th className="rejected__host__header">Profile Pic</th>
+            {/* <th className="rejected__host__header">Details</th> */}
+            <th className="rejected__host__header">Action</th>
+          </thead>
+          <tbody>
+            {rejectedHost.length > 0
+              ? rejectedHost.map((data, index) => {
+                  return (
+                    <tr>
+                      <td className="rejected__host__data">{index + 1}</td>
+                      <td className="rejected__host__data">{data?._id}</td>
+                      <td className="rejected__host__data">{data?.name}</td>
+                      <td className="rejected__host__data">
+                        {data?.dateOfBirth}
+                      </td>
+                      <td className="rejected__host__data">{data?.email}</td>
+                      <td className="rejected__host__data">
+                        {data?.mobileNumber}
+                      </td>
+                      <td className="rejected__host__data">
+                        {moment(data?.rejectedDate).format("DD/MM/YYYY LT")}
+                      </td>
+                      <td className="rejected__host__data">
+                        {data?.rejectedReason}
+                      </td>
+                      <td className="rejected__host__data">
+                        <AiFillEye
+                          className="rejected__host__eye__icon"
+                          onClick={() => handleImageAlert(data?.profilePic)}
+                        />
+                      </td>
+                      {/* <td className="rejected__host__data">View</td> */}
+                      <td className="rejected__host__data">
+                        {/* <AiFillEdit className="rejected__host__edit__icon" /> */}
+                        <AiFillDelete
+                          className="rejected__host__delete__icon"
+                          onClick={() => handleRejectedHostDelete(data._id)}
+                        />
+                      </td>
+                    </tr>
+                  );
+                })
+              : null}
+          </tbody>
+        </table>
+      </div>
+
+      {rejectedHost.length > 0 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          totalCount={totalCount}
+          totalPages={totalPages}
+          options={[5, 10, 15, 20]}
+          perPage={perPage}
+          setPerPage={setPerPage}
+        />
+      ) : (
+        <div>
+          <Lottie
+            options={{ animationData: noData, loop: true }}
+            style={{ width: "10rem", height: "10rem" }}
+          />
+        </div>
+      )}
+
       <AlertPopUp
         open={showDeleteAlert}
         handleOpen={handleRejectedHostDelete}

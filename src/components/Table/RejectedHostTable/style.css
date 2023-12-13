@@ -4,8 +4,9 @@
 }
 
 .rejected__host__table {
-  width: 100%;
+  width: max-content;
   border-collapse: collapse;
+  min-width: 100%;
 }
 
 .rejected__host__data {

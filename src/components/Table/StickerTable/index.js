@@ -16,6 +16,7 @@ import { errorToast, successToast } from "../../../utils/toast";
 import { useLoader } from "../../../base/Context/loaderProvider";
 import { FiSearch } from "react-icons/fi";
 import SearchInput from "../../SearchInput";
+import Pagination from "../../Pagination";
 
 const StickerTable = () => {
   const [getSticker, setGetSticker] = useState([]);
@@ -32,6 +33,10 @@ const StickerTable = () => {
   });
 
   const [value, setValue] = useState("");
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
+  const [totalCount, setTotalCount] = useState("");
+  const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
 
@@ -45,14 +50,18 @@ const StickerTable = () => {
 
   useEffect(() => {
     fetchSticker();
-  }, [value]);
+  }, [value, page, perPage]);
 
   const fetchSticker = () => {
     fetchDataFromAPI(API_URL + NetworkConfiguration.GETSTICKER, "POST", {
       key: value,
+      page,
+      perPage,
     })
       .then((res) => {
         setGetSticker(res.result);
+        setTotalCount(res.totalCount);
+        setTotalPages(res.totalPages);
       })
       .catch((err) => {
         console.log(err);
@@ -159,7 +168,9 @@ const StickerTable = () => {
           {getSticker.map((data, index) => {
             return (
               <tr>
-                <td className="sticker__table__data">{index + 1}</td>
+                <td className="sticker__table__data">
+                  {(page - 1) * perPage + index + 1}
+                </td>
                 <td className="sticker__table__data">{data?.name}</td>
                 <td className="sticker__table__data">
                   <AiFillEye
@@ -195,6 +206,17 @@ const StickerTable = () => {
           })}
         </tbody>
       </table>
+
+      <Pagination
+        page={page}
+        setPage={setPage}
+        perPage={perPage}
+        setPerPage={setPerPage}
+        totalCount={totalCount}
+        totalPages={totalPages}
+        options={[5, 10, 15, 20]}
+      />
+
       <ImagePopUpModal
         open={showImageAlert}
         handleClose={handleEyeOnClickClose}

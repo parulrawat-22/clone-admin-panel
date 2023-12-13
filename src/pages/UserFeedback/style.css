@@ -1,7 +1,7 @@
 .feedback__user__host__toggle {
   display: flex;
   justify-content: flex-end;
-  padding-top: 20px;
+  padding-top: 5px;
   display: flex;
   align-items: center;
 }
@@ -12,8 +12,7 @@
 }
 
 .feedback__toggle__active__button {
-  width: 6rem;
-  height: 4rem;
+  width: 5rem;
   border: none;
   background-color: var(--color-pink);
   font-family: var(--fontfamily-sansserif);
@@ -24,11 +23,11 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  padding: 8px 0;
 }
 
 .feedback__toggle__inactive__button {
-  width: 6rem;
-  height: 4rem;
+  width: 5rem;
   border: none;
   font-family: var(--fontfamily-sansserif);
   font-size: var(--fontsize-small);
@@ -37,4 +36,5 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  padding: 8px 0;
 }

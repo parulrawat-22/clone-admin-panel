@@ -17,13 +17,13 @@ const Report = () => {
 
   return (
     <Layout>
-      <div className="report__user__host__toggle">
-        <div className="report_toggle_btns">
+      <div className="feedback__user__host__toggle">
+        <div className="feedback_toggle_btns">
           <p
             className={
               showData === "user"
-                ? "report__toggle__active__button"
-                : "report__toggle__inactive__button"
+                ? "feedback__toggle__active__button"
+                : "feedback__toggle__inactive__button"
             }
             onClick={handleUserData}
           >
@@ -32,8 +32,8 @@ const Report = () => {
           <p
             className={
               showData === "host"
-                ? "report__toggle__active__button"
-                : "report__toggle__inactive__button"
+                ? "feedback__toggle__active__button"
+                : "feedback__toggle__inactive__button"
             }
             onClick={handleHostData}
           >

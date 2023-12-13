@@ -14,6 +14,7 @@ import AlertPopUp from "../../components/AlertPopUp";
 import { errorToast, successToast } from "../../utils/toast";
 import SearchInput from "../../components/SearchInput";
 import { FiSearch } from "react-icons/fi";
+import Pagination from "../../components/Pagination";
 
 const Coin = () => {
   const [showCreateWallet, setShowCreateWallet] = useState(false);
@@ -21,6 +22,10 @@ const Coin = () => {
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [showEditAlert, setShowEditAlert] = useState(false);
   const [id, setId] = useState("");
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
+  const [totalCount, setTotalCount] = useState("");
+  const [totalPages, setTotalPages] = useState("");
 
   const handleDeleteAlert = () => {
     setShowDeleteAlert(true);
@@ -34,9 +39,14 @@ const Coin = () => {
   }, []);
 
   const fetchCoin = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETWALLET, "GET")
+    fetchDataFromAPI(API_URL + NetworkConfiguration.GETWALLET, "POST", {
+      page,
+      perPage,
+    })
       .then((res) => {
         setGetCoin(res.result);
+        setTotalCount(res.totalCount);
+        setTotalPages(res.totalPages);
       })
       .catch((err) => {
         console.log(err);
@@ -118,7 +128,9 @@ const Coin = () => {
             {getCoin.map((data, index) => {
               return (
                 <tr>
-                  <td className="wallet__data">{index + 1}</td>
+                  <td className="wallet__data">
+                    {(page - 1) * perPage + index + 1}
+                  </td>
                   <td className="wallet__data">{data?.coins}</td>
                   <td className="wallet__data">{data?.price}</td>
                   <td className="wallet__data">{data?.offer}</td>
@@ -148,6 +160,17 @@ const Coin = () => {
           </tbody>
         </table>
       </div>
+
+      <Pagination
+        page={page}
+        setPage={setPage}
+        totalCount={totalCount}
+        totalPages={totalPages}
+        perPage={perPage}
+        setPerPage={setPerPage}
+        options={[5, 10, 15, 20]}
+      />
+
       <FormAlertPopUp
         open={showCreateWallet}
         onRequestClose={handleCreateWalletClose}

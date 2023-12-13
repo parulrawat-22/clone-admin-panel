@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./style.css";
 import TablePopUp from "../../TablePopUp";
 
-const LeaderTable = ({ showLeaderList }) => {
+const LeaderTable = ({ showLeaderList, page, perPage }) => {
   const [showHostData, setShowHostData] = useState(false);
   const [id, setId] = useState("");
 
@@ -37,18 +37,20 @@ const LeaderTable = ({ showLeaderList }) => {
           {showLeaderList.map((data, index) => {
             return (
               <tr>
-                <td className="leader__table__body">{index + 1}</td>
-                <td className="leader__table__body">{data.leaderId}</td>
-                <td className="leader__table__body">{data.leaderName}</td>
-                <td className="leader__table__body">{data.gender}</td>
-                <td className="leader__table__body">{data.email}</td>
-                <td className="leader__table__body">{data.mobileNumber}</td>
-                <td className="leader__table__body">{data.idProof}</td>
-                <td className="leader__table__body">{data.groupName}</td>
-                <td className="leader__table__body">{data.country}</td>
-                <td className="leader__table__body">{data.state}</td>
-                <td className="leader__table__body">{data.city}</td>
-                <td className="leader__table__body">{data.pin}</td>
+                <td className="leader__table__body">
+                  {(page - 1) * perPage + index + 1}
+                </td>
+                <td className="leader__table__body">{data?._id}</td>
+                <td className="leader__table__body">{data?.leaderName}</td>
+                <td className="leader__table__body">{data?.gender}</td>
+                <td className="leader__table__body">{data?.email}</td>
+                <td className="leader__table__body">{data?.mobileNumber}</td>
+                <td className="leader__table__body">{data?.idProof}</td>
+                <td className="leader__table__body">{data?.groupName}</td>
+                <td className="leader__table__body">{data?.country}</td>
+                <td className="leader__table__body">{data?.state}</td>
+                <td className="leader__table__body">{data?.city}</td>
+                <td className="leader__table__body">{data?.pin}</td>
                 <td
                   onClick={() => {
                     handleViewHostData(data?._id);

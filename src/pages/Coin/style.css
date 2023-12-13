@@ -1,9 +1,12 @@
 .wallet__container {
-  padding: 3rem 0;
+  padding: 1rem 0;
+  width: 100%;
+  overflow-x: auto;
 }
 
 .wallet__table {
-  width: 100%;
+  min-width: 100%;
+  width: max-content;
   border-collapse: collapse;
 }
 

@@ -7,12 +7,15 @@ import { AiFillEye } from "react-icons/ai";
 import ImagePopUpModal from "../../components/ImagePopUpModal";
 import FormAlertPopUp from "../../components/FormAlertPopUp";
 import BannerForm from "../../components/formComponents/BannerForm";
+import moment from "moment";
 
 const BannerTable = ({
   setBannerId,
   showBannerData,
   setShowDeleteAlert,
   fetchBannerList,
+  page,
+  perPage,
 }) => {
   // let navigate = useNavigate();
   const [showImageAlert, setShowImageAlert] = useState(false);
@@ -52,26 +55,34 @@ const BannerTable = ({
     <div className="banner__list__container">
       <table className="banner__list__table__container">
         <thead>
-          <tr>
-            <th className="banner__list__table__head">S.No</th>
-            <th className="banner__list__table__head">Banner Name</th>
-            <th className="banner__list__table__head">Banner Image</th>
-            <th className="banner__list__table__head">Action</th>
-          </tr>
+          <th className="banner__list__table__head">S.No</th>
+          <th className="banner__list__table__head">Banner Name</th>
+          <th className="banner__list__table__head">Banner Image</th>
+          <th className="banner__list__table__head">Date & Time</th>
+          <th className="banner__list__table__head">Updated Date & Time</th>
+          <th className="banner__list__table__head">Action</th>
         </thead>
         <tbody className="banner__list__body">
           {showBannerData?.map((data, index) => {
             return (
               <tr key={index}>
-                <td className="banner__list__data">{index + 1}</td>
-                <td className="banner__list__data">{data.name}</td>
+                <td className="banner__list__data">
+                  {(page - 1) * perPage + index + 1}
+                </td>
+                <td className="banner__list__data">{data?.name}</td>
                 <td className="banner__list__data">
                   <AiFillEye
                     onClick={() => {
-                      handleOpenBannerImage(data.imageUrl);
+                      handleOpenBannerImage(data?.imageUrl);
                     }}
                     className="banner__list__eye__icon"
                   />
+                </td>
+                <td className="banner__list__data">
+                  {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
+                </td>
+                <td className="banner__list__data">
+                  {moment(data?.updatedAt).format("DD/MM/YYYY , LT")}
                 </td>
                 <td className="banner__list__data">
                   <AiFillEdit

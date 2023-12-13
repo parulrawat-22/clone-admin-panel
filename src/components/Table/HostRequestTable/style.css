@@ -4,8 +4,9 @@
 }
 
 .host__request__table {
-  width: 100%;
+  width: max-content;
   border-collapse: collapse;
+  min-width: 100%;
 }
 
 .host__request__data {
@@ -45,4 +46,16 @@
   font-weight: var(--fontweight-medium);
   color: white;
   padding: 10px;
+}
+
+.host__no__data__found__icon {
+  text-align: center;
+}
+
+.host__no_data_found {
+  font-family: var(--fontfamily-sansserif);
+  font-weight: var(--fontweight-medium);
+  font-size: var(--fontsize-regular);
+  color: var(--color-grey);
+  margin-top: -20px;
 }

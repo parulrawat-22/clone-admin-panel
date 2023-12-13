@@ -1,11 +1,11 @@
 .accepted__host__container {
   padding: 3rem 0;
-  overflow: auto;
 }
 
 .accepted__host__table {
-  width: 100%;
+  width: max-content;
   border-collapse: collapse;
+  min-width: 100%;
 }
 
 .accepted__host__header {

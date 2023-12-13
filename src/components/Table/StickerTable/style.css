@@ -1,9 +1,10 @@
 .sticker__container {
-  padding: 2rem 0;
+  padding: 1rem 0;
 }
 
 .sticker__table {
-  width: 100%;
+  min-width: 100%;
+  max-width: max-content;
   border-collapse: collapse;
 }
 

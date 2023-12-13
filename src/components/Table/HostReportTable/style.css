@@ -1,9 +1,10 @@
 .host__report__container {
-  padding: 3rem 0;
+  padding: 1rem 0;
 }
 
 .host__report__table {
-  width: 100%;
+  width: max-content;
+  min-width: 100%;
   border-collapse: collapse;
 }
 

@@ -15,6 +15,7 @@ import { errorToast, successToast } from "../../../utils/toast";
 import { useLoader } from "../../../base/Context/loaderProvider";
 import SearchInput from "../../SearchInput";
 import { FiSearch } from "react-icons/fi";
+import Pagination from "../../Pagination";
 
 const MomentTable = () => {
   let navigate = useNavigate();
@@ -26,6 +27,10 @@ const MomentTable = () => {
   const [showImageAlert, setShowImageAlert] = useState("");
   const [img, setImg] = useState("");
   const [value, setValue] = useState("");
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
+  const [totalCount, setTotalCount] = useState("");
+  const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
 
@@ -53,7 +58,7 @@ const MomentTable = () => {
 
   useEffect(() => {
     fetchUserMoment();
-  }, [value]);
+  }, [value, page, perPage]);
 
   const fetchUserMoment = () => {
     loader.showLoader(true);
@@ -64,11 +69,14 @@ const MomentTable = () => {
         ? { userId: id }
         : {
             key: value,
+            page,
+            perPage,
           }
     )
       .then((res) => {
         loader.showLoader(false);
-
+        setTotalCount(res.totalCount);
+        setTotalPages(res.totalPages);
         setGetUserMoment(res.result);
       })
       .catch((err) => {
@@ -121,52 +129,68 @@ const MomentTable = () => {
           icon={searchIcon()}
         />
       </div>
-      <table className="moment__table__container">
-        <thead>
-          <th className="moment__table__head">S.No</th>
-          {!id && <th className="moment__table__head">Name</th>}
-          <th className="moment__table__head">Caption</th>
-          <th className="moment__table__head">Likes</th>
-          <th className="moment__table__head">Image/Video</th>
-          <th className="moment__table__head">Created At</th>
-          <th className="moment__table__head">Action</th>
-        </thead>
-        <tbody>
-          {getUserMoment.map((data, index) => {
-            return (
-              <tr>
-                <td className="moment__table__body">{index + 1}</td>
-                {!id && (
-                  <td className="moment__table__body">{data?.userId?.name}</td>
-                )}
-                <td className="moment__table__body">{data?.subject}</td>
-                <td className="moment__table__body">{data?.likes}</td>
+      <div className="table_parent_box">
+        <table className="moment__table__container">
+          <thead>
+            <th className="moment__table__head">S.No</th>
+            {!id && <th className="moment__table__head">Name</th>}
+            <th className="moment__table__head">Caption</th>
+            <th className="moment__table__head">Likes</th>
+            <th className="moment__table__head">Image/Video</th>
+            <th className="moment__table__head">Created At</th>
+            <th className="moment__table__head">Action</th>
+          </thead>
+          <tbody>
+            {getUserMoment.map((data, index) => {
+              return (
+                <tr>
+                  <td className="moment__table__body">
+                    {(page - 1) * perPage + index + 1}
+                  </td>
+                  {!id && (
+                    <td className="moment__table__body">
+                      {data?.userId?.name}
+                    </td>
+                  )}
+                  <td className="moment__table__body">{data?.subject}</td>
+                  <td className="moment__table__body">{data?.likes}</td>
 
-                <td className="moment__table__body">
-                  <BsFillEyeFill
-                    onClick={() => {
-                      handleImageAlert(data?.postImage);
-                    }}
-                    className="moment__table__body__eye_icon"
-                  />
-                </td>
-                <td className="moment__table__body">
-                  {moment(data?.postDate).format("DD/MM/YYYY LT")}
-                </td>
-                <td className="moment__table__body">
-                  <AiFillEdit className="moment__table__edit_icon" />
-                  <AiTwotoneDelete
-                    onClick={() => {
-                      handleOnClickAlert(data._id);
-                    }}
-                    className="moment__table__delete_icon"
-                  />
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+                  <td className="moment__table__body">
+                    <BsFillEyeFill
+                      onClick={() => {
+                        handleImageAlert(data?.postImage);
+                      }}
+                      className="moment__table__body__eye_icon"
+                    />
+                  </td>
+                  <td className="moment__table__body">
+                    {moment(data?.postDate).format("DD/MM/YYYY LT")}
+                  </td>
+                  <td className="moment__table__body">
+                    <AiFillEdit className="moment__table__edit_icon" />
+                    <AiTwotoneDelete
+                      onClick={() => {
+                        handleOnClickAlert(data._id);
+                      }}
+                      className="moment__table__delete_icon"
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      <Pagination
+        page={page}
+        setPage={setPage}
+        perPage={perPage}
+        setPerPage={setPerPage}
+        totalCount={totalCount}
+        totalPages={totalPages}
+        options={[5, 10, 15, 20]}
+      />
 
       <AlertPopUp
         open={showDeleteAlert}

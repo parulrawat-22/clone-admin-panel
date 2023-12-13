@@ -16,6 +16,9 @@ import ImagePopUpModal from "../../ImagePopUpModal";
 import { useLoader } from "../../../base/Context/loaderProvider";
 import SearchInput from "../../SearchInput";
 import { FiSearch } from "react-icons/fi";
+import Pagination from "../../Pagination";
+import noData from "../../../base/Animation/No Data Found.json";
+import Lottie from "react-lottie";
 
 const HostRequestTable = () => {
   let navigate = useNavigate();
@@ -28,6 +31,10 @@ const HostRequestTable = () => {
   const [showImageAlert, setShowImageAlert] = useState("");
   const [img, setImg] = useState("");
   const [value, setValue] = useState("");
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
+  const [totalCount, setTotalCount] = useState("");
+  const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
 
@@ -37,16 +44,20 @@ const HostRequestTable = () => {
 
   useEffect(() => {
     getHostRequest();
-  }, [value]);
+  }, [value, page, perPage]);
 
   const getHostRequest = () => {
     loader.showLoader(true);
     fetchDataFromAPI(API_URL + NetworkConfiguration.PENDINGHOST, "POST", {
       key: value,
+      page,
+      perPage,
     })
       .then((res) => {
         setHostRequest(res?.result);
         loader.showLoader(false);
+        setTotalCount(res?.totalCount);
+        setTotalPages(res?.totalPages);
       })
       .catch((err) => {
         console.log(err);
@@ -164,68 +175,100 @@ const HostRequestTable = () => {
           icon={searchIcon()}
         />
       </div>
-      <table className="host__request__table">
-        <thead>
-          <th className="host__request__header">S.No.</th>
-          <th className="host__request__header">Host ID</th>
-          <th className="host__request__header">Name</th>
-          <th className="host__request__header">Gender</th>
-          <th className="host__request__header">Date Of Birth</th>
-          <th className="host__request__header">Email</th>
-          <th className="host__request__header">Mobile Number</th>
-          <th className="host__request__header">Pin Code</th>
-          <th className="host__request__header">Country</th>
-          <th className="host__request__header">State</th>
-          <th className="host__request__header">Profession</th>
-          <th className="host__request__header">Bio</th>
-          <th className="host__request__header">Image/Video</th>
-          <th className="host__request__header">Action</th>
-        </thead>
-        <tbody>
-          {hostrequest.map((data, index) => {
-            return (
-              <tr>
-                <td className="host__request__data">{index + 1}</td>
-                <td className="host__request__data">{data?._id}</td>
-                <td className="host__request__data">{data?.name}</td>
-                <td className="host__request__data">{data?.gender}</td>
-                <td className="host__request__data">{data?.dateOfBirth}</td>
-                <td className="host__request__data">{data?.email}</td>
-                <td className="host__request__data">{data?.mobileNumber}</td>
-                <td className="host__request__data">{data?.pinCode}</td>
-                <td className="host__request__data">{data?.country}</td>
-                <td className="host__request__data">{data?.state}</td>
-                <td className="host__request__data">{data?.proffession}</td>
-                <td className="host__request__data">{data?.addBio}</td>
-                <td className="host__request__data">
-                  <BsFillEyeFill
-                    onClick={() => {
-                      handleImageAlert(data?.presentationPic);
-                    }}
-                    className="host__request__eye__icon"
-                  />
-                </td>
-                <td className="host__request__data">
-                  <div className="host__request__action__icons">
-                    <TiTick
-                      onClick={() => {
-                        handleAcceptedHostsAlert(data?._id);
-                      }}
-                      className="host__request__accept__icon"
-                    />
-                    <RxCross2
-                      onClick={() => {
-                        handleRejectedHostsAlert(data?._id);
-                      }}
-                      className="host__request__reject__icon"
-                    />
-                  </div>
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div className="table_parent_box">
+        <table className="host__request__table">
+          <thead>
+            <th className="host__request__header">S.No.</th>
+            <th className="host__request__header">Host ID</th>
+            <th className="host__request__header">Name</th>
+            <th className="host__request__header">Gender</th>
+            <th className="host__request__header">Date Of Birth</th>
+            <th className="host__request__header">Email</th>
+            <th className="host__request__header">Mobile Number</th>
+            <th className="host__request__header">Pin Code</th>
+            <th className="host__request__header">Country</th>
+            <th className="host__request__header">State</th>
+            <th className="host__request__header">Profession</th>
+            <th className="host__request__header">Bio</th>
+            <th className="host__request__header">Image/Video</th>
+            <th className="host__request__header">Action</th>
+          </thead>
+          <tbody>
+            {hostrequest.length > 0
+              ? hostrequest.map((data, index) => {
+                  return (
+                    <tr>
+                      <td className="host__request__data">
+                        {(page - 1) * perPage + index + 1}
+                      </td>
+                      <td className="host__request__data">{data?._id}</td>
+                      <td className="host__request__data">{data?.name}</td>
+                      <td className="host__request__data">{data?.gender}</td>
+                      <td className="host__request__data">
+                        {data?.dateOfBirth}
+                      </td>
+                      <td className="host__request__data">{data?.email}</td>
+                      <td className="host__request__data">
+                        {data?.mobileNumber}
+                      </td>
+                      <td className="host__request__data">{data?.pinCode}</td>
+                      <td className="host__request__data">{data?.country}</td>
+                      <td className="host__request__data">{data?.state}</td>
+                      <td className="host__request__data">
+                        {data?.proffession}
+                      </td>
+                      <td className="host__request__data">{data?.addBio}</td>
+                      <td className="host__request__data">
+                        <BsFillEyeFill
+                          onClick={() => {
+                            handleImageAlert(data?.presentationPic);
+                          }}
+                          className="host__request__eye__icon"
+                        />
+                      </td>
+                      <td className="host__request__data">
+                        <div className="host__request__action__icons">
+                          <TiTick
+                            onClick={() => {
+                              handleAcceptedHostsAlert(data?._id);
+                            }}
+                            className="host__request__accept__icon"
+                          />
+                          <RxCross2
+                            onClick={() => {
+                              handleRejectedHostsAlert(data?._id);
+                            }}
+                            className="host__request__reject__icon"
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              : null}
+          </tbody>
+        </table>
+      </div>
+
+      {hostrequest.length > 0 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          totalCount={totalCount}
+          totalPages={totalPages}
+          setPerPage={setPerPage}
+          perPage={perPage}
+          options={[5, 10, 15, 20]}
+        />
+      ) : (
+        <div className="host__no__data__found__icon">
+          <Lottie
+            options={{ animationData: noData, loop: true }}
+            style={{ width: "20rem", height: "20rem" }}
+          />
+          <p className="host__no_data_found">No Data Found</p>
+        </div>
+      )}
 
       <AlertPopUp
         open={showAcceptedHostAlert}

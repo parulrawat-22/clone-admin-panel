@@ -12,6 +12,9 @@ import { useSearchParams } from "react-router-dom";
 import { useLoader } from "../../../base/Context/loaderProvider";
 import { FiSearch } from "react-icons/fi";
 import SearchInput from "../../SearchInput";
+import Pagination from "../../Pagination";
+import Lottie from "react-lottie";
+import noData from "../../../base/Animation/No Data Found.json";
 
 const SuspendedHostTable = () => {
   const [suspendedHostList, setSuspendedHostList] = useState([]);
@@ -19,6 +22,10 @@ const SuspendedHostTable = () => {
   const [id, setId] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
   const [value, setValue] = useState("");
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
+  const [totalCount, setTotalCount] = useState("");
+  const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
 
@@ -32,11 +39,9 @@ const SuspendedHostTable = () => {
 
   useEffect(() => {
     getSuspendedHost();
-  }, [value]);
+  }, [value, page, perPage]);
 
   const getSuspendedHost = () => {
-    loader.showLoader(true);
-
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.SUSPENDEDHOST,
       "POST",
@@ -44,15 +49,16 @@ const SuspendedHostTable = () => {
         ? { hostId: searchParams.get("id") }
         : {
             key: value,
+            page,
+            perPage,
           }
     )
       .then((res) => {
-        loader.showLoader(false);
         setSuspendedHostList(res.result);
+        setTotalCount(res?.totalCount);
+        setTotalPages(res?.totalPages);
       })
       .catch((err) => {
-        loader.showLoader(false);
-
         console.log(err);
       });
   };
@@ -99,55 +105,82 @@ const SuspendedHostTable = () => {
           icon={searchIcon()}
         />
       </div>
-      <table className="suspended__table">
-        <thead>
-          <th className="suspended__host__table__header">S.no</th>
-          {!searchParams.get("id") && (
-            <>
-              <th className="suspended__host__table__header">Host ID</th>
-              <th className="suspended__host__table__header">Host Name</th>
-            </>
-          )}
-          <th className="suspended__host__table__header">Suspended From</th>
-          <th className="suspended__host__table__header">Suspended To</th>
-          <th className="suspended__host__table__header">Action</th>
-        </thead>
-        <tbody>
-          {suspendedHostList.map((data, index) => {
-            return (
-              <tr>
-                <td className="suspended__host__table__data">{index + 1}</td>
-                {!searchParams.get("id") && (
-                  <>
-                    <td className="suspended__host__table__data">
-                      {data?._id}
-                    </td>
-                    <td className="suspended__host__table__data">
-                      {data?.hostId?.name}
-                    </td>
-                  </>
-                )}
-                <td className="suspended__host__table__data">
-                  {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
-                </td>
-                <td className="suspended__host__table__data">
-                  {moment(data?.suspensionEndDate).format("DD/MM/YYYY , LT")}
-                </td>
-                <td className="suspended__host__table__data">
-                  <AiFillEdit className="suspended__host__table__edit__icon" />
-                  <AiFillDelete
-                    onClick={() => {
-                      handleOnClickAlert(data?._id);
-                      console.log(data?._id, "data id");
-                    }}
-                    className="suspended__host__table__delete__icon"
-                  />
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div className="table_parent_box">
+        <table className="suspended__table">
+          <thead>
+            <th className="suspended__host__table__header">S.no</th>
+            {!searchParams.get("id") && (
+              <>
+                <th className="suspended__host__table__header">Host ID</th>
+                <th className="suspended__host__table__header">Host Name</th>
+              </>
+            )}
+            <th className="suspended__host__table__header">Suspended From</th>
+            <th className="suspended__host__table__header">Suspended To</th>
+            <th className="suspended__host__table__header">Action</th>
+          </thead>
+          <tbody>
+            {suspendedHostList.length > 0
+              ? suspendedHostList.map((data, index) => {
+                  return (
+                    <tr>
+                      <td className="suspended__host__table__data">
+                        {(page - 1) * perPage + index + 1}
+                      </td>
+                      {!searchParams.get("id") && (
+                        <>
+                          <td className="suspended__host__table__data">
+                            {data?._id}
+                          </td>
+                          <td className="suspended__host__table__data">
+                            {data?.hostId?.name}
+                          </td>
+                        </>
+                      )}
+                      <td className="suspended__host__table__data">
+                        {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
+                      </td>
+                      <td className="suspended__host__table__data">
+                        {moment(data?.suspensionEndDate).format(
+                          "DD/MM/YYYY , LT"
+                        )}
+                      </td>
+                      <td className="suspended__host__table__data">
+                        <AiFillEdit className="suspended__host__table__edit__icon" />
+                        <AiFillDelete
+                          onClick={() => {
+                            handleOnClickAlert(data?._id);
+                            console.log(data?._id, "data id");
+                          }}
+                          className="suspended__host__table__delete__icon"
+                        />
+                      </td>
+                    </tr>
+                  );
+                })
+              : null}
+          </tbody>
+        </table>
+      </div>
+
+      {suspendedHostList.length > 0 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          totalCount={totalCount}
+          totalPages={totalPages}
+          setPerPage={setPerPage}
+          perPage={perPage}
+          options={[5, 10, 15, 20]}
+        />
+      ) : (
+        <div>
+          <Lottie
+            options={{ animationData: noData, loop: true }}
+            style={{ width: "10rem", height: "10rem" }}
+          />
+        </div>
+      )}
 
       <AlertPopUp
         open={showDeleteAlert}

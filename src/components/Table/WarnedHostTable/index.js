@@ -13,6 +13,7 @@ import { useLoader } from "../../../base/Context/loaderProvider";
 import { FiSearch } from "react-icons/fi";
 import SearchInput from "../../SearchInput";
 import { useDebounce } from "use-debounce";
+import Pagination from "../../Pagination";
 
 const WarnedHostTable = () => {
   const [warnedHostList, setWarnedHostList] = useState([]);
@@ -21,6 +22,10 @@ const WarnedHostTable = () => {
   const [id, setId] = useState("");
   const [value, setValue] = useState("");
   const [key] = useDebounce(value, 1000);
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
+  const [totalCount, setTotalCount] = useState("");
+  const [totalPages, setTotalPages] = useState("");
 
   console.log("key", key);
   console.log("value", value);
@@ -37,7 +42,7 @@ const WarnedHostTable = () => {
 
   useEffect(() => {
     getWarnedHost();
-  }, [value]);
+  }, [value, perPage, page]);
 
   const getWarnedHost = () => {
     fetchDataFromAPI(
@@ -47,9 +52,13 @@ const WarnedHostTable = () => {
         ? { hostId: searchParams.get("id") }
         : {
             key: key,
+            page,
+            perPage,
           }
     )
       .then((res) => {
+        setTotalCount(res?.totalCount);
+        setTotalPages(res?.totalPages);
         setWarnedHostList(res.result);
       })
       .catch((err) => {
@@ -98,45 +107,63 @@ const WarnedHostTable = () => {
           icon={searchIcon()}
         />
       </div>
-      <table className="warned__host__table">
-        <thead>
-          <th className="warned__host__header">S.No.</th>
-          {!searchParams.get("id") && (
-            <>
-              <th className="warned__host__header">Host ID</th>
-              <th className="warned__host__header">Host Name</th>
-            </>
-          )}
-          <th className="warned__host__header">Title</th>
-          <th className="warned__host__header">Description</th>
-          <th className="warned__host__header">Action</th>
-        </thead>
-        <tbody>
-          {warnedHostList.map((data, index) => {
-            return (
-              <tr>
-                <td className="warned__host__data">{index + 1}</td>
-                {!searchParams.get("id") && (
-                  <>
-                    <td className="warned__host__data">{data?.hostId?._id}</td>
-                    <td className="warned__host__data">{data?.hostId?.name}</td>
-                  </>
-                )}
-                <td className="warned__host__data">{data?.title}</td>
-                <td className="warned__host__data">{data?.body}</td>
-                <td className="warned__host__data warned__host__icon">
-                  <AiFillDelete
-                    onClick={() => {
-                      handleOnClickAlert(data?._id);
-                    }}
-                    className="warned__host__delete__icon"
-                  />
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div className="table_parent_box">
+        <table className="warned__host__table">
+          <thead>
+            <th className="warned__host__header">S.No.</th>
+            {!searchParams.get("id") && (
+              <>
+                <th className="warned__host__header">Host ID</th>
+                <th className="warned__host__header">Host Name</th>
+              </>
+            )}
+            <th className="warned__host__header">Title</th>
+            <th className="warned__host__header">Description</th>
+            <th className="warned__host__header">Action</th>
+          </thead>
+          <tbody>
+            {warnedHostList.map((data, index) => {
+              return (
+                <tr>
+                  <td className="warned__host__data">
+                    {(page - 1) * perPage + index + 1}
+                  </td>
+                  {!searchParams.get("id") && (
+                    <>
+                      <td className="warned__host__data">
+                        {data?.hostId?._id}
+                      </td>
+                      <td className="warned__host__data">
+                        {data?.hostId?.name}
+                      </td>
+                    </>
+                  )}
+                  <td className="warned__host__data">{data?.title}</td>
+                  <td className="warned__host__data">{data?.body}</td>
+                  <td className="warned__host__data warned__host__icon">
+                    <AiFillDelete
+                      onClick={() => {
+                        handleOnClickAlert(data?._id);
+                      }}
+                      className="warned__host__delete__icon"
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      <Pagination
+        page={page}
+        setPage={setPage}
+        totalCount={totalCount}
+        totalPages={totalPages}
+        perPage={perPage}
+        setPerPage={setPerPage}
+        options={[5, 10, 15, 20]}
+      />
 
       <AlertPopUp
         open={showDeleteAlert}

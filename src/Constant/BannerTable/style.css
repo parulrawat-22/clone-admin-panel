@@ -1,10 +1,13 @@
 .banner__list__table__container {
-  width: 100%;
+  min-width: 100%;
+  width: max-content;
   border-collapse: collapse;
 }
 
 .banner__list__container {
-  padding: 3rem 0;
+  padding: 1rem 0;
+  width: 100%;
+  overflow-x: auto;
 }
 
 .banner__list__table__head {

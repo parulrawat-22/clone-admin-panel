@@ -18,6 +18,7 @@ import { useLoader } from "../../../base/Context/loaderProvider";
 import { FiSearch } from "react-icons/fi";
 import SearchInput from "../../SearchInput";
 import { RxValue } from "react-icons/rx";
+import Pagination from "../../Pagination";
 
 const GiftTable = () => {
   const [showGiftForm, setShowGiftForm] = useState(false);
@@ -33,6 +34,11 @@ const GiftTable = () => {
     giftPrice: "",
     giftImage: "",
   });
+
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
+  const [totalCount, setTotalCount] = useState("");
+  const [totalPages, setTotalPages] = useState("");
 
   const [value, setValue] = useState("");
 
@@ -71,15 +77,19 @@ const GiftTable = () => {
 
   useEffect(() => {
     fetchGift();
-  }, [value]);
+  }, [value, page, perPage]);
 
   const fetchGift = () => {
     loader.showLoader(true);
     fetchDataFromAPI(API_URL + NetworkConfiguration.GETGIFT, "POST", {
       key: value,
+      page,
+      perPage,
     })
       .then((res) => {
         loader.showLoader(false);
+        setTotalCount(res?.totalCount);
+        setTotalPages(res?.totalPages);
         setGetGift(res.result);
       })
       .catch((err) => {
@@ -163,7 +173,9 @@ const GiftTable = () => {
             {getGift.map((data, index) => {
               return (
                 <tr>
-                  <td className="gift__table__body">{index + 1}</td>
+                  <td className="gift__table__body">
+                    {(page - 1) * perPage + index + 1}
+                  </td>
                   <td className="gift__table__body">{data?.name}</td>
                   <td className="gift__table__body">
                     <BsFillEyeFill
@@ -201,6 +213,17 @@ const GiftTable = () => {
           </tbody>
         </table>
       </div>
+
+      <Pagination
+        page={page}
+        setPage={setPage}
+        perPage={setPage}
+        setPerPage={setPerPage}
+        totalCount={totalCount}
+        totalPages={totalPages}
+        options={[5, 10, 15, 20]}
+      />
+
       <FormAlertPopUp open={showGiftForm} onRequestClose={handleAddGiftClose}>
         <AddGiftForm onSubmit={handleAddGiftClose} />
       </FormAlertPopUp>

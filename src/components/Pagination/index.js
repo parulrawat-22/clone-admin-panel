@@ -26,8 +26,10 @@ export default function Pagination({
   };
 
   const handlePerPage = (e) => {
-    setPerPage(e.target.value);
+    setPerPage(Number(e.target.value));
   };
+
+  console.log("page", page);
 
   const handleMoreThenFour = () => {
     return (
