@@ -7,23 +7,34 @@ import {
 } from "../../../network/NetworkConfiguration";
 import { useParams } from "react-router-dom";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import Pagination from "../../Pagination";
+import Lottie from "react-lottie";
+import noData from "../../../base/Animation/No Data Found.json";
 
 const FollowerTable = () => {
   const [getFollowerList, setGetFollowerList] = useState([]);
   const { id } = useParams();
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
+  const [totalCount, setTotalCount] = useState("");
+  const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
 
   useEffect(() => {
     fetchFollowerList();
-  }, []);
+  }, [page, perPage]);
 
   const fetchFollowerList = () => {
     loader.showLoader(true);
     fetchDataFromAPI(API_URL + NetworkConfiguration.GETUSERFOLLOWER, "POST", {
       id: id,
+      page,
+      perPage,
     })
       .then((res) => {
+        setTotalCount(res.totalCount);
+        setTotalPages(res.totalPages);
         loader.showLoader(false);
         setGetFollowerList(res.result?.followers);
       })
@@ -44,20 +55,44 @@ const FollowerTable = () => {
           <th className="followers__header">Mobile Number</th>
         </thead>
         <tbody>
-          {getFollowerList.map((data, index) => {
-            return (
-              <tr>
-                <td className="followers__data">{index + 1}</td>
-                <td className="followers__data">{data?._id}</td>
-                <td className="followers__data">{data?.name}</td>
-                <td className="followers__data">{data?.dateOfBirth}</td>
-                <td className="followers__data">{data?.email}</td>
-                <td className="followers__data">{data?.mobileNumber}</td>
-              </tr>
-            );
-          })}
+          {getFollowerList.length > 0
+            ? getFollowerList.map((data, index) => {
+                return (
+                  <tr>
+                    <td className="followers__data">{index + 1}</td>
+                    <td className="followers__data">{data?._id}</td>
+                    <td className="followers__data">{data?.name}</td>
+                    <td className="followers__data">{data?.dateOfBirth}</td>
+                    <td className="followers__data">{data?.email}</td>
+                    <td className="followers__data">{data?.mobileNumber}</td>
+                  </tr>
+                );
+              })
+            : null}
         </tbody>
       </table>
+
+      {getFollowerList.length > 0 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          totalCount={totalCount}
+          totalPages={totalPages}
+          perPage={perPage}
+          setPerPage={setPerPage}
+          options={[5, 10, 15, 20]}
+        />
+      ) : (
+        !loader.loaderPopup && (
+          <div className="host__no__data__found__icon">
+            <Lottie
+              options={{ animationData: noData, loop: true }}
+              style={{ width: "20rem", height: "20rem" }}
+            />
+            <p className="no__data__found">No Data Found</p>
+          </div>
+        )
+      )}
     </div>
   );
 };

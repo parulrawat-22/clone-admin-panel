@@ -22,3 +22,11 @@
   font-family: var(--fontfamily-sansserif);
   border-bottom: 1px solid grey;
 }
+
+.no__data__found {
+  font-family: var(--fontfamily-sansserif);
+  font-size: var(--fontsize-medium);
+  font-weight: var(--fontweight-medium);
+  color: var(--color-grey);
+  margin-top: -20px;
+}

@@ -7,23 +7,34 @@ import {
 } from "../../../network/NetworkConfiguration";
 import { useParams } from "react-router-dom";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import Lottie from "react-lottie";
+import noData from "../../../base/Animation/No Data Found.json";
+import Pagination from "../../Pagination";
 
 const FollowingTable = () => {
   const [getFollowingList, setGetFollowingList] = useState([]);
   const { id } = useParams();
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
+  const [totalCount, setTotalCount] = useState("");
+  const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
 
   useEffect(() => {
     fetchFollowingList();
-  }, []);
+  }, [page, perPage]);
 
   const fetchFollowingList = () => {
     loader.showLoader(true);
     fetchDataFromAPI(API_URL + NetworkConfiguration.GETUSERFOLLOWING, "POST", {
       id: id,
+      page,
+      perPage,
     })
       .then((res) => {
+        setTotalCount(res.totalCount);
+        setTotalPages(res.totalPages);
         loader.showLoader(false);
         setGetFollowingList(res.result?.followings);
       })
@@ -59,6 +70,28 @@ const FollowingTable = () => {
           })}
         </tbody>
       </table>
+
+      {getFollowingList.length > 0 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          totalCount={totalCount}
+          totalPages={totalPages}
+          perPage={perPage}
+          setPerPage={setPerPage}
+          options={[5, 10, 15, 20]}
+        />
+      ) : (
+        !loader.loaderPopup && (
+          <div className="host__no__data__found__icon">
+            <Lottie
+              options={{ animationData: noData, loop: true }}
+              style={{ width: "20rem", height: "20rem" }}
+            />
+            <p className="no__data__found">No Data Found</p>
+          </div>
+        )
+      )}
     </div>
   );
 };

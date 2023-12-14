@@ -2,20 +2,24 @@ import { useState } from "react";
 import NotificationTable from "../../components/Table/NotificationTable";
 import Button from "../../components/library/Button";
 import "./style.css";
-import FormAlertPopUp from "../../components/FormAlertPopUp";
-import NotificationForm from "../../components/formComponents/NotificationForm";
+import AlertPopUp from "../../components/AlertPopUp";
+import SendNotification from "../SendNotification";
+import { useNavigate } from "react-router-dom";
+// import FormAlertPopUp from "../../components/FormAlertPopUp";
+// import NotificationForm from "../../components/formComponents/NotificationForm";
 
 const Notification = () => {
+  let navigate = useNavigate();
   // const [showData, setShowData] = useState("user");
-  const [showSendNotification, setShowSendNotification] = useState(false);
+  // const [showSendNotification, setShowSendNotification] = useState(false);
 
-  const handleSendNotification = () => {
-    setShowSendNotification(true);
-  };
+  // const handleSendNotification = () => {
+  //   setShowSendNotification(true);
+  // };
 
-  const handleSendNotificationClose = () => {
-    setShowSendNotification(false);
-  };
+  // const handleSendNotificationClose = () => {
+  //   setShowSendNotification(false);
+  // };
 
   return (
     <div>
@@ -26,12 +30,14 @@ const Notification = () => {
             cursor: "pointer",
             textAlign: "center",
           }}
-          onClick={handleSendNotification}
+          onClick={() => {
+            navigate("/sendnotification");
+          }}
         />
       </div>
 
       <NotificationTable />
-      <FormAlertPopUp
+      {/* <FormAlertPopUp
         open={showSendNotification}
         onRequestClose={handleSendNotificationClose}
       >
@@ -54,7 +60,7 @@ const Notification = () => {
             },
           ]}
         />
-      </FormAlertPopUp>
+      </FormAlertPopUp> */}
     </div>
   );
 };

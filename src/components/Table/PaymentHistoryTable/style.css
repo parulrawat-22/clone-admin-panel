@@ -23,3 +23,11 @@
   padding: 10px;
   font-family: var(--fontfamily-sansserif);
 }
+
+.payment__no__data {
+  font-family: var(--fontfamily-sansserif);
+  font-size: var(--fontsize-regular);
+  font-weight: var(--fontweight-medium);
+  color: var(--color-grey);
+  margin-top: -20px;
+}

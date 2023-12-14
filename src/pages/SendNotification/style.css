@@ -1,0 +1,40 @@
+.notification__form {
+  background-color: var(--color-lightpink);
+  width: 40%;
+  height: 50%;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3rem 0;
+  border-radius: 10px;
+  padding: 1.8rem 0;
+}
+
+/* .notification__content {
+} */
+
+.notification__header {
+  font-family: var(--fontfamily-sansserif);
+  font-size: var(--fontsize-medium);
+  font-weight: var(--fontweight-bold);
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.custom__margin {
+  margin-bottom: 100px;
+}
+
+.send__notification__form {
+  background-color: var(--color-lightpink);
+  width: 40%;
+  height: 50%;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 3rem 0;
+  border-radius: 10px;
+  padding: 1rem;
+}

@@ -52,6 +52,7 @@ export default function DashboardChart() {
       hostEarningPayload
     )
       .then((res) => {
+        console.log("res123", res);
         setEarnings(res.result);
       })
       .catch((err) => {

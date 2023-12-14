@@ -8,9 +8,16 @@ import {
 import { useParams } from "react-router-dom";
 import moment from "moment";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import Pagination from "../../Pagination";
+import Lottie from "react-lottie";
+import noData from "../../../base/Animation/No Data Found.json";
 
 const HostNotification = () => {
   const { id } = useParams();
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
+  const [totalCount, setTotalCount] = useState("");
+  const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
 
@@ -18,7 +25,7 @@ const HostNotification = () => {
 
   useEffect(() => {
     fetchUserNotification();
-  }, []);
+  }, [page, perPage]);
 
   const fetchUserNotification = () => {
     loader.showLoader(true);
@@ -29,6 +36,8 @@ const HostNotification = () => {
     )
       .then((res) => {
         loader.showLoader(false);
+        setTotalCount(res?.totalCount);
+        setTotalPages(res?.totalPages);
         console.log(res);
         setGetHostNotification(res.result1);
       })
@@ -68,26 +77,50 @@ const HostNotification = () => {
           <th className="host__notification__header">Date&Time</th>
         </thead>
         <tbody>
-          {getHostNotification.map((data, index) => {
-            return (
-              <tr>
-                <td className="host__notification__data">{index + 1}</td>
-                <td className="host__notification__data">
-                  {getNotification(data).title}
-                </td>
-                <td className="host__notification__data">
-                  {getNotification(data).body}
-                </td>
-                <td className="host__notification__data">
-                  {moment(getNotification(data).followTime).format(
-                    "DD/MM/YYYY ,LT"
-                  )}
-                </td>
-              </tr>
-            );
-          })}
+          {getHostNotification.length > 0
+            ? getHostNotification.map((data, index) => {
+                return (
+                  <tr>
+                    <td className="host__notification__data">{index + 1}</td>
+                    <td className="host__notification__data">
+                      {getNotification(data).title}
+                    </td>
+                    <td className="host__notification__data">
+                      {getNotification(data).body}
+                    </td>
+                    <td className="host__notification__data">
+                      {moment(getNotification(data).followTime).format(
+                        "DD/MM/YYYY ,LT"
+                      )}
+                    </td>
+                  </tr>
+                );
+              })
+            : null}
         </tbody>
       </table>
+
+      {getHostNotification.length > 0 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          perPage={perPage}
+          setPerPage={setPerPage}
+          totalCount={totalCount}
+          totalPages={totalPages}
+          options={[5, 10, 15, 20]}
+        />
+      ) : (
+        !loader.loaderPopup && (
+          <div className="host__no__data__found__icon">
+            <Lottie
+              options={{ animationData: noData, loop: true }}
+              style={{ width: "20rem", height: "20rem" }}
+            />
+            <p className="no__data__found">No Data Found</p>
+          </div>
+        )
+      )}
     </div>
   );
 };

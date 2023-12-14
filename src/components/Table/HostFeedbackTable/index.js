@@ -130,6 +130,7 @@ const HostFeedbackTable = () => {
             <th className="host__feedback__table__heading">Title</th>
             <th className="host__feedback__table__heading">Description</th>
             <th className="host__feedback__table__heading">Image/Video</th>
+            <th className="host__feedback__table__heading">Contact Details</th>
             <th className="host__feedback__table__heading">Created At</th>
             <th className="host__feedback__table__heading">Revert Back</th>
           </thead>
@@ -166,6 +167,9 @@ const HostFeedbackTable = () => {
                           }}
                           className="host__feedback__eye__icon"
                         />
+                      </td>
+                      <td className="host__feedback__table__data">
+                        {data?.contact || data?.email}
                       </td>
                       <td className="host__feedback__table__data">
                         {moment(data.createdAt).format("DD/MM/YYYY LT")}

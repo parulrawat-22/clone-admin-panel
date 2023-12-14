@@ -3,7 +3,8 @@
 }
 
 .user__block__list__table {
-  width: 100%;
+  max-width: max-content;
+  min-width: 100%;
   border-collapse: collapse;
 }
 
@@ -25,4 +26,12 @@
 
 .block_no__data__found__icon {
   text-align: center;
+}
+
+.block__para {
+  font-family: var(--fontfamily-sansserif);
+  font-size: var(--fontsize-regular);
+  font-weight: var(--fontweight-medium);
+  color: var(--color-grey);
+  margin-top: -20px;
 }

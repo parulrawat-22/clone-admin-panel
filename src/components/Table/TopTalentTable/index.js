@@ -20,43 +20,45 @@ const TopTalentTable = ({ tableData, isHost, page, perPage }) => {
           )}
         </thead>
         <tbody>
-          {tableData.map((data, index) => {
-            return (
-              <tr>
-                <td className="top__talent__data">
-                  {(page - 1) * perPage + index + 1}
-                </td>
-                <td className="top__talent__data">
-                  {data?._id ? data?._id : ""}
-                </td>
-                <td className="top__talent__data">
-                  {data?.name ? data?.name : ""}
-                </td>
-                <td className="top__talent__data">
-                  {data?.stickerCoins ? data?.stickerCoins : ""}
-                </td>
-                <td className="top__talent__data">
-                  {data?.giftCoins ? data?.giftCoins : ""}
-                </td>
-                <td className="top__talent__data">
-                  {data?.videoCoins ? data?.videoCoins : ""}
-                </td>
-                <td className="top__talent__data">
-                  {data?.audioCoins ? data?.audioCoins : ""}
-                </td>
-                {isHost === false && (
+          {tableData &&
+            tableData.length > 0 &&
+            tableData.map((data, index) => {
+              return (
+                <tr>
                   <td className="top__talent__data">
-                    {data?.total_coins ? data?.spentCoins : ""}
+                    {(page - 1) * perPage + index + 1}
                   </td>
-                )}
-                {isHost === true && (
                   <td className="top__talent__data">
-                    {data?.host_balance ? data?.host_balance : ""}
+                    {data?._id ? data?._id : ""}
                   </td>
-                )}
-              </tr>
-            );
-          })}
+                  <td className="top__talent__data">
+                    {data?.name ? data?.name : ""}
+                  </td>
+                  <td className="top__talent__data">
+                    {data?.stickerCoins ? data?.stickerCoins : ""}
+                  </td>
+                  <td className="top__talent__data">
+                    {data?.giftCoins ? data?.giftCoins : ""}
+                  </td>
+                  <td className="top__talent__data">
+                    {data?.videoCoins ? data?.videoCoins : ""}
+                  </td>
+                  <td className="top__talent__data">
+                    {data?.audioCoins ? data?.audioCoins : ""}
+                  </td>
+                  {isHost === false && (
+                    <td className="top__talent__data">
+                      {data?.total_coins ? data?.spentCoins : ""}
+                    </td>
+                  )}
+                  {isHost === true && (
+                    <td className="top__talent__data">
+                      {data?.host_balance ? data?.host_balance : ""}
+                    </td>
+                  )}
+                </tr>
+              );
+            })}
         </tbody>
       </table>
     </div>

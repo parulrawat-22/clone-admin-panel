@@ -7,10 +7,17 @@ import {
 } from "../../../network/NetworkConfiguration";
 import { useParams } from "react-router-dom";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import Pagination from "../../Pagination";
+import Lottie from "react-lottie";
+import noData from "../../../base/Animation/No Data Found.json";
 
 const HostFollowerTable = () => {
   const [getHostFollower, setGetHostFollower] = useState([]);
   const { id } = useParams();
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
+  const [totalCount, setTotalCount] = useState("");
+  const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
 
@@ -25,6 +32,8 @@ const HostFollowerTable = () => {
     })
       .then((res) => {
         loader.showLoader(false);
+        setTotalCount(res?.totalCount);
+        setTotalPages(res?.totalPages);
         setGetHostFollower(res.result.followers);
       })
       .catch((err) => {
@@ -44,20 +53,48 @@ const HostFollowerTable = () => {
           <th className="host__follower__header">Mobile Number</th>
         </thead>
         <tbody>
-          {getHostFollower.map((data, index) => {
-            return (
-              <tr>
-                <td className="host__follower__data">{index + 1}</td>
-                <td className="host__follower__data">{data?._id}</td>
-                <td className="host__follower__data">{data?.name}</td>
-                <td className="host__follower__data">{data?.dateOfBirth}</td>
-                <td className="host__follower__data">{data?.email}</td>
-                <td className="host__follower__data">{data?.mobileNumber}</td>
-              </tr>
-            );
-          })}
+          {getHostFollower.length > 0
+            ? getHostFollower.map((data, index) => {
+                return (
+                  <tr>
+                    <td className="host__follower__data">{index + 1}</td>
+                    <td className="host__follower__data">{data?._id}</td>
+                    <td className="host__follower__data">{data?.name}</td>
+                    <td className="host__follower__data">
+                      {data?.dateOfBirth}
+                    </td>
+                    <td className="host__follower__data">{data?.email}</td>
+                    <td className="host__follower__data">
+                      {data?.mobileNumber}
+                    </td>
+                  </tr>
+                );
+              })
+            : null}
         </tbody>
       </table>
+
+      {getHostFollower.length > 0 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          perPage={perPage}
+          setPerPage={setPerPage}
+          totalCount={totalCount}
+          totalPages={totalPages}
+          options={[5, 10, 15, 20]}
+        />
+      ) : (
+        !loader.loaderPopup && (
+          <div className="host__no__data__found__icon">
+            <Lottie
+              options={{ animationData: noData, loop: true }}
+              style={{ width: "20rem", height: "20rem" }}
+            />
+            <p className="no__data__found"> No Data Found</p>
+          </div>
+        )
+      )}
     </div>
   );
 };

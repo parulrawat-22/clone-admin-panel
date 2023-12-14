@@ -16,3 +16,6 @@
   font-size: var(--fontsize-medium);
   font-family: var(--fontfamily-sansserif);
 }
+
+.custom__margin {
+}

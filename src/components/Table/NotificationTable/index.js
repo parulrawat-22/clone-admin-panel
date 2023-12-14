@@ -95,24 +95,26 @@ const NotificationTable = () => {
           <th className="notification__table__header">Action</th>
         </thead>
         <tbody>
-          {getNotification.map((data, index) => {
-            return (
-              <tr>
-                <td className="notification__table__data">{index + 1}</td>
-                <td className="notification__table__data">{data?._id}</td>
-                <td className="notification__table__data">{data?.title}</td>
-                <td className="notification__table__data">{data?.body}</td>
-                <td className="notification__table__data">
-                  <AiFillDelete
-                    onClick={() => {
-                      handleDeleteNotification(data?._id);
-                    }}
-                    className="notification__table__delete__icon"
-                  />
-                </td>
-              </tr>
-            );
-          })}
+          {getNotification &&
+            getNotification.length > 0 &&
+            getNotification.map((data, index) => {
+              return (
+                <tr>
+                  <td className="notification__table__data">{index + 1}</td>
+                  <td className="notification__table__data">{data?._id}</td>
+                  <td className="notification__table__data">{data?.title}</td>
+                  <td className="notification__table__data">{data?.body}</td>
+                  <td className="notification__table__data">
+                    <AiFillDelete
+                      onClick={() => {
+                        handleDeleteNotification(data?._id);
+                      }}
+                      className="notification__table__delete__icon"
+                    />
+                  </td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
 

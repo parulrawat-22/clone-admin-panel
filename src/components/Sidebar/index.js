@@ -11,26 +11,32 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
         isSidebarOpen ? "contentOpen" : "contentClose"
       }`}
     >
-      <HiOutlineMenuAlt1
-        className="sidebar__menu__icon"
-        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-      />
-      {sidebarData.map((data, index) => {
-        console.log(data, "qwertyu");
-        return (
-          <div
-            style={{ paddingLeft: `${isSidebarOpen ? "3rem" : "1.9rem"}` }}
-            className="sidebar__content"
-            key={index}
-          >
-            <img src={data.icon} alt="sidebar icon" className="sidebar__icon" />
+      <div className="sidebar_box">
+        <HiOutlineMenuAlt1
+          className="sidebar__menu__icon"
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        />
+        {sidebarData.map((data, index) => {
+          console.log(data, "qwertyu");
+          return (
+            <div
+              style={{ paddingLeft: `${isSidebarOpen ? "3rem" : "1.9rem"}` }}
+              className="sidebar__content"
+              key={index}
+            >
+              <img
+                src={data.icon}
+                alt="sidebar icon"
+                className="sidebar__icon"
+              />
 
-            <NavLink className={handleNavLinkClassName} to={data.link}>
-              {data.label}
-            </NavLink>
-          </div>
-        );
-      })}
+              <NavLink className={handleNavLinkClassName} to={data.link}>
+                {data.label}
+              </NavLink>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };

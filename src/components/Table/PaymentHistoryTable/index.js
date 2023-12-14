@@ -9,26 +9,34 @@ import "./style.css";
 import { useLoader } from "../../../base/Context/loaderProvider";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
+import Pagination from "../../Pagination";
 
 const PaymentHistoryTable = () => {
   const [getPaymentHistory, setGetPaymentHistory] = useState([]);
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(5);
+  const [totalCount, setTotalCount] = useState("");
+  const [totalPages, setTotalPages] = useState("");
   const { id } = useParams();
 
   const loader = useLoader();
 
   useEffect(() => {
     fetchPaymentHistory();
-  }, []);
+  }, [page, perPage]);
 
   const fetchPaymentHistory = () => {
     loader.showLoader(true);
 
     fetchDataFromAPI(API_URL + NetworkConfiguration.GETPAYMENTHISTORY, "POST", {
       id: id,
+      page,
+      perPage,
     })
       .then((res) => {
         loader.showLoader(false);
-
+        setTotalCount(res.totalCount);
+        setTotalPages(res.totalPages);
         setGetPaymentHistory(res.result?.payment_history);
       })
       .catch((err) => {
@@ -68,16 +76,31 @@ const PaymentHistoryTable = () => {
                   </tr>
                 );
               })
-            : !loader.loaderPopup && (
-                <div className="host__no__data__found__icon">
-                  <Lottie
-                    options={{ animationData: noData, loop: true }}
-                    style={{ width: "10rem", height: "10rem" }}
-                  />
-                </div>
-              )}
+            : null}
         </tbody>
       </table>
+
+      {getPaymentHistory.length > 0 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          perPage={perPage}
+          setPerPage={setPerPage}
+          totalCount={totalCount}
+          totalPages={totalPages}
+          options={[5, 20, 25, 20]}
+        />
+      ) : (
+        !loader.loaderPopup && (
+          <div className="host__no__data__found__icon">
+            <Lottie
+              options={{ animationData: noData, loop: true }}
+              style={{ width: "20rem", height: "20rem" }}
+            />
+            <p className="payment__no__data">No Data Found</p>
+          </div>
+        )
+      )}
     </div>
   );
 };
