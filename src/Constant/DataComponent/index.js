@@ -105,6 +105,12 @@ const sidebarData = [
   },
 
   {
+    label: "Interest",
+    link: "/interest",
+    icon: moment,
+  },
+
+  {
     label: "Feedback",
     link: "/feedback",
     icon: feedback,

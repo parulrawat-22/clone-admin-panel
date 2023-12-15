@@ -1,6 +1,6 @@
 import "./style.css";
 
-const TopTalentTable = ({ tableData, isHost, page, perPage }) => {
+const TopTalentTable = ({ tableData, isHost }) => {
   return (
     <div className="top__talent__container">
       <table className="top__talent__table">
@@ -25,9 +25,7 @@ const TopTalentTable = ({ tableData, isHost, page, perPage }) => {
             tableData.map((data, index) => {
               return (
                 <tr>
-                  <td className="top__talent__data">
-                    {(page - 1) * perPage + index + 1}
-                  </td>
+                  <td className="top__talent__data">{index + 1}</td>
                   <td className="top__talent__data">
                     {data?._id ? data?._id : ""}
                   </td>

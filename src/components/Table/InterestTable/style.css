@@ -1,0 +1,39 @@
+.interest__container {
+  padding: 1rem 0;
+}
+
+.interest__table {
+  max-width: max-content;
+  border-collapse: collapse;
+  min-width: 100%;
+}
+
+.interest__header {
+  background-color: var(--color-pink);
+  font-family: var(--fontfamily-sansserif);
+  font-size: var(--fontsize-regular);
+  font-weight: var(--fontweight-medium);
+  color: var(--color-white);
+  padding: 10px 0;
+}
+
+.interest__data {
+  text-align: center;
+  font-family: var(--fontfamily-sansserif);
+  font-size: var(--fontsize-regular);
+  font-weight: var(--fontweight-medium);
+  border-bottom: 1px solid black;
+  padding: 10px 5px;
+}
+
+.interest__edit__icon {
+  font-size: var(--fontsize-large);
+  color: var(--color-blue);
+  cursor: pointer;
+}
+
+.interest__delete__icon {
+  font-size: var(--fontsize-large);
+  color: var(--color-red);
+  cursor: pointer;
+}

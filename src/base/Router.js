@@ -36,6 +36,7 @@ import HostManagementOption from "../components/pages/hostManagement/HostManagem
 import EditProfile from "../pages/EditProfile";
 import Earnings from "../pages/Earnings";
 import SendNotification from "../pages/SendNotification";
+import Interest from "../pages/Interest";
 
 // import Coin from "../pages/Coin";
 
@@ -160,6 +161,15 @@ const Router = () => {
           element={
             <Layout>
               <SendNotification />
+            </Layout>
+          }
+        ></Route>
+
+        <Route
+          path="/interest"
+          element={
+            <Layout>
+              <Interest />
             </Layout>
           }
         ></Route>

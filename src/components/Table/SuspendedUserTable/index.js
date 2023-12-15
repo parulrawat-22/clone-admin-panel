@@ -143,10 +143,16 @@ const SuspendedUserTable = () => {
                       <td className="suspended__table__data">
                         {(page - 1) * perPage + index + 1}
                       </td>
-                      <td className="suspended__table__data">{data?._id}</td>
-                      <td className="suspended__table__data">
-                        {data?.userId?.name}
-                      </td>
+                      {!searchParams.get("id") && (
+                        <>
+                          <td className="suspended__table__data">
+                            {data?._id}
+                          </td>
+                          <td className="suspended__table__data">
+                            {data?.userId?.name}
+                          </td>
+                        </>
+                      )}
                       <td className="suspended__table__data">
                         {moment(data?.createdAt).format("DD/MM/YYYY")}
                       </td>
@@ -185,11 +191,12 @@ const SuspendedUserTable = () => {
           options={[5, 10, 15, 20]}
         />
       ) : (
-        <div>
+        <div className="host__no__data__found__icon">
           <Lottie
             options={{ animationData: noData, loop: true }}
-            style={{ width: "10rem", height: "10rem" }}
+            style={{ width: "20rem", height: "20rem" }}
           />
+          <p className="no__data__found">No Data Found</p>
         </div>
       )}
 

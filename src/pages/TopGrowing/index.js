@@ -10,27 +10,28 @@ import {
 import { FiSearch } from "react-icons/fi";
 import SearchInput from "../../components/SearchInput";
 import Pagination from "../../components/Pagination";
+import Lottie from "react-lottie";
+import { useLoader } from "../../base/Context/loaderProvider";
+import noData from "../../base/Animation/No Data Found.json";
 
 const TopGrowing = () => {
   const [getSetValue, setGetSetValue] = useState();
   const [tableData, setTableData] = useState([]);
   const [isHost, setIsHost] = useState(false);
-  const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
-  const [totalCount, setTotalCount] = useState("");
-  const [totalPages, setTotalPages] = useState("");
+  // const [page, setPage] = useState(1);
+  // const [perPage, setPerPage] = useState(5);
+  // const [totalCount, setTotalCount] = useState("");
+  // const [totalPages, setTotalPages] = useState("");
+  // const loader = useLoader();
 
   useEffect(() => {
     switch (getSetValue) {
       case "Weekly Talent": {
-        fetchDataFromAPI(API_URL + NetworkConfiguration.WEEKLYTALENT, "POST", {
-          page,
-          perPage,
-        })
+        fetchDataFromAPI(API_URL + NetworkConfiguration.WEEKLYTALENT, "GET")
           .then((res) => {
             setTableData(res.result);
-            setTotalCount(res?.totalCount);
-            setTotalPages(res?.totalPages);
+            // setTotalCount(res?.totalCount);
+            // setTotalPages(res?.totalPages);
             setIsHost(false);
           })
           .catch((err) => {
@@ -40,14 +41,11 @@ const TopGrowing = () => {
       }
 
       case "Top Star": {
-        fetchDataFromAPI(API_URL + NetworkConfiguration.TOPSTAR, "POST", {
-          page,
-          perPage,
-        })
+        fetchDataFromAPI(API_URL + NetworkConfiguration.TOPSTAR, "GET")
           .then((res) => {
             setTableData(res.hostUsers);
-            setTotalCount(res.totalCount);
-            setTotalPages(res.totalPages);
+            // setTotalCount(res.totalCount);
+            // setTotalPages(res.totalPages);
             setIsHost(true);
           })
           .catch((err) => {
@@ -57,14 +55,11 @@ const TopGrowing = () => {
       }
 
       case "Weekly Star": {
-        fetchDataFromAPI(API_URL + NetworkConfiguration.WEEKLYSTAR, "POST", {
-          page,
-          perPage,
-        })
+        fetchDataFromAPI(API_URL + NetworkConfiguration.WEEKLYSTAR, "GET")
           .then((res) => {
             setTableData(res.hostUsers);
-            setTotalCount(res.totalCount);
-            setTotalPages(res.totalPages);
+            // setTotalCount(res.totalCount);
+            // setTotalPages(res.totalPages);
             setIsHost(true);
           })
           .catch((err) => {
@@ -74,14 +69,11 @@ const TopGrowing = () => {
       }
 
       case "New Star": {
-        fetchDataFromAPI(API_URL + NetworkConfiguration.NEWSTAR, "POST", {
-          page,
-          perPage,
-        })
+        fetchDataFromAPI(API_URL + NetworkConfiguration.NEWSTAR, "GET")
           .then((res) => {
             setTableData(res.result);
-            setTotalCount(res.totalCount);
-            setTotalPages(res.totalPages);
+            // setTotalCount(res.totalCount);
+            // setTotalPages(res.totalPages);
             setIsHost(true);
           })
           .catch((err) => {
@@ -91,22 +83,19 @@ const TopGrowing = () => {
       }
 
       default: {
-        fetchDataFromAPI(API_URL + NetworkConfiguration.GETTOPTALENT, "POST", {
-          page,
-          perPage,
-        })
+        fetchDataFromAPI(API_URL + NetworkConfiguration.GETTOPTALENT, "GET")
           .then((res) => {
             setTableData(res.result);
             setIsHost(false);
-            setTotalCount(res?.totalCount);
-            setTotalPages(res?.totalPages);
+            // setTotalCount(res?.totalCount);
+            // setTotalPages(res?.totalPages);
           })
           .catch((err) => {
             console.log(err);
           });
       }
     }
-  }, [getSetValue, page, perPage]);
+  }, [getSetValue]);
 
   const onChangeDropdown = (e) => {
     setGetSetValue(e.target.value);
@@ -131,25 +120,32 @@ const TopGrowing = () => {
           ]}
         ></Dropdown>
       </div>
-      <TopTalentTable
-        page={page}
-        perPage={perPage}
-        isHost={isHost}
-        tableData={tableData}
-      />
+      <TopTalentTable isHost={isHost} tableData={tableData} />
       <div className="banner__search__btn">
         <SearchInput placeholder="Search" icon={searchIcon()} />
       </div>
 
-      <Pagination
-        page={page}
-        setPage={setPage}
-        perPage={perPage}
-        setPerPage={setPerPage}
-        totalCount={totalCount}
-        totalPages={totalPages}
-        options={[5, 10, 15, 20]}
-      />
+      {/* {tableData && tableData.length > 0 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          perPage={perPage}
+          setPerPage={setPerPage}
+          totalCount={totalCount}
+          totalPages={totalPages}
+          options={[5, 10, 15, 20]}
+        />
+      ) : (
+        !loader.loaderPopup && (
+          <div className="host__no__data__found__icon">
+            <Lottie
+              options={{ animationData: noData, loop: true }}
+              style={{ width: "20rem", height: "20rem" }}
+            />
+            <p className="no__data__found">No Data Found</p>
+          </div>
+        )
+      )} */}
     </div>
   );
 };

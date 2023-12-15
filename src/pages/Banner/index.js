@@ -140,7 +140,7 @@ const Banner = () => {
         />
       </FormAlertPopUp>
 
-      {showBannerData.length > 0 ? (
+      {showBannerData && showBannerData.length > 0 ? (
         <Pagination
           page={page}
           setPage={setPage}
@@ -152,11 +152,12 @@ const Banner = () => {
         />
       ) : (
         !loader.loaderPopup && (
-          <div>
+          <div className="host__no__data__found__icon">
             <Lottie
               options={{ animationData: noData, loop: true }}
-              style={{ width: "10rem", height: "10rem" }}
+              style={{ width: "20rem", height: "20rem" }}
             />
+            <p className="no__data__found"> No Data Found</p>
           </div>
         )
       )}

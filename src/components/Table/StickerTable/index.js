@@ -170,7 +170,7 @@ const StickerTable = () => {
           <th className="sticker__table__heading">Action</th>
         </thead>
         <tbody>
-          {getSticker.length > 0
+          {getSticker && getSticker?.length > 0
             ? getSticker.map((data, index) => {
                 return (
                   <tr>
@@ -214,7 +214,7 @@ const StickerTable = () => {
         </tbody>
       </table>
 
-      {getSticker.length > 0 ? (
+      {getSticker && getSticker.length > 0 ? (
         <Pagination
           page={page}
           setPage={setPage}
@@ -226,11 +226,12 @@ const StickerTable = () => {
         />
       ) : (
         !loader.loaderPopup && (
-          <div>
+          <div className="host__no__data__found__icon">
             <Lottie
               options={{ animationData: noData, loop: true }}
-              style={{ width: "10rem", height: "10rem" }}
+              style={{ width: "20rem", height: "20rem" }}
             />
+            <p className="no__data__found">No Data Found</p>
           </div>
         )
       )}

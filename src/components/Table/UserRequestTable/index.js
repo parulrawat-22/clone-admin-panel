@@ -16,6 +16,8 @@ import { useLoader } from "../../../base/Context/loaderProvider";
 import SearchInput from "../../SearchInput";
 import { FiSearch } from "react-icons/fi";
 import Pagination from "../../Pagination";
+import Lottie from "react-lottie";
+import noData from "../../../base/Animation/No Data Found.json";
 
 const UserTable = () => {
   let navigate = useNavigate();
@@ -160,83 +162,103 @@ const UserTable = () => {
             <th className="user__request__headers">Action</th>
           </thead>
           <tbody>
-            {userRequest?.map((data, index) => {
-              return (
-                <tr>
-                  <td className="user__request__data">
-                    {(page - 1) * perPage + index + 1}
-                  </td>
-                  <td className="user__request__data">{data._id}</td>
-                  <td className="user__request__data">{data.name}</td>
-                  <td className="user__request__data">{data.gender}</td>
-                  <td className="user__request__data">{data.dateOfBirth}</td>
-                  <td className="user__request__data">{data.age}</td>
-                  <td className="user__request__data">{data.country}</td>
-                  <td className="user__request__data">{data.state}</td>
-                  <td className="user__request__data">{data.city}</td>
-                  <td className="user__request__data">{data.mobileNumber}</td>
-                  <td className="user__request__data">{data.proffession}</td>
-                  <td className="user__request__data">{data.addBio}</td>
+            {userRequest && userRequest.length > 0
+              ? userRequest?.map((data, index) => {
+                  return (
+                    <tr>
+                      <td className="user__request__data">
+                        {(page - 1) * perPage + index + 1}
+                      </td>
+                      <td className="user__request__data">{data?._id}</td>
+                      <td className="user__request__data">{data?.name}</td>
+                      <td className="user__request__data">{data?.gender}</td>
+                      <td className="user__request__data">
+                        {data?.dateOfBirth}
+                      </td>
+                      <td className="user__request__data">{data?.age}</td>
+                      <td className="user__request__data">{data?.country}</td>
+                      <td className="user__request__data">{data?.state}</td>
+                      <td className="user__request__data">{data?.city}</td>
+                      <td className="user__request__data">
+                        {data?.mobileNumber}
+                      </td>
+                      <td className="user__request__data">
+                        {data?.proffession}
+                      </td>
+                      <td className="user__request__data">{data?.addBio}</td>
 
-                  <td className="user__request__data">
-                    <BsFillEyeFill
-                      onClick={() => {
-                        handleEyeProfilePicPopUp(data?.profilePic);
-                      }}
-                      className="user__request__eye__icon"
-                    />
-                  </td>
+                      <td className="user__request__data">
+                        <BsFillEyeFill
+                          onClick={() => {
+                            handleEyeProfilePicPopUp(data?.profilePic);
+                          }}
+                          className="user__request__eye__icon"
+                        />
+                      </td>
 
-                  <td className="user__request__data">
-                    <BsFillEyeFill
-                      onClick={() => {
-                        handleImageVideoPopUp(data?.presentationPic);
-                      }}
-                      className="user__request__eye__icon"
-                    />
-                  </td>
-                  <td className="user__request__data">
-                    {" "}
-                    {moment(data.createdAt).format("MM/DD/YYYY LT")}
-                  </td>
-                  <td
-                    className="user__request__data user__management__view__btn"
-                    onClick={() => {
-                      navigate(`/usermanagement/${data._id}`);
-                    }}
-                  >
-                    View more...
-                  </td>
-                  <td className="user__request__data">
-                    <AiFillEdit
-                      onClick={() => {
-                        navigate("/edituser", { state: { id: data?._id } });
-                      }}
-                      className="accepted__user__edit__icon"
-                    />
-                    <AiFillDelete
-                      onClick={() => {
-                        handleUserDeleteAlert(data._id);
-                      }}
-                      className="accepted__user__delete__icon"
-                    />
-                  </td>
-                </tr>
-              );
-            })}
+                      <td className="user__request__data">
+                        <BsFillEyeFill
+                          onClick={() => {
+                            handleImageVideoPopUp(data?.presentationPic);
+                          }}
+                          className="user__request__eye__icon"
+                        />
+                      </td>
+                      <td className="user__request__data">
+                        {" "}
+                        {moment(data.createdAt).format("MM/DD/YYYY LT")}
+                      </td>
+                      <td
+                        className="user__request__data user__management__view__btn"
+                        onClick={() => {
+                          navigate(`/usermanagement/${data._id}`);
+                        }}
+                      >
+                        View more...
+                      </td>
+                      <td className="user__request__data">
+                        <AiFillEdit
+                          onClick={() => {
+                            navigate("/edituser", { state: { id: data?._id } });
+                          }}
+                          className="accepted__user__edit__icon"
+                        />
+                        <AiFillDelete
+                          onClick={() => {
+                            handleUserDeleteAlert(data._id);
+                          }}
+                          className="accepted__user__delete__icon"
+                        />
+                      </td>
+                    </tr>
+                  );
+                })
+              : null}
           </tbody>
         </table>
       </div>
 
-      <Pagination
-        page={page}
-        setPage={setPage}
-        totalCount={totalCount}
-        totalPages={totalPages}
-        setPerPage={setPerPage}
-        perPage={perPage}
-        options={[5, 10, 15, 20]}
-      />
+      {userRequest.length > 0 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          totalCount={totalCount}
+          totalPages={totalPages}
+          setPerPage={setPerPage}
+          perPage={perPage}
+          options={[5, 10, 15, 20]}
+        />
+      ) : (
+        !loader.loaderPopup && (
+          <div className="host__no__data__found__icon">
+            <Lottie
+              options={{ animationData: noData, loop: true }}
+              style={{ width: "20rem", height: "20rem" }}
+            />
+            <p className="no__data__found">No Data Found</p>
+          </div>
+        )
+      )}
 
       <AlertPopUp
         open={showDeleteAlert}

@@ -11,16 +11,18 @@ import { errorToast, successToast } from "../../../utils/toast";
 import { useLoader } from "../../../base/Context/loaderProvider";
 import { FiSearch } from "react-icons/fi";
 import SearchInput from "../../SearchInput";
-import Pagination from "../../Pagination";
+// import Pagination from "../../Pagination";
+// import Lottie from "react-lottie";
+// import noData from "../../../base/Animation/No Data Found.json";
 
 const NotificationTable = () => {
   const [getNotification, setGetNotification] = useState([]);
   const [showDeleteAlert, setShowDeleteAlert] = useState("");
   const [id, setId] = useState("");
-  const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
-  const [totalCount, setTotalCount] = useState("");
-  const [totalPages, setTotalPages] = useState("");
+  // const [page, setPage] = useState(1);
+  // const [perPage, setPerPage] = useState(5);
+  // const [totalCount, setTotalCount] = useState("");
+  // const [totalPages, setTotalPages] = useState("");
   const loader = useLoader();
 
   const handleDeleteNotification = (id) => {
@@ -34,20 +36,17 @@ const NotificationTable = () => {
 
   useEffect(() => {
     fetchNotification();
-  }, [page, perPage]);
+  }, []);
 
   const fetchNotification = () => {
     loader.showLoader(true);
 
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETNOTIFICATION, "POST", {
-      page,
-      perPage,
-    })
+    fetchDataFromAPI(API_URL + NetworkConfiguration.GETNOTIFICATION, "GET")
       .then((res) => {
         setGetNotification(res.result);
         loader.showLoader(false);
-        setTotalCount(res.totalCount);
-        setTotalPages(res.totalPages);
+        // setTotalCount(res.totalCount);
+        // setTotalPages(res.totalPages);
       })
       .catch((err) => {
         console.log(err);
@@ -118,15 +117,28 @@ const NotificationTable = () => {
         </tbody>
       </table>
 
-      <Pagination
-        page={page}
-        setPage={setPage}
-        perPage={perPage}
-        setPerPage={setPerPage}
-        totalCount={totalCount}
-        totalPages={totalPages}
-        options={[5, 10, 15, 20]}
-      />
+      {/* {getNotification && getNotification.length > 0 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          perPage={perPage}
+          setPerPage={setPerPage}
+          totalCount={totalCount}
+          totalPages={totalPages}
+          options={[5, 10, 15, 20]}
+        />
+      ) : (
+        !loader.loaderPopup && (
+          <div className="host__no__data__found__icon">
+            <Lottie
+              options={{ animationData: noData, loop: true }}
+              style={{ width: "20rem", height: "20rem" }}
+            />
+            <p className="no__data__found">No Data Found</p>
+          </div>
+        )
+      )} */}
+
       <AlertPopUp
         open={showDeleteAlert}
         handleOpen={handleDeleteNotification}

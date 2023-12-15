@@ -10,16 +10,6 @@ import { useNavigate } from "react-router-dom";
 
 const Notification = () => {
   let navigate = useNavigate();
-  // const [showData, setShowData] = useState("user");
-  // const [showSendNotification, setShowSendNotification] = useState(false);
-
-  // const handleSendNotification = () => {
-  //   setShowSendNotification(true);
-  // };
-
-  // const handleSendNotificationClose = () => {
-  //   setShowSendNotification(false);
-  // };
 
   return (
     <div>
@@ -37,30 +27,6 @@ const Notification = () => {
       </div>
 
       <NotificationTable />
-      {/* <FormAlertPopUp
-        open={showSendNotification}
-        onRequestClose={handleSendNotificationClose}
-      >
-        <NotificationForm
-          dropdownOptions={[
-            {
-              name: "--Select--",
-            },
-            {
-              name: "Users",
-              value: "Users",
-            },
-            {
-              name: "Hosts",
-              value: "Hosts",
-            },
-            {
-              name: "Both",
-              value: "Both",
-            },
-          ]}
-        />
-      </FormAlertPopUp> */}
     </div>
   );
 };

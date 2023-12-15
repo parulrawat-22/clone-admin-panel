@@ -63,7 +63,7 @@ const BannerTable = ({
           <th className="banner__list__table__head">Action</th>
         </thead>
         <tbody className="banner__list__body">
-          {showBannerData.length > 0
+          {showBannerData && showBannerData.length > 0
             ? showBannerData?.map((data, index) => {
                 return (
                   <tr key={index}>
