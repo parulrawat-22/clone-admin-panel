@@ -4,6 +4,7 @@ export const NetworkConfiguration = {
   DEVICETOKEN: "admin/updateDeviceToken",
   ADMINLOGIN: "admin/adminlogin",
   TOTALHOST: "admin/getMontlyHost",
+  TOTALUSER: "admin/getMontlyUser",
   USERPURCHASE: "admin/adminFindUserEarning",
   ONLINEUSER: "admin/adminOnlineUser",
   OFFLINEHOST: "admin/findOfflineHost",

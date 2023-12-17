@@ -53,7 +53,7 @@ const UserBlockedList = () => {
           <th className="user__block__list__header">Date Of Birth</th>
           <th className="user__block__list__header">Email</th>
           <th className="user__block__list__header">Mobile Number</th>
-          {/* <th className="user__block__list__header">Action</th> */}
+          <th className="user__block__list__header">Action</th>
         </thead>
         <tbody>
           {getBlockedList.length > 0
@@ -70,7 +70,7 @@ const UserBlockedList = () => {
                     <td className="user__block__list__data">
                       {data?.mobileNumber}
                     </td>
-                    {/* <td className="user__block__list__data">Unblock</td> */}
+                    <td className="user__block__list__data">Block</td>
                   </tr>
                 );
               })

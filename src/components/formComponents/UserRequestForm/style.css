@@ -1,0 +1,16 @@
+.user__form__container {
+  padding: 2px 0;
+}
+
+.user__form__heading {
+  font-family: var(--fontfamily-sansserif);
+  font-size: var(--fontsize-large);
+  border-bottom: 1px solid grey;
+  font-weight: var(--fontweight-bold);
+  text-align: center;
+  padding: 0.5rem 1rem;
+}
+
+.user__form__content {
+  padding: 0 2rem;
+}

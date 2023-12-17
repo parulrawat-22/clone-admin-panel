@@ -18,6 +18,8 @@ import { FiSearch } from "react-icons/fi";
 import Pagination from "../../Pagination";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
+import FormAlertPopUp from "../../FormAlertPopUp";
+import UserRequestForm from "../../formComponents/UserRequestForm";
 
 const UserTable = () => {
   let navigate = useNavigate();
@@ -31,7 +33,7 @@ const UserTable = () => {
   const [id, setId] = useState("");
   const [img, setImg] = useState("");
   const [value, setValue] = useState("");
-
+  const [showEditUser, setShowEditUser] = useState(false);
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
   const [totalCount, setTotalCount] = useState("");
@@ -42,6 +44,15 @@ const UserTable = () => {
   useEffect(() => {
     getUserRequest();
   }, [value, page, perPage]);
+
+  const handleUserEdit = (id) => {
+    setShowEditUser(true);
+    setId(id);
+  };
+
+  const handleUserEditClose = () => {
+    setShowEditUser(false);
+  };
 
   const handleDeleteAlert = () => {
     setShowDeleteAlert(true);
@@ -128,6 +139,11 @@ const UserTable = () => {
     return <FiSearch />;
   };
 
+  const onSubmit = () => {
+    setShowEditUser(false);
+    getUserRequest();
+  };
+
   console.log("user", userRequest);
 
   return (
@@ -147,12 +163,13 @@ const UserTable = () => {
             <th className="user__request__headers">User ID</th>
             <th className="user__request__headers">Name</th>
             <th className="user__request__headers">Gender</th>
+            <th className="user__request__headers">Mobile Number</th>
+            <th className="user__request__headers">Email</th>
             <th className="user__request__headers">Date Of Birth</th>
             <th className="user__request__headers">Age</th>
             <th className="user__request__headers">Country</th>
             <th className="user__request__headers">State</th>
             <th className="user__request__headers">City</th>
-            <th className="user__request__headers">Mobile Number</th>
             <th className="user__request__headers">Profession</th>
             <th className="user__request__headers">Bio</th>
             <th className="user__request__headers">Profile Pic</th>
@@ -173,15 +190,17 @@ const UserTable = () => {
                       <td className="user__request__data">{data?.name}</td>
                       <td className="user__request__data">{data?.gender}</td>
                       <td className="user__request__data">
+                        {data?.mobileNumber}
+                      </td>
+                      <td className="user__request__data">{data?.email}</td>
+                      <td className="user__request__data">
                         {data?.dateOfBirth}
                       </td>
                       <td className="user__request__data">{data?.age}</td>
                       <td className="user__request__data">{data?.country}</td>
                       <td className="user__request__data">{data?.state}</td>
                       <td className="user__request__data">{data?.city}</td>
-                      <td className="user__request__data">
-                        {data?.mobileNumber}
-                      </td>
+
                       <td className="user__request__data">
                         {data?.proffession}
                       </td>
@@ -211,21 +230,19 @@ const UserTable = () => {
                       <td
                         className="user__request__data user__management__view__btn"
                         onClick={() => {
-                          navigate(`/usermanagement/${data._id}`);
+                          navigate(`/usermanagement/${data?._id}`);
                         }}
                       >
                         View more...
                       </td>
                       <td className="user__request__data">
                         <AiFillEdit
-                          onClick={() => {
-                            navigate("/edituser", { state: { id: data?._id } });
-                          }}
+                          onClick={() => handleUserEdit(data?._id)}
                           className="accepted__user__edit__icon"
                         />
                         <AiFillDelete
                           onClick={() => {
-                            handleUserDeleteAlert(data._id);
+                            handleUserDeleteAlert(data?._id);
                           }}
                           className="accepted__user__delete__icon"
                         />
@@ -259,6 +276,14 @@ const UserTable = () => {
           </div>
         )
       )}
+
+      <FormAlertPopUp
+        open={showEditUser}
+        handleOpen={handleUserEdit}
+        onRequestClose={handleUserEditClose}
+      >
+        <UserRequestForm id={id} onSubmit={onSubmit} />
+      </FormAlertPopUp>
 
       <AlertPopUp
         open={showDeleteAlert}

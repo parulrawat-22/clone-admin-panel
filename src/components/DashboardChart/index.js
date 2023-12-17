@@ -8,32 +8,39 @@ import {
   NetworkConfiguration,
 } from "../../network/NetworkConfiguration";
 import SecondaryButton from "../library/SecondaryButton";
+import { findRenderedDOMComponentWithClass } from "react-dom/test-utils";
 
 export default function DashboardChart() {
   ////////////////////////////////
-  const [endDate, setEndDate] = useState(new Date());
+  const [endDate, setEndDate] = useState("");
   const [labels, setLabels] = useState([]);
   const [earnings, setEarnings] = useState([]);
   const [month, setMonth] = useState(false);
   const [week, setWeek] = useState(false);
   const [year, setYear] = useState(false);
   const [uData, setUData] = useState([]);
+  const [startDate, setStartDate] = useState("");
+  const [checkStartDate, setCheckStartDate] = useState(true);
 
-  const handleEnddate = (e) => {
+  const handleEndDate = (e) => {
     setEndDate(e.target.value);
   };
 
-  useEffect(() => {
-    const sortedDates = earnings
-      .map((item) => item.year + "-" + item.month + "-" + item.day)
-      .sort();
-    const dataa = earnings.map((item) => item.count);
+  const handleStartDate = (e) => {
+    setCheckStartDate(false);
+    setStartDate(e.target.value);
+  };
 
-    setUData(dataa);
+  // useEffect(() => {
+  //   // const sortedDates = earnings
+  //   //   .map((item) => item.year + "-" + item.month + "-" + item.day)
+  //   //   .sort();
+  //   // const dataa = earnings.map((item) => item.count);
+  //   // setUData(dataa);
 
-    // Setting the sorted dates as labels
-    setLabels(sortedDates);
-  }, [earnings]);
+  //   // // Setting the sorted dates as labels
+  //   // setLabels(sortedDates);
+  // }, [earnings]);
 
   //const uData = [];
   const pData = [];
@@ -41,8 +48,8 @@ export default function DashboardChart() {
   //host Earnings
   const handleHostEarning = () => {
     let hostEarningPayload = {
-      // startDate: moment(endDate).subtract(6, "days"),
-      // endDate: endDate,
+      startDate,
+      endDate,
       month,
       year,
       week,
@@ -60,6 +67,13 @@ export default function DashboardChart() {
       hostEarningPayload
     )
       .then((res) => {
+        // const sortedDates = res.result
+        //   .map((item) => item.year + "-" + item.month + "-" + item.day)
+        //   .sort();
+        // const dataa = res.result.map((item) => item.count);
+        // setUData(dataa);
+        // // Setting the sorted dates as labels
+        // setLabels(sortedDates);
         console.log("res123", res);
         setEarnings(res.result);
       })
@@ -68,8 +82,60 @@ export default function DashboardChart() {
       });
   };
 
+  // const handleAllUsers = () => {
+  //   fetchDataFromAPI(API_URL + NetworkConfiguration.TOTALUSER, "POST", {
+  //     startDate,
+  //     endDate,
+  //     month,
+  //     year,
+  //     week,
+  //   })
+  //     .then((res) => {
+  //       console.log(res);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     });
+  // };
+
   useEffect(() => {
     handleHostEarning();
+
+    const sortedDates = earnings
+      .map((item) => item.year + "-" + item.month + "-" + item.day)
+      .sort();
+    const dataa = earnings.map((item) => item.count);
+    setUData(dataa);
+
+    // Setting the sorted dates as labels
+    setLabels(sortedDates);
+    if (year) {
+      const monthlyData = Array.from({ length: 12 }, (_, i) => {
+        const monthData = earnings.filter((item) => item.month === i + 1);
+        const totalCount = monthData.reduce((acc, item) => acc + item.count, 0);
+        return totalCount;
+      });
+
+      const monthLabels = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+
+      // Setting the sorted dates as labels
+      const dataa = earnings.map((item) => item.count);
+      setLabels(monthLabels);
+      setUData(monthlyData);
+    }
   }, [endDate, month, week, year]);
 
   const handleMonthClick = () => {
@@ -85,16 +151,33 @@ export default function DashboardChart() {
     setYear(true);
     setWeek(false);
     setMonth(false);
-    const sortedDates = earnings
-      .map((item) => item.year + "-" + item.month + "-" + item.day)
-      .sort();
+    //   const monthlyData = Array.from({ length: 12 }, (_, i) => {
+    //     const monthData = earnings.filter((item) => item.month === i + 1);
+    //     const totalCount = monthData.reduce((acc, item) => acc + item.count, 0);
+    //     return totalCount;
+    //   });
 
-    // Setting the sorted dates as labels
-    const dataa = earnings.map((item) => item.count);
-    setLabels(sortedDates);
-    setUData(dataa);
+    //   const monthLabels = [
+    //     "Jan",
+    //     "Feb",
+    //     "Mar",
+    //     "Apr",
+    //     "May",
+    //     "Jun",
+    //     "Jul",
+    //     "Aug",
+    //     "Sep",
+    //     "Oct",
+    //     "Nov",
+    //     "Dec",
+    //   ];
+
+    //   // Setting the sorted dates as labels
+    //   const dataa = earnings.map((item) => item.count);
+    //   setLabels(monthLabels);
+    //   setUData(monthlyData);
+    // };
   };
-
   const handleWeekClick = () => {
     setWeek(true);
     setYear(false);
@@ -105,12 +188,17 @@ export default function DashboardChart() {
   console.log("labels", labels);
   console.log(uData, "iiiiiiiii");
 
-  ////////////////////////////////////////////
-
   return (
     <div className="chart_box">
       <div className="dashboard_card_btn_row">
-        <input type="date" value={endDate} onChange={handleEnddate} />
+        <input type="date" value={startDate} onChange={handleStartDate} />
+        <input
+          type="date"
+          value={endDate}
+          onChange={handleEndDate}
+          disabled={checkStartDate}
+        />
+
         <SecondaryButton
           style={{ cursor: "pointer" }}
           onClick={handleYearClick}

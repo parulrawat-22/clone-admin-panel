@@ -53,6 +53,7 @@ const HostBlockTable = () => {
           <th className="host__block__header">Date Of Birth</th>
           <th className="host__block__header">Email</th>
           <th className="host__block__header">Mobile Number</th>
+          <th className="host__block__header">Action</th>
         </thead>
         <tbody>
           {getBlockList.length > 0
@@ -65,6 +66,7 @@ const HostBlockTable = () => {
                     <td className="host__block__data">{data?.dateOfBirth}</td>
                     <td className="host__block__data">{data?.email}</td>
                     <td className="host__block__data">{data?.mobileNumber}</td>
+                    <td className="host__block__data">Block</td>
                   </tr>
                 );
               })

@@ -27,7 +27,7 @@
 
 .dashboard__graph {
   width: 40rem;
-  height: 30rem;
+  height: 32rem;
   margin-top: 80px;
   border-radius: 10px;
   box-shadow: 2px 2px 5.5px #fb56bc;
@@ -74,7 +74,6 @@
 
 .dashboard__loader__heading {
   font-family: var(--fontfamily-sansserif);
-  /* margin-bottom: 15px; */
 }
 
 .dashboard_filter_btn_row {
@@ -91,8 +90,8 @@
 }
 
 .dashboard__input {
-  width: 7rem;
-  height: 3rem;
+  width: 6rem;
+  height: 2rem;
   border-radius: 5px;
 }
 
@@ -100,5 +99,12 @@
   position: absolute;
   left: 280px;
   top: 14px;
-  z-index: 122222;
+  z-index: 1000;
+}
+
+.dashboard__input__flex {
+  display: flex;
+  padding: 10px;
+  margin-top: -15px;
+  gap: 10px;
 }
