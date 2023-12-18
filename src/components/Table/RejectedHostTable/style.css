@@ -41,7 +41,7 @@
 .rejected__host__header {
   background-color: #f20094;
   font-family: var(--fontfamily-sansserif);
-  font-size: var(--fontsize-regular);
+  font-size: var(--fontsize-small);
   font-weight: var(--fontweight-medium);
   padding: 10px;
   color: white;

@@ -1,9 +1,7 @@
-import { useState } from "react";
 import NotificationTable from "../../components/Table/NotificationTable";
 import Button from "../../components/library/Button";
 import "./style.css";
-import AlertPopUp from "../../components/AlertPopUp";
-import SendNotification from "../SendNotification";
+
 import { useNavigate } from "react-router-dom";
 // import FormAlertPopUp from "../../components/FormAlertPopUp";
 // import NotificationForm from "../../components/formComponents/NotificationForm";

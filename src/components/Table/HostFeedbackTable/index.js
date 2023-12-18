@@ -157,8 +157,9 @@ const HostFeedbackTable = () => {
                         {data.feedbackType}
                       </td>
                       <td className="host__feedback__table__data">
-                        {" "}
-                        {data.comment}
+                        <div className="host__feedback__comment">
+                          {data.comment}
+                        </div>
                       </td>
                       <td className="host__feedback__table__data">
                         <AiFillEye

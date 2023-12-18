@@ -13,12 +13,13 @@ import Pagination from "../../Pagination";
 import FormAlertPopUp from "../../FormAlertPopUp";
 import InterestForm from "../../formComponents/InterestForm";
 import AlertPopUp from "../../AlertPopUp";
+import { errorToast, successToast } from "../../../utils/toast";
 
 const InterestTable = () => {
   const [interestData, setInterestData] = useState([]);
   const [showInterestForm, setShowInterestForm] = useState(false);
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState("");
   const [totalPages, setTotalPages] = useState("");
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
@@ -87,11 +88,15 @@ const InterestTable = () => {
       }
     )
       .then((res) => {
+        successToast(res?.message);
+
         console.log(res);
         setShowDeleteAlert(false);
         fetchInterestData();
       })
       .catch((err) => {
+        errorToast(err?.message);
+
         console.log(err);
       });
   };

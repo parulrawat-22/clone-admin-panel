@@ -8,6 +8,14 @@
   padding: 1rem 0;
 }
 
+.feedback__table__comment {
+  white-space: nowrap;
+  width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
 .feedback__table__heading {
   background-color: var(--color-pink);
   color: var(--color-white);
@@ -17,7 +25,7 @@
 }
 
 .feedback__table__data {
-  padding: 10px 0;
+  padding: 10px 5px;
   text-align: center;
   border: none;
   border-bottom: 1px solid grey;

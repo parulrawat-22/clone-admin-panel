@@ -17,6 +17,7 @@ import SearchInput from "../../SearchInput";
 import Pagination from "../../Pagination";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
+import WebModal from "../../WebModal";
 
 const FeedbackUserTable = () => {
   const { id } = useParams();
@@ -27,11 +28,13 @@ const FeedbackUserTable = () => {
   const [img, setImg] = useState("");
   const [getId, setGetId] = useState("");
   const [replyFeedback, setReplyFeedback] = useState("");
+  const [showComment, setShowComment] = useState(false);
   const [value, setValue] = useState("");
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(5);
   const [totalCount, setTotalCount] = useState("");
   const [totalPages, setTotalPages] = useState("");
+  const [comment, setComment] = useState("");
 
   const loader = useLoader();
 
@@ -108,6 +111,15 @@ const FeedbackUserTable = () => {
     setValue(e.target.value);
   };
 
+  const handleCommentClick = (e) => {
+    setComment(e);
+    setShowComment(true);
+  };
+
+  const handleCommentClickClose = () => {
+    setShowComment(false);
+  };
+
   return (
     <div className="feedback__container">
       <div className="banner__search__btn">
@@ -157,9 +169,14 @@ const FeedbackUserTable = () => {
                         {data?.feedbackType}
                       </td>
                       <td className="feedback__table__data">
-                        {" "}
-                        {data?.comment}
+                        <div
+                          className="feedback__table__comment"
+                          onClick={() => handleCommentClick(data?.comment)}
+                        >
+                          {data?.comment}
+                        </div>
                       </td>
+
                       <td className="feedback__table__data">
                         <AiFillEye
                           onClick={() => {
@@ -193,6 +210,13 @@ const FeedbackUserTable = () => {
           </tbody>
         </table>
       </div>
+
+      <WebModal
+        open={showComment}
+        onRequestClose={handleCommentClickClose}
+        heading="Description"
+        children={comment}
+      ></WebModal>
 
       {feedback.length > 0 ? (
         <Pagination

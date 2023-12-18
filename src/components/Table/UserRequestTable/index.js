@@ -35,7 +35,7 @@ const UserTable = () => {
   const [value, setValue] = useState("");
   const [showEditUser, setShowEditUser] = useState(false);
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState("");
   const [totalPages, setTotalPages] = useState("");
 
@@ -207,12 +207,14 @@ const UserTable = () => {
                       <td className="user__request__data">{data?.addBio}</td>
 
                       <td className="user__request__data">
-                        <BsFillEyeFill
-                          onClick={() => {
-                            handleEyeProfilePicPopUp(data?.profilePic);
-                          }}
-                          className="user__request__eye__icon"
-                        />
+                        {data?.profilePic && (
+                          <BsFillEyeFill
+                            onClick={() => {
+                              handleEyeProfilePicPopUp(data?.profilePic);
+                            }}
+                            className="user__request__eye__icon"
+                          />
+                        )}
                       </td>
 
                       <td className="user__request__data">

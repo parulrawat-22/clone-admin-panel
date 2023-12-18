@@ -13,6 +13,7 @@
   color: var(--color-white);
   font-family: var(--fontfamily-sansserif);
   font-weight: var(--fontweight-bold);
+  font-size: var(--fontsize-small);
   padding: 10px;
 }
 
@@ -20,6 +21,10 @@
   cursor: pointer;
 }
 
+.eye__btn {
+  cursor: pointer;
+  font-size: var(--fontsize-regular);
+}
 .accepted__host__data {
   padding: 10px 5px;
   border: none;

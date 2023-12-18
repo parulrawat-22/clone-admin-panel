@@ -8,19 +8,23 @@ import {
   NetworkConfiguration,
 } from "../../network/NetworkConfiguration";
 import SecondaryButton from "../library/SecondaryButton";
-import { findRenderedDOMComponentWithClass } from "react-dom/test-utils";
 
 export default function DashboardChart() {
   ////////////////////////////////
-  const [endDate, setEndDate] = useState("");
   const [labels, setLabels] = useState([]);
   const [earnings, setEarnings] = useState([]);
+  const [purchase, setPurchase] = useState([]);
   const [month, setMonth] = useState(false);
   const [week, setWeek] = useState(false);
-  const [year, setYear] = useState(false);
+  const [year, setYear] = useState(true);
   const [uData, setUData] = useState([]);
   const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [checkStartDate, setCheckStartDate] = useState(true);
+  const [graphData, setGraphData] = useState([]);
+  const [userGraphData, setUserGraphData] = useState([]);
+
+  const [selectedValue, setSelectedValue] = useState("Year");
 
   const handleEndDate = (e) => {
     setEndDate(e.target.value);
@@ -55,25 +59,12 @@ export default function DashboardChart() {
       week,
     };
 
-    // if (year) hostEarningPayload = { year };
-    // if (month) hostEarningPayload = { month };
-    // if (week) hostEarningPayload = { week };
-
-    // console.log("hostEarningPayload: ", JSON.stringify(hostEarningPayload));
-
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.TOTALHOST,
       "POST",
       hostEarningPayload
     )
       .then((res) => {
-        // const sortedDates = res.result
-        //   .map((item) => item.year + "-" + item.month + "-" + item.day)
-        //   .sort();
-        // const dataa = res.result.map((item) => item.count);
-        // setUData(dataa);
-        // // Setting the sorted dates as labels
-        // setLabels(sortedDates);
         console.log("res123", res);
         setEarnings(res.result);
       })
@@ -82,107 +73,162 @@ export default function DashboardChart() {
       });
   };
 
-  // const handleAllUsers = () => {
-  //   fetchDataFromAPI(API_URL + NetworkConfiguration.TOTALUSER, "POST", {
-  //     startDate,
-  //     endDate,
-  //     month,
-  //     year,
-  //     week,
-  //   })
-  //     .then((res) => {
-  //       console.log(res);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
+  const handleAllUsers = () => {
+    const graphPayload = {
+      startDate,
+      endDate,
+      month,
+      year,
+      week,
+    };
+    fetchDataFromAPI(
+      API_URL + NetworkConfiguration.TOTALUSER,
+      "POST",
+      graphPayload
+    )
+      .then((res) => {
+        console.log(res);
+        setPurchase(res?.result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     handleHostEarning();
+    handleAllUsers();
+  }, []);
 
-    const sortedDates = earnings
-      .map((item) => item.year + "-" + item.month + "-" + item.day)
-      .sort();
-    const dataa = earnings.map((item) => item.count);
-    setUData(dataa);
-
-    // Setting the sorted dates as labels
-    setLabels(sortedDates);
-    if (year) {
-      const monthlyData = Array.from({ length: 12 }, (_, i) => {
-        const monthData = earnings.filter((item) => item.month === i + 1);
-        const totalCount = monthData.reduce((acc, item) => acc + item.count, 0);
-        return totalCount;
-      });
-
-      const monthLabels = [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ];
-
-      // Setting the sorted dates as labels
-      const dataa = earnings.map((item) => item.count);
-      setLabels(monthLabels);
-      setUData(monthlyData);
-    }
-  }, [endDate, month, week, year]);
+  useEffect(() => {
+    handleHostEarning();
+    handleAllUsers();
+  }, [month, year, week, startDate, endDate]);
 
   const handleMonthClick = () => {
     console.log("hereeee");
     setMonth(true);
     setYear(false);
     setWeek(false);
-    //handleHostEarning();
   };
 
   const handleYearClick = () => {
     console.log("heree");
+    setSelectedValue("Year");
     setYear(true);
     setWeek(false);
     setMonth(false);
-    //   const monthlyData = Array.from({ length: 12 }, (_, i) => {
-    //     const monthData = earnings.filter((item) => item.month === i + 1);
-    //     const totalCount = monthData.reduce((acc, item) => acc + item.count, 0);
-    //     return totalCount;
-    //   });
-
-    //   const monthLabels = [
-    //     "Jan",
-    //     "Feb",
-    //     "Mar",
-    //     "Apr",
-    //     "May",
-    //     "Jun",
-    //     "Jul",
-    //     "Aug",
-    //     "Sep",
-    //     "Oct",
-    //     "Nov",
-    //     "Dec",
-    //   ];
-
-    //   // Setting the sorted dates as labels
-    //   const dataa = earnings.map((item) => item.count);
-    //   setLabels(monthLabels);
-    //   setUData(monthlyData);
-    // };
   };
   const handleWeekClick = () => {
+    setSelectedValue("Week");
     setWeek(true);
     setYear(false);
     setMonth(false);
   };
+
+  useEffect(() => {
+    switch (selectedValue) {
+      case "Year":
+        {
+          let graphData = earnings.map((item) => ({
+            count: item?.count,
+            date: `${item.year}`,
+          }));
+          setGraphData(graphData);
+          let userGraphData = purchase.map((item) => ({
+            count: item?.count,
+            date: `${item.year}`,
+          }));
+          setUserGraphData(userGraphData);
+          setLabels(
+            graphData.map((item) => {
+              return item?.date;
+            })
+          );
+          console.log(
+            "Graph data: " +
+              graphData.map((item) => {
+                return item?.date;
+              })
+          );
+        }
+
+        break;
+      case "Month":
+        {
+          let graphData = earnings.map((item) => ({
+            count: item?.count,
+            date: `${item.day}/${item.month}`,
+          }));
+          setGraphData(graphData);
+          let userGraphData = purchase.map((item) => ({
+            count: item?.count,
+            date: `${item.year}`,
+          }));
+          setUserGraphData(userGraphData);
+          setLabels(
+            graphData.map((item) => {
+              return item?.date;
+            })
+          );
+          console.log(
+            "Graph data: " +
+              graphData.map((item) => {
+                return item?.date;
+              })
+          );
+        }
+        break;
+      case "Week":
+        {
+          let graphData = earnings.map((item) => ({
+            count: item?.count,
+            date: `${item.day}/${item.month}/${item.year}`,
+          }));
+          setGraphData(graphData);
+          let userGraphData = purchase.map((item) => ({
+            count: item?.count,
+            date: `${item.day}/${item.month}/${item.year}`,
+          }));
+          setUserGraphData(userGraphData);
+          setLabels(
+            graphData.map((item) => {
+              return item?.date;
+            })
+          );
+          console.log(
+            "Graph data: " +
+              graphData.map((item) => {
+                return item?.date;
+              })
+          );
+        }
+        break;
+      default: {
+        let graphData = earnings.map((item) => ({
+          count: item?.count,
+          date: `${item.day}/${item.month}/${item.year}`,
+        }));
+        setGraphData(graphData);
+        let userGraphData = purchase.map((item) => ({
+          count: item?.count,
+          date: `${item.day}/${item.month}/${item.year}`,
+        }));
+        setUserGraphData(userGraphData);
+        setLabels(
+          graphData.map((item) => {
+            return item?.date;
+          })
+        );
+        console.log(
+          "Graph data: " +
+            graphData.map((item) => {
+              return item?.date;
+            })
+        );
+      }
+    }
+  }, [earnings, purchase, selectedValue]);
 
   console.log("earnings", earnings);
   console.log("labels", labels);
@@ -196,6 +242,7 @@ export default function DashboardChart() {
           type="date"
           value={endDate}
           onChange={handleEndDate}
+          min={startDate}
           disabled={checkStartDate}
         />
 
@@ -215,377 +262,42 @@ export default function DashboardChart() {
           text="Week"
         />
       </div>
-      {labels.length ? (
+      {graphData?.length > 0 && (
         <LineChart
           width={600}
           height={400}
           series={[
-            { data: pData, label: "Hosts" },
-            { data: uData, label: "Users" },
+            {
+              data: graphData.map((item) => {
+                return item?.count;
+              }),
+              label: "Hosts",
+            },
+            {
+              data: userGraphData.map((item) => {
+                return item?.count;
+              }),
+              label: "Users",
+            },
           ]}
-          xAxis={[{ scaleType: "point", data: labels }]}
+          xAxis={[
+            {
+              scaleType: "point",
+              data: labels,
+            },
+          ]}
         />
-      ) : null}
+      )}
     </div>
   );
 }
 
-export const getPreviousdateFromDate = (date, count) => {
-  let dates = [];
+// export const getPreviousdateFromDate = (date, count) => {
+//   let dates = [];
 
-  for (let i = count; i >= 0; i--) {
-    dates.push(moment(new Date(date)).subtract(i, "days").format("YYYY-MM-DD"));
-  }
-
-  return dates;
-};
-
-//-----------------------------------------------------------------------//
-
-// import {
-//   //   ResponsiveContainer,
-//   CartesianGrid,
-//   Legend,
-//   Line,
-//   // LineChart,
-//   Tooltip,
-//   XAxis,
-//   YAxis,
-// } from "recharts";
-// // import {
-// //   APIUrl,
-// //   NetworkConfiguration,
-// // } from "../../Network/networkConfiguration";
-// // import { callAPI } from "../../Network/networkConnection";
-// import DashboardCard from "../../component/DashboardCard/DashboardCard";
-// import { StorageConstant } from "../../constant/StorageConstant";
-// import InputField from "../../library/TextField";
-// import useUserStore from "../../store/userStore";
-// import "./style.css";
-
-// const Dashboard = () => {
-//   const [getDetails, setGetDetails] = useState([]);
-//   const [sales, setSales] = React.useState([]);
-//   const [users, setUsers] = React.useState([]);
-//   const [graphData, setGraphData] = useState([]);
-//   const [showCustomDatePicker, setShowCustomDatePicker] = useState(false);
-//   const [selectedCustomDateRange, setSelectedCustomDateRange] = useState({
-//     fromDate: "",
-//     toDate: "",
-//   });
-//   const [selectedDateFilter, setSelectedDateFilter] = useState("");
-
-//   useEffect(() => {
-//     fetch();
-//     fetchSales();
-//     fetchUsers();
-//   }, []);
-
-//   useEffect(() => {
-//     fetchSales(selectedCustomDateRange);
-//     fetchUsers(selectedCustomDateRange);
-//   }, [selectedCustomDateRange]);
-
-//   useEffect(() => {
-//     if (selectedDateFilter) {
-//       const fromDate = moment()
-//         .startOf(selectedDateFilter)
-//         .format("YYYY-MM-DD hh:mm");
-//       const toDate = moment()
-//         .endOf(selectedDateFilter)
-//         .format("YYYY-MM-DD hh:mm");
-
-//       setSelectedCustomDateRange({
-//         fromDate,
-//         toDate,
-//       });
-//       if (selectedDateFilter === "custom") {
-//         setShowCustomDatePicker(true);
-//         setSelectedCustomDateRange({
-//           fromDate: "",
-//           toDate: "",
-//         });
-//       } else {
-//         setShowCustomDatePicker(false);
-//       }
-//     } else {
-//       setShowCustomDatePicker(false);
-//       setSelectedCustomDateRange({
-//         fromDate: "",
-//         toDate: "",
-//       });
-//     }
-//   }, [selectedDateFilter]);
-
-//   useEffect(() => {
-//     let usersSalesGraphData = [];
-//     sales.forEach((sale) => {
-//       usersSalesGraphData.push({
-//         date: `${sale.day}/${sale.month}/${sale.year}`,
-//         User: 0,
-//         Orders: sale.count,
-//       });
-//     });
-
-//   users.forEach((user) => {
-//     let graphDataIndex = usersSalesGraphData.findIndex(
-//       (graphData) =>
-//         graphData.date === `${user.day}/${user.month}/${user.year}`
-//     );
-//     if (graphDataIndex >= 0) {
-//       usersSalesGraphData[graphDataIndex]["User"] = user.count;
-//     } else {
-//       usersSalesGraphData.push({
-//         date: `${user.day}/${user.month}/${user.year}`,
-//         User: user.count,
-//         Orders: 0,
-//       });
-//     }
-//   });
-
-//   console.log(
-//     "Graph data after sorting: ",
-//     usersSalesGraphData.sort(
-//       (a, b) => parseFloat(a.monthsYears) - parseFloat(b.monthsYears)
-//     )
-//   );
-
-//   setGraphData(
-//     usersSalesGraphData.sort(
-//       (a, b) => parseFloat(a.monthsYears) - parseFloat(b.monthsYears)
-//     )
-//   );
-// }, [users, sales]);
-
-// // useEffect(() => {
-// //   let salesGraphData = [];
-// //   sales.forEach((sale) => {
-// //     salesGraphData.push({
-// //       monthsYears: `${sale._id.month}, ${sale._id.year}`,
-// //       count: sale.count,
-// //       totalSaleAmount: sale.totalSaleAmount,
-// //     });
-// //   });
-// //   setGraphData(...graphData, [salesGraphData]);
-// // }, [sales]);
-// // const rearrangedDataHost = Array(12).fill(null);
-// // for (let i = 0; i < traffic.length; i++) {
-// //   rearrangedDataHost[traffic[i]._id.month - 1] = traffic[i];
-// // }
-
-// // const rearrangedDataUser = Array(12).fill(null);
-// // for (let i = 0; i < traffic2.length; i++) {
-// //   rearrangedDataUser[traffic2[i].month - 1] = traffic2[i];
-// // }
-
-// useEffect(() => {
-//   console.log("Graph data: ", graphData);
-// }, [graphData]);
-
-// useEffect(() => {
-//   async function getLoginHeader() {
-//     const loginHeader = await localStorage.getItem(
-//       StorageConstant.LOGIN_HEADER
-//     );
-//     if (!loginHeader) {
-//       navigate("/", { replace: true });
-//     }
+//   for (let i = count; i >= 0; i--) {
+//     dates.push(moment(new Date(date)).subtract(i, "days").format("YYYY-MM-DD"));
 //   }
-//   getLoginHeader();
-// }, []);
 
-// const fetch = () => {
-//   callAPI(APIUrl + NetworkConfiguration.DASHBOARD, "GET")
-//     .then((res) => {
-//       setGetDetails(res);
-//     })
-//     .catch((err) => console.log("error", err));
+//   return dates;
 // };
-
-// const fetchSales = (selectedCustomDateRange) => {
-//   callAPI(
-//     APIUrl + NetworkConfiguration.MONTHLYSALES,
-//     "POST",
-//     JSON.stringify(selectedCustomDateRange),
-//     {
-//       "Content-Type": "application/json",
-//     }
-//   )
-//     .then((res) => {
-//       setSales(res.data);
-//       console.log("Sales", res.data);
-//     })
-//     .catch((err) => console.log("error", err));
-// };
-
-// const fetchUsers = (selectedCustomDateRange) => {
-//   callAPI(
-//     APIUrl + NetworkConfiguration.MONTHLYUSER,
-//     "POST",
-//     JSON.stringify(selectedCustomDateRange),
-//     {
-//       "Content-Type": "application/json",
-//     }
-//   )
-//     .then((res) => {
-//       setUsers(res.data);
-//       console.log("Users ", res.data);
-//     })
-//     .catch((err) => console.log("error", err));
-// };
-// return (
-//   <div>
-//     {/* <Layout> */}
-//     <div className="middle_container_top_alignment">
-//       <div className="breadcrumb__styling">
-//         <div className="path_styling">
-//           <h3 className="path__header">Dashboard</h3>
-//           {/* <Breadcrumbs /> */}
-//         </div>
-//       </div>
-//     </div>
-//     <div
-//       style={{
-//         padding: "1rem 2rem",
-//         width: "100%",
-//         display: "flex",
-//         rowGap: "0.5rem",
-//         columnGap: "0.5rem",
-//         flexWrap: "wrap",
-//       }}
-//     >
-//       <div
-//         style={{
-//           flexGrow: 1,
-//           flexShrink: 0,
-//           justifyContent: "center",
-//           display: "flex",
-//         }}
-//       >
-//         <DashboardCard
-//           onClick={() => {
-//             navigate("/productList");
-//           }}
-//           c="d-1"
-//           nonEditable={true}
-//           title={"Total Products"}
-//           icon={
-//             <p style={{ fontSize: "2rem", fontWeight: "700" }}>
-//               {getDetails.totalProducts}
-//             </p>
-//           }
-//         />
-//       </div>
-
-//       <div
-//         style={{
-//           flexGrow: 1,
-//           flexShrink: 0,
-//           justifyContent: "center",
-//           display: "flex",
-//         }}
-//       >
-//         <DashboardCard
-//           onClick={() => {
-//             navigate("/Users");
-//           }}
-//           c="d-2"
-//           nonEditable={true}
-//           title={"Total Users"}
-//           icon={
-//             <p style={{ fontSize: "2rem", fontWeight: "700" }}>
-//               {getDetails.totalUsers}
-//             </p>
-//           }
-//         />
-//       </div>
-//       <div
-//         style={{
-//           flexGrow: 1,
-//           flexShrink: 0,
-//           justifyContent: "center",
-//           display: "flex",
-//         }}
-//       >
-//         <DashboardCard
-//           onClick={() => {
-//             navigate("/clients");
-//           }}
-//           c="d-3"
-//           nonEditable={true}
-//           title={"Total Clients"}
-//           icon={
-//             <p style={{ fontSize: "2rem", fontWeight: "700" }}>
-//               {getDetails.totalClient}
-//             </p>
-//           }
-//         />
-//       </div>
-//       <div
-//         style={{
-//           flexGrow: 1,
-//           flexShrink: 0,
-//           justifyContent: "center",
-//           display: "flex",
-//         }}
-//       >
-//         <DashboardCard
-//           onClick={() => {
-//             navigate("/orderhistory");
-//           }}
-//           c="d-4"
-//           nonEditable={true}
-//           title={"Total Completed Orders"}
-//           icon={
-//             <p style={{ fontSize: "2rem", fontWeight: "700" }}>
-//               {getDetails.totalOrders}
-//             </p>
-//           }
-//         />
-//       </div>
-//     </div>
-//     <div className="back">
-//       <div className="chart-heading">
-//         <h1> Users and Montly Sales </h1>
-//         <select
-//           onChange={(e) => {
-//             setSelectedDateFilter(e.target.value);
-//           }}
-//           style={{ padding: "10px", borderRadius: "none" }}
-//           className="suspend_warning_action"
-//         >
-//           <option value="" selected default>
-//             Select
-//           </option>
-//           <option className="suspend_warning_action" value="week">
-//             This week
-//           </option>
-//           <option className="suspend_warning_action" value="month">
-//             This month
-//           </option>
-//           <option className="suspend_warning_action" value="custom">
-//             Custom date
-//           </option>
-//         </select>
-//         {/* <p> Of The Year {traffic[0]?._id?.year}</p> */}
-//       </div>
-
-//       <div
-//         className="dateRangeWrapper"
-//         style={{ display: showCustomDatePicker ? "flex" : "none" }}
-//       >
-//         <InputField
-//           onChange={(e) => {
-//             console.log(
-//               "From date value: ",
-//               moment(e.target.value).format("YYYY-MM-DD hh:mm")
-//             );
-//             setSelectedCustomDateRange({
-//               ...selectedCustomDateRange,
-//               fromDate: moment(e.target.value).format("MM-DD-YYYY"),
-//             });
-//           }}
-//           type="date"
-//           label="From Date"
-//         />
-//       </div>

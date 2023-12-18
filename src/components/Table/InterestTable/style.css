@@ -11,7 +11,7 @@
 .interest__header {
   background-color: var(--color-pink);
   font-family: var(--fontfamily-sansserif);
-  font-size: var(--fontsize-regular);
+  font-size: var(--fontsize-small);
   font-weight: var(--fontweight-medium);
   color: var(--color-white);
   padding: 10px 0;
@@ -20,8 +20,8 @@
 .interest__data {
   text-align: center;
   font-family: var(--fontfamily-sansserif);
-  font-size: var(--fontsize-regular);
-  font-weight: var(--fontweight-medium);
+  font-size: var(--fontsize-small);
+  /* font-weight: var(--fontweight-medium); */
   border-bottom: 1px solid black;
   padding: 10px 5px;
 }

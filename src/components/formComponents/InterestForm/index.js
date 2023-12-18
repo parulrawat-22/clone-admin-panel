@@ -7,6 +7,7 @@ import {
   API_URL,
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
+import { errorToast, successToast } from "../../../utils/toast";
 
 const InterestForm = ({
   onSubmit,
@@ -36,10 +37,15 @@ const InterestForm = ({
       }
     )
       .then((res) => {
+        successToast(res?.message);
+
         onEdit();
         console.log(res);
       })
+
       .catch((err) => {
+        errorToast(err?.message);
+
         console.log(err);
       });
   };
@@ -50,10 +56,13 @@ const InterestForm = ({
         name: interestName,
       })
         .then((res) => {
+          successToast(res?.message);
           console.log(res);
           onSubmit();
         })
         .catch((err) => {
+          errorToast(err?.message);
+
           console.log(err);
         });
     }

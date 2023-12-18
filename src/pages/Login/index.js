@@ -77,32 +77,6 @@ const Login = () => {
     // adminLogin();
   }, []);
 
-  const adminLogin = () => {};
-  // axios
-  //   .post(
-  //     baseUrl + "admin/adminlogin",
-  //     {
-  //       email: email,
-  //       password: password,
-  //       deviceToken,
-  //     },
-  //     {
-  //       headers: { "Content-Type": "application/json" },
-  //     }
-  //   )
-  //   .then((res) => {
-  //     console.log("Login successful");
-  //     successToast(res.message);
-  //     localStorage.setItem("token", res.data.token);
-  //     navigate("/dashboard");
-  //   })
-  //   .catch((err) => {
-  //     console.log("Error", err);
-  //     errorToast(err.response.data.message);
-  //     errorToast(err.response.data.responseMessage);
-  //   });
-  // };
-
   useEffect(() => {
     let loginToken = localStorage.getItem("token");
     if (loginToken) {

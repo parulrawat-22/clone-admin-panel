@@ -18,6 +18,8 @@ import { FiSearch } from "react-icons/fi";
 import Pagination from "../../Pagination";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
+import { BsFillEyeFill } from "react-icons/bs";
+import ImagePopUpModal from "../../ImagePopUpModal";
 
 const AcceptedHostTable = () => {
   let navigate = useNavigate();
@@ -36,11 +38,15 @@ const AcceptedHostTable = () => {
     },
   ]);
 
+  const [img, setImg] = useState("");
+  const [images, setImages] = useState("");
   const [value, setValue] = useState("");
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState("");
   const [totalPages, setTotalPages] = useState("");
+  const [showProfileAlert, setShowProfileAlert] = useState(false);
+  const [showMultipleImages, setShowMultipleImages] = useState(false);
 
   const loader = useLoader();
 
@@ -48,6 +54,24 @@ const AcceptedHostTable = () => {
     getAcceptedHost();
     getHostLeader();
   }, [value, page, perPage]);
+
+  const handleProfilePic = (img) => {
+    setShowProfileAlert(true);
+    setImg(img);
+  };
+
+  const handleProfilePicClose = () => {
+    setShowProfileAlert(false);
+  };
+
+  const handlePresentationPic = (images) => {
+    setShowMultipleImages(true);
+    setImages(images);
+  };
+
+  const handlePresentationPicClose = () => {
+    setShowMultipleImages(false);
+  };
 
   const handleAudioCallCharge = (hostId) => {
     setShowAudioAlert(true);
@@ -195,6 +219,8 @@ const AcceptedHostTable = () => {
             <th className="accepted__host__header">Age</th>
             <th className="accepted__host__header">Mobile Number</th>
             <th className="accepted__host__header">Email ID</th>
+            <th className="accepted__host__header">Profile Pic </th>
+            <th className="accepted__host__header">Images & Videos </th>
             <th className="accepted__host__header">Accepted At</th>
             <th className="accepted__host__header">Audio Charge/sec</th>
             <th className="accepted__host__header">Video Charge/sec</th>
@@ -220,6 +246,24 @@ const AcceptedHostTable = () => {
                         {data?.mobileNumber}
                       </td>
                       <td className="accepted__host__data">{data?.email}</td>
+                      <td className="accepted__host__data">
+                        {data?.profilePic && (
+                          <BsFillEyeFill
+                            className="eye__btn"
+                            onClick={() => handleProfilePic(data?.profilePic)}
+                          />
+                        )}
+                      </td>
+                      <td className="accepted__host__data">
+                        {data?.presentationPic && (
+                          <BsFillEyeFill
+                            className="eye__btn"
+                            onClick={() =>
+                              handlePresentationPic(data?.presentationPic)
+                            }
+                          />
+                        )}
+                      </td>
                       <td className="accepted__host__data">
                         {moment(data?.acceptedDate).format("DD/MM/YYYY LT")}
                       </td>
@@ -285,6 +329,18 @@ const AcceptedHostTable = () => {
           </tbody>
         </table>
       </div>
+
+      <ImagePopUpModal
+        open={showProfileAlert}
+        handleClose={handleProfilePicClose}
+        img={img}
+      />
+
+      <ImagePopUpModal
+        open={showMultipleImages}
+        handleClose={handlePresentationPicClose}
+        images={images}
+      />
 
       {acceptedHost.length > 0 ? (
         <Pagination

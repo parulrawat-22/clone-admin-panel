@@ -11,9 +11,6 @@
   padding: 1.8rem 0;
 }
 
-/* .notification__content {
-} */
-
 .notification__header {
   font-family: var(--fontfamily-sansserif);
   font-size: var(--fontsize-medium);

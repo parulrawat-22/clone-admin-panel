@@ -1,15 +1,63 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../components/library/Button";
 import Dropdown from "../../components/library/Dropdown";
 import InputField from "../../components/library/InputField";
 import "./style.css";
+import { fetchDataFromAPI } from "../../network/NetworkConnection";
+import {
+  API_URL,
+  NetworkConfiguration,
+} from "../../network/NetworkConfiguration";
+import { useNavigate } from "react-router-dom";
 
 const SendNotification = () => {
+  let navigate = useNavigate();
   const [selectWho, setSelectWho] = useState("");
+  const [selectParticularPerson, setSelectParticularPerson] = useState("");
 
   const [title, setTitle] = useState("");
+  const [title1, setTitle1] = useState("");
+  const [body1, setBody1] = useState("");
   const [body, setBody] = useState("");
   const [name, setName] = useState("");
+
+  const handleSelectChange = (e) => {
+    setSelectWho(e.target.value);
+  };
+
+  useEffect(() => {
+    if (selectParticularPerson === "users") {
+      getUserRequest();
+      console.log("user", selectParticularPerson);
+    }
+    if (selectParticularPerson === "hosts") {
+      getAcceptedHost();
+      console.log("hosts", selectParticularPerson);
+    } else {
+      getAcceptedHost();
+      getUserRequest();
+    }
+  }, []);
+
+  const getUserRequest = () => {
+    fetchDataFromAPI(API_URL + NetworkConfiguration.GETUSERS, "POST", {})
+      .then((res) => {
+        console.log("12345678o", res);
+      })
+      .catch((err) => {
+        console.log(err, "err==========");
+      });
+  };
+
+  const getAcceptedHost = () => {
+    fetchDataFromAPI(API_URL + NetworkConfiguration.ACCEPTEDHOST, "POST")
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err, "err");
+      });
+  };
 
   const dropdownOptions = [
     {
@@ -17,17 +65,50 @@ const SendNotification = () => {
     },
     {
       name: "Users",
-      value: "Users",
+      value: "users",
     },
     {
       name: "Hosts",
-      value: "Hosts",
+      value: "hosts",
     },
     {
       name: "Both",
-      value: "Both",
+      value: "all",
     },
   ];
+
+  const handleSendNotification = () => {
+    fetchDataFromAPI(API_URL + NetworkConfiguration.SENDTOALL, "POST", {
+      title,
+      body,
+      to: selectWho,
+    })
+      .then((res) => {
+        navigate("/notification");
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleMultiSelectChange = (e) => {
+    setSelectParticularPerson(e.target.value);
+  };
+
+  const handleMultipleNotification = () => {
+    fetchDataFromAPI(API_URL + NetworkConfiguration.SENDTOFEW, "POST", {
+      title1,
+      body1,
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+  console.log("selectWho", selectWho);
 
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -36,7 +117,7 @@ const SendNotification = () => {
           <h2 className="notification__header"> Notification To All</h2>
           <Dropdown
             value={selectWho}
-            //   onChange={handleSelectChange}
+            onChange={handleSelectChange}
             options={dropdownOptions}
           />
           <br />
@@ -58,7 +139,7 @@ const SendNotification = () => {
           <br />
           <br />
           <Button
-            //   onClick={handleSendNotification}
+            onClick={handleSendNotification}
             className="custom__margin"
             text="Send"
             style={{ margin: "auto" }}
@@ -72,7 +153,8 @@ const SendNotification = () => {
             Notification To Selected User/Host
           </h2>
           <Dropdown
-            value={selectWho} //   onChange={handleSelectChange}
+            value={selectParticularPerson}
+            onChange={handleMultiSelectChange}
             options={dropdownOptions}
           />
           <br />
@@ -85,24 +167,23 @@ const SendNotification = () => {
           />
           <br />
           <InputField
-            value={title}
+            value={title1}
             onChange={(e) => {
-              setTitle(e.target.value);
+              setTitle1(e.target.value);
             }}
             placeholder="Enter Title"
           />
           <br />
           <InputField
-            value={body}
+            value={body1}
             onChange={(e) => {
-              setBody(e.target.value);
+              setBody1(e.target.value);
             }}
             placeholder="Enter Message"
           />
           <br />
           <Button
-            //   onClick={handleSendNotification}
-            //className="custom__margin"
+            onClick={handleMultipleNotification}
             text="Send"
             style={{ margin: "auto" }}
           />

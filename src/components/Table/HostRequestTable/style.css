@@ -41,7 +41,7 @@
 
 .host__request__header {
   background-color: #f20094;
-  font-size: var(--fontsize-regular);
+  font-size: var(--fontsize-small);
   font-family: var(--fontfamily-sansserif);
   font-weight: var(--fontweight-medium);
   color: white;

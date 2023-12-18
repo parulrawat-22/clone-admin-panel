@@ -11,8 +11,10 @@ const WebModal = ({ onRequestClose, open, children, heading }) => {
   return (
     showVisible && (
       <div className="web__modal__container" onClick={onRequestClose}>
-        <h2 className="web__modal__heading">{heading}</h2>
-        <div className="web__modal__content">{children}</div>
+        <div className="web_modal_data">
+          <h2 className="web__modal__heading">{heading}</h2>
+          <div className="web__modal__content">{children}</div>
+        </div>
       </div>
     )
   );

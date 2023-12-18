@@ -1,50 +1,70 @@
 .notification__card__container {
-  width: 14rem;
-  height: auto;
-  margin: auto;
   border-radius: 5px;
-  margin-top: 10px;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px 0;
+  padding: 0 5px;
 }
 
 .notification__profile__image {
-  width: 20%;
-  height: 20%;
-  background-color: white;
-  border-radius: 50%;
-  margin: auto;
-  margin-right: 10px;
-  margin-left: 5px;
-  align-self: center;
-  border: none;
-  outline: none;
+  width: 50px;
+  height: 50px;
+  border: 1px solid white;
+  border-radius: 25px;
 }
 
-.notification__card__content {
-  padding: 0 5px;
+.notification__img {
+  width: 50px;
+  height: 50px;
+}
+
+.notification_message_box {
+  width: calc(16vw - 70px);
+}
+
+.notification_content {
+  background-color: var(--color-lightpink);
+  padding: 5px;
   border-radius: 10px;
-  background-color: antiquewhite;
+}
+
+.notification_content_row {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
   margin-bottom: 5px;
 }
 
-.notification__card__content h4 {
+.notification_for_btn {
+  background-color: white;
+  padding: 2px 5px;
+  border-radius: 5px;
+  color: var(--color-pink);
   font-family: var(--fontfamily-sansserif);
-  font-size: var(--fontsize-regular);
-  font-weight: var(--fontweight-medium);
-}
-
-.notification__card__content p {
   font-size: var(--fontsize-xsmall);
-  font-family: var(--fontfamily-sansserif);
-  margin-bottom: 10px;
 }
 
-.notification__card_feedback {
-  padding: 5px;
-  border-radius: 55px;
+.notification_feedback {
+  margin-top: 2px;
+  padding: 2px 5px;
+  width: max-content;
+  border-radius: 30px;
+  background-color: rgb(0, 119, 255);
+  text-align: center;
   font-family: var(--fontfamily-sansserif);
-  color: var(--color-white);
-  background-color: var(--color-pink);
-  font-size: 14px;
-  margin: 3.2rem;
+  font-size: var(--fontsize-xsmall);
+  color: white;
+}
+
+.notification_message {
+  font-family: var(--fontfamily-sansserif);
+  font-size: var(--fontsize-xsmall);
+}
+
+.notification_title {
+  font-family: var(--fontfamily-sansserif);
+  font-size: var(--fontsize-small);
+  font-weight: var(--fontweight-medium);
+  width: 50%;
 }
