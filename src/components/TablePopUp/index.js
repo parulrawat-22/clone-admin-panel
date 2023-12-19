@@ -25,6 +25,7 @@ const style = {
   bgcolor: "white",
   boxShadow: 24,
   p: 2,
+  overflow: "auto",
 };
 
 const TablePopUp = ({ open, handleClose, id }) => {
@@ -57,12 +58,10 @@ const TablePopUp = ({ open, handleClose, id }) => {
     )
       .then((res) => {
         loader.showLoader(false);
-
         setShowHostList(res.result);
       })
       .catch((err) => {
         loader.showLoader(false);
-
         console.log(err);
       });
   };
@@ -103,23 +102,23 @@ const TablePopUp = ({ open, handleClose, id }) => {
                   return (
                     <tr>
                       <td className="user__request__data">{index + 1}</td>
-                      <td className="user__request__data">{data.userId}</td>
-                      <td className="user__request__data">{data.name}</td>
-                      <td className="user__request__data">{data.gender}</td>
+                      <td className="user__request__data">{data?.userId}</td>
+                      <td className="user__request__data">{data?.name}</td>
+                      <td className="user__request__data">{data?.gender}</td>
                       <td className="user__request__data">
-                        {data.dateOfBirth}
+                        {data?.dateOfBirth}
                       </td>
-                      <td className="user__request__data">{data.age}</td>
-                      <td className="user__request__data">{data.country}</td>
-                      <td className="user__request__data">{data.state}</td>
-                      <td className="user__request__data">{data.city}</td>
+                      <td className="user__request__data">{data?.age}</td>
+                      <td className="user__request__data">{data?.country}</td>
+                      <td className="user__request__data">{data?.state}</td>
+                      <td className="user__request__data">{data?.city}</td>
                       <td className="user__request__data">
-                        {data.mobileNumber}
+                        {data?.mobileNumber}
                       </td>
                       <td className="user__request__data">
-                        {data.proffession}
+                        {data?.proffession}
                       </td>
-                      <td className="user__request__data">{data.addBio}</td>
+                      <td className="user__request__data">{data?.addBio}</td>
                       <td className="user__request__data">
                         {data?.profilePic && (
                           <BsFillEyeFill

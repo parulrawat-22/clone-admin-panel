@@ -1,0 +1,14 @@
+.leader__edit__container {
+  padding: 2px 0;
+}
+
+.leader__edit__header {
+  font-family: var(--fontfamily-sansserif);
+  text-align: center;
+  font-weight: var(--fontweight-medium);
+  border-bottom: 1px solid black;
+}
+
+.leader__edit__content {
+  padding: 0.5rem 2rem;
+}

@@ -8,10 +8,10 @@ const EarningTable = () => {
           <th className="earnings__table__header">S.No.</th>
           <th className="earnings__table__header">Video Call</th>
           <th className="earnings__table__header">Audio Call</th>
-          <th className="earnings__table__header">Call Stickers</th>
+          <th className="earnings__table__header">Message stickers</th>
           <th className="earnings__table__header">Gifts</th>
           <th className="earnings__table__header">Premium Post</th>
-          <th className="earnings__table__header">Post stickers</th>
+          <th className="earnings__table__header">Post Gifts</th>
           <th className="earnings__table__header">Total Earnings</th>
         </thead>
         <tbody>

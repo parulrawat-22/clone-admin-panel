@@ -29,3 +29,15 @@
 .leader__table__view {
   cursor: pointer;
 }
+
+.leader__edit__icon {
+  font-size: var(--fontsize-large);
+  color: var(--color-blue);
+  cursor: pointer;
+}
+
+.leader__delete__icon {
+  font-size: var(--fontsize-large);
+  color: var(--color-red);
+  cursor: pointer;
+}

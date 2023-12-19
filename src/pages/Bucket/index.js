@@ -10,11 +10,25 @@ import { useParams } from "react-router-dom";
 import { useLoader } from "../../base/Context/loaderProvider";
 import moment from "moment";
 import Coin from "../../base/Assets/walletCoin.png";
+import { AiFillDelete } from "react-icons/ai";
+import AlertPopUp from "../../components/AlertPopUp";
+import { errorToast, successToast } from "../../utils/toast";
 
 const Bucket = () => {
   const [bucket, setBucket] = useState([]);
   const { id } = useParams();
   const [amount, setAmount] = useState("");
+  const [identity, setIdentity] = useState("");
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+
+  const handleDeleteAlert = (identity) => {
+    setShowDeleteAlert(true);
+    setIdentity(identity);
+  };
+
+  const handleDeleteAlertClose = () => {
+    setShowDeleteAlert(false);
+  };
 
   const loader = useLoader();
 
@@ -33,6 +47,7 @@ const Bucket = () => {
 
   useEffect(() => {
     fetchBucketAmount();
+    handleCoin();
   }, []);
 
   const fetchBucketAmount = () => {
@@ -49,6 +64,28 @@ const Bucket = () => {
       });
   };
 
+  const onSubmit = () => {
+    handleCoin();
+    fetchBucketAmount();
+  };
+
+  const handleDelete = () => {
+    fetchDataFromAPI(
+      API_URL + NetworkConfiguration.DELETEBUCKET + `/${identity}`,
+      "DELETE"
+    )
+      .then((res) => {
+        console.log(res);
+        setShowDeleteAlert(false);
+        handleCoin();
+        successToast(res?.message);
+      })
+      .catch((err) => {
+        console.log(err);
+        errorToast(err?.message);
+      });
+  };
+
   return (
     <div>
       <div className="bucket__container">
@@ -62,11 +99,7 @@ const Bucket = () => {
             </div>
           </div>
         </div>
-        <EditCoins
-          handleCoin={handleCoin}
-          id={id}
-          fetchBucketAmount={fetchBucketAmount}
-        />
+        <EditCoins id={id} onSubmit={onSubmit} />
       </div>
 
       <div className="bucket__table__container">
@@ -81,6 +114,7 @@ const Bucket = () => {
             <th className="bucket__table__header">Coin Type</th>
             <th className="bucket__table__header">Changed Amount</th>
             <th className="bucket__table__header">Created At</th>
+            <th className="bucket__table__header">Action</th>
           </thead>
           <tbody>
             {bucket.map((data, index) => {
@@ -99,12 +133,30 @@ const Bucket = () => {
                   <td className="bucket__table__data">
                     {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
                   </td>
+                  <td className="bucket__table__data">
+                    <AiFillDelete
+                      onClick={() => handleDeleteAlert(data?._id)}
+                      className="bucket__delete"
+                    />
+                  </td>
                 </tr>
               );
             })}
           </tbody>
         </table>
       </div>
+
+      <AlertPopUp
+        open={showDeleteAlert}
+        handleOpen={handleDeleteAlert}
+        handleClose={handleDeleteAlertClose}
+        header="Delete Alert"
+        description="Are you sure you want to delete this bucket row?"
+        submitText="Yes"
+        cancelText="No"
+        onSubmitClick={handleDelete}
+        onCancelClick={handleDeleteAlertClose}
+      />
     </div>
   );
 };

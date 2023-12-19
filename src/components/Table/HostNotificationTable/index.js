@@ -15,7 +15,7 @@ import noData from "../../../base/Animation/No Data Found.json";
 const HostNotification = () => {
   const { id } = useParams();
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState("");
   const [totalPages, setTotalPages] = useState("");
 

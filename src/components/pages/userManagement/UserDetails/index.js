@@ -1,25 +1,25 @@
 import { useEffect, useState } from "react";
 import "./style.css";
-import baseUrl from "../../../../baseUrl";
-import axios from "axios";
+import { fetchDataFromAPI } from "../../../../network/NetworkConnection";
+import {
+  API_URL,
+  NetworkConfiguration,
+} from "../../../../network/NetworkConfiguration";
 
 const UserDetails = ({ id }) => {
-  const [getOneUserDetail, setGetOneUserDetail] = useState([]);
+  const [getOneUserDetail, setGetOneUserDetail] = useState("");
 
   useEffect(() => {
     getUserDetail();
   }, []);
 
   const getUserDetail = () => {
-    axios
-      .get(baseUrl + "admin/findOneUser/" + id, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
+    fetchDataFromAPI(
+      API_URL + NetworkConfiguration.FINDONEUSER + `/${id}`,
+      "GET"
+    )
       .then((res) => {
-        setGetOneUserDetail(res.data.getOneUser);
+        setGetOneUserDetail(res.getOneUser);
       })
       .catch((err) => {
         console.log(err);
@@ -42,39 +42,39 @@ const UserDetails = ({ id }) => {
                 <div className="user__details__table">
                   <div className="user__table__data">
                     <th>Name</th>
-                    <td>{getOneUserDetail.name}</td>
+                    <td>{getOneUserDetail?.name}</td>
                   </div>
                   <div className="user__table__data">
                     <th>Date Of Birth</th>
-                    <td>{getOneUserDetail.dateOfBirth}</td>
+                    <td>{getOneUserDetail?.dateOfBirth}</td>
                   </div>
                   <div className="user__table__data">
                     <th>Gender</th>
-                    <td>{getOneUserDetail.gender}</td>
+                    <td>{getOneUserDetail?.gender}</td>
                   </div>
                   <div className="user__table__data">
                     <th>Mobile Number</th>
-                    <td>{getOneUserDetail.mobileNumber}</td>
+                    <td>{getOneUserDetail?.mobileNumber}</td>
                   </div>
                   <div className="user__table__data">
                     <th>Email</th>
-                    <td>{getOneUserDetail.email}</td>
+                    <td>{getOneUserDetail?.email}</td>
                   </div>
                   <div className="user__table__data">
                     <th>Pin Code</th>
-                    <td>{getOneUserDetail.pinCode}</td>
+                    <td>{getOneUserDetail?.pinCode}</td>
                   </div>
                   <div className="user__table__data">
                     <th>Country</th>
-                    <td>{getOneUserDetail.country}</td>
+                    <td>{getOneUserDetail?.country}</td>
                   </div>
                   <div className="user__table__data">
                     <th>State</th>
-                    <td>{getOneUserDetail.state}</td>
+                    <td>{getOneUserDetail?.state}</td>
                   </div>
                   <div className="user__table__data">
                     <th>City</th>
-                    <td>{getOneUserDetail.city}</td>
+                    <td>{getOneUserDetail?.city}</td>
                   </div>
                   <div className="user__table__data">
                     <th>Interests</th>

@@ -11,18 +11,18 @@ import { errorToast, successToast } from "../../../utils/toast";
 import { useLoader } from "../../../base/Context/loaderProvider";
 import { FiSearch } from "react-icons/fi";
 import SearchInput from "../../SearchInput";
-// import Pagination from "../../Pagination";
-// import Lottie from "react-lottie";
-// import noData from "../../../base/Animation/No Data Found.json";
+import Lottie from "react-lottie";
+import Pagination from "../../Pagination";
+import noData from "../../../base/Animation/No Data Found.json";
 
 const NotificationTable = () => {
   const [getNotification, setGetNotification] = useState([]);
   const [showDeleteAlert, setShowDeleteAlert] = useState("");
   const [id, setId] = useState("");
-  // const [page, setPage] = useState(1);
-  // const [perPage, setPerPage] = useState(5);
-  // const [totalCount, setTotalCount] = useState("");
-  // const [totalPages, setTotalPages] = useState("");
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(20);
+  const [totalCount, setTotalCount] = useState("");
+  const [totalPages, setTotalPages] = useState("");
   const loader = useLoader();
 
   const handleDeleteNotification = (id) => {
@@ -45,8 +45,8 @@ const NotificationTable = () => {
       .then((res) => {
         setGetNotification(res.result);
         loader.showLoader(false);
-        // setTotalCount(res.totalCount);
-        // setTotalPages(res.totalPages);
+        setTotalCount(res.totalCount);
+        setTotalPages(res.totalPages);
       })
       .catch((err) => {
         console.log(err);
@@ -88,7 +88,8 @@ const NotificationTable = () => {
       <table className="notification__table__table">
         <thead>
           <th className="notification__table__header">S.No.</th>
-          <th className="notification__table__header">User ID</th>
+          <th className="user__notification__header">Notification Type</th>
+          <th className="user__notification__header">Send To</th>
           <th className="notification__table__header">Title</th>
           <th className="notification__table__header">Message</th>
           <th className="notification__table__header">Action</th>
@@ -99,8 +100,13 @@ const NotificationTable = () => {
             getNotification.map((data, index) => {
               return (
                 <tr>
-                  <td className="notification__table__data">{index + 1}</td>
-                  <td className="notification__table__data">{data?._id}</td>
+                  <td className="notification__table__data">
+                    {(page - 1) * perPage + index + 1}
+                  </td>
+                  <td className="notification__table__data">
+                    {data?.notificationType}
+                  </td>
+                  <td className="notification__table__data">{data?.sendTo}</td>
                   <td className="notification__table__data">{data?.title}</td>
                   <td className="notification__table__data">{data?.body}</td>
                   <td className="notification__table__data">
@@ -117,7 +123,7 @@ const NotificationTable = () => {
         </tbody>
       </table>
 
-      {/* {getNotification && getNotification.length > 0 ? (
+      {getNotification && getNotification.length > 0 ? (
         <Pagination
           page={page}
           setPage={setPage}
@@ -137,7 +143,7 @@ const NotificationTable = () => {
             <p className="no__data__found">No Data Found</p>
           </div>
         )
-      )} */}
+      )}
 
       <AlertPopUp
         open={showDeleteAlert}

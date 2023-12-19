@@ -83,6 +83,7 @@ const Leader = () => {
         page={page}
         perPage={perPage}
         showLeaderList={showLeaderList}
+        getAllLeaders={getAllLeaders}
       />
       <FormAlertPopUp
         open={showAddLeaderAlert}

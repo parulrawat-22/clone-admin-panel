@@ -62,3 +62,9 @@
   width: 25px;
   height: 25px;
 }
+
+.bucket__delete {
+  color: var(--color-red);
+  font-size: var(--fontsize-medium);
+  cursor: pointer;
+}

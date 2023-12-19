@@ -66,7 +66,6 @@ const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
         console.log(res);
         onClickEdit();
         loader.showLoader(false);
-
         successToast(res.message);
       })
       .catch((err) => {

@@ -32,7 +32,7 @@ const HostRequestTable = () => {
   const [img, setImg] = useState("");
   const [value, setValue] = useState("");
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState("");
   const [totalPages, setTotalPages] = useState("");
 

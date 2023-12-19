@@ -1,10 +1,38 @@
 import { useState } from "react";
 import "./style.css";
 import TablePopUp from "../../TablePopUp";
+import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import AlertPopUp from "../../AlertPopUp";
+import { fetchDataFromAPI } from "../../../network/NetworkConnection";
+import {
+  API_URL,
+  NetworkConfiguration,
+} from "../../../network/NetworkConfiguration";
+import FormAlertPopUp from "../../FormAlertPopUp";
+import LeaderEditForm from "../../formComponents/LeaderEditForm";
 
-const LeaderTable = ({ showLeaderList, page, perPage }) => {
+const LeaderTable = ({ showLeaderList, page, perPage, getAllLeaders }) => {
   const [showHostData, setShowHostData] = useState(false);
   const [id, setId] = useState("");
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const [showEditAlert, setShowEditAlert] = useState(false);
+
+  const handleEditAlert = () => {
+    setShowEditAlert(true);
+  };
+
+  const handleEditAlertClose = () => {
+    setShowEditAlert(false);
+  };
+
+  const handleDeleteAlert = (id) => {
+    setShowDeleteAlert(true);
+    setId(id);
+  };
+
+  const handleDeleteAlertClose = () => {
+    setShowDeleteAlert(false);
+  };
 
   const handleViewHostData = (id) => {
     setShowHostData(true);
@@ -13,6 +41,20 @@ const LeaderTable = ({ showLeaderList, page, perPage }) => {
 
   const handleViewHostDataClose = () => {
     setShowHostData(false);
+  };
+
+  const handleDelete = () => {
+    fetchDataFromAPI(
+      API_URL + NetworkConfiguration.DELETELEADER + `/${id}`,
+      "DELETE"
+    )
+      .then((res) => {
+        setShowDeleteAlert(false);
+        getAllLeaders();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -32,6 +74,7 @@ const LeaderTable = ({ showLeaderList, page, perPage }) => {
           <th className="leader__table__header">City</th>
           <th className="leader__table__header">Pin Code</th>
           <th className="leader__table__header">Host</th>
+          <th className="leader__table__header">Action</th>
         </thead>
         <tbody>
           {showLeaderList.map((data, index) => {
@@ -59,11 +102,42 @@ const LeaderTable = ({ showLeaderList, page, perPage }) => {
                 >
                   View
                 </td>
+                <td className="leader__table__body">
+                  <AiFillEdit
+                    onClick={() => handleEditAlert(data?._id)}
+                    className="leader__edit__icon"
+                  />
+                  <AiFillDelete
+                    onClick={() => handleDeleteAlert(data?._id)}
+                    className="leader__delete__icon"
+                  />
+                </td>
               </tr>
             );
           })}
         </tbody>
       </table>
+
+      <FormAlertPopUp
+        open={showEditAlert}
+        handleOpen={handleEditAlert}
+        onRequestClose={handleEditAlertClose}
+      >
+        <LeaderEditForm getAllLeaders={getAllLeaders} id={id} />
+      </FormAlertPopUp>
+
+      <AlertPopUp
+        open={showDeleteAlert}
+        handleOpen={handleDeleteAlert}
+        handleClose={handleDeleteAlertClose}
+        header="Delete Alert"
+        description="Are you sure you want to delete this leader?"
+        submitText="Yes"
+        cancelText="No"
+        onSubmitClick={handleDelete}
+        onCancelClick={handleDeleteAlertClose}
+      />
+
       <TablePopUp
         open={showHostData}
         handleClose={handleViewHostDataClose}

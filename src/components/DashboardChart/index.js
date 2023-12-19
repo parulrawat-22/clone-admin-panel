@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { LineChart } from "@mui/x-charts";
 import "./style.css";
-import moment from "moment/moment";
 import { fetchDataFromAPI } from "../../network/NetworkConnection";
 import {
   API_URL,
   NetworkConfiguration,
 } from "../../network/NetworkConfiguration";
 import SecondaryButton from "../library/SecondaryButton";
+import moment from "moment";
 
 export default function DashboardChart() {
   ////////////////////////////////
@@ -23,7 +23,6 @@ export default function DashboardChart() {
   const [checkStartDate, setCheckStartDate] = useState(true);
   const [graphData, setGraphData] = useState([]);
   const [userGraphData, setUserGraphData] = useState([]);
-
   const [selectedValue, setSelectedValue] = useState("Year");
 
   const handleEndDate = (e) => {
@@ -52,8 +51,8 @@ export default function DashboardChart() {
   //host Earnings
   const handleHostEarning = () => {
     let hostEarningPayload = {
-      startDate,
-      endDate,
+      startDate: moment(startDate).format("DD-MM-YYYY"),
+      endDate: moment(endDate).format("DD-MM-YYYY"),
       month,
       year,
       week,
@@ -70,13 +69,14 @@ export default function DashboardChart() {
       })
       .catch((err) => {
         console.log(err, "err========");
+        setEarnings([]);
       });
   };
 
   const handleAllUsers = () => {
     const graphPayload = {
-      startDate,
-      endDate,
+      startDate: moment(startDate).format("DD-MM-YYYY"),
+      endDate: moment(endDate).format("DD-MM-YYYY"),
       month,
       year,
       week,
@@ -92,6 +92,7 @@ export default function DashboardChart() {
       })
       .catch((err) => {
         console.log(err);
+        setPurchase([]);
       });
   };
 
@@ -101,9 +102,14 @@ export default function DashboardChart() {
   }, []);
 
   useEffect(() => {
+    if (endDate) {
+      setMonth(false);
+      setYear(false);
+      setWeek(false);
+    }
     handleHostEarning();
     handleAllUsers();
-  }, [month, year, week, startDate, endDate]);
+  }, [month, year, week, endDate]);
 
   const handleMonthClick = () => {
     console.log("hereeee");
@@ -132,25 +138,26 @@ export default function DashboardChart() {
         {
           let graphData = earnings.map((item) => ({
             count: item?.count,
-            date: `${item.year}`,
+            date: `${item.day}/${item.month}/${item.year}`,
           }));
           setGraphData(graphData);
           let userGraphData = purchase.map((item) => ({
             count: item?.count,
-            date: `${item.year}`,
+            date: `${item.day}/${item.month}/${item.year}`,
           }));
-          setUserGraphData(userGraphData);
-          setLabels(
-            graphData.map((item) => {
+          let newData = [
+            ...graphData.map((item) => {
               return item?.date;
-            })
-          );
-          console.log(
-            "Graph data: " +
-              graphData.map((item) => {
-                return item?.date;
-              })
-          );
+            }),
+            ...userGraphData.map((item) => {
+              return item?.date;
+            }),
+          ];
+          let setData = [...new Set(newData)];
+          // setUserGraphData(setData);
+          console.log("setData", setData);
+          setUserGraphData(userGraphData);
+          setLabels(setData);
         }
 
         break;
@@ -163,20 +170,20 @@ export default function DashboardChart() {
           setGraphData(graphData);
           let userGraphData = purchase.map((item) => ({
             count: item?.count,
-            date: `${item.year}`,
+            date: `${item.day}/${item.month}`,
           }));
-          setUserGraphData(userGraphData);
-          setLabels(
-            graphData.map((item) => {
+          let newData = [
+            ...graphData.map((item) => {
               return item?.date;
-            })
-          );
-          console.log(
-            "Graph data: " +
-              graphData.map((item) => {
-                return item?.date;
-              })
-          );
+            }),
+            ...userGraphData.map((item) => {
+              return item?.date;
+            }),
+          ];
+          let setData = [...new Set(newData)];
+          // setUserGraphData(setData);
+          setUserGraphData(userGraphData);
+          setLabels(setData);
         }
         break;
       case "Week":
@@ -191,17 +198,20 @@ export default function DashboardChart() {
             date: `${item.day}/${item.month}/${item.year}`,
           }));
           setUserGraphData(userGraphData);
-          setLabels(
-            graphData.map((item) => {
+          console.log("UserGraph: ", graphData, " ", userGraphData);
+
+          let newData = [
+            ...graphData.map((item) => {
               return item?.date;
-            })
-          );
-          console.log(
-            "Graph data: " +
-              graphData.map((item) => {
-                return item?.date;
-              })
-          );
+            }),
+            ...userGraphData.map((item) => {
+              return item?.date;
+            }),
+          ];
+          let setData = [...new Set(newData)];
+          console.log("Set labels: ", setData);
+          // setUserGraphData(setData);
+          setLabels(setData);
         }
         break;
       default: {
@@ -214,18 +224,17 @@ export default function DashboardChart() {
           count: item?.count,
           date: `${item.day}/${item.month}/${item.year}`,
         }));
-        setUserGraphData(userGraphData);
-        setLabels(
-          graphData.map((item) => {
+        let newData = [
+          ...graphData.map((item) => {
             return item?.date;
-          })
-        );
-        console.log(
-          "Graph data: " +
-            graphData.map((item) => {
-              return item?.date;
-            })
-        );
+          }),
+          ...userGraphData.map((item) => {
+            return item?.date;
+          }),
+        ];
+        let setData = [new Set(newData)];
+        setUserGraphData(userGraphData);
+        setLabels(setData);
       }
     }
   }, [earnings, purchase, selectedValue]);

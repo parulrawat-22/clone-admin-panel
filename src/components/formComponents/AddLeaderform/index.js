@@ -21,6 +21,7 @@ const AddLeaderForm = ({ onSubmit }) => {
   const [city, setCity] = useState("");
   const [idProof, setIdProof] = useState("");
   const [password, setPassword] = useState("");
+  // const [username, setUsername] = useState("");
 
   const [error, setError] = useState({
     leaderNameError: "",
@@ -33,6 +34,7 @@ const AddLeaderForm = ({ onSubmit }) => {
     stateError: "",
     cityError: "",
     idProofError: "",
+    // usernameError: "",
     passwordError: "",
   });
 
@@ -53,6 +55,7 @@ const AddLeaderForm = ({ onSubmit }) => {
         gender: gender,
         city: city,
         idProof: idProof,
+        // username: username,
         password: password,
       })
         .then((res) => {
@@ -115,6 +118,11 @@ const AddLeaderForm = ({ onSubmit }) => {
     setCity(e.target.value);
   };
 
+  // const handleUsername = (e) => {
+  //   setError({ ...error, usernameError: "" });
+  //   setUsername(e.target.value);
+  // };
+
   const handleIdProof = (e) => {
     setError({ ...error, idProofError: "" });
     setIdProof(e.target.value);
@@ -157,6 +165,9 @@ const AddLeaderForm = ({ onSubmit }) => {
     } else if (!idProof) {
       setError({ ...error, idProofError: "Enter valid Id Proof" });
       result = false;
+      // } else if (!username) {
+      //   setError({ ...error, usernameError: "Enter valid username" });
+      //   result = false;
     } else if (!password) {
       setError({ ...error, passwordError: "Enter Password" });
       result = false;
@@ -177,15 +188,16 @@ const AddLeaderForm = ({ onSubmit }) => {
         <InputField
           value={mobileNumber}
           onChange={handleMobileNumber}
+          type="number"
           placeholder="Mobile Number"
           error={error.mobileNumberError}
         />
-
         <InputField
           error={error.emailError}
           value={email}
           onChange={handleEmail}
           placeholder="Email"
+          type="email"
         />
         <InputField
           value={gender}
@@ -193,7 +205,6 @@ const AddLeaderForm = ({ onSubmit }) => {
           placeholder="Gender"
           error={error.genderError}
         />
-
         <InputField
           value={groupName}
           onChange={handleGroupName}
@@ -207,7 +218,6 @@ const AddLeaderForm = ({ onSubmit }) => {
           placeholder="Pin Code"
           error={error.pinCodeError}
         />
-
         <InputField
           value={country}
           onChange={handleCountry}
@@ -220,7 +230,6 @@ const AddLeaderForm = ({ onSubmit }) => {
           placeholder="State"
           error={error.stateError}
         />
-
         <InputField
           value={city}
           onChange={handleCity}
@@ -231,10 +240,15 @@ const AddLeaderForm = ({ onSubmit }) => {
           value={idProof}
           onChange={handleIdProof}
           type="number"
-          placeholder="ID Proof"
+          placeholder="ID Proof (must be 16 digits)"
           error={error.idProofError}
         />
-
+        {/* <InputField
+          value={username}
+          onChange={handleUsername}
+          placeholder="Username"
+          error={error.usernameError}
+        /> */}
         <InputField
           value={password}
           onChange={handlePassword}

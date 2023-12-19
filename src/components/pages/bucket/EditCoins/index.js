@@ -9,10 +9,10 @@ import {
 } from "../../../../network/NetworkConfiguration";
 import Dropdown from "../../../library/Dropdown";
 
-const EditCoins = ({ id, fetchBucketAmount, handleCoin }) => {
-  const [reason, setReason] = useState();
-  const [deductCoins, setDeductCoins] = useState();
-  const [plusMinus, setPlusMinus] = useState();
+const EditCoins = ({ id, onSubmit }) => {
+  const [reason, setReason] = useState("");
+  const [deductCoins, setDeductCoins] = useState("");
+  const [plusMinus, setPlusMinus] = useState("");
 
   const fetchBucket = () => {
     fetchDataFromAPI(API_URL + NetworkConfiguration.COINSDEDUCTION, "PUT", {
@@ -23,10 +23,10 @@ const EditCoins = ({ id, fetchBucketAmount, handleCoin }) => {
     })
       .then((res) => {
         console.log(res);
-        fetchBucketAmount();
+        onSubmit();
         setReason("");
         setDeductCoins("");
-        setPlusMinus("");
+        // setPlusMinus("");
       })
       .catch((err) => {
         console.log(err);
@@ -42,7 +42,7 @@ const EditCoins = ({ id, fetchBucketAmount, handleCoin }) => {
       <br /> <br />
       <InputField
         value={reason}
-        label="Reason for coin deduction"
+        placeholder="Reason for coin deduction"
         onChange={(e) => setReason(e.target.value)}
       />
       <br />
@@ -64,14 +64,7 @@ const EditCoins = ({ id, fetchBucketAmount, handleCoin }) => {
         onChange={(e) => setDeductCoins(e.target.value)}
       />
       <br />
-      <Button
-        onClick={() => {
-          fetchBucket();
-          handleCoin();
-        }}
-        className="edit__coin__btn"
-        text="Submit"
-      />
+      <Button onClick={fetchBucket} className="edit__coin__btn" text="Submit" />
     </div>
   );
 };
