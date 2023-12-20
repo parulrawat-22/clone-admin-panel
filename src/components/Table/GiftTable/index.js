@@ -40,7 +40,6 @@ const GiftTable = () => {
   const [perPage, setPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState("");
   const [totalPages, setTotalPages] = useState("");
-
   const [value, setValue] = useState("");
 
   const loader = useLoader();

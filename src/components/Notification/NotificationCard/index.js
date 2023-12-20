@@ -12,7 +12,7 @@ const NotificationCard = (props) => {
         <div className="notification_content">
           <div className="notification_content_row">
             <p className="notification_title">{props.name}</p>
-            <p className="notification_for_btn">user</p>
+            <p className="notification_for_btn">{props.statusType}</p>
             <p>{props.time}</p>
           </div>
           <p className="notification_message">{props.message}</p>

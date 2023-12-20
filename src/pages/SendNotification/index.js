@@ -14,12 +14,19 @@ const SendNotification = () => {
   let navigate = useNavigate();
   const [selectWho, setSelectWho] = useState("");
   const [selectParticularPerson, setSelectParticularPerson] = useState("");
-
   const [title, setTitle] = useState("");
   const [title1, setTitle1] = useState("");
   const [body1, setBody1] = useState("");
   const [body, setBody] = useState("");
   const [name, setName] = useState("");
+  const [userData, setUserData] = useState([
+    {
+      name: "",
+      value: "",
+    },
+  ]);
+  const [users, setUsers] = useState("");
+  const [hosts, setHosts] = useState("");
 
   const handleSelectChange = (e) => {
     setSelectWho(e.target.value);
@@ -33,16 +40,22 @@ const SendNotification = () => {
     if (selectParticularPerson === "hosts") {
       getAcceptedHost();
       console.log("hosts", selectParticularPerson);
-    } else {
+    }
+    if (selectParticularPerson === "Both") {
       getAcceptedHost();
       getUserRequest();
     }
-  }, []);
+  }, [selectParticularPerson]);
 
   const getUserRequest = () => {
     fetchDataFromAPI(API_URL + NetworkConfiguration.GETUSERS, "POST", {})
       .then((res) => {
         console.log("12345678o", res);
+        let mapped = res.result.map((result) => {
+          return { name: result.name, value: result._id };
+        });
+        console.log(mapped);
+        setUserData(mapped);
       })
       .catch((err) => {
         console.log(err, "err==========");
@@ -50,8 +63,13 @@ const SendNotification = () => {
   };
 
   const getAcceptedHost = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.ACCEPTEDHOST, "POST")
+    fetchDataFromAPI(API_URL + NetworkConfiguration.ACCEPTEDHOST, "POST", {})
       .then((res) => {
+        let mappedData = res.result.map((result) => {
+          return { name: result.name, value: result._id };
+        });
+        console.log(mappedData);
+        setUserData(mappedData);
         console.log(res);
       })
       .catch((err) => {
@@ -73,7 +91,25 @@ const SendNotification = () => {
     },
     {
       name: "Both",
-      value: "all",
+      value: "Both",
+    },
+  ];
+
+  const dropdownMultipleOptions = [
+    {
+      name: "--Select--",
+    },
+    {
+      name: "Users",
+      value: "users",
+    },
+    {
+      name: "Hosts",
+      value: "hosts",
+    },
+    {
+      name: "Both",
+      value: "Both",
     },
   ];
 
@@ -93,22 +129,31 @@ const SendNotification = () => {
   };
 
   const handleMultiSelectChange = (e) => {
+    console.log("e", e);
     setSelectParticularPerson(e.target.value);
+  };
+
+  const handleMultiChange = (e) => {
+    setName(e.target.value);
   };
 
   const handleMultipleNotification = () => {
     fetchDataFromAPI(API_URL + NetworkConfiguration.SENDTOFEW, "POST", {
       title1,
       body1,
+      users: selectParticularPerson,
+      hosts: selectParticularPerson,
+      Both: selectParticularPerson,
     })
       .then((res) => {
+        navigate("/notification");
         console.log(res);
       })
       .catch((err) => {
         console.log(err);
       });
   };
-  console.log("selectWho", selectWho);
+  console.log("HHHHHHHHHH", selectParticularPerson);
 
   return (
     <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -155,15 +200,13 @@ const SendNotification = () => {
           <Dropdown
             value={selectParticularPerson}
             onChange={handleMultiSelectChange}
-            options={dropdownOptions}
+            options={dropdownMultipleOptions}
           />
           <br />
           <Dropdown
             value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
-            options={dropdownOptions}
+            options={userData}
+            onChange={handleMultiChange}
           />
           <br />
           <InputField

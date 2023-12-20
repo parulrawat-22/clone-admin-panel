@@ -9,19 +9,20 @@ import {
 } from "../../../network/NetworkConfiguration";
 import { useLoader } from "../../../base/Context/loaderProvider";
 
-const AddLeaderForm = ({ onSubmit }) => {
+const AddLeaderForm = ({ onSubmit, edit, data, setData, id }) => {
+  console.log("data :", data);
+  //const [a,b]=useState()
   const [leaderName, setLeaderName] = useState("");
   const [mobileNumber, setMobileNumber] = useState("");
   const [email, setEmail] = useState("");
   const [gender, setGender] = useState("");
   const [groupName, setGroupName] = useState("");
-  const [pinCode, setPinCode] = useState("");
+  const [pin, setPin] = useState("");
   const [country, setCountry] = useState("");
   const [state, setState] = useState("");
   const [city, setCity] = useState("");
   const [idProof, setIdProof] = useState("");
   const [password, setPassword] = useState("");
-  // const [username, setUsername] = useState("");
 
   const [error, setError] = useState({
     leaderNameError: "",
@@ -34,7 +35,6 @@ const AddLeaderForm = ({ onSubmit }) => {
     stateError: "",
     cityError: "",
     idProofError: "",
-    // usernameError: "",
     passwordError: "",
   });
 
@@ -49,18 +49,16 @@ const AddLeaderForm = ({ onSubmit }) => {
         mobileNumber: mobileNumber,
         email: email,
         groupName: groupName,
-        pin: pinCode,
+        pin: pin,
         country: country,
         state: state,
         gender: gender,
         city: city,
         idProof: idProof,
-        // username: username,
         password: password,
       })
         .then((res) => {
           loader.showLoader(false);
-
           console.log(res);
           onSubmit();
         })
@@ -70,6 +68,14 @@ const AddLeaderForm = ({ onSubmit }) => {
           console.log(err);
         });
     }
+  };
+
+  const handleEditValue = (e) => {
+    const { name, value } = e.target;
+    setData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
   const handleLeaderName = (e) => {
@@ -99,7 +105,7 @@ const AddLeaderForm = ({ onSubmit }) => {
 
   const handlePinCode = (e) => {
     setError({ ...error, pinCodeError: "" });
-    setPinCode(e.target.value);
+    setPin(e.target.value);
   };
 
   const handleCountry = (e) => {
@@ -118,11 +124,6 @@ const AddLeaderForm = ({ onSubmit }) => {
     setCity(e.target.value);
   };
 
-  // const handleUsername = (e) => {
-  //   setError({ ...error, usernameError: "" });
-  //   setUsername(e.target.value);
-  // };
-
   const handleIdProof = (e) => {
     setError({ ...error, idProofError: "" });
     setIdProof(e.target.value);
@@ -131,6 +132,20 @@ const AddLeaderForm = ({ onSubmit }) => {
   const handlePassword = (e) => {
     setError({ ...error, passwordError: "" });
     setPassword(e.target.value);
+  };
+
+  const handleEditLeader = () => {
+    fetchDataFromAPI(API_URL + NetworkConfiguration.EDITLEADER, "PUT", {
+      id,
+      ...data,
+    })
+      .then((res) => {
+        console.log(res);
+        onSubmit();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const validate = () => {
@@ -150,7 +165,7 @@ const AddLeaderForm = ({ onSubmit }) => {
     } else if (!groupName) {
       setError({ ...error, groupNameError: "Enter valid group name" });
       result = false;
-    } else if (!pinCode) {
+    } else if (!pin) {
       setError({ ...error, pinCodeError: "Enter valid pin Code" });
       result = false;
     } else if (!country) {
@@ -165,9 +180,6 @@ const AddLeaderForm = ({ onSubmit }) => {
     } else if (!idProof) {
       setError({ ...error, idProofError: "Enter valid Id Proof" });
       result = false;
-      // } else if (!username) {
-      //   setError({ ...error, usernameError: "Enter valid username" });
-      //   result = false;
     } else if (!password) {
       setError({ ...error, passwordError: "Enter Password" });
       result = false;
@@ -180,86 +192,92 @@ const AddLeaderForm = ({ onSubmit }) => {
 
       <div className="add__leader__form">
         <InputField
-          onChange={handleLeaderName}
-          value={leaderName}
+          onChange={edit ? handleEditValue : handleLeaderName}
+          value={edit ? data.leaderName : leaderName}
           error={error.leaderNameError}
           placeholder="Leader Name"
+          name="leaderName"
         />
         <InputField
-          value={mobileNumber}
-          onChange={handleMobileNumber}
+          value={edit ? data.mobileNumber : mobileNumber}
+          onChange={edit ? handleEditValue : handleMobileNumber}
           type="number"
           placeholder="Mobile Number"
           error={error.mobileNumberError}
+          name="mobileNumber"
         />
         <InputField
           error={error.emailError}
-          value={email}
-          onChange={handleEmail}
+          value={edit ? data.email : email}
+          onChange={edit ? handleEditValue : handleEmail}
           placeholder="Email"
           type="email"
+          name="email"
         />
         <InputField
-          value={gender}
-          onChange={handleGender}
+          value={edit ? data.gender : gender}
+          onChange={edit ? handleEditValue : handleGender}
           placeholder="Gender"
           error={error.genderError}
+          name="gender"
         />
         <InputField
-          value={groupName}
-          onChange={handleGroupName}
+          value={edit ? data.groupName : groupName}
+          onChange={edit ? handleEditValue : handleGroupName}
           placeholder="Group Name"
           error={error.groupNameError}
+          name="groupName"
         />
         <InputField
-          value={pinCode}
-          onChange={handlePinCode}
+          value={edit ? data.pin : pin}
+          onChange={edit ? handleEditValue : handlePinCode}
           type="number"
           placeholder="Pin Code"
           error={error.pinCodeError}
+          name="pin"
         />
         <InputField
-          value={country}
-          onChange={handleCountry}
+          value={edit ? data.country : country}
+          onChange={edit ? handleEditValue : handleCountry}
           placeholder="Country"
           error={error.countryError}
+          name="country"
         />
         <InputField
-          value={state}
-          onChange={handleState}
+          value={edit ? data.state : state}
+          onChange={edit ? handleEditValue : handleState}
           placeholder="State"
           error={error.stateError}
+          name="state"
         />
         <InputField
-          value={city}
-          onChange={handleCity}
+          value={edit ? data.city : city}
+          onChange={edit ? handleEditValue : handleCity}
           placeholder="City"
           error={error.cityError}
+          name="city"
         />
         <InputField
-          value={idProof}
-          onChange={handleIdProof}
+          value={edit ? data.idProof : idProof}
+          onChange={edit ? handleEditValue : handleIdProof}
           type="number"
           placeholder="ID Proof (must be 16 digits)"
           error={error.idProofError}
+          name="idProof"
         />
-        {/* <InputField
-          value={username}
-          onChange={handleUsername}
-          placeholder="Username"
-          error={error.usernameError}
-        /> */}
+
         <InputField
-          value={password}
-          onChange={handlePassword}
+          value={edit ? data.password : password}
+          onChange={edit ? handleEditValue : handlePassword}
           placeholder="Password"
           error={error.passwordError}
+          name="password"
         />
       </div>
       <Button
-        onClick={handleAddLeader}
+        onClick={edit ? handleEditLeader : handleAddLeader}
         className="add__leader__button"
-        text="Submit"
+        text={edit ? "Update" : "Submit"}
       />
     </div>
   );

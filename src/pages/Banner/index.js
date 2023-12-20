@@ -57,9 +57,9 @@ const Banner = () => {
     })
       .then((res) => {
         loader.showLoader(false);
-        setShowBannerData(res.result);
-        setTotalCount(res.totalCount);
-        setTotalPages(res.totalPages);
+        setShowBannerData(res?.result);
+        setTotalCount(res?.totalCount);
+        setTotalPages(res?.totalPages);
       })
       .catch((err) => {
         loader.showLoader(false);

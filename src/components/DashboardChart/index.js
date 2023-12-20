@@ -21,9 +21,62 @@ export default function DashboardChart() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [checkStartDate, setCheckStartDate] = useState(true);
-  const [graphData, setGraphData] = useState([]);
-  const [userGraphData, setUserGraphData] = useState([]);
+  // const [graphData, setGraphData] = useState([]);
+  // const [userGraphData, setUserGraphData] = useState([]);
   const [selectedValue, setSelectedValue] = useState("Year");
+  const [userData, setUserData] = useState([]);
+  const [hostData, setHostData] = useState([]);
+
+  useEffect(() => {
+    let graphData = earnings.map((item) => ({
+      count: item?.count,
+      date: `${item.day}/${item.month}/${item.year}`,
+    }));
+    let userGraphData = purchase.map((item) => ({
+      count: item?.count,
+      date: `${item.day}/${item.month}/${item.year}`,
+    }));
+    let newData = [
+      ...graphData.map((item) => {
+        return item?.date;
+      }),
+      ...userGraphData.map((item) => {
+        return item?.date;
+      }),
+    ];
+    let setData = [...new Set(newData)];
+    // setUserGraphData(setData);
+    console.log("setData", setData);
+    const sortedDates = setData.sort((a, b) => {
+      const firstDate = moment(a, "DD/MM/YYYY");
+      const secondDate = moment(b, "DD/MM/YYYY");
+
+      return firstDate - secondDate;
+    });
+
+    console.log("SortedDates", sortedDates);
+    const mappedData = [];
+    const userMappedData = [];
+    sortedDates.forEach((date) => {
+      const hostData = graphData.find((item) => {
+        return date === item?.date;
+      });
+
+      mappedData.push(hostData ? hostData.count : 0);
+
+      const userData = userGraphData.find((item) => {
+        return date === item?.date;
+      });
+
+      userMappedData.push(userData ? userData.count : 0);
+    });
+
+    console.log("UserMappedData: " + userMappedData);
+    console.log("HostMappedData: " + mappedData);
+    setUserData(userMappedData);
+    setHostData(mappedData);
+    setLabels(sortedDates);
+  }, [earnings, purchase]);
 
   const handleEndDate = (e) => {
     setEndDate(e.target.value);
@@ -136,108 +189,237 @@ export default function DashboardChart() {
     switch (selectedValue) {
       case "Year":
         {
-          let graphData = earnings.map((item) => ({
-            count: item?.count,
-            date: `${item.day}/${item.month}/${item.year}`,
-          }));
-          setGraphData(graphData);
-          let userGraphData = purchase.map((item) => ({
-            count: item?.count,
-            date: `${item.day}/${item.month}/${item.year}`,
-          }));
-          let newData = [
-            ...graphData.map((item) => {
-              return item?.date;
-            }),
-            ...userGraphData.map((item) => {
-              return item?.date;
-            }),
-          ];
-          let setData = [...new Set(newData)];
-          // setUserGraphData(setData);
-          console.log("setData", setData);
-          setUserGraphData(userGraphData);
-          setLabels(setData);
+          let yearLabels = labels.map((label) => {
+            return `${label.split("/")[1]}/${label.split("/")[2]}`;
+          });
+          console.log("yearLabels", yearLabels);
+          setLabels(yearLabels);
+          // let graphData = earnings.map((item) => ({
+          //   count: item?.count,
+          //   date: `${item.day}/${item.month}/${item.year}`,
+          // }));
+          // setGraphData(graphData);
+          // let userGraphData = purchase.map((item) => ({
+          //   count: item?.count,
+          //   date: `${item.day}/${item.month}/${item.year}`,
+          // }));
+          // let newData = [
+          //   ...graphData.map((item) => {
+          //     return item?.date;
+          //   }),
+          //   ...userGraphData.map((item) => {
+          //     return item?.date;
+          //   }),
+          // ];
+          // let setData = [...new Set(newData)];
+          // // setUserGraphData(setData);
+          // console.log("setData", setData);
+          // const sortedDates = setData.sort((a, b) => {
+          //   const aDate = moment(a, "DD/MM/YYYY");
+          //   const bDate = moment(b, "DD/MM/YYYY");
+          //   return aDate - bDate;
+          // });
+          // console.log("SortedDates", sortedDates);
+          // const mappedData = [];
+          // const userMappedData = [];
+          // sortedDates.forEach((date) => {
+          //   const hostData = graphData.find((item) => {
+          //     return date === item?.date;
+          //   });
+          //   mappedData.push(hostData ? hostData.count : 0);
+          //   const userData = userGraphData.find((item) => {
+          //     return date === item?.date;
+          //   });
+          //   userMappedData.push(userData ? userData.count : 0);
+          // });
+          // console.log("UserMappedData: " + userMappedData);
+          // console.log("HostMappedData: " + mappedData);
+          // setUserData(userMappedData);
+          // setHostData(mappedData);
+          // // setUserGraphData(adcg);
+          // setLabels(sortedDates);
         }
 
         break;
       case "Month":
         {
-          let graphData = earnings.map((item) => ({
-            count: item?.count,
-            date: `${item.day}/${item.month}`,
-          }));
-          setGraphData(graphData);
-          let userGraphData = purchase.map((item) => ({
-            count: item?.count,
-            date: `${item.day}/${item.month}`,
-          }));
-          let newData = [
-            ...graphData.map((item) => {
-              return item?.date;
-            }),
-            ...userGraphData.map((item) => {
-              return item?.date;
-            }),
-          ];
-          let setData = [...new Set(newData)];
-          // setUserGraphData(setData);
-          setUserGraphData(userGraphData);
-          setLabels(setData);
+          // let graphData = earnings.map((item) => ({
+          //   count: item?.count,
+          //   date: `${item.day}/${item.month}`,
+          // }));
+          // setGraphData(graphData);
+          // let userGraphData = purchase.map((item) => ({
+          //   count: item?.count,
+          //   date: `${item.day}/${item.month}`,
+          // }));
+          // let newData = [
+          //   ...graphData.map((item) => {
+          //     return item?.date;
+          //   }),
+          //   ...userGraphData.map((item) => {
+          //     return item?.date;
+          //   }),
+          // ];
+          // let setData = [...new Set(newData)];
+          // const dateObjects = setData.map((dateString) => {
+          //   const [day, month, year] = dateString.split("/");
+          //   console.log(month);
+          //   return new Date(year, month - 1, day);
+          // });
+          // dateObjects.sort((a, b) => a - b);
+          // const sortedDateStrings = dateObjects.map((date) => {
+          //   const day = date.getDate();
+          //   const month = date.getMonth() + 1;
+          //   const year = date.getFullYear();
+          //   return `${day}/${month}/${year}`;
+          // });
+          // const mappedData = [];
+          // const userMappedData = [];
+          // sortedDateStrings.forEach((date) => {
+          //   const matchingItem = earnings.find((item) => {
+          //     let date1 = `${item.day}/${item.month}/${item.year}`;
+          //     return date1 === date;
+          //   });
+          //   mappedData.push(matchingItem ? matchingItem.count : 0);
+          // });
+          // sortedDateStrings.forEach((date) => {
+          //   const matchingItem = purchase.find((item) => {
+          //     let date1 = `${item.day}/${item.month}/${item.year}`;
+          //     return date1 === date;
+          //   });
+          //   userMappedData.push(matchingItem ? matchingItem.count : 0);
+          // });
+          // setUserData(userMappedData);
+          // setHostData(mappedData);
+          // console.log("UserMappedData: " + userMappedData);
+          // console.log("HostMappedData: " + mappedData);
+          // // setUserGraphData(adcg);
+          // setLabels(sortedDateStrings);
+          // // setUserGraphData(setData);
+          // setUserGraphData(userGraphData);
+          // setLabels(setData);
         }
         break;
       case "Week":
         {
-          let graphData = earnings.map((item) => ({
-            count: item?.count,
-            date: `${item.day}/${item.month}/${item.year}`,
-          }));
-          setGraphData(graphData);
-          let userGraphData = purchase.map((item) => ({
-            count: item?.count,
-            date: `${item.day}/${item.month}/${item.year}`,
-          }));
-          setUserGraphData(userGraphData);
-          console.log("UserGraph: ", graphData, " ", userGraphData);
-
-          let newData = [
-            ...graphData.map((item) => {
-              return item?.date;
-            }),
-            ...userGraphData.map((item) => {
-              return item?.date;
-            }),
-          ];
-          let setData = [...new Set(newData)];
-          console.log("Set labels: ", setData);
-          // setUserGraphData(setData);
-          setLabels(setData);
+          // let graphData = earnings.map((item) => ({
+          //   count: item?.count,
+          //   date: `${item.day}/${item.month}/${item.year}`,
+          // }));
+          // setGraphData(graphData);
+          // let userGraphData = purchase.map((item) => ({
+          //   count: item?.count,
+          //   date: `${item.day}/${item.month}/${item.year}`,
+          // }));
+          // setUserGraphData(userGraphData);
+          // console.log("UserGraph: ", graphData, " ", userGraphData);
+          // let newData = [
+          //   ...graphData.map((item) => {
+          //     return item?.date;
+          //   }),
+          //   ...userGraphData.map((item) => {
+          //     return item?.date;
+          //   }),
+          // ];
+          // let setData = [...new Set(newData)];
+          // const dateObjects = setData.map((dateString) => {
+          //   const [day, month, year] = dateString.split("/");
+          //   console.log(month);
+          //   return new Date(year, month - 1, day);
+          // });
+          // dateObjects.sort((a, b) => a - b);
+          // const sortedDateStrings = dateObjects.map((date) => {
+          //   const day = date.getDate();
+          //   const month = date.getMonth() + 1;
+          //   const year = date.getFullYear();
+          //   return `${day}/${month}/${year}`;
+          // });
+          // console.log(sortedDateStrings);
+          // const mappedData = [];
+          // const userMappedData = [];
+          // sortedDateStrings.forEach((date) => {
+          //   const matchingItem = earnings.find((item) => {
+          //     let date1 = `${item.day}/${item.month}/${item.year}`;
+          //     return date1 === date;
+          //   });
+          //   mappedData.push(matchingItem ? matchingItem.count : 0);
+          // });
+          // sortedDateStrings.forEach((date) => {
+          //   const matchingItem = purchase.find((item) => {
+          //     let date1 = `${item.day}/${item.month}/${item.year}`;
+          //     return date1 === date;
+          //   });
+          //   userMappedData.push(matchingItem ? matchingItem.count : 0);
+          // });
+          // setUserData(userMappedData);
+          // setHostData(mappedData);
+          // console.log("UserMappedData: " + userMappedData);
+          // console.log("HostMappedData: " + mappedData);
+          // // setUserGraphData(adcg);
+          // setLabels(sortedDateStrings);
+          // console.log("Set labels: ", setData);
+          // // setUserGraphData(setData);
+          // //setLabels(setData);
         }
         break;
       default: {
-        let graphData = earnings.map((item) => ({
-          count: item?.count,
-          date: `${item.day}/${item.month}/${item.year}`,
-        }));
-        setGraphData(graphData);
-        let userGraphData = purchase.map((item) => ({
-          count: item?.count,
-          date: `${item.day}/${item.month}/${item.year}`,
-        }));
-        let newData = [
-          ...graphData.map((item) => {
-            return item?.date;
-          }),
-          ...userGraphData.map((item) => {
-            return item?.date;
-          }),
-        ];
-        let setData = [new Set(newData)];
-        setUserGraphData(userGraphData);
-        setLabels(setData);
+        // let graphData = earnings.map((item) => ({
+        //   count: item?.count,
+        //   date: `${item.day}/${item.month}/${item.year}`,
+        // }));
+        // setGraphData(graphData);
+        // let userGraphData = purchase.map((item) => ({
+        //   count: item?.count,
+        //   date: `${item.day}/${item.month}/${item.year}`,
+        // }));
+        // let newData = [
+        //   ...graphData.map((item) => {
+        //     return item?.date;
+        //   }),
+        //   ...userGraphData.map((item) => {
+        //     return item?.date;
+        //   }),
+        // ];
+        // let setData = [new Set(newData)];
+        // const dateObjects = setData.map((dateString) => {
+        //   const [day, month, year] = dateString.split("/");
+        //   console.log(month);
+        //   return new Date(year, month - 1, day);
+        // });
+        // dateObjects.sort((a, b) => a - b);
+        // const sortedDateStrings = dateObjects.map((date) => {
+        //   const day = date.getDate();
+        //   const month = date.getMonth() + 1;
+        //   const year = date.getFullYear();
+        //   return `${day}/${month}/${year}`;
+        // });
+        // const mappedData = [];
+        // const userMappedData = [];
+        // sortedDateStrings.forEach((date) => {
+        //   const matchingItem = earnings.find((item) => {
+        //     let date1 = `${item.day}/${item.month}/${item.year}`;
+        //     return date1 === date;
+        //   });
+        //   mappedData.push(matchingItem ? matchingItem.count : 0);
+        // });
+        // sortedDateStrings.forEach((date) => {
+        //   const matchingItem = purchase.find((item) => {
+        //     let date1 = `${item.day}/${item.month}/${item.year}`;
+        //     return date1 === date;
+        //   });
+        //   userMappedData.push(matchingItem ? matchingItem.count : 0);
+        // });
+        // setUserData(userMappedData);
+        // setHostData(mappedData);
+        // console.log("UserMappedData: " + userMappedData);
+        // console.log("HostMappedData: " + mappedData);
+        // // setUserGraphData(adcg);
+        // setLabels(sortedDateStrings);
+        // setUserGraphData(userGraphData);
+        // // setLabels(setData);
       }
     }
-  }, [earnings, purchase, selectedValue]);
+  }, [selectedValue]);
 
   console.log("earnings", earnings);
   console.log("labels", labels);
@@ -271,20 +453,20 @@ export default function DashboardChart() {
           text="Week"
         />
       </div>
-      {graphData?.length > 0 && (
+      {hostData?.length > 0 && (
         <LineChart
           width={600}
           height={400}
           series={[
             {
-              data: graphData.map((item) => {
-                return item?.count;
+              data: hostData.map((item) => {
+                return item;
               }),
               label: "Hosts",
             },
             {
-              data: userGraphData.map((item) => {
-                return item?.count;
+              data: userData.map((item) => {
+                return item;
               }),
               label: "Users",
             },

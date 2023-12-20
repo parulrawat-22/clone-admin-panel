@@ -48,6 +48,7 @@ const Notification = () => {
               name={data?.title}
               message={data?.body}
               feedback={data?.notificationType}
+              statusType={data?.statusType}
             />
           </div>
         );

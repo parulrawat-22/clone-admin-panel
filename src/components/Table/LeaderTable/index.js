@@ -9,16 +9,19 @@ import {
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 import FormAlertPopUp from "../../FormAlertPopUp";
-import LeaderEditForm from "../../formComponents/LeaderEditForm";
+import AddLeaderForm from "../../formComponents/AddLeaderForm";
 
 const LeaderTable = ({ showLeaderList, page, perPage, getAllLeaders }) => {
   const [showHostData, setShowHostData] = useState(false);
-  const [id, setId] = useState("");
+  const [id, setId] = useState({});
+  const [data, setData] = useState();
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [showEditAlert, setShowEditAlert] = useState(false);
 
-  const handleEditAlert = () => {
+  const handleEditAlert = (id, data) => {
     setShowEditAlert(true);
+    setId(id);
+    setData(data);
   };
 
   const handleEditAlertClose = () => {
@@ -55,6 +58,11 @@ const LeaderTable = ({ showLeaderList, page, perPage, getAllLeaders }) => {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const onSubmit = () => {
+    setShowEditAlert(false);
+    getAllLeaders();
   };
 
   return (
@@ -104,7 +112,7 @@ const LeaderTable = ({ showLeaderList, page, perPage, getAllLeaders }) => {
                 </td>
                 <td className="leader__table__body">
                   <AiFillEdit
-                    onClick={() => handleEditAlert(data?._id)}
+                    onClick={() => handleEditAlert(data?._id, data)}
                     className="leader__edit__icon"
                   />
                   <AiFillDelete
@@ -123,7 +131,13 @@ const LeaderTable = ({ showLeaderList, page, perPage, getAllLeaders }) => {
         handleOpen={handleEditAlert}
         onRequestClose={handleEditAlertClose}
       >
-        <LeaderEditForm getAllLeaders={getAllLeaders} id={id} />
+        <AddLeaderForm
+          onSubmit={onSubmit}
+          edit={true}
+          data={data}
+          setData={setData}
+          id={id}
+        />
       </FormAlertPopUp>
 
       <AlertPopUp

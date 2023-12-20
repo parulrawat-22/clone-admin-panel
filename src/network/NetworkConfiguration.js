@@ -17,6 +17,7 @@ export const NetworkConfiguration = {
   DELETELEADER: "admin/adminDeletedLeader",
   EDITLEADER: "admin/updateLeaderData",
   USERREPORT: "admin/userReportsList",
+  HOSTEARNING: "admin/adminGetHostEarning",
   DELETEBUCKET: "admin/deleteCoinsData",
   HOSTREPORT: "admin/hostReportsList",
   HOSTBLOCKDETAILS: "admin/hostBlockListDetails",

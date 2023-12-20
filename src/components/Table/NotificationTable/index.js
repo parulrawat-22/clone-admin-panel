@@ -20,7 +20,7 @@ const NotificationTable = () => {
   const [showDeleteAlert, setShowDeleteAlert] = useState("");
   const [id, setId] = useState("");
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(20);
+  const [perPage, setPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState("");
   const [totalPages, setTotalPages] = useState("");
   const loader = useLoader();
@@ -35,18 +35,21 @@ const NotificationTable = () => {
   };
 
   useEffect(() => {
+    console.log("notification initiated");
     fetchNotification();
-  }, []);
+  }, [page, perPage]);
 
   const fetchNotification = () => {
     loader.showLoader(true);
-
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETNOTIFICATION, "GET")
+    fetchDataFromAPI(API_URL + NetworkConfiguration.GETNOTIFICATION, "POST", {
+      page,
+      perPage,
+    })
       .then((res) => {
         setGetNotification(res.result);
         loader.showLoader(false);
-        setTotalCount(res.totalCount);
-        setTotalPages(res.totalPages);
+        setTotalCount(res?.totalCount);
+        setTotalPages(res?.totalPages);
       })
       .catch((err) => {
         console.log(err);
@@ -103,10 +106,10 @@ const NotificationTable = () => {
                   <td className="notification__table__data">
                     {(page - 1) * perPage + index + 1}
                   </td>
+                  <td className="notification__table__data">{data?.to}</td>
                   <td className="notification__table__data">
                     {data?.notificationType}
                   </td>
-                  <td className="notification__table__data">{data?.sendTo}</td>
                   <td className="notification__table__data">{data?.title}</td>
                   <td className="notification__table__data">{data?.body}</td>
                   <td className="notification__table__data">

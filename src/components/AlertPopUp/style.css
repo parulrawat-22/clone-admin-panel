@@ -3,11 +3,14 @@
 }
 
 .alert__popup__heading {
-  font-size: 30px;
+  font-family: var(--fontfamily-sansserif);
+  font-size: var(--fontsize-large);
+  font-weight: var(--fontweight-bold);
 }
 
 .alert__popup__content {
-  font-size: 20px;
+  font-family: var(--fontfamily-sansserif);
+  font-size: var(--fontsize-regular);
 }
 
 .button {

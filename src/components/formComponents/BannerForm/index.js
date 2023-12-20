@@ -78,7 +78,6 @@ const BannerForm = ({ onSubmit, edit, id, onClickEdit, fetchBannerList }) => {
 
   const handleSingleFetch = () => {
     loader.showLoader(true);
-
     fetchDataFromAPI(
       API_URL + NetworkConfiguration.GETONEBANNER + `/${id}`,
       "GET"
@@ -98,19 +97,13 @@ const BannerForm = ({ onSubmit, edit, id, onClickEdit, fetchBannerList }) => {
   };
   const handleOnSubmit = (e) => {
     loader.showLoader(true);
-
     e.preventDefault();
     validate();
     let data = new FormData();
     data.append("name", bannerName);
     data.append("image", image);
     console.log(image);
-    axios
-      .post(baseUrl + "banner/addBannerPicture", data, {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("token"),
-        },
-      })
+    fetchDataFromAPI(API_URL + NetworkConfiguration.ADDBANNER, "POST", data)
       .then((res) => {
         loader.showLoader(false);
 
