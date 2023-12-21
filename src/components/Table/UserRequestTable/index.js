@@ -1,7 +1,7 @@
 import { BsFillEyeFill } from "react-icons/bs";
 
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AlertPopUp from "../../AlertPopUp";
 import ImagePopUpModal from "../../ImagePopUpModal";
 import moment from "moment/moment";
@@ -20,6 +20,7 @@ import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
 import FormAlertPopUp from "../../FormAlertPopUp";
 import UserRequestForm from "../../formComponents/UserRequestForm";
+import ModalProvider, { Modal } from "../../../base/Context/modalProvider";
 
 const UserTable = () => {
   let navigate = useNavigate();
@@ -40,6 +41,7 @@ const UserTable = () => {
   const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
+  const modalProvider = useContext(Modal);
 
   useEffect(() => {
     getUserRequest();
@@ -187,8 +189,38 @@ const UserTable = () => {
                         {(page - 1) * perPage + index + 1}
                       </td>
                       <td className="user__request__data">{data?._id}</td>
-                      <td className="user__request__data">{data?.name}</td>
-                      <td className="user__request__data">{data?.gender}</td>
+                      <td className="user__request__data">
+                        <div
+                          className="feedback__table__comment"
+                          onClick={
+                            data?.name.length > 12
+                              ? () =>
+                                  modalProvider.handleCommentClick(
+                                    data?.name,
+                                    "Name"
+                                  )
+                              : () => {}
+                          }
+                        >
+                          {data?.name}
+                        </div>
+                      </td>
+                      <td className="user__request__data">
+                        <div
+                          className="feedback__table__comment"
+                          onClick={
+                            data?.gender.length > 10
+                              ? () =>
+                                  modalProvider.handleCommentClick(
+                                    data?.gender,
+                                    "Gender"
+                                  )
+                              : () => {}
+                          }
+                        >
+                          {data?.gender}
+                        </div>
+                      </td>
                       <td className="user__request__data">
                         {data?.mobileNumber}
                       </td>
@@ -197,14 +229,57 @@ const UserTable = () => {
                         {data?.dateOfBirth}
                       </td>
                       <td className="user__request__data">{data?.age}</td>
-                      <td className="user__request__data">{data?.country}</td>
+                      <td className="user__request__data">
+                        <div
+                          className="feedback__table__comment"
+                          onClick={
+                            data?.country.length > 10
+                              ? () =>
+                                  modalProvider.handleCommentClick(
+                                    data?.country,
+                                    "Name"
+                                  )
+                              : () => {}
+                          }
+                        >
+                          {data?.country}
+                        </div>
+                      </td>
                       <td className="user__request__data">{data?.state}</td>
                       <td className="user__request__data">{data?.city}</td>
 
                       <td className="user__request__data">
-                        {data?.proffession}
+                        <div
+                          className="feedback__table__comment"
+                          onClick={
+                            data?.proffession.length > 12
+                              ? () =>
+                                  modalProvider.handleCommentClick(
+                                    data?.proffession,
+                                    "Profession"
+                                  )
+                              : () => {}
+                          }
+                        >
+                          {data?.proffession}
+                        </div>
                       </td>
-                      <td className="user__request__data">{data?.addBio}</td>
+                      <td className="user__request__data">
+                        <div
+                          className="feedback__table__comment"
+                          onClick={
+                            data?.addBio.length > 12
+                              ? () =>
+                                  modalProvider.handleCommentClick(
+                                    data?.addBio,
+                                    "Name"
+                                  )
+                              : () => {}
+                          }
+                        >
+                          {data?.addBio}
+                        </div>
+                      </td>
 
                       <td className="user__request__data">
                         {data?.profilePic && (

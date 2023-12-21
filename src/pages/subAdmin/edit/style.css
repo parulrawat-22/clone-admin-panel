@@ -1,0 +1,8 @@
+.edit_subadmin_bg {
+  display: flex;
+  justify-content: space-between;
+}
+
+.edit_subadmin_col {
+  width: 45%;
+}

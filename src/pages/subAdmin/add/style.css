@@ -1,0 +1,68 @@
+.add_subAdmin_row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.add_subAdmin_column {
+  width: 45%;
+}
+
+.assign_responsibilities_box {
+  border: 1px solid rgb(155, 155, 155);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center !important;
+  min-height: 45px;
+  max-height: 400px;
+  overflow: auto;
+  width: 100%;
+  background-color: var(--white-color);
+  padding: 0 5px;
+}
+
+.Allowance_div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+  padding: 10px 0;
+}
+
+.allowance_edit_delete_btns {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.allowance_edit_delete_btns span {
+  border: 1px solid #ccc;
+  width: 70px;
+  text-align: center;
+  height: 25px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-xsmall);
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.active_allow_btn {
+  border: 2px solid var(--green-color) !important;
+  background-color: #8cb93f24;
+}
+
+.remove_res_btn {
+  border: 2px solid var(--red-color) !important;
+  background-color: #ff000028;
+  border-radius: 3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 25px;
+  width: 25px;
+  cursor: pointer;
+}

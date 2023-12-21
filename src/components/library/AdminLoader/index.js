@@ -1,6 +1,5 @@
 import Lottie from "react-lottie";
 import loader from "../../../base/Animation/loader.json";
-import { forwardRef, useImperativeHandle, useState } from "react";
 
 import "./style.css";
 import { Box, Modal } from "@mui/material";

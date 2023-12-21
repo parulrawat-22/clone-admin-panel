@@ -1,0 +1,19 @@
+.select_checkbox_parent_wrapper {
+  overflow: hidden !important;
+}
+.select_checkbox_wrapper {
+  outline: none !important;
+  border: none !important;
+  display: flex;
+  justify-content: center;
+  height: 42px;
+  overflow: hidden !important;
+  width: 120%;
+}
+
+.css-11u53oe-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input {
+  height: 40px;
+  padding: 0 10px;
+  outline: transparent !important;
+  border: transparent !important;
+}

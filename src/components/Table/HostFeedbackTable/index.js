@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./style.css";
 import moment from "moment";
 
@@ -17,6 +17,7 @@ import SearchInput from "../../SearchInput";
 import Pagination from "../../Pagination";
 import noData from "../../../base/Animation/No Data Found.json";
 import Lottie from "react-lottie";
+import { Modal } from "../../../base/Context/modalProvider";
 
 const HostFeedbackTable = () => {
   const [hostFeedback, setHostFeeback] = useState([]);
@@ -34,6 +35,7 @@ const HostFeedbackTable = () => {
   const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
+  const modalProvider = useContext(Modal);
 
   const handleOnClickAlert = (img) => {
     setImg(img);
@@ -157,7 +159,18 @@ const HostFeedbackTable = () => {
                         {data.feedbackType}
                       </td>
                       <td className="host__feedback__table__data">
-                        <div className="host__feedback__comment">
+                        <div
+                          className="feedback__table__comment"
+                          onClick={
+                            data?.comment.length > 12
+                              ? () =>
+                                  modalProvider.handleCommentClick(
+                                    data?.comment,
+                                    "Description"
+                                  )
+                              : () => {}
+                          }
+                        >
                           {data.comment}
                         </div>
                       </td>

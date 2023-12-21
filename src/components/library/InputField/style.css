@@ -1,13 +1,9 @@
-.input__field__container {
-  position: relative;
-  height: 35px;
-}
+/* .input__field__container {
+  /* position: relative; */
+/* height: 35px; */
+/* }  */
 
 .input__field__label {
-  position: absolute;
-  bottom: 0.5rem;
-  z-index: 1;
-  transition: all 0.2s ease-in-out;
   font-family: var(--fontfamily-sansserif);
 }
 

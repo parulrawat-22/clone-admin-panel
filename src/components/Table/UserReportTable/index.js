@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./style.css";
 import {
   API_URL,
@@ -13,6 +13,7 @@ import SearchInput from "../../SearchInput";
 import Pagination from "../../Pagination";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
+import ModalProvider, { Modal } from "../../../base/Context/modalProvider";
 
 const UserReportTable = () => {
   const { id } = useParams();
@@ -24,6 +25,7 @@ const UserReportTable = () => {
   const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
+  const modalProvider = useContext(Modal);
 
   useEffect(() => {
     getUserReport();
@@ -96,7 +98,20 @@ const UserReportTable = () => {
                             {data?.userId?._id}
                           </td>
                           <td className="user__report__data">
-                            {data?.userId?.name}
+                            <div
+                              className="feedback__table__comment"
+                              onClick={
+                                data?.userId?.name.length > 12
+                                  ? () =>
+                                      modalProvider.handleCommentClick(
+                                        data?.userId?.name,
+                                        "Name"
+                                      )
+                                  : () => {}
+                              }
+                            >
+                              {data?.userId?.name}
+                            </div>
                           </td>
                         </>
                       )}

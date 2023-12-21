@@ -1,0 +1,8 @@
+.add__subadmin__container {
+  width: 100%;
+  height: 70%;
+  background-color: var(--color-lightpink);
+  padding: 5rem 0 0 5rem;
+  margin-top: 1rem;
+  border-radius: 10px;
+}

@@ -117,6 +117,12 @@ const sidebarData = [
   },
 
   {
+    label: "Sub-Admin",
+    link: "/subAdmin",
+    icon: feedback,
+  },
+
+  {
     label: "Notification",
     link: "/notification",
     icon: notification,

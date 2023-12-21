@@ -36,6 +36,10 @@ import EditProfile from "../pages/EditProfile";
 import Earnings from "../pages/Earnings";
 import SendNotification from "../pages/SendNotification";
 import Interest from "../pages/Interest";
+import SubAdminList from "../pages/subAdmin/list";
+import AddSubAdmin from "../pages/subAdmin/add";
+import EditSubAdmin from "../pages/subAdmin/edit";
+// import SubAdmin from "../pages/SubAdmin";
 
 // import Coin from "../pages/Coin";
 
@@ -61,7 +65,6 @@ const Router = () => {
         <Route path="/bucket" element={<Bucket />} />
         <Route path="/report" element={<Report />} />
         <Route path="/allusers" element={<UserRequest />} />
-
         <Route
           path="/userfollowing"
           element={
@@ -139,7 +142,6 @@ const Router = () => {
             </Layout>
           }
         />
-
         <Route
           path="/earnings"
           element={
@@ -156,12 +158,35 @@ const Router = () => {
             </Layout>
           }
         ></Route>
-
         <Route
           path="/interest"
           element={
             <Layout>
               <Interest />
+            </Layout>
+          }
+        ></Route>
+        <Route
+          path="/addSubAdmin"
+          element={
+            <Layout>
+              <AddSubAdmin />
+            </Layout>
+          }
+        ></Route>
+        <Route
+          path="/subAdmin"
+          element={
+            <Layout>
+              <SubAdminList />
+            </Layout>
+          }
+        ></Route>
+        <Route
+          path="/editSubAdmin"
+          element={
+            <Layout>
+              <EditSubAdmin />
             </Layout>
           }
         ></Route>

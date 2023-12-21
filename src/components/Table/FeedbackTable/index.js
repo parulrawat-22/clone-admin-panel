@@ -1,6 +1,6 @@
 // import { BsFillEyeFill } from "react-icons/bs";
 import "./style.css";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import moment from "moment";
 import AlertPopUp from "../../AlertPopUp";
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
@@ -17,7 +17,7 @@ import SearchInput from "../../SearchInput";
 import Pagination from "../../Pagination";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
-import WebModal from "../../WebModal";
+import { Modal } from "../../../base/Context/modalProvider";
 
 const FeedbackUserTable = () => {
   const { id } = useParams();
@@ -28,13 +28,13 @@ const FeedbackUserTable = () => {
   const [img, setImg] = useState("");
   const [getId, setGetId] = useState("");
   const [replyFeedback, setReplyFeedback] = useState("");
-  const [showComment, setShowComment] = useState(false);
+
   const [value, setValue] = useState("");
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState("");
   const [totalPages, setTotalPages] = useState("");
-  const [comment, setComment] = useState("");
+  const modalProvider = useContext(Modal);
 
   const loader = useLoader();
 
@@ -111,15 +111,6 @@ const FeedbackUserTable = () => {
     setValue(e.target.value);
   };
 
-  const handleCommentClick = (e) => {
-    setComment(e);
-    setShowComment(true);
-  };
-
-  const handleCommentClickClose = () => {
-    setShowComment(false);
-  };
-
   return (
     <div className="feedback__container">
       <div className="banner__search__btn">
@@ -160,8 +151,20 @@ const FeedbackUserTable = () => {
                         <>
                           <td className="feedback__table__data">{data?._id}</td>
                           <td className="feedback__table__data">
-                            {" "}
-                            {data?.userId?.name}
+                            <div
+                              className="feedback__table__comment"
+                              onClick={
+                                data?.userId?.name.length > 15
+                                  ? () =>
+                                      modalProvider.handleCommentClick(
+                                        data?.userId?.name,
+                                        "User Name"
+                                      )
+                                  : () => {}
+                              }
+                            >
+                              {data?.userId?.name}
+                            </div>
                           </td>
                         </>
                       )}
@@ -171,7 +174,15 @@ const FeedbackUserTable = () => {
                       <td className="feedback__table__data">
                         <div
                           className="feedback__table__comment"
-                          onClick={() => handleCommentClick(data?.comment)}
+                          onClick={
+                            data?.comment.length > 12
+                              ? () =>
+                                  modalProvider.handleCommentClick(
+                                    data?.comment,
+                                    "Description"
+                                  )
+                              : () => {}
+                          }
                         >
                           {data?.comment}
                         </div>
@@ -210,13 +221,6 @@ const FeedbackUserTable = () => {
           </tbody>
         </table>
       </div>
-
-      <WebModal
-        open={showComment}
-        onRequestClose={handleCommentClickClose}
-        heading="Description"
-        children={comment}
-      ></WebModal>
 
       {feedback.length > 0 ? (
         <Pagination

@@ -1,7 +1,7 @@
 import { BsFillEyeFill } from "react-icons/bs";
 import "./style.css";
 import { AiFillEdit, AiTwotoneDelete } from "react-icons/ai";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AlertPopUp from "../../AlertPopUp";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
@@ -18,6 +18,8 @@ import { FiSearch } from "react-icons/fi";
 import Pagination from "../../Pagination";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
+import { Modal } from "../../../base/Context/modalProvider";
+// import { Modal } from "@mui/material";
 
 const MomentTable = () => {
   let navigate = useNavigate();
@@ -35,6 +37,7 @@ const MomentTable = () => {
   const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
+  const modalProvider = useContext(Modal);
 
   const handleImageAlert = (img) => {
     setShowImageAlert(true);
@@ -152,19 +155,34 @@ const MomentTable = () => {
                       </td>
                       {!id && (
                         <td className="moment__table__body">
-                          {data?.userId?.name}
+                          <div
+                            className="feedback__table__comment"
+                            onClick={
+                              data?.userId?.name.length > 12
+                                ? () =>
+                                    modalProvider.handleCommentClick(
+                                      data?.userId?.name,
+                                      "Name"
+                                    )
+                                : () => {}
+                            }
+                          >
+                            {data?.userId?.name}
+                          </div>
                         </td>
                       )}
                       <td className="moment__table__body">{data?.subject}</td>
                       <td className="moment__table__body">{data?.likes}</td>
 
                       <td className="moment__table__body">
-                        <BsFillEyeFill
-                          onClick={() => {
-                            handleImageAlert(data?.postImage);
-                          }}
-                          className="moment__table__body__eye_icon"
-                        />
+                        {data?.postImage && (
+                          <BsFillEyeFill
+                            onClick={() => {
+                              handleImageAlert(data?.postImage);
+                            }}
+                            className="moment__table__body__eye_icon"
+                          />
+                        )}
                       </td>
                       <td className="moment__table__body">
                         {moment(data?.postDate).format("DD/MM/YYYY LT")}

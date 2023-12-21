@@ -1,6 +1,10 @@
+import { useContext } from "react";
+import ModalProvider, { Modal } from "../../../base/Context/modalProvider";
 import "./style.css";
 
 const TopTalentTable = ({ tableData, isHost, page, perPage }) => {
+  const modalProvider = useContext(Modal);
+
   return (
     <div className="top__talent__container">
       <table className="top__talent__table">
@@ -29,31 +33,44 @@ const TopTalentTable = ({ tableData, isHost, page, perPage }) => {
                     {(page - 1) * perPage + index + 1}
                   </td>
                   <td className="top__talent__data">
-                    {data?._id ? data?._id : ""}
+                    {data?._id ? data?._id : "-"}
                   </td>
                   <td className="top__talent__data">
-                    {data?.name ? data?.name : ""}
+                    <div
+                      className="feedback__table__comment"
+                      onClick={
+                        data?.name.length > 12
+                          ? () =>
+                              modalProvider.handleCommentClick(
+                                data?.name,
+                                "Name"
+                              )
+                          : () => {}
+                      }
+                    >
+                      {data?.name ? data?.name : "-"}
+                    </div>
                   </td>
                   <td className="top__talent__data">
-                    {data?.stickerCoins ? data?.stickerCoins : ""}
+                    {data?.stickerCoins ? data?.stickerCoins : "-"}
                   </td>
                   <td className="top__talent__data">
-                    {data?.giftCoins ? data?.giftCoins : ""}
+                    {data?.giftCoins ? data?.giftCoins : "-"}
                   </td>
                   <td className="top__talent__data">
-                    {data?.videoCoins ? data?.videoCoins : ""}
+                    {data?.videoCoins ? data?.videoCoins : "-"}
                   </td>
                   <td className="top__talent__data">
-                    {data?.audioCoins ? data?.audioCoins : ""}
+                    {data?.audioCoins ? data?.audioCoins : "-"}
                   </td>
                   {isHost === false && (
                     <td className="top__talent__data">
-                      {data?.total_coins ? data?.spentCoins : ""}
+                      {data?.total_coins ? data?.spentCoins : "-"}
                     </td>
                   )}
                   {isHost === true && (
                     <td className="top__talent__data">
-                      {data?.host_balance ? data?.host_balance : ""}
+                      {data?.host_balance ? data?.host_balance : "-"}
                     </td>
                   )}
                 </tr>

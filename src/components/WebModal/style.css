@@ -23,6 +23,7 @@
   font-family: var(--fontfamily-sansserif);
   font-weight: var(--fontweight-medium);
   text-align: center;
+  padding: 0.2rem 0.5rem;
 }
 
 .web__modal__content {
@@ -31,4 +32,6 @@
   border-radius: 10px;
   font-weight: var(--fontweight-regular);
   font-family: var(--fontfamily-sansserif);
+  max-width: 25rem;
+  overflow-wrap: break-word;
 }

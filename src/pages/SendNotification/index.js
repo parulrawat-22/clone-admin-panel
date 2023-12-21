@@ -25,8 +25,8 @@ const SendNotification = () => {
       value: "",
     },
   ]);
-  const [users, setUsers] = useState("");
-  const [hosts, setHosts] = useState("");
+  // const [users, setUsers] = useState("");
+  // const [hosts, setHosts] = useState("");
 
   const handleSelectChange = (e) => {
     setSelectWho(e.target.value);

@@ -1,8 +1,6 @@
-import axios from "axios";
 import Button from "../../library/Button";
 import InputField from "../../library/InputField";
 import "./style.css";
-import baseUrl from "../../../baseUrl";
 import { useEffect, useState } from "react";
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
 import {
@@ -17,7 +15,7 @@ const BannerForm = ({ onSubmit, edit, id, onClickEdit, fetchBannerList }) => {
   const [image, setImage] = useState("");
   const [preview, setPreview] = useState("");
 
-  console.log("id", id);
+  // console.log("id", id);
 
   const [error, setError] = useState({
     name: "",
@@ -96,6 +94,7 @@ const BannerForm = ({ onSubmit, edit, id, onClickEdit, fetchBannerList }) => {
       });
   };
   const handleOnSubmit = (e) => {
+    console.log("onSubmit banner");
     loader.showLoader(true);
     e.preventDefault();
     validate();
@@ -103,10 +102,11 @@ const BannerForm = ({ onSubmit, edit, id, onClickEdit, fetchBannerList }) => {
     data.append("name", bannerName);
     data.append("image", image);
     console.log(image);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.ADDBANNER, "POST", data)
+    fetchDataFromAPI(API_URL + NetworkConfiguration.ADDBANNER, "POST", data, {
+      "Content-Type": "multipart/form-data",
+    })
       .then((res) => {
         loader.showLoader(false);
-
         setBannerName("");
         setImage(null);
         onSubmit();
@@ -114,7 +114,6 @@ const BannerForm = ({ onSubmit, edit, id, onClickEdit, fetchBannerList }) => {
       })
       .catch((err) => {
         loader.showLoader(false);
-
         console.log(err);
         errorToast(err.response.data.message);
       });
