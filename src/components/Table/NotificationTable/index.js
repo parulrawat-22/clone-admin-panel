@@ -14,6 +14,7 @@ import SearchInput from "../../SearchInput";
 import Lottie from "react-lottie";
 import Pagination from "../../Pagination";
 import noData from "../../../base/Animation/No Data Found.json";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const NotificationTable = () => {
   const [getNotification, setGetNotification] = useState([]);
@@ -24,6 +25,7 @@ const NotificationTable = () => {
   const [totalCount, setTotalCount] = useState("");
   const [totalPages, setTotalPages] = useState("");
   const loader = useLoader();
+  const apiProvider = useApi();
 
   const handleDeleteNotification = (id) => {
     setShowDeleteAlert(true);
@@ -36,15 +38,19 @@ const NotificationTable = () => {
 
   useEffect(() => {
     console.log("notification initiated");
-    fetchNotification();
+    fetchNotification(apiProvider);
   }, [page, perPage]);
 
-  const fetchNotification = () => {
+  const fetchNotification = (apiProvider) => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETNOTIFICATION, "POST", {
-      page,
-      perPage,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.GETNOTIFICATION,
+      "POST",
+      {
+        page,
+        perPage,
+      }
+    )
       .then((res) => {
         setGetNotification(res.result);
         loader.showLoader(false);
@@ -57,11 +63,11 @@ const NotificationTable = () => {
       });
   };
 
-  const handleNotification = () => {
+  const handleNotification = (apiProvider) => {
     loader.showLoader(true);
 
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.DELETENOTIFICATION + `/${id}`,
+      apiProvider?.apiUrl + NetworkConfiguration.DELETENOTIFICATION + `/${id}`,
       "DELETE"
     )
       .then((res) => {

@@ -19,6 +19,7 @@ import Pagination from "../../Pagination";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
 import { Modal } from "../../../base/Context/modalProvider";
+import { useApi } from "../../../base/Context/apiProvider";
 // import { Modal } from "@mui/material";
 
 const MomentTable = () => {
@@ -35,6 +36,7 @@ const MomentTable = () => {
   const [perPage, setPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState("");
   const [totalPages, setTotalPages] = useState("");
+  const apiProvider = useApi();
 
   const loader = useLoader();
   const modalProvider = useContext(Modal);
@@ -68,7 +70,7 @@ const MomentTable = () => {
   const fetchUserMoment = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.GETUSERMOMENT,
+      apiProvider?.apiUrl + NetworkConfiguration.GETUSERMOMENT,
       "POST",
       id
         ? { userId: id }
@@ -99,7 +101,9 @@ const MomentTable = () => {
     loader.showLoader(true);
 
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.DELETEUSERMOMENT + `/${momentId}`,
+      apiProvider?.apiUrl +
+        NetworkConfiguration.DELETEUSERMOMENT +
+        `/${momentId}`,
       "DELETE"
     )
       .then((res) => {

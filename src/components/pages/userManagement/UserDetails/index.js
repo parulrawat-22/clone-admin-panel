@@ -1,25 +1,26 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./style.css";
 import { fetchDataFromAPI } from "../../../../network/NetworkConnection";
-import {
-  API_URL,
-  NetworkConfiguration,
-} from "../../../../network/NetworkConfiguration";
+import { NetworkConfiguration } from "../../../../network/NetworkConfiguration";
+import { useApi } from "../../../../base/Context/apiProvider";
+import { Modal } from "../../../../base/Context/modalProvider";
 
 const UserDetails = ({ id }) => {
-  const [getOneUserDetail, setGetOneUserDetail] = useState("");
+  const [getOneUserDetail, setGetOneUserDetail] = useState({});
+  const apiProvider = useApi();
+  const modalProvider = useContext(Modal);
 
   useEffect(() => {
     getUserDetail();
-  }, []);
+  }, [apiProvider?.apiUrl]);
 
   const getUserDetail = () => {
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.FINDONEUSER + `/${id}`,
+      apiProvider?.apiUrl + NetworkConfiguration.FINDONEUSER + `/${id}`,
       "GET"
     )
       .then((res) => {
-        setGetOneUserDetail(res.getOneUser);
+        setGetOneUserDetail(res?.getOneUser);
       })
       .catch((err) => {
         console.log(err);
@@ -42,7 +43,23 @@ const UserDetails = ({ id }) => {
                 <div className="user__details__table">
                   <div className="user__table__data">
                     <th>Name</th>
-                    <td>{getOneUserDetail?.name}</td>
+                    <td>
+                      {" "}
+                      <div
+                        className="feedback__table__comment"
+                        onClick={
+                          getOneUserDetail?.name?.length > 12
+                            ? () =>
+                                modalProvider.handleCommentClick(
+                                  getOneUserDetail?.name,
+                                  "Name"
+                                )
+                            : () => {}
+                        }
+                      >
+                        {getOneUserDetail?.name}
+                      </div>
+                    </td>
                   </div>
                   <div className="user__table__data">
                     <th>Date Of Birth</th>
@@ -50,7 +67,22 @@ const UserDetails = ({ id }) => {
                   </div>
                   <div className="user__table__data">
                     <th>Gender</th>
-                    <td>{getOneUserDetail?.gender}</td>
+                    <td>
+                      <div
+                        className="feedback__table__comment"
+                        onClick={
+                          getOneUserDetail?.gender?.length > 12
+                            ? () =>
+                                modalProvider.handleCommentClick(
+                                  getOneUserDetail?.gender,
+                                  "Gender"
+                                )
+                            : () => {}
+                        }
+                      >
+                        {getOneUserDetail?.gender}
+                      </div>
+                    </td>
                   </div>
                   <div className="user__table__data">
                     <th>Mobile Number</th>
@@ -58,7 +90,22 @@ const UserDetails = ({ id }) => {
                   </div>
                   <div className="user__table__data">
                     <th>Email</th>
-                    <td>{getOneUserDetail?.email}</td>
+                    <td>
+                      <div
+                        className="feedback__table__comment"
+                        onClick={
+                          getOneUserDetail?.email?.length > 12
+                            ? () =>
+                                modalProvider.handleCommentClick(
+                                  getOneUserDetail?.email,
+                                  "Email"
+                                )
+                            : () => {}
+                        }
+                      >
+                        {getOneUserDetail?.email}
+                      </div>
+                    </td>
                   </div>
                   <div className="user__table__data">
                     <th>Pin Code</th>
@@ -66,7 +113,22 @@ const UserDetails = ({ id }) => {
                   </div>
                   <div className="user__table__data">
                     <th>Country</th>
-                    <td>{getOneUserDetail?.country}</td>
+                    <td>
+                      <div
+                        className="feedback__table__comment"
+                        onClick={
+                          getOneUserDetail?.country?.length > 12
+                            ? () =>
+                                modalProvider.handleCommentClick(
+                                  getOneUserDetail?.country,
+                                  "Name"
+                                )
+                            : () => {}
+                        }
+                      >
+                        {getOneUserDetail?.country}
+                      </div>
+                    </td>
                   </div>
                   <div className="user__table__data">
                     <th>State</th>

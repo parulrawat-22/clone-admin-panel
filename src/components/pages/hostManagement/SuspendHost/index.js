@@ -8,20 +8,26 @@ import {
   NetworkConfiguration,
 } from "../../../../network/NetworkConfiguration";
 import { useNavigate, useParams } from "react-router-dom";
+import { useApi } from "../../../../base/Context/apiProvider";
 
 const SuspendHost = () => {
   let navigate = useNavigate();
   const [endDate, setEndDate] = useState();
   // const [reason, setReason] = useState();
   const { id } = useParams();
+  const apiProvider = useApi();
 
   const handleSuspendedHost = () => {
     console.log("jffjhjkknbj");
-    fetchDataFromAPI(API_URL + NetworkConfiguration.POSTSUSPENDEDHOST, "POST", {
-      id: id,
-      suspensionEndDate: endDate,
-      // suspendedResion: reason,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.POSTSUSPENDEDHOST,
+      "POST",
+      {
+        id: id,
+        suspensionEndDate: endDate,
+        // suspendedResion: reason,
+      }
+    )
       .then((res) => {
         navigate(`/suspendusers/?type=host&id=${id}`);
         console.log("122344", res);

@@ -8,19 +8,24 @@ import InputField from "../../library/InputField";
 import "./style.css";
 import { useEffect, useState } from "react";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const RandomCallCharge = ({ onSubmit }) => {
   const [randomCallCharge, setRandomCallCharge] = useState("");
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   useEffect(() => {
     handleSetRandomCallCharge();
-  }, []);
+  }, [apiProvider?.apiUrl]);
 
   const handleSetRandomCallCharge = () => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.RANDOMCALLCHARGE, "GET")
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.RANDOMCALLCHARGE,
+      "GET"
+    )
       .then((res) => {
         loader.showLoader(false);
         console.log(res);
@@ -33,9 +38,13 @@ const RandomCallCharge = ({ onSubmit }) => {
   };
 
   const handleEditChargeCoin = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.UPDATERANDOMCOINS, "PUT", {
-      randomCallCoins: randomCallCharge,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.UPDATERANDOMCOINS,
+      "PUT",
+      {
+        randomCallCoins: randomCallCharge,
+      }
+    )
       .then((res) => {
         onSubmit();
         console.log(res);

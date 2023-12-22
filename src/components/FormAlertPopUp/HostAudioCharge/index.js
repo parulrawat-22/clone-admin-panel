@@ -8,19 +8,21 @@ import { fetchDataFromAPI } from "../../../network/NetworkConnection";
 import Button from "../../library/Button";
 import InputField from "../../library/InputField";
 import "./style.css";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const HostAudioCharge = ({ id, getAcceptedHost, setShowAudioAlert }) => {
   const [audioCallFees, setAudioCallFees] = useState("");
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   useEffect(() => {
     fetchHostAudioCharge();
-  }, []);
+  }, [apiProvider?.apiUrl]);
 
   const fetchHostAudioCharge = () => {
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.GETHOSTAUDIOCHARGE + `/${id}`,
+      apiProvider?.apiUrl + NetworkConfiguration.GETHOSTAUDIOCHARGE + `/${id}`,
       "GET"
     )
       .then((res) => {
@@ -35,7 +37,7 @@ const HostAudioCharge = ({ id, getAcceptedHost, setShowAudioAlert }) => {
   const handleAudioCharges = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.UPDATEAUDIOCALLCHARGE,
+      apiProvider?.apiUrl + NetworkConfiguration.UPDATEAUDIOCALLCHARGE,
       "PUT",
       {
         id: id,

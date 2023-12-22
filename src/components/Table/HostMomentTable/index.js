@@ -16,6 +16,7 @@ import SearchInput from "../../SearchInput";
 import Pagination from "../../Pagination";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const HostMomentTable = () => {
   const [getHostMoment, setGetHostMoment] = useState([]);
@@ -31,9 +32,10 @@ const HostMomentTable = () => {
   const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   useEffect(() => {
-    fetchHostMoment();
+    fetchHostMoment(apiProvider);
   }, [value, page, perPage]);
 
   const handleDeleteMoment = (id) => {
@@ -54,10 +56,10 @@ const HostMomentTable = () => {
     setShowImageAlert(false);
   };
 
-  const handleMomentDelete = () => {
+  const handleMomentDelete = (apiProvider) => {
     loader.showLoader(true);
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.DELETEHOSTMOMENT + `/${getId}`,
+      apiProvider?.apiUrl + NetworkConfiguration.DELETEHOSTMOMENT + `/${getId}`,
       "DELETE"
     )
       .then((res) => {
@@ -72,10 +74,10 @@ const HostMomentTable = () => {
       });
   };
 
-  const fetchHostMoment = () => {
+  const fetchHostMoment = (apiProvider) => {
     loader.showLoader(true);
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.HOSTMOMENT,
+      apiProvider?.apiUrl + NetworkConfiguration.HOSTMOMENT,
       "POST",
       id
         ? { hostId: id }

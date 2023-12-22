@@ -37,6 +37,8 @@ export default function ResponsibilitiesDropdown({
     return item.name;
   });
 
+  console.log("responsibilities", responsibilities);
+
   return (
     <>
       <div className="input_parent_div ">

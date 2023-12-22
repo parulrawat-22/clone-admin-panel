@@ -9,6 +9,7 @@ import {
 } from "../../../network/NetworkConfiguration";
 import { errorToast, successToast } from "../../../utils/toast";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const StickerForm = ({ onSubmit, edit, editedSticker, onClickEdit, id }) => {
   const [stickerName, setStickerName] = useState("");
@@ -22,10 +23,11 @@ const StickerForm = ({ onSubmit, edit, editedSticker, onClickEdit, id }) => {
   });
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   useEffect(() => {
     if (edit && editedSticker) {
-      setStickerData(editedSticker?.name, editedSticker?.price);
+      setStickerData(editedSticker?.name, editedSticker?.price, apiProvider);
     }
   }, [edit]);
 
@@ -65,11 +67,11 @@ const StickerForm = ({ onSubmit, edit, editedSticker, onClickEdit, id }) => {
     return result;
   };
 
-  const handleEditForm = () => {
+  const handleEditForm = (apiProvider) => {
     loader.showLoader(true);
 
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.UPDATESTICKER + `/${id}`,
+      apiProvider?.apiUrl + NetworkConfiguration.UPDATESTICKER + `/${id}`,
       "PUT",
       {
         name: stickerName,
@@ -90,7 +92,7 @@ const StickerForm = ({ onSubmit, edit, editedSticker, onClickEdit, id }) => {
       });
   };
 
-  const handleStickerForm = () => {
+  const handleStickerForm = (apiProvider) => {
     if (validate()) {
       loader.showLoader(true);
 
@@ -100,7 +102,7 @@ const StickerForm = ({ onSubmit, edit, editedSticker, onClickEdit, id }) => {
       data.append("image", stickerImage);
       console.log(stickerImage, "12345");
       fetchDataFromAPI(
-        API_URL + NetworkConfiguration.ADDSTICKER,
+        apiProvider?.apiUrl + NetworkConfiguration.ADDSTICKER,
         "POST",
         data,
         {

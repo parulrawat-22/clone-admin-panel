@@ -11,6 +11,7 @@ import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import ImagePopUpModal from "../ImagePopUpModal";
 import { useLoader } from "../../base/Context/loaderProvider";
+import { useApi } from "../../base/Context/apiProvider";
 
 const style = {
   position: "absolute",
@@ -35,6 +36,7 @@ const TablePopUp = ({ open, handleClose, id }) => {
   const [img, setImg] = useState("");
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   const handleEyeProfilePicPopUp = (img) => {
     setShowImage(true);
@@ -47,13 +49,13 @@ const TablePopUp = ({ open, handleClose, id }) => {
 
   useEffect(() => {
     handleHostList(id);
-  }, [id]);
+  }, [id, apiProvider?.apiUrl]);
 
   const handleHostList = (id) => {
     loader.showLoader(true);
 
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.GETLEADERHOSTS + `/${id}`,
+      apiProvider?.apiUrl + NetworkConfiguration.GETLEADERHOSTS + `/${id}`,
       "GET"
     )
       .then((res) => {

@@ -9,6 +9,7 @@ import {
   NetworkConfiguration,
 } from "../../network/NetworkConfiguration";
 import { useNavigate } from "react-router-dom";
+import { useApi } from "../../base/Context/apiProvider";
 
 const SendNotification = () => {
   let navigate = useNavigate();
@@ -27,7 +28,7 @@ const SendNotification = () => {
   ]);
   // const [users, setUsers] = useState("");
   // const [hosts, setHosts] = useState("");
-
+  const apiProvider = useApi();
   const handleSelectChange = (e) => {
     setSelectWho(e.target.value);
   };
@@ -48,7 +49,11 @@ const SendNotification = () => {
   }, [selectParticularPerson]);
 
   const getUserRequest = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETUSERS, "POST", {})
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.GETUSERS,
+      "POST",
+      {}
+    )
       .then((res) => {
         console.log("12345678o", res);
         let mapped = res.result.map((result) => {
@@ -63,7 +68,11 @@ const SendNotification = () => {
   };
 
   const getAcceptedHost = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.ACCEPTEDHOST, "POST", {})
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.ACCEPTEDHOST,
+      "POST",
+      {}
+    )
       .then((res) => {
         let mappedData = res.result.map((result) => {
           return { name: result.name, value: result._id };
@@ -114,11 +123,15 @@ const SendNotification = () => {
   ];
 
   const handleSendNotification = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.SENDTOALL, "POST", {
-      title,
-      body,
-      to: selectWho,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.SENDTOALL,
+      "POST",
+      {
+        title,
+        body,
+        to: selectWho,
+      }
+    )
       .then((res) => {
         navigate("/notification");
         console.log(res);
@@ -138,13 +151,17 @@ const SendNotification = () => {
   };
 
   const handleMultipleNotification = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.SENDTOFEW, "POST", {
-      title1,
-      body1,
-      users: selectParticularPerson,
-      hosts: selectParticularPerson,
-      Both: selectParticularPerson,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.SENDTOFEW,
+      "POST",
+      {
+        title1,
+        body1,
+        users: selectParticularPerson,
+        hosts: selectParticularPerson,
+        Both: selectParticularPerson,
+      }
+    )
       .then((res) => {
         navigate("/notification");
         console.log(res);

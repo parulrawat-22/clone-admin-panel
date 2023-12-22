@@ -13,6 +13,7 @@ import Pagination from "../../components/Pagination";
 import Lottie from "react-lottie";
 import { useLoader } from "../../base/Context/loaderProvider";
 import noData from "../../base/Animation/No Data Found.json";
+import { useApi } from "../../base/Context/apiProvider";
 
 const TopGrowing = () => {
   const [getSetValue, setGetSetValue] = useState();
@@ -23,14 +24,19 @@ const TopGrowing = () => {
   const [totalCount, setTotalCount] = useState("");
   const [totalPages, setTotalPages] = useState("");
   const loader = useLoader();
+  const apiProvider = useApi();
 
   useEffect(() => {
     switch (getSetValue) {
       case "Weekly Talent": {
-        fetchDataFromAPI(API_URL + NetworkConfiguration.WEEKLYTALENT, "POST", {
-          page,
-          perPage,
-        })
+        fetchDataFromAPI(
+          apiProvider?.apiUrl + NetworkConfiguration.WEEKLYTALENT,
+          "POST",
+          {
+            page,
+            perPage,
+          }
+        )
           .then((res) => {
             setTableData(res.result);
             setTotalCount(res?.totalCount);
@@ -44,10 +50,14 @@ const TopGrowing = () => {
       }
 
       case "Top Star": {
-        fetchDataFromAPI(API_URL + NetworkConfiguration.TOPSTAR, "POST", {
-          page,
-          perPage,
-        })
+        fetchDataFromAPI(
+          apiProvider?.apiUrl + NetworkConfiguration.TOPSTAR,
+          "POST",
+          {
+            page,
+            perPage,
+          }
+        )
           .then((res) => {
             setTableData(res.hostUsers);
             setTotalCount(res.totalCount);
@@ -61,10 +71,14 @@ const TopGrowing = () => {
       }
 
       case "Weekly Star": {
-        fetchDataFromAPI(API_URL + NetworkConfiguration.WEEKLYSTAR, "POST", {
-          page,
-          perPage,
-        })
+        fetchDataFromAPI(
+          apiProvider?.apiUrl + NetworkConfiguration.WEEKLYSTAR,
+          "POST",
+          {
+            page,
+            perPage,
+          }
+        )
           .then((res) => {
             setTableData(res.hostUsers);
             setTotalCount(res.totalCount);
@@ -78,10 +92,14 @@ const TopGrowing = () => {
       }
 
       case "New Star": {
-        fetchDataFromAPI(API_URL + NetworkConfiguration.NEWSTAR, "POST", {
-          page,
-          perPage,
-        })
+        fetchDataFromAPI(
+          apiProvider?.apiUrl + NetworkConfiguration.NEWSTAR,
+          "POST",
+          {
+            page,
+            perPage,
+          }
+        )
           .then((res) => {
             setTableData(res.result);
             setTotalCount(res.totalCount);
@@ -95,10 +113,14 @@ const TopGrowing = () => {
       }
 
       default: {
-        fetchDataFromAPI(API_URL + NetworkConfiguration.GETTOPTALENT, "POST", {
-          page,
-          perPage,
-        })
+        fetchDataFromAPI(
+          apiProvider?.apiUrl + NetworkConfiguration.GETTOPTALENT,
+          "POST",
+          {
+            page,
+            perPage,
+          }
+        )
           .then((res) => {
             setTableData(res.result);
             setIsHost(false);

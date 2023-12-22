@@ -8,19 +8,24 @@ import Button from "../../library/Button";
 import InputField from "../../library/InputField";
 import "./style.css";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const Helpline = ({ helplineNumber, onSubmit }) => {
   const [mobileNumber, setMobileNumber] = useState("");
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   useEffect(() => {
     fetchHelplineNumber();
-  }, []);
+  }, [apiProvider?.apiUrl]);
 
   const fetchHelplineNumber = () => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETHELPLINENUMBER, "GET")
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.GETHELPLINENUMBER,
+      "GET"
+    )
       .then((res) => {
         loader.showLoader(false);
         setMobileNumber(res.result);
@@ -33,9 +38,13 @@ const Helpline = ({ helplineNumber, onSubmit }) => {
 
   const handleCreateHelpline = () => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.UPDATEHELPLINE, "PUT", {
-      mobileNumber: mobileNumber,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.UPDATEHELPLINE,
+      "PUT",
+      {
+        mobileNumber: mobileNumber,
+      }
+    )
       .then((res) => {
         loader.showLoader(false);
         onSubmit();

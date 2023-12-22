@@ -11,6 +11,7 @@ import {
 } from "../../../network/NetworkConfiguration";
 import ResponsibilitiesPopup from "../../../pages/subAdmin/responsibilitiesPopup";
 import AlertPopUp from "../../AlertPopUp";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const SubAdminTable = () => {
   let navigate = useNavigate();
@@ -26,13 +27,18 @@ const SubAdminTable = () => {
   const [showDeleteAlert, setShowDeleteAlert] = useState("");
   const [searchParams, setSearchParams] = useState("");
   const [subAdminId, setSubAdminId] = useState("");
+  const apiProvider = useApi();
 
   const handleSubAdmins = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.SUBADMINLIST, "POST", {
-      key: value,
-      page,
-      perPage,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.SUBADMINLIST,
+      "POST",
+      {
+        key: value,
+        page,
+        perPage,
+      }
+    )
       .then((res) => {
         console.log(res);
         setSubAdminList(res?.result);
@@ -68,7 +74,9 @@ const SubAdminTable = () => {
 
   const handleDelete = () => {
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.DELETESUBADMIN + `/${subAdminId}`,
+      apiProvider?.apiUrl +
+        NetworkConfiguration.DELETESUBADMIN +
+        `/${subAdminId}`,
       "DELETE"
     )
       .then((res) => {
@@ -111,7 +119,7 @@ const SubAdminTable = () => {
                   <td className="sub__admin__data">{data?.name}</td>
                   <td className="sub__admin__data">{data?.email}</td>
                   <td
-                    className="sub__admin__data"
+                    className="sub__admin__data subadmin__view__btn"
                     onClick={() => viewResponsibilities(data)}
                   >
                     View

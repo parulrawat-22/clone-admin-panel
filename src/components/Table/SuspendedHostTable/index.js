@@ -15,6 +15,7 @@ import SearchInput from "../../SearchInput";
 import Pagination from "../../Pagination";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const SuspendedHostTable = () => {
   const [suspendedHostList, setSuspendedHostList] = useState([]);
@@ -28,6 +29,7 @@ const SuspendedHostTable = () => {
   const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   const handleDeleteAlert = () => {
     setShowDeleteAlert(true);
@@ -38,13 +40,13 @@ const SuspendedHostTable = () => {
   };
 
   useEffect(() => {
-    getSuspendedHost();
+    getSuspendedHost(apiProvider);
   }, [value, page, perPage]);
 
-  const getSuspendedHost = () => {
+  const getSuspendedHost = (apiProvider) => {
     loader.showLoader(true);
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.SUSPENDEDHOST,
+      apiProvider?.apiUrl + NetworkConfiguration.SUSPENDEDHOST,
       "POST",
       searchParams.get("id")
         ? { hostId: searchParams.get("id") }
@@ -71,11 +73,11 @@ const SuspendedHostTable = () => {
     setId(id);
   };
 
-  const handleDeleteApi = () => {
+  const handleDeleteApi = (apiProvider) => {
     loader.showLoader(true);
 
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.DELETESUSPENSION + `/${id}`,
+      apiProvider?.apiUrl + NetworkConfiguration.DELETESUSPENSION + `/${id}`,
       "DELETE"
     )
       .then((res) => {

@@ -16,6 +16,7 @@ import { useDebounce } from "use-debounce";
 import Pagination from "../../Pagination";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const WarnedUserTable = () => {
   const [warnedUserList, setWarnedUserList] = useState([]);
@@ -31,6 +32,7 @@ const WarnedUserTable = () => {
   const [key] = useDebounce(value, 1000);
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   const handleDeleteAlert = () => {
     setShowDeleteAlert(true);
@@ -41,13 +43,13 @@ const WarnedUserTable = () => {
   };
 
   useEffect(() => {
-    getWarnedUser();
+    getWarnedUser(apiProvider);
   }, [value, page, perPage]);
 
-  const getWarnedUser = () => {
+  const getWarnedUser = (apiProvider) => {
     loader.showLoader(true);
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.WARNEDUSER,
+      apiProvider?.apiUrl + NetworkConfiguration.WARNEDUSER,
       "POST",
       searchParams.get("id")
         ? { userId: searchParams.get("id") }
@@ -74,11 +76,11 @@ const WarnedUserTable = () => {
     setId(id);
   };
 
-  const handleDelete = () => {
+  const handleDelete = (apiProvider) => {
     loader.showLoader(true);
 
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.DELETEWARNING + `/${id}`,
+      apiProvider?.apiUrl + NetworkConfiguration.DELETEWARNING + `/${id}`,
       "DELETE"
     )
       .then((res) => {

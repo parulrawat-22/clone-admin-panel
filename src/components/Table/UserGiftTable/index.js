@@ -13,6 +13,7 @@ import { useLoader } from "../../../base/Context/loaderProvider";
 import Pagination from "../../Pagination";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const UserGiftTable = () => {
   const [getUserGift, setGetUserGift] = useState([]);
@@ -25,6 +26,7 @@ const UserGiftTable = () => {
   const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   useEffect(() => {
     handleGift();
@@ -42,11 +44,15 @@ const UserGiftTable = () => {
   const handleGift = () => {
     loader.showLoader(true);
 
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETUSERGIFT, "POST", {
-      id: id,
-      page,
-      perPage,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.GETUSERGIFT,
+      "POST",
+      {
+        id: id,
+        page,
+        perPage,
+      }
+    )
       .then((res) => {
         setGetUserGift(res?.result);
         setTotalCount(res?.totalCount);
@@ -71,7 +77,7 @@ const UserGiftTable = () => {
           <th className="user__gift__header">Date & Time</th>
         </thead>
         <tbody>
-          {getUserGift.length > 0
+          {getUserGift && getUserGift.length > 0
             ? getUserGift.map((data, index) => {
                 return (
                   <tr>

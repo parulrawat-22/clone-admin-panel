@@ -10,6 +10,7 @@ import { useLoader } from "../../../base/Context/loaderProvider";
 import Pagination from "../../Pagination";
 import Lottie from "react-lottie";
 import noData from "../../../base//Animation/No Data Found.json";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const HostCallHistoryTable = () => {
   const [getCallHistory, setGetCallHistory] = useState([]);
@@ -20,18 +21,23 @@ const HostCallHistoryTable = () => {
   const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   useEffect(() => {
-    fetchCallHistory();
+    fetchCallHistory(apiProvider);
   }, [page, perPage]);
 
-  const fetchCallHistory = () => {
+  const fetchCallHistory = (apiProvider) => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.HOSTCALLHISTORY, "POST", {
-      id: id,
-      page,
-      perPage,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.HOSTCALLHISTORY,
+      "POST",
+      {
+        id: id,
+        page,
+        perPage,
+      }
+    )
       .then((res) => {
         loader.showLoader(false);
         setTotalCount(res.totalCount);

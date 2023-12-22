@@ -37,3 +37,7 @@
   color: var(--color-red);
   cursor: pointer;
 }
+
+.subadmin__view__btn {
+  cursor: pointer;
+}

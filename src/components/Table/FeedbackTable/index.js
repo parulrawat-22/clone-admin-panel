@@ -18,6 +18,7 @@ import Pagination from "../../Pagination";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
 import { Modal } from "../../../base/Context/modalProvider";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const FeedbackUserTable = () => {
   const { id } = useParams();
@@ -37,6 +38,7 @@ const FeedbackUserTable = () => {
   const modalProvider = useContext(Modal);
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   const handleShowImage = (img) => {
     setShowImageAlert(true);
@@ -48,13 +50,13 @@ const FeedbackUserTable = () => {
   };
 
   useEffect(() => {
-    getAllUsersFeedback();
+    getAllUsersFeedback(apiProvider);
   }, [value, page, perPage]);
 
-  const getAllUsersFeedback = () => {
+  const getAllUsersFeedback = (apiProvider) => {
     loader.showLoader(true);
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.GETUSERFEEDBACK,
+      apiProvider?.apiUrl + NetworkConfiguration.GETUSERFEEDBACK,
       "POST",
       id
         ? { userId: id }
@@ -78,10 +80,14 @@ const FeedbackUserTable = () => {
 
   const handleFeedbackReply = () => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.SENDREPLYUSER, "PUT", {
-      id: getId,
-      replyFeedback: replyFeedback,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.SENDREPLYUSER,
+      "PUT",
+      {
+        id: getId,
+        replyFeedback: replyFeedback,
+      }
+    )
       .then((res) => {
         loader.showLoader(false);
         setShowRevertAlert(false);

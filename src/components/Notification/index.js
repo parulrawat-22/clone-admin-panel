@@ -7,9 +7,11 @@ import {
   NetworkConfiguration,
 } from "../../network/NetworkConfiguration";
 import { useEffect, useState } from "react";
+import { useApi } from "../../base/Context/apiProvider";
 
 const Notification = () => {
   const [notificationData, setNotificationData] = useState([]);
+  const apiProvider = useApi();
 
   const notificationSearchIcon = () => {
     return <FiSearch />;
@@ -17,11 +19,11 @@ const Notification = () => {
 
   useEffect(() => {
     fetchNotificationData();
-  }, []);
+  }, [apiProvider?.apiUrl]);
 
   const fetchNotificationData = () => {
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.DASHBOARDNOTIFICATION,
+      apiProvider?.apiUrl + NetworkConfiguration.DASHBOARDNOTIFICATION,
       "GET"
     )
       .then((res) => {

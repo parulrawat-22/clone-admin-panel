@@ -8,6 +8,7 @@ import {
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const AddLeaderForm = ({ onSubmit, edit, data, setData, id }) => {
   console.log("data :", data);
@@ -39,24 +40,29 @@ const AddLeaderForm = ({ onSubmit, edit, data, setData, id }) => {
   });
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
-  const handleAddLeader = () => {
+  const handleAddLeader = (apiProvider) => {
     if (validate()) {
       loader.showLoader(true);
 
-      fetchDataFromAPI(API_URL + NetworkConfiguration.ADDLEADER, "POST", {
-        leaderName: leaderName,
-        mobileNumber: mobileNumber,
-        email: email,
-        groupName: groupName,
-        pin: pin,
-        country: country,
-        state: state,
-        gender: gender,
-        city: city,
-        idProof: idProof,
-        password: password,
-      })
+      fetchDataFromAPI(
+        apiProvider?.apiUrl + NetworkConfiguration.ADDLEADER,
+        "POST",
+        {
+          leaderName: leaderName,
+          mobileNumber: mobileNumber,
+          email: email,
+          groupName: groupName,
+          pin: pin,
+          country: country,
+          state: state,
+          gender: gender,
+          city: city,
+          idProof: idProof,
+          password: password,
+        }
+      )
         .then((res) => {
           loader.showLoader(false);
           console.log(res);
@@ -134,11 +140,15 @@ const AddLeaderForm = ({ onSubmit, edit, data, setData, id }) => {
     setPassword(e.target.value);
   };
 
-  const handleEditLeader = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.EDITLEADER, "PUT", {
-      id,
-      ...data,
-    })
+  const handleEditLeader = (apiProvider) => {
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.EDITLEADER,
+      "PUT",
+      {
+        id,
+        ...data,
+      }
+    )
       .then((res) => {
         console.log(res);
         onSubmit();

@@ -11,7 +11,8 @@ import Button from "../../../components/library/Button";
 import sidebarData from "../../../Constant/DataComponent";
 import ResponsibilitiesDropdown from "../../../components/library/ResponsibilitiesDropdown";
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
-import { API_URL, NetworkConfiguration } from "../../../network/NetworkConfiguration";
+import { NetworkConfiguration } from "../../../network/NetworkConfiguration";
+import { useApi } from "../../../base/Context/apiProvider";
 
 export default function AddSubAdmin() {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ export default function AddSubAdmin() {
   const [responsibilities, setResponsibilities] = useState([]);
   const [passInput, setPassInput] = useState(true);
   const [passInputTwo, setPassInputTwo] = useState(true);
+  const apiProvider = useApi();
 
   const [data, setData] = useState({
     name: "",
@@ -78,7 +80,7 @@ export default function AddSubAdmin() {
   //set side bar menu options for sub admin responsibilities
   useEffect(() => {
     setOptions(
-      sidebarData.map((item) => ({ name: item.label, accessType: [] }))
+      apiProvider?.API_Url?.map((item) => ({ name: item.label, accessType: [] }))
     );
   }, [sidebarData]);
 
@@ -134,16 +136,12 @@ export default function AddSubAdmin() {
 
   const handleAddSubAdmin = () => {
     if (validate()) {
-
-fetchDataFromAPI(API_URL + NetworkConfiguration.ADDSUBADMIN, "POST" , {
+fetchDataFromAPI(apiProvider?.apiUrl + NetworkConfiguration.ADDSUBADMIN, "POST" , {
   name: data.name,
       email: data.email,
       password: data.password,
       confirmPassword: data.confirmPassword,
       responsibility: responsibilities,
-
-
-
 }).then((res) => {
   navigate("/subAdmin");
 })
@@ -164,14 +162,13 @@ fetchDataFromAPI(API_URL + NetworkConfiguration.ADDSUBADMIN, "POST" , {
     <div className="add_subAdmin_row">
       <div className="add_subAdmin_column">
         
-
         <InputField  label="Name"
           placeholder=""
           type="text"
           onChange={handleName}
           error={error.name}
           value={data.name}/>
-
+          <br/>
 
         <InputField
           label="Email"
@@ -181,6 +178,9 @@ fetchDataFromAPI(API_URL + NetworkConfiguration.ADDSUBADMIN, "POST" , {
           error={error.email}
           value={data.email}
         />
+
+<br/>
+
         <InputField
           label="Password"
           placeholder=""
@@ -191,6 +191,9 @@ fetchDataFromAPI(API_URL + NetworkConfiguration.ADDSUBADMIN, "POST" , {
           eye={handleEye()}
           handleType={handleType}
         />
+
+<br/>
+
         <InputField
           label="Confirm Password"
           placeholder=""
@@ -201,6 +204,8 @@ fetchDataFromAPI(API_URL + NetworkConfiguration.ADDSUBADMIN, "POST" , {
           eye={handleEyeTwo()}
           handleType={handleTypeTwo}
         />
+          <br/>
+
 
         <ResponsibilitiesDropdown
           options={options}
@@ -208,14 +213,14 @@ fetchDataFromAPI(API_URL + NetworkConfiguration.ADDSUBADMIN, "POST" , {
           setResponsibilities={setResponsibilities}
           error={error.responsibilities}
         />
+          <br/>
+
 
         <Button
           onClick={handleAddSubAdmin}
           text="Add Sub Admin"
           style={{
-            marginTop: "20px",
-            // backgroundColor: AppColors.lightBlueColor,
-            // color: AppColors.whiteColor,
+            textAlign:"center",
             border: "none",
           }}
           className="web_button"

@@ -19,6 +19,7 @@ import { FiSearch } from "react-icons/fi";
 import Pagination from "../../Pagination";
 import noData from "../../../base/Animation/No Data Found.json";
 import Lottie from "react-lottie";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const HostRequestTable = () => {
   let navigate = useNavigate();
@@ -37,6 +38,7 @@ const HostRequestTable = () => {
   const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   const handleReasonChange = (e) => {
     setRejectedReason(e.target.value);
@@ -48,11 +50,15 @@ const HostRequestTable = () => {
 
   const getHostRequest = () => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.PENDINGHOST, "POST", {
-      key: value,
-      page,
-      perPage,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.PENDINGHOST,
+      "POST",
+      {
+        key: value,
+        page,
+        perPage,
+      }
+    )
       .then((res) => {
         setHostRequest(res?.result);
         loader.showLoader(false);
@@ -77,9 +83,13 @@ const HostRequestTable = () => {
   const handleAcceptedHost = () => {
     loader.showLoader(true);
 
-    fetchDataFromAPI(API_URL + NetworkConfiguration.REQUESTEDHOST, "PUT", {
-      id: id,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.REQUESTEDHOST,
+      "PUT",
+      {
+        id: id,
+      }
+    )
       .then((res) => {
         loader.showLoader(false);
 
@@ -98,10 +108,14 @@ const HostRequestTable = () => {
 
     console.log("Rejected Reason", rejectedReason);
     console.log("Rejected Id", id);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.REJECTHOST, "PUT", {
-      id: id,
-      rejectedReason: rejectedReason,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.REJECTHOST,
+      "PUT",
+      {
+        id: id,
+        rejectedReason: rejectedReason,
+      }
+    )
       .then((res) => {
         loader.showLoader(false);
 

@@ -1,0 +1,13 @@
+.suspend_heading {
+  font-family: var(--fontfamily-sansserif);
+  font-size: var(--fontsize-medium);
+  font-weight: var(--fontweight-medium);
+  text-align: center;
+  border-bottom: 1px solid black;
+}
+
+.Allowance_div {
+  font-family: var(--fontfamily-sansserif);
+  font-size: var(--fontsize-regular);
+  font-weight: var(--fontweight-regular);
+}

@@ -17,6 +17,7 @@ import SecondaryButton from "../../components/library/SecondaryButton";
 import { useLoader } from "../../base/Context/loaderProvider";
 import SearchInput from "../../components/SearchInput";
 import { FiSearch } from "react-icons/fi";
+import { useApi } from "../../base/Context/apiProvider";
 
 const Dashboard = () => {
   const loader = useLoader();
@@ -37,6 +38,7 @@ const Dashboard = () => {
   const [week, setWeek] = useState(false);
   const [checkEndDate, setCheckEndDate] = useState(true);
   const [checkStartDate, setCheckStartDate] = useState(true);
+  const apiProvider = useApi();
 
   useEffect(() => {
     handleOnlineUser();
@@ -45,11 +47,14 @@ const Dashboard = () => {
     handleOfflineUser();
     handleUserPurchase();
     handleHostEarning();
-  }, [year, month, week, endDate]);
+  }, [year, month, week, endDate, apiProvider?.apiUrl]);
 
   const handleOnlineUser = () => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.ONLINEUSER, "GET")
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.ONLINEUSER,
+      "GET"
+    )
       .then((res) => {
         loader.showLoader(false);
         setAdminOnlineUser(res.result);
@@ -64,7 +69,10 @@ const Dashboard = () => {
   const handleOfflineHost = () => {
     loader.showLoader(true);
 
-    fetchDataFromAPI(API_URL + NetworkConfiguration.OFFLINEHOST, "GET")
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.OFFLINEHOST,
+      "GET"
+    )
       .then((res) => {
         loader.showLoader(false);
 
@@ -79,7 +87,10 @@ const Dashboard = () => {
   const handleOnlineHost = () => {
     loader.showLoader(true);
 
-    fetchDataFromAPI(API_URL + NetworkConfiguration.ONLINEHOST, "GET")
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.ONLINEHOST,
+      "GET"
+    )
       .then((res) => {
         setAdminOnlineHost(res.result);
         loader.showLoader(false);
@@ -93,7 +104,10 @@ const Dashboard = () => {
   const handleOfflineUser = () => {
     loader.showLoader(true);
 
-    fetchDataFromAPI(API_URL + NetworkConfiguration.OFFLINEUSER, "GET")
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.OFFLINEUSER,
+      "GET"
+    )
       .then((res) => {
         setAdminOfflineUser(res.result);
         loader.showLoader(false);
@@ -106,13 +120,17 @@ const Dashboard = () => {
 
   const handleUserPurchase = () => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.USERPURCHASE, "POST", {
-      startDate1,
-      endDate1,
-      month,
-      year,
-      week,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.USERPURCHASE,
+      "POST",
+      {
+        startDate1,
+        endDate1,
+        month,
+        year,
+        week,
+      }
+    )
       .then((res) => {
         setUserPurchase(res.totalPercentage.toFixed(2));
         loader.showLoader(false);
@@ -129,13 +147,17 @@ const Dashboard = () => {
 
   const handleHostEarning = () => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.TOTALHOSTEARNING, "POST", {
-      startDate,
-      endDate,
-      month,
-      year,
-      week,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.TOTALHOSTEARNING,
+      "POST",
+      {
+        startDate,
+        endDate,
+        month,
+        year,
+        week,
+      }
+    )
       .then((res) => {
         console.log(res.totalPercentage);
         setHostEarning(res.totalPercentage.toFixed(2));

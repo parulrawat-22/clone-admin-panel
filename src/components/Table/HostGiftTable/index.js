@@ -13,6 +13,7 @@ import { useLoader } from "../../../base/Context/loaderProvider";
 import Pagination from "../../Pagination";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const HostGiftTable = () => {
   const [getHostGift, setGetHostGift] = useState([]);
@@ -25,6 +26,7 @@ const HostGiftTable = () => {
   const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   useEffect(() => {
     fetchHostGift();
@@ -32,11 +34,15 @@ const HostGiftTable = () => {
 
   const fetchHostGift = () => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETHOSTGIFT, "POST", {
-      id: id,
-      page,
-      perPage,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.GETHOSTGIFT,
+      "POST",
+      {
+        id: id,
+        page,
+        perPage,
+      }
+    )
       .then((res) => {
         setTotalCount(res.totalCount);
         setTotalPages(res.totalPages);
@@ -70,7 +76,7 @@ const HostGiftTable = () => {
           <th className="host__gift__header">Date & Time</th>
         </thead>
         <tbody>
-          {getHostGift.length > 0
+          {getHostGift && getHostGift.length > 0
             ? getHostGift.map((data, index) => {
                 return (
                   <tr>

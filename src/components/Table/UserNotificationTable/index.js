@@ -11,6 +11,7 @@ import { useLoader } from "../../../base/Context/loaderProvider";
 import Pagination from "../../Pagination";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const UserNotificationTable = () => {
   const { id } = useParams();
@@ -22,16 +23,17 @@ const UserNotificationTable = () => {
   const [perPage, setPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState("");
   const [totalPages, setTotalPages] = useState("");
+  const apiProvider = useApi();
 
   useEffect(() => {
-    fetchUserNotification();
+    fetchUserNotification(apiProvider);
   }, [page, perPage]);
 
-  const fetchUserNotification = () => {
+  const fetchUserNotification = (apiProvider) => {
     loader.showLoader(true);
 
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.GETUSERNOTIFICATION,
+      apiProvider?.apiUrl + NetworkConfiguration.GETUSERNOTIFICATION,
       "POST",
       { id: id, page, perPage }
     )

@@ -8,13 +8,15 @@ import {
   API_URL,
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const UserRequestForm = ({ id, onSubmit }) => {
   const [data, setData] = useState();
+  const apiProvider = useApi();
 
   useEffect(() => {
     fetchOneUser();
-  }, []);
+  }, [apiProvider?.apiUrl]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,7 +25,7 @@ const UserRequestForm = ({ id, onSubmit }) => {
 
   const fetchOneUser = () => {
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.GETONEUSER + `/${id}`,
+      apiProvider?.apiUrl + NetworkConfiguration.GETONEUSER + `/${id}`,
       "GET"
     )
       .then((res) => {
@@ -37,10 +39,14 @@ const UserRequestForm = ({ id, onSubmit }) => {
   };
 
   const handleEditUser = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.UPDATEUSER, "PUT", {
-      id: id,
-      ...data,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.UPDATEUSER,
+      "PUT",
+      {
+        id: id,
+        ...data,
+      }
+    )
       .then((res) => {
         console.log(res);
         onSubmit();

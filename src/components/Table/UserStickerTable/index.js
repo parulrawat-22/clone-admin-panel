@@ -6,20 +6,25 @@ import {
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const UserStickerTable = () => {
   const [getUserSticker, setGetUserSticker] = useState([]);
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   useEffect(() => {
     fetchUserSticker();
-  }, []);
+  }, [apiProvider?.apiUrl]);
 
   const fetchUserSticker = () => {
     loader.showLoader(true);
 
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETONESTICKER, "GET")
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.GETONESTICKER,
+      "GET"
+    )
       .then((res) => {
         setGetUserSticker(res.result);
         loader.showLoader(false);

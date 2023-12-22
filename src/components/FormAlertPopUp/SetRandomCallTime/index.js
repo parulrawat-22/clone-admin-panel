@@ -8,19 +8,24 @@ import {
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import { useApi } from "../../../base/Context/apiProvider";
 
 export const SetRandomCallTime = ({ onSubmit }) => {
   const [randomCallTime, setRandomCallTime] = useState("");
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   useEffect(() => {
     fetchRandomCallTime();
-  }, []);
+  }, [apiProvider?.apiUrl]);
 
   const fetchRandomCallTime = () => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETRANDOMCALLTIME, "GET")
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.GETRANDOMCALLTIME,
+      "GET"
+    )
       .then((res) => {
         console.log(res);
         loader.showLoader(false);
@@ -36,7 +41,7 @@ export const SetRandomCallTime = ({ onSubmit }) => {
   const handleRandomCallTime = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.UPDATERANDOMCALLTIME,
+      apiProvider?.apiUrl + NetworkConfiguration.UPDATERANDOMCALLTIME,
       "PUT",
       {
         randomCallSecondTime: randomCallTime,

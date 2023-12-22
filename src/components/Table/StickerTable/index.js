@@ -19,6 +19,7 @@ import SearchInput from "../../SearchInput";
 import Pagination from "../../Pagination";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const StickerTable = () => {
   const [getSticker, setGetSticker] = useState([]);
@@ -41,6 +42,7 @@ const StickerTable = () => {
   const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   const handleDeleteAlert = () => {
     setShowDeleteAlert(true);
@@ -51,16 +53,20 @@ const StickerTable = () => {
   };
 
   useEffect(() => {
-    fetchSticker();
+    fetchSticker(apiProvider);
   }, [value, page, perPage]);
 
-  const fetchSticker = () => {
+  const fetchSticker = (apiProvider) => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETSTICKER, "POST", {
-      key: value,
-      page,
-      perPage,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.GETSTICKER,
+      "POST",
+      {
+        key: value,
+        page,
+        perPage,
+      }
+    )
       .then((res) => {
         loader.showLoader(false);
         setGetSticker(res.result);
@@ -116,11 +122,11 @@ const StickerTable = () => {
     fetchSticker();
   };
 
-  const handleDeleteApi = () => {
+  const handleDeleteApi = (apiProvider) => {
     loader.showLoader(true);
 
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.DELETESTICKER + `/${id}`,
+      apiProvider?.apiUrl + NetworkConfiguration.DELETESTICKER + `/${id}`,
       "DELETE"
     )
       .then((res) => {

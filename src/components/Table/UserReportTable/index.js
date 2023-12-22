@@ -14,6 +14,7 @@ import Pagination from "../../Pagination";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
 import ModalProvider, { Modal } from "../../../base/Context/modalProvider";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const UserReportTable = () => {
   const { id } = useParams();
@@ -26,15 +27,16 @@ const UserReportTable = () => {
 
   const loader = useLoader();
   const modalProvider = useContext(Modal);
+  const apiProvider = useApi();
 
   useEffect(() => {
-    getUserReport();
+    getUserReport(apiProvider);
   }, [value, page, perPage]);
 
-  const getUserReport = () => {
+  const getUserReport = (apiProvider) => {
     loader.showLoader(true);
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.USERREPORT,
+      apiProvider?.apiUrl + NetworkConfiguration.USERREPORT,
       "POST",
       id ? { userId: id } : { key: value, page, perPage }
     )

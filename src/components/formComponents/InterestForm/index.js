@@ -8,6 +8,7 @@ import {
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 import { errorToast, successToast } from "../../../utils/toast";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const InterestForm = ({
   onSubmit,
@@ -23,14 +24,15 @@ const InterestForm = ({
   const [error, setError] = useState({
     name: "",
   });
+  const apiProvider = useApi();
 
   const handleSetBannerName = (e) => {
     setName(e.target.value);
   };
 
-  const handleOnEdit = () => {
+  const handleOnEdit = (apiProvider) => {
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.UPDATEINTEREST + `/${id}`,
+      apiProvider?.apiUrl + NetworkConfiguration.UPDATEINTEREST + `/${id}`,
       "PUT",
       {
         name: name,
@@ -50,11 +52,15 @@ const InterestForm = ({
       });
   };
 
-  const handleOnSubmit = () => {
+  const handleOnSubmit = (apiProvider) => {
     if (validate()) {
-      fetchDataFromAPI(API_URL + NetworkConfiguration.ADDINTEREST, "POST", {
-        name: interestName,
-      })
+      fetchDataFromAPI(
+        apiProvider?.apiUrl + NetworkConfiguration.ADDINTEREST,
+        "POST",
+        {
+          name: interestName,
+        }
+      )
         .then((res) => {
           successToast(res?.message);
           console.log(res);

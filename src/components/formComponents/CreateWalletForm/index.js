@@ -9,6 +9,7 @@ import InputField from "../../library/InputField";
 import "./style.css";
 import { errorToast, successToast } from "../../../utils/toast";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
   console.log(onClickEdit, "234567987654");
@@ -23,16 +24,21 @@ const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
   });
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   const handleCreateCoin = () => {
     if (validate()) {
       loader.showLoader(true);
 
-      fetchDataFromAPI(API_URL + NetworkConfiguration.ADDWALLET, "POST", {
-        coins,
-        price,
-        offer,
-      })
+      fetchDataFromAPI(
+        apiProvider?.apiUrl + NetworkConfiguration.ADDWALLET,
+        "POST",
+        {
+          coins,
+          price,
+          offer,
+        }
+      )
         .then((res) => {
           loader.showLoader(false);
 
@@ -51,17 +57,21 @@ const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
 
   useEffect(() => {
     getOneCoin();
-  }, []);
+  }, [apiProvider?.apiUrl]);
 
   const handleEditCoin = () => {
     loader.showLoader(true);
 
-    fetchDataFromAPI(API_URL + NetworkConfiguration.UPDATEWALLET, "PUT", {
-      id: id,
-      coins: coins,
-      price: price,
-      offer: offer,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.UPDATEWALLET,
+      "PUT",
+      {
+        id: id,
+        coins: coins,
+        price: price,
+        offer: offer,
+      }
+    )
       .then((res) => {
         console.log(res);
         onClickEdit();
@@ -80,7 +90,7 @@ const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
     loader.showLoader(true);
 
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.GETONECOIN + `/${id}`,
+      apiProvider?.apiUrl + NetworkConfiguration.GETONECOIN + `/${id}`,
       "GET"
     )
       .then((res) => {

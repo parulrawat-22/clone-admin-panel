@@ -1,4 +1,5 @@
 export const API_URL = "https://apiclone.instacash.land/api/";
+export const CATCHWOO_URL = "https://userapi.catchwoo.com/api/";
 
 export const NetworkConfiguration = {
   DEVICETOKEN: "admin/updateDeviceToken",

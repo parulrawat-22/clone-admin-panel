@@ -18,6 +18,7 @@ import Pagination from "../../Pagination";
 import noData from "../../../base/Animation/No Data Found.json";
 import Lottie from "react-lottie";
 import { Modal } from "../../../base/Context/modalProvider";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const HostFeedbackTable = () => {
   const [hostFeedback, setHostFeeback] = useState([]);
@@ -36,6 +37,7 @@ const HostFeedbackTable = () => {
 
   const loader = useLoader();
   const modalProvider = useContext(Modal);
+  const apiProvider = useApi();
 
   const handleOnClickAlert = (img) => {
     setImg(img);
@@ -55,12 +57,16 @@ const HostFeedbackTable = () => {
     setShowRevertAlert(false);
   };
 
-  const handleReply = () => {
+  const handleReply = (apiProvider) => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.SENDREPLYHOST, "PUT", {
-      id: getId,
-      replyFeedback: replyFeedback,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.SENDREPLYHOST,
+      "PUT",
+      {
+        id: getId,
+        replyFeedback: replyFeedback,
+      }
+    )
       .then((res) => {
         loader.showLoader(false);
         console.log(res);
@@ -73,10 +79,10 @@ const HostFeedbackTable = () => {
       });
   };
 
-  const getAllHostsFeedback = () => {
+  const getAllHostsFeedback = (apiProvider) => {
     loader.showLoader(true);
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.GETHOSTFEEDBACK,
+      apiProvider?.apiUrl + NetworkConfiguration.GETHOSTFEEDBACK,
       "POST",
       id
         ? { hostId: id }
@@ -99,7 +105,7 @@ const HostFeedbackTable = () => {
   };
 
   useEffect(() => {
-    getAllHostsFeedback();
+    getAllHostsFeedback(apiProvider);
   }, [value, page, perPage]);
 
   const handleText = (e) => {

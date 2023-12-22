@@ -13,6 +13,7 @@ import {
 import SearchInput from "../../components/SearchInput";
 import { FiSearch } from "react-icons/fi";
 import Pagination from "../../components/Pagination";
+import { useApi } from "../../base/Context/apiProvider";
 
 const Leader = () => {
   const [showAddLeaderAlert, setshowAddLeaderAlert] = useState(false);
@@ -22,6 +23,7 @@ const Leader = () => {
   const [perPage, setPerPage] = useState(5);
   const [totalCount, setTotalCount] = useState("");
   const [totalPages, setTotalPages] = useState("");
+  const apiProvider = useApi();
 
   const handleAddLeader = () => {
     setshowAddLeaderAlert(true);
@@ -36,11 +38,15 @@ const Leader = () => {
   }, [value, page, perPage]);
 
   const getAllLeaders = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETLEADER, "POST", {
-      key: value,
-      page,
-      perPage,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.GETLEADER,
+      "POST",
+      {
+        key: value,
+        page,
+        perPage,
+      }
+    )
       .then((res) => {
         setShowLeaderList(res.result);
         setTotalCount(res?.totalCount);

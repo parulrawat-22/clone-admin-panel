@@ -8,19 +8,25 @@ import {
   NetworkConfiguration,
 } from "../../../../network/NetworkConfiguration";
 import Dropdown from "../../../library/Dropdown";
+import { useApi } from "../../../../base/Context/apiProvider";
 
 const EditCoins = ({ id, onSubmit }) => {
   const [reason, setReason] = useState("");
   const [deductCoins, setDeductCoins] = useState("");
   const [plusMinus, setPlusMinus] = useState("");
+  const apiProvider = useApi();
 
   const fetchBucket = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.COINSDEDUCTION, "PUT", {
-      id: id,
-      reasonDeductionCoins: reason,
-      deductionCoins: deductCoins,
-      coinType: plusMinus,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.COINSDEDUCTION,
+      "PUT",
+      {
+        id: id,
+        reasonDeductionCoins: reason,
+        deductionCoins: deductCoins,
+        coinType: plusMinus,
+      }
+    )
       .then((res) => {
         console.log(res);
         onSubmit();

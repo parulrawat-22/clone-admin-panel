@@ -11,9 +11,11 @@ import {
   API_URL,
   NetworkConfiguration,
 } from "../../network/NetworkConfiguration";
+import { useApi } from "../../base/Context/apiProvider";
 
 const Login = () => {
   let navigate = useNavigate();
+  const apiProvider = useApi();
 
   const [eye, setEye] = useState(false);
 
@@ -41,11 +43,15 @@ const Login = () => {
       let deviceToken = await requestForToken().then((res) => {
         return res;
       });
-      fetchDataFromAPI(API_URL + NetworkConfiguration.ADMINLOGIN, "POST", {
-        email: email,
-        password: password,
-        deviceToken,
-      })
+      fetchDataFromAPI(
+        apiProvider?.apiUrl + NetworkConfiguration.ADMINLOGIN,
+        "POST",
+        {
+          email: email,
+          password: password,
+          deviceToken,
+        }
+      )
         .then((res) => {
           console.log("Login successful");
           successToast(res.message);
@@ -87,9 +93,13 @@ const Login = () => {
   }, []);
 
   const handleDeviceToken = (deviceToken) => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.DEVICETOKEN, "PUT", {
-      deviceToken,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.DEVICETOKEN,
+      "PUT",
+      {
+        deviceToken,
+      }
+    )
       .then((res) => {
         console.log(res);
       })

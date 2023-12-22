@@ -9,6 +9,7 @@ import {
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
 import { useState } from "react";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const ChangePassword = ({ onSubmit }) => {
   const [eye, setEye] = useState("");
@@ -18,6 +19,7 @@ const ChangePassword = ({ onSubmit }) => {
   const [conformPassword, setConformPassword] = useState("");
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   const eyeIcon = () => {
     return eye ? <BsFillEyeFill /> : <BsFillEyeSlashFill />;
@@ -45,11 +47,15 @@ const ChangePassword = ({ onSubmit }) => {
 
   const handleChangePassword = () => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.CHANGEPASSWORD, "PUT", {
-      password,
-      newPassword,
-      conformPassword,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.CHANGEPASSWORD,
+      "PUT",
+      {
+        password,
+        newPassword,
+        conformPassword,
+      }
+    )
       .then((res) => {
         loader.showLoader(false);
         console.log(res);

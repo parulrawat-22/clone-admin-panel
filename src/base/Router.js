@@ -39,159 +39,158 @@ import Interest from "../pages/Interest";
 import SubAdminList from "../pages/subAdmin/list";
 import AddSubAdmin from "../pages/subAdmin/add";
 import EditSubAdmin from "../pages/subAdmin/edit";
+import { useApi } from "./Context/apiProvider";
 // import SubAdmin from "../pages/SubAdmin";
 
 // import Coin from "../pages/Coin";
 
 const Router = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />}></Route>
-        <Route path="/forgotpassword" element={<ForgotPassword />}></Route>
-        <Route path="/enterotp" element={<EnterOtp />}></Route>
-        <Route path="/newpassword/:email" element={<NewPassword />}></Route>
-        <Route path="/dashboard" element={<Dashboard />}></Route>
-        <Route path="/banner" element={<Banner />} />
-        <Route path="/usermanagement/:id" element={<UserManagement />} />
-        <Route
-          path="/usermanagement/:selectedOption/:id"
-          element={
-            <Layout>
-              <UserManagementOption />
-            </Layout>
-          }
-        />
-        <Route path="/bucket" element={<Bucket />} />
-        <Route path="/report" element={<Report />} />
-        <Route path="/allusers" element={<UserRequest />} />
-        <Route
-          path="/userfollowing"
-          element={
-            <Layout>
-              <UserFollowing />
-            </Layout>
-          }
-        />
-        <Route path="/hostmanagement/:id" element={<HostManagement />} />
-        <Route
-          path="/hostmanagement/:selectedOption/:id"
-          element={
-            <Layout>
-              <HostManagementOption />
-            </Layout>
-          }
-        />
-        <Route
-          path="/acceptedhost"
-          element={
-            <Layout>
-              <AcceptedHost />
-            </Layout>
-          }
-        />
-        <Route path="/rejectedhost" element={<RejectedHost />} />
-        <Route path="/hostrequest" element={<HostRequest />} />
-        <Route path="/warnedusers" element={<WarnedUsers />} />
-        <Route path="/leader" element={<Leader />} />
-        <Route path="/suspendusers" element={<SuspendedUsers />} />
-        <Route path="/feedback" element={<Feedback />} />
-        <Route path="/gift" element={<Gifts />} />
-        <Route
-          path="sticker"
-          element={
-            <Layout>
-              <Sticker />
-            </Layout>
-          }
-        />
-        <Route
-          path="/coin"
-          element={
-            <Layout>
-              <Coin />
-            </Layout>
-          }
-        />
-        <Route path="/recharge" element={<Recharge />} />
-        <Route path="/moment" element={<Moments />}></Route>
-        <Route path="/paymenthistory" element={<PaymentHistory />} />
-        <Route path="/usercallhistory" element={<UserCallHistory />} />
-        <Route
-          path="/topgrowing"
-          element={
-            <Layout>
-              <TopGrowing />
-            </Layout>
-          }
-        />
-        <Route path="/toptalent" element={<TopTalentTable />} />
-        <Route
-          path="/notification"
-          element={
-            <Layout>
-              <Notification />
-            </Layout>
-          }
-        />
-        <Route
-          path="/editprofile"
-          element={
-            <Layout>
-              <EditProfile />
-            </Layout>
-          }
-        />
-        <Route
-          path="/earnings"
-          element={
-            <Layout>
-              <Earnings />
-            </Layout>
-          }
-        ></Route>
-        <Route
-          path="/sendnotification"
-          element={
-            <Layout>
-              <SendNotification />
-            </Layout>
-          }
-        ></Route>
-        <Route
-          path="/interest"
-          element={
-            <Layout>
-              <Interest />
-            </Layout>
-          }
-        ></Route>
-        <Route
-          path="/addSubAdmin"
-          element={
-            <Layout>
-              <AddSubAdmin />
-            </Layout>
-          }
-        ></Route>
-        <Route
-          path="/subAdmin"
-          element={
-            <Layout>
-              <SubAdminList />
-            </Layout>
-          }
-        ></Route>
-        <Route
-          path="/editSubAdmin"
-          element={
-            <Layout>
-              <EditSubAdmin />
-            </Layout>
-          }
-        ></Route>
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<Login />}></Route>
+      <Route path="/forgotpassword" element={<ForgotPassword />}></Route>
+      <Route path="/enterotp" element={<EnterOtp />}></Route>
+      <Route path="/newpassword/:email" element={<NewPassword />}></Route>
+      <Route path="/dashboard" element={<Dashboard />}></Route>
+      <Route path="/banner" element={<Banner />} />
+      <Route path="/usermanagement/:id" element={<UserManagement />} />
+      <Route
+        path="/usermanagement/:selectedOption/:id"
+        element={
+          <Layout>
+            <UserManagementOption />
+          </Layout>
+        }
+      />
+      <Route path="/bucket" element={<Bucket />} />
+      <Route path="/report" element={<Report />} />
+      <Route path={`/allusers`} element={<UserRequest />} />
+      <Route
+        path="/userfollowing"
+        element={
+          <Layout>
+            <UserFollowing />
+          </Layout>
+        }
+      />
+      <Route path="/hostmanagement/:id" element={<HostManagement />} />
+      <Route
+        path="/hostmanagement/:selectedOption/:id"
+        element={
+          <Layout>
+            <HostManagementOption />
+          </Layout>
+        }
+      />
+      <Route
+        path="/acceptedhost"
+        element={
+          <Layout>
+            <AcceptedHost />
+          </Layout>
+        }
+      />
+      <Route path="/rejectedhost" element={<RejectedHost />} />
+      <Route path="/hostrequest" element={<HostRequest />} />
+      <Route path="/warnedusers" element={<WarnedUsers />} />
+      <Route path="/leader" element={<Leader />} />
+      <Route path="/suspendusers" element={<SuspendedUsers />} />
+      <Route path="/feedback" element={<Feedback />} />
+      <Route path="/gift" element={<Gifts />} />
+      <Route
+        path="sticker"
+        element={
+          <Layout>
+            <Sticker />
+          </Layout>
+        }
+      />
+      <Route
+        path="/coin"
+        element={
+          <Layout>
+            <Coin />
+          </Layout>
+        }
+      />
+      <Route path="/recharge" element={<Recharge />} />
+      <Route path="/moment" element={<Moments />}></Route>
+      <Route path="/paymenthistory" element={<PaymentHistory />} />
+      <Route path="/usercallhistory" element={<UserCallHistory />} />
+      <Route
+        path="/topgrowing"
+        element={
+          <Layout>
+            <TopGrowing />
+          </Layout>
+        }
+      />
+      <Route path="/toptalent" element={<TopTalentTable />} />
+      <Route
+        path="/notification"
+        element={
+          <Layout>
+            <Notification />
+          </Layout>
+        }
+      />
+      <Route
+        path="/editprofile"
+        element={
+          <Layout>
+            <EditProfile />
+          </Layout>
+        }
+      />
+      <Route
+        path="/earnings"
+        element={
+          <Layout>
+            <Earnings />
+          </Layout>
+        }
+      ></Route>
+      <Route
+        path="/sendnotification"
+        element={
+          <Layout>
+            <SendNotification />
+          </Layout>
+        }
+      ></Route>
+      <Route
+        path="/interest"
+        element={
+          <Layout>
+            <Interest />
+          </Layout>
+        }
+      ></Route>
+      <Route
+        path="/addSubAdmin"
+        element={
+          <Layout>
+            <AddSubAdmin />
+          </Layout>
+        }
+      ></Route>
+      <Route
+        path="/subAdmin"
+        element={
+          <Layout>
+            <SubAdminList />
+          </Layout>
+        }
+      ></Route>
+      <Route
+        path="/editSubAdmin"
+        element={
+          <Layout>
+            <EditSubAdmin />
+          </Layout>
+        }
+      ></Route>
+    </Routes>
   );
 };
 

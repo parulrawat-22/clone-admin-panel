@@ -10,6 +10,7 @@ import { useLoader } from "../../../base/Context/loaderProvider";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
 import Pagination from "../../Pagination";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const HostBlockTable = () => {
   const [getBlockList, setGetBlockList] = useState([]);
@@ -20,18 +21,23 @@ const HostBlockTable = () => {
   const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   useEffect(() => {
-    fetchBlockList();
+    fetchBlockList(apiProvider);
   }, []);
 
-  const fetchBlockList = () => {
+  const fetchBlockList = (apiProvider) => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.HOSTBLOCKDETAILS, "POST", {
-      id: id,
-      page,
-      perPage,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.HOSTBLOCKDETAILS,
+      "POST",
+      {
+        id: id,
+        page,
+        perPage,
+      }
+    )
       .then((res) => {
         loader.showLoader(false);
         setTotalCount(res.totalCount);

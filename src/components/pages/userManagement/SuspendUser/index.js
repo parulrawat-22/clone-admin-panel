@@ -8,17 +8,23 @@ import {
   API_URL,
   NetworkConfiguration,
 } from "../../../../network/NetworkConfiguration";
+import { useApi } from "../../../../base/Context/apiProvider";
 
 const SuspendUser = () => {
   let navigate = useNavigate();
   const [endDate, setEndDate] = useState();
   const { id } = useParams();
+  const apiProvider = useApi();
 
   const handleSuspendAccount = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.POSTSUSPENDEDUSER, "POST", {
-      id: id,
-      suspensionEndDate: endDate,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.POSTSUSPENDEDUSER,
+      "POST",
+      {
+        id: id,
+        suspensionEndDate: endDate,
+      }
+    )
       .then((res) => {
         navigate(`/suspendusers/?type=user&id=${id}`);
       })

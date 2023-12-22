@@ -16,6 +16,7 @@ import { useDebounce } from "use-debounce";
 import Pagination from "../../Pagination";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const WarnedHostTable = () => {
   const [warnedHostList, setWarnedHostList] = useState([]);
@@ -33,6 +34,7 @@ const WarnedHostTable = () => {
   console.log("value", value);
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   const handleDeleteAlert = () => {
     setShowDeleteAlert(true);
@@ -43,12 +45,12 @@ const WarnedHostTable = () => {
   };
 
   useEffect(() => {
-    getWarnedHost();
+    getWarnedHost(apiProvider);
   }, [value, perPage, page]);
 
-  const getWarnedHost = () => {
+  const getWarnedHost = (apiProvider) => {
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.WARNEDHOST,
+      apiProvider?.apiUrl + NetworkConfiguration.WARNEDHOST,
       "POST",
       searchParams.get("id")
         ? { hostId: searchParams.get("id") }
@@ -73,11 +75,11 @@ const WarnedHostTable = () => {
     setId(id);
   };
 
-  const handleDelete = () => {
+  const handleDelete = (apiProvider) => {
     loader.showLoader(true);
 
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.DELETEWARNING + `/${id}`,
+      apiProvider?.apiUrl + NetworkConfiguration.DELETEWARNING + `/${id}`,
       "DELETE"
     )
       .then((res) => {

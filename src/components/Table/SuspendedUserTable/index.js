@@ -18,6 +18,7 @@ import { FiSearch } from "react-icons/fi";
 import Pagination from "../../Pagination";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const SuspendedUserTable = () => {
   const [suspendedUserList, setSuspendedUserList] = useState([]);
@@ -32,6 +33,7 @@ const SuspendedUserTable = () => {
   const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   const handleDeleteAlert = () => {
     setShowDeleteAlert(true);
@@ -41,10 +43,10 @@ const SuspendedUserTable = () => {
     setShowDeleteAlert(false);
   };
 
-  const getSuspendedUserList = () => {
+  const getSuspendedUserList = (apiProvider) => {
     loader.showLoader(true);
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.SUSPENDEDUSER,
+      apiProvider?.apiUrl + NetworkConfiguration.SUSPENDEDUSER,
       "POST",
       searchParams.get("id")
         ? { userId: searchParams.get("id") }
@@ -67,7 +69,7 @@ const SuspendedUserTable = () => {
   };
 
   useEffect(() => {
-    getSuspendedUserList();
+    getSuspendedUserList(apiProvider);
   }, [value, page, perPage]);
 
   const handleOnClickDelete = (id) => {
@@ -84,11 +86,11 @@ const SuspendedUserTable = () => {
     setShowEditAlert(false);
   };
 
-  const handleAlertDelete = () => {
+  const handleAlertDelete = (apiProvider) => {
     loader.showLoader(true);
 
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.DELETESUSPENSION + `/${id}`,
+      apiProvider?.apiUrl + NetworkConfiguration.DELETESUSPENSION + `/${id}`,
       "DELETE"
     )
       .then((res) => {

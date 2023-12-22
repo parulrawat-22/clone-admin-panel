@@ -8,19 +8,24 @@ import {
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const AudioChargeCall = ({ onSubmit }) => {
   const [audioCallChargeTime, setAudioCallChargeTime] = useState("");
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   useEffect(() => {
     fetchAudioCallTime();
-  }, []);
+  }, [apiProvider?.apiUrl]);
 
   const fetchAudioCallTime = () => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETAUDIOCALLTIME, "GET")
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.GETAUDIOCALLTIME,
+      "GET"
+    )
       .then((res) => {
         setAudioCallChargeTime(res.result);
         loader.showLoader(false);
@@ -35,7 +40,7 @@ const AudioChargeCall = ({ onSubmit }) => {
     loader.showLoader(true);
 
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.UPDATEAUDIOCALLTIME,
+      apiProvider?.apiUrl + NetworkConfiguration.UPDATEAUDIOCALLTIME,
       "PUT",
       {
         audioCallTimeset: audioCallChargeTime,

@@ -8,20 +8,25 @@ import Button from "../../library/Button";
 import InputField from "../../library/InputField";
 import "./style.css";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const PremiumCoin = ({ onSubmit }) => {
   const [premiumCoins, setPremiumCoins] = useState("");
   const [edit, setEdit] = useState(false);
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   useEffect(() => {
     fetchPremiumCoin();
-  }, []);
+  }, [apiProvider?.apiUrl]);
 
   const fetchPremiumCoin = () => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETPREMIUMCOINS, "GET")
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.GETPREMIUMCOINS,
+      "GET"
+    )
       .then((res) => {
         console.log("123456789", res);
         setPremiumCoins(res.setPostCoins);
@@ -37,9 +42,13 @@ const PremiumCoin = ({ onSubmit }) => {
 
   const handleSetPremiumCoin = () => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.UPDATEPREMIUMCOINS, "PUT", {
-      setPostCoins: premiumCoins,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.UPDATEPREMIUMCOINS,
+      "PUT",
+      {
+        setPostCoins: premiumCoins,
+      }
+    )
       .then((res) => {
         loader.showLoader(false);
         console.log(res);

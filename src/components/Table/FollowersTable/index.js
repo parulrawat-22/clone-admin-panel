@@ -10,6 +10,7 @@ import { useLoader } from "../../../base/Context/loaderProvider";
 import Pagination from "../../Pagination";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const FollowerTable = () => {
   const [getFollowerList, setGetFollowerList] = useState([]);
@@ -20,18 +21,23 @@ const FollowerTable = () => {
   const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   useEffect(() => {
-    fetchFollowerList();
+    fetchFollowerList(apiProvider);
   }, [page, perPage]);
 
-  const fetchFollowerList = () => {
+  const fetchFollowerList = (apiProvider) => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETUSERFOLLOWER, "POST", {
-      id: id,
-      page,
-      perPage,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.GETUSERFOLLOWER,
+      "POST",
+      {
+        id: id,
+        page,
+        perPage,
+      }
+    )
       .then((res) => {
         setTotalCount(res.totalCount);
         setTotalPages(res.totalPages);
@@ -59,7 +65,9 @@ const FollowerTable = () => {
             ? getFollowerList.map((data, index) => {
                 return (
                   <tr>
-                    <td className="followers__data">{index + 1}</td>
+                    <td className="followers__data">
+                      {(page - 1) * perPage + index + 1}
+                    </td>
                     <td className="followers__data">{data?._id}</td>
                     <td className="followers__data">{data?.name}</td>
                     <td className="followers__data">{data?.dateOfBirth}</td>

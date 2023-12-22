@@ -10,6 +10,7 @@ import { useLoader } from "../../../base/Context/loaderProvider";
 import Pagination from "../../Pagination";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const HostFollowerTable = () => {
   const [getHostFollower, setGetHostFollower] = useState([]);
@@ -20,16 +21,21 @@ const HostFollowerTable = () => {
   const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   useEffect(() => {
-    fetchHostFollower();
+    fetchHostFollower(apiProvider);
   }, []);
 
-  const fetchHostFollower = () => {
+  const fetchHostFollower = (apiProvider) => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.HOSTFOLLOWER, "POST", {
-      id: id,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.HOSTFOLLOWER,
+      "POST",
+      {
+        id: id,
+      }
+    )
       .then((res) => {
         loader.showLoader(false);
         setTotalCount(res?.totalCount);

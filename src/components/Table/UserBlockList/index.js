@@ -10,6 +10,7 @@ import { useLoader } from "../../../base/Context/loaderProvider";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
 import Pagination from "../../Pagination";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const UserBlockedList = () => {
   const { id } = useParams();
@@ -19,19 +20,24 @@ const UserBlockedList = () => {
   const [totalCount, setTotalCount] = useState("");
   const [totalPages, setTotalPages] = useState("");
   const loader = useLoader();
+  const apiProvider = useApi();
 
   useEffect(() => {
-    fetchBlockList();
+    fetchBlockList(apiProvider);
   }, [page, perPage]);
 
-  const fetchBlockList = () => {
+  const fetchBlockList = (apiProvider) => {
     loader.showLoader(true);
 
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETUSERBLOCKLIST, "POST", {
-      id: id,
-      page,
-      perPage,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.GETUSERBLOCKLIST,
+      "POST",
+      {
+        id: id,
+        page,
+        perPage,
+      }
+    )
       .then((res) => {
         setGetBlockedList(res.result?.block);
         loader.showLoader(false);

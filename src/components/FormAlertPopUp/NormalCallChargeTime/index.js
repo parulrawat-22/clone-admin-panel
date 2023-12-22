@@ -8,19 +8,24 @@ import {
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const NormalCallTime = ({ onSubmit }) => {
   const [normalCallTime, setNormalCallTime] = useState("");
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   useEffect(() => {
     fetchNormalCallTime();
-  }, []);
+  }, [apiProvider?.apiUrl]);
 
   const fetchNormalCallTime = () => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETNORMALCALLTIME, "GET")
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.GETNORMALCALLTIME,
+      "GET"
+    )
       .then((res) => {
         console.log(res);
         loader.showLoader(false);
@@ -35,7 +40,7 @@ const NormalCallTime = ({ onSubmit }) => {
   const handleNormalCallTime = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.UPDATENORMALCALLTIME,
+      apiProvider?.apiUrl + NetworkConfiguration.UPDATENORMALCALLTIME,
       "PUT",
       {
         perSecondCharge: normalCallTime,

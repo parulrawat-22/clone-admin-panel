@@ -20,7 +20,9 @@ import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
 import FormAlertPopUp from "../../FormAlertPopUp";
 import UserRequestForm from "../../formComponents/UserRequestForm";
-import ModalProvider, { Modal } from "../../../base/Context/modalProvider";
+import { Modal } from "../../../base/Context/modalProvider";
+import Button from "../../library/Button";
+import { APIContext, useApi } from "../../../base/Context/apiProvider";
 
 const UserTable = () => {
   let navigate = useNavigate();
@@ -42,10 +44,11 @@ const UserTable = () => {
 
   const loader = useLoader();
   const modalProvider = useContext(Modal);
+  const apiProvider = useApi();
 
   useEffect(() => {
     getUserRequest();
-  }, [value, page, perPage]);
+  }, [value, page, perPage, apiProvider?.apiUrl]);
 
   const handleUserEdit = (id) => {
     setShowEditUser(true);
@@ -96,7 +99,7 @@ const UserTable = () => {
   const handleUserDelete = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.DELETEUSER + `/${id}`,
+      apiProvider?.apiUrl + NetworkConfiguration.DELETEUSER + `/${id}`,
       "DELETE"
     )
       .then((res) => {
@@ -110,15 +113,21 @@ const UserTable = () => {
       });
   };
 
-  //get users
+  const handleCatchwooUsers = () => {
+    sessionStorage.setItem("selectedType", "catchwoo");
+  };
 
   const getUserRequest = () => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETUSERS, "POST", {
-      key: value,
-      page,
-      perPage,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.GETUSERS,
+      "POST",
+      {
+        key: value,
+        page,
+        perPage,
+      }
+    )
       .then((res) => {
         console.log("12345678o", res);
         setUserRequest(res?.result);
@@ -156,6 +165,14 @@ const UserTable = () => {
           placeholder="Search"
           icon={searchIcon()}
           value={value}
+        />
+      </div>
+      <div className="user__request__btn__container">
+        <Button
+          style={{ textAlign: "center" }}
+          onClick={handleCatchwooUsers}
+          text="Catchwoo Users"
+          className="user__request__btn"
         />
       </div>
       <div className="table_parent_box">

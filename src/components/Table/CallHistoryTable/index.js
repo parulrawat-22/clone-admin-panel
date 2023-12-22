@@ -10,6 +10,7 @@ import { useLoader } from "../../../base/Context/loaderProvider";
 import Pagination from "../../Pagination";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const CallHistory = () => {
   const [getCallHistory, setGetCallHistory] = useState([]);
@@ -19,17 +20,18 @@ const CallHistory = () => {
   const [totalPages, setTotalPages] = useState("");
 
   const { id } = useParams();
+  const apiProvider = useApi();
 
   const loader = useLoader();
 
   useEffect(() => {
-    fetchCallHistory();
+    fetchCallHistory(apiProvider);
   }, [page, perPage]);
 
-  const fetchCallHistory = () => {
+  const fetchCallHistory = (apiProvider) => {
     loader.showLoader(true);
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.GETUSERCALLHISTORY,
+      apiProvider?.apiUrl + NetworkConfiguration.GETUSERCALLHISTORY,
       "POST",
       { id: id, page, perPage }
     )

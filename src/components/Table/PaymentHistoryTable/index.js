@@ -10,6 +10,7 @@ import { useLoader } from "../../../base/Context/loaderProvider";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
 import Pagination from "../../Pagination";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const PaymentHistoryTable = () => {
   const [getPaymentHistory, setGetPaymentHistory] = useState([]);
@@ -20,19 +21,24 @@ const PaymentHistoryTable = () => {
   const { id } = useParams();
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   useEffect(() => {
-    fetchPaymentHistory();
+    fetchPaymentHistory(apiProvider);
   }, [page, perPage]);
 
-  const fetchPaymentHistory = () => {
+  const fetchPaymentHistory = (apiProvider) => {
     loader.showLoader(true);
 
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETPAYMENTHISTORY, "POST", {
-      id: id,
-      page,
-      perPage,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.GETPAYMENTHISTORY,
+      "POST",
+      {
+        id: id,
+        page,
+        perPage,
+      }
+    )
       .then((res) => {
         loader.showLoader(false);
         setTotalCount(res.totalCount);

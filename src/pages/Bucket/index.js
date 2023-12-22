@@ -13,6 +13,7 @@ import Coin from "../../base/Assets/walletCoin.png";
 import { AiFillDelete } from "react-icons/ai";
 import AlertPopUp from "../../components/AlertPopUp";
 import { errorToast, successToast } from "../../utils/toast";
+import { useApi } from "../../base/Context/apiProvider";
 
 const Bucket = () => {
   const [bucket, setBucket] = useState([]);
@@ -20,6 +21,7 @@ const Bucket = () => {
   const [amount, setAmount] = useState("");
   const [identity, setIdentity] = useState("");
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+  const apiProvider = useApi();
 
   const handleDeleteAlert = (identity) => {
     setShowDeleteAlert(true);
@@ -33,9 +35,13 @@ const Bucket = () => {
   const loader = useLoader();
 
   const handleCoin = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETBUCKETLIST, "POST", {
-      userId: id,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.GETBUCKETLIST,
+      "POST",
+      {
+        userId: id,
+      }
+    )
       .then((res) => {
         console.log(res);
         setBucket(res.result);
@@ -48,11 +54,14 @@ const Bucket = () => {
   useEffect(() => {
     fetchBucketAmount();
     handleCoin();
-  }, []);
+  }, [apiProvider?.apiUrl]);
 
   const fetchBucketAmount = () => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETAMOUNT + `/${id}`, "GET")
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.GETAMOUNT + `/${id}`,
+      "GET"
+    )
       .then((res) => {
         console.log(res);
         loader.showLoader(false);
@@ -71,7 +80,7 @@ const Bucket = () => {
 
   const handleDelete = () => {
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.DELETEBUCKET + `/${identity}`,
+      apiProvider?.apiUrl + NetworkConfiguration.DELETEBUCKET + `/${identity}`,
       "DELETE"
     )
       .then((res) => {

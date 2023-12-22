@@ -8,16 +8,18 @@ import Button from "../../../library/Button";
 import InputField from "../../../library/InputField";
 import "./style.css";
 import { useNavigate, useParams } from "react-router-dom";
+import { useApi } from "../../../../base/Context/apiProvider";
 
 const WarnedHost = () => {
   let navigate = useNavigate();
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const { id } = useParams();
+  const apiProvider = useApi();
 
   const handleWarnedHost = () => {
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.WARNHOSTNOTIFICATION,
+      apiProvider?.apiUrl + NetworkConfiguration.WARNHOSTNOTIFICATION,
       "POST",
       {
         id: id,

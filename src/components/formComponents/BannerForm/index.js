@@ -9,6 +9,7 @@ import {
 } from "../../../network/NetworkConfiguration";
 import { errorToast, successToast } from "../../../utils/toast";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const BannerForm = ({ onSubmit, edit, id, onClickEdit, fetchBannerList }) => {
   const [bannerName, setBannerName] = useState("");
@@ -23,6 +24,7 @@ const BannerForm = ({ onSubmit, edit, id, onClickEdit, fetchBannerList }) => {
   });
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   const handleSetBannerName = (e) => {
     setError({ ...error, name: "" });
@@ -37,7 +39,7 @@ const BannerForm = ({ onSubmit, edit, id, onClickEdit, fetchBannerList }) => {
   useEffect(() => {
     ///fetchBannerList();
     handleSingleFetch();
-  }, []);
+  }, [apiProvider?.apiUrl]);
 
   const validate = () => {
     let result = true;
@@ -55,7 +57,7 @@ const BannerForm = ({ onSubmit, edit, id, onClickEdit, fetchBannerList }) => {
     loader.showLoader(true);
 
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.UPDATEBANNERNAME + `/${id}`,
+      apiProvider?.apiUrl + NetworkConfiguration.UPDATEBANNERNAME + `/${id}`,
       "PUT",
       { name: bannerName }
     )
@@ -77,7 +79,7 @@ const BannerForm = ({ onSubmit, edit, id, onClickEdit, fetchBannerList }) => {
   const handleSingleFetch = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.GETONEBANNER + `/${id}`,
+      apiProvider?.apiUrl + NetworkConfiguration.GETONEBANNER + `/${id}`,
       "GET"
     )
       .then((res) => {
@@ -102,9 +104,14 @@ const BannerForm = ({ onSubmit, edit, id, onClickEdit, fetchBannerList }) => {
     data.append("name", bannerName);
     data.append("image", image);
     console.log(image);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.ADDBANNER, "POST", data, {
-      "Content-Type": "multipart/form-data",
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.ADDBANNER,
+      "POST",
+      data,
+      {
+        "Content-Type": "multipart/form-data",
+      }
+    )
       .then((res) => {
         loader.showLoader(false);
         setBannerName("");

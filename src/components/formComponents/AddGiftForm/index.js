@@ -9,6 +9,7 @@ import InputField from "../../library/InputField";
 import "./style.css";
 import { errorToast, successToast } from "../../../utils/toast";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const AddGiftForm = ({ onSubmit, edit, onClickEdit, editedGift }) => {
   const [giftName, setGiftName] = useState("");
@@ -23,10 +24,12 @@ const AddGiftForm = ({ onSubmit, edit, onClickEdit, editedGift }) => {
   });
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   useEffect(() => {
     if (edit && editedGift) {
       setGiftData(
+        apiProvider,
         editedGift?.giftId,
         editedGift?.giftName,
         editedGift?.giftPrice,
@@ -42,15 +45,20 @@ const AddGiftForm = ({ onSubmit, edit, onClickEdit, editedGift }) => {
     setGiftUploadImage(giftImage);
   };
 
-  const handleGiftForm = () => {
+  const handleGiftForm = (apiProvider) => {
     let data = new FormData();
     data.append("name", giftName);
     data.append("price", giftPrice);
     data.append("image", giftUploadImage);
     if (validate()) {
-      fetchDataFromAPI(API_URL + NetworkConfiguration.ADDGIFT, "POST", data, {
-        "Content-Type": "multipart/form-data",
-      })
+      fetchDataFromAPI(
+        apiProvider?.apiUrl + NetworkConfiguration.ADDGIFT,
+        "POST",
+        data,
+        {
+          "Content-Type": "multipart/form-data",
+        }
+      )
         .then((res) => {
           console.log(res);
           successToast(res.message);
@@ -63,14 +71,18 @@ const AddGiftForm = ({ onSubmit, edit, onClickEdit, editedGift }) => {
     }
   };
 
-  const handleEditForm = () => {
+  const handleEditForm = (apiProvider) => {
     loader.showLoader(true);
 
-    fetchDataFromAPI(API_URL + NetworkConfiguration.UPDATEGIFT, "PUT", {
-      id,
-      name: giftName,
-      price: giftPrice,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.UPDATEGIFT,
+      "PUT",
+      {
+        id,
+        name: giftName,
+        price: giftPrice,
+      }
+    )
       .then((res) => {
         loader.showLoader(false);
 

@@ -14,6 +14,7 @@ import { useDebounce } from "use-debounce";
 import Pagination from "../../Pagination";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const HostReportTable = () => {
   const [getHostReport, setGetHostReport] = useState([]);
@@ -25,11 +26,12 @@ const HostReportTable = () => {
   const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
-  const getHostReportList = () => {
+  const getHostReportList = (apiProvider) => {
     loader.showLoader(true);
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.HOSTREPORT,
+      apiProvider?.apiUrl + NetworkConfiguration.HOSTREPORT,
       "POST",
       id ? { hostId: id } : { key: value, page, perPage }
     )
@@ -46,7 +48,7 @@ const HostReportTable = () => {
   };
 
   useEffect(() => {
-    getHostReportList();
+    getHostReportList(apiProvider);
   }, [value, page, perPage]);
 
   const searchIcon = () => {

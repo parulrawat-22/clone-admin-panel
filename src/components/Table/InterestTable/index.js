@@ -14,6 +14,7 @@ import FormAlertPopUp from "../../FormAlertPopUp";
 import InterestForm from "../../formComponents/InterestForm";
 import AlertPopUp from "../../AlertPopUp";
 import { errorToast, successToast } from "../../../utils/toast";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const InterestTable = () => {
   const [interestData, setInterestData] = useState([]);
@@ -26,6 +27,7 @@ const InterestTable = () => {
   const [id, setId] = useState("");
   const [showEditForm, setShowEditForm] = useState(false);
   const [name, setName] = useState("");
+  const apiProvider = useApi();
 
   const handleEditAlert = (id, name) => {
     setShowEditForm(true);
@@ -56,14 +58,18 @@ const InterestTable = () => {
   };
 
   useEffect(() => {
-    fetchInterestData();
+    fetchInterestData(apiProvider);
   }, []);
 
-  const fetchInterestData = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETINTEREST, "POST", {
-      page,
-      perPage,
-    })
+  const fetchInterestData = (apiProvider) => {
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.GETINTEREST,
+      "POST",
+      {
+        page,
+        perPage,
+      }
+    )
       .then((res) => {
         setInterestData(res?.result);
         setTotalCount(res?.totalCount);
@@ -79,9 +85,9 @@ const InterestTable = () => {
     fetchInterestData();
   };
 
-  const handleDeleteApi = () => {
+  const handleDeleteApi = (apiProvider) => {
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.DELETEINTEREST + `/${id}`,
+      apiProvider?.apiUrl + NetworkConfiguration.DELETEINTEREST + `/${id}`,
       "DELETE",
       {
         name: interestData,

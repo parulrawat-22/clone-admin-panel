@@ -1,10 +1,14 @@
 .select_checkbox_parent_wrapper {
   overflow: hidden !important;
+  border: 2px solid #f20094 !important;
+  border-radius: 5px;
 }
 .select_checkbox_wrapper {
   outline: none !important;
   border: none !important;
   display: flex;
+  /* border: 1px solid red !important; */
+
   justify-content: center;
   height: 42px;
   overflow: hidden !important;
@@ -16,4 +20,8 @@
   padding: 0 10px;
   outline: transparent !important;
   border: transparent !important;
+}
+
+.label_style {
+  font-family: var(--fontfamily-sansserif);
 }

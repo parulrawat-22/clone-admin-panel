@@ -8,6 +8,7 @@ import {
   API_URL,
   NetworkConfiguration,
 } from "../../../../network/NetworkConfiguration";
+import { useApi } from "../../../../base/Context/apiProvider";
 
 const WarnUser = () => {
   let navigate = useNavigate();
@@ -18,21 +19,23 @@ const WarnUser = () => {
     body: "",
   });
   const { id } = useParams();
+  const apiProvider = useApi();
 
   const handleWarnedUsers = () => {
-    validate();
-    fetchDataFromAPI(
-      API_URL + NetworkConfiguration.USERWARNINGNOTIFICATION,
-      "POST",
-      { id: id, title: selectTitle, body: selectDescription }
-    )
-      .then((res) => {
-        navigate(`/warnedusers/?type=user&id=${id}`);
-        console.log(res, "!23456789");
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (validate()) {
+      fetchDataFromAPI(
+        apiProvider?.apiUrl + NetworkConfiguration.USERWARNINGNOTIFICATION,
+        "POST",
+        { id: id, title: selectTitle, body: selectDescription }
+      )
+        .then((res) => {
+          navigate(`/warnedusers/?type=user&id=${id}`);
+          console.log(res, "!23456789");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
 
   const handleTitle = (e) => {
@@ -61,13 +64,18 @@ const WarnUser = () => {
     <div className="user__management__warn__user">
       <h3 className="warn__user__heading">Send warning</h3>
       <br />
-      <InputField onChange={handleTitle} placeholder="Custom title" />
+      <InputField
+        onChange={handleTitle}
+        placeholder="Custom title"
+        error={error.title}
+      />
       <br />
 
       <InputField
         onChange={handleDescription}
         placeholder="Description"
         className="warn__user__description"
+        error={error.body}
       />
       <br />
       <Button

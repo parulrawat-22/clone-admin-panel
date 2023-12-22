@@ -6,19 +6,25 @@ import {
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 import { useParams } from "react-router-dom";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const EarningTable = () => {
   const [earningData, setEarningData] = useState();
   const { id } = useParams();
+  const apiProvider = useApi();
 
   useEffect(() => {
-    fetchEarningData();
+    fetchEarningData(apiProvider);
   }, []);
 
-  const fetchEarningData = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.HOSTEARNING, "POST", {
-      id,
-    })
+  const fetchEarningData = (apiProvider) => {
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.HOSTEARNING,
+      "POST",
+      {
+        id,
+      }
+    )
       .then((res) => {
         setEarningData(res?.result);
       })

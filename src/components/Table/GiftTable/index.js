@@ -20,6 +20,7 @@ import SearchInput from "../../SearchInput";
 import noData from "../../../base/Animation/No Data Found.json";
 import Pagination from "../../Pagination";
 import Lottie from "react-lottie";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const GiftTable = () => {
   const [showGiftForm, setShowGiftForm] = useState(false);
@@ -43,6 +44,7 @@ const GiftTable = () => {
   const [value, setValue] = useState("");
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   const handleOnClickAlert = (img) => {
     setShowImageAlert(true);
@@ -81,11 +83,15 @@ const GiftTable = () => {
 
   const fetchGift = () => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETGIFT, "POST", {
-      key: value,
-      page,
-      perPage,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.GETGIFT,
+      "POST",
+      {
+        key: value,
+        page,
+        perPage,
+      }
+    )
       .then((res) => {
         loader.showLoader(false);
         setTotalCount(res?.totalCount);
@@ -101,7 +107,7 @@ const GiftTable = () => {
   const handleDeleteApi = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.DELETEGIFT + `/${id}`,
+      apiProvider?.apiUrl + NetworkConfiguration.DELETEGIFT + `/${id}`,
       "DELETE"
     )
       .then((res) => {
@@ -170,7 +176,7 @@ const GiftTable = () => {
           </thead>
 
           <tbody>
-            {getGift.length > 0
+            {getGift && getGift.length > 0
               ? getGift.map((data, index) => {
                   return (
                     <tr>
@@ -216,7 +222,7 @@ const GiftTable = () => {
         </table>
       </div>
 
-      {getGift.length > 0 ? (
+      {getGift && getGift.length > 0 ? (
         <Pagination
           page={page}
           setPage={setPage}
@@ -231,8 +237,9 @@ const GiftTable = () => {
           <div>
             <Lottie
               options={{ animationData: noData, loop: true }}
-              style={{ width: "10rem", height: "10rem" }}
+              style={{ width: "20rem", height: "20rem" }}
             />
+            <p> No Data Found</p>
           </div>
         )
       )}

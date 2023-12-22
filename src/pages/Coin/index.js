@@ -18,6 +18,7 @@ import Pagination from "../../components/Pagination";
 import Lottie from "react-lottie";
 import noData from "../../base/Animation/No Data Found.json";
 import { useLoader } from "../../base/Context/loaderProvider";
+import { useApi } from "../../base/Context/apiProvider";
 
 const Coin = () => {
   const [showCreateWallet, setShowCreateWallet] = useState(false);
@@ -30,6 +31,7 @@ const Coin = () => {
   const [totalCount, setTotalCount] = useState("");
   const [totalPages, setTotalPages] = useState("");
   const loader = useLoader();
+  const apiProvider = useApi();
 
   const handleDeleteAlert = () => {
     setShowDeleteAlert(true);
@@ -39,15 +41,19 @@ const Coin = () => {
     setShowDeleteAlert(false);
   };
   useEffect(() => {
-    fetchCoin();
+    fetchCoin(apiProvider);
   }, []);
 
-  const fetchCoin = () => {
+  const fetchCoin = (apiProvider) => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETWALLET, "POST", {
-      page,
-      perPage,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.GETWALLET,
+      "POST",
+      {
+        page,
+        perPage,
+      }
+    )
       .then((res) => {
         loader.showLoader(false);
         setGetCoin(res.result);
@@ -65,9 +71,9 @@ const Coin = () => {
     setShowDeleteAlert(true);
   };
 
-  const handleDelete = () => {
+  const handleDelete = (apiProvider) => {
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.DELETECOIN + `/${id}`,
+      apiProvider?.apiUrl + NetworkConfiguration.DELETECOIN + `/${id}`,
       "DELETE"
     )
       .then((res) => {

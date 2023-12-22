@@ -10,6 +10,7 @@ import {
 } from "../../../network/NetworkConfiguration";
 import FormAlertPopUp from "../../FormAlertPopUp";
 import AddLeaderForm from "../../formComponents/AddLeaderForm";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const LeaderTable = ({ showLeaderList, page, perPage, getAllLeaders }) => {
   const [showHostData, setShowHostData] = useState(false);
@@ -17,6 +18,7 @@ const LeaderTable = ({ showLeaderList, page, perPage, getAllLeaders }) => {
   const [data, setData] = useState();
   const [showDeleteAlert, setShowDeleteAlert] = useState(false);
   const [showEditAlert, setShowEditAlert] = useState(false);
+  const apiProvider = useApi();
 
   const handleEditAlert = (id, data) => {
     setShowEditAlert(true);
@@ -46,9 +48,9 @@ const LeaderTable = ({ showLeaderList, page, perPage, getAllLeaders }) => {
     setShowHostData(false);
   };
 
-  const handleDelete = () => {
+  const handleDelete = (apiProvider) => {
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.DELETELEADER + `/${id}`,
+      apiProvider?.apiUrl + NetworkConfiguration.DELETELEADER + `/${id}`,
       "DELETE"
     )
       .then((res) => {

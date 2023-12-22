@@ -10,6 +10,8 @@ import InputField from "../../../components/library/InputField";
 import ResponsibilitiesDropdown from "../../../components/library/ResponsibilitiesDropdown";
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
 import { API_URL, NetworkConfiguration } from "../../../network/NetworkConfiguration";
+import { useApi } from "../../../base/Context/apiProvider";
+import { useSidebar } from "../../../base/Context/sidebarProvider";
 
 
 export default function EditSubAdmin() {
@@ -19,6 +21,8 @@ export default function EditSubAdmin() {
 
   const [passInput, setPassInput] = useState(true);
   const [passInputTwo, setPassInputTwo] = useState(true);
+  const apiProvider = useApi();
+  const sidebarProvider = useSidebar();
 
   const [data, setData] = useState({
     password: "",
@@ -51,9 +55,9 @@ export default function EditSubAdmin() {
   //set side bar menu options for sub admin responsibilities
   useEffect(() => {
     setOptions(
-      sidebarData.map((item) => ({ name: item.label, accessType: [] }))
+      sidebarProvider?.sidebarContent.map((item) => ({ name: item.label, accessType: [] }))
     );
-  }, [sidebarData]);
+  }, [sidebarProvider?.sidebarContent]);
 
 
   console.log('options',options)
@@ -87,7 +91,7 @@ export default function EditSubAdmin() {
 
   //handle Edit
   const handleEdit = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.EDITSUBADMIN , "PUT" , {
+    fetchDataFromAPI(apiProvider?.apiUrl + NetworkConfiguration.EDITSUBADMIN , "PUT" , {
       id: searchParams.get('id'),
       responsibility: responsibilities,
     }).then((res)=>{
@@ -216,13 +220,14 @@ export default function EditSubAdmin() {
           </>
         ) : null}
 
+        <br/> <br/>
+
         <Button
           onClick={handleEdit}
           text="Edit Sub Admin"
           style={{
-            marginTop: "20px",
-           
             border: "none",
+            textAlign:"center",
           }}
           className="web_button"
         />
@@ -239,6 +244,7 @@ export default function EditSubAdmin() {
           eye={handleEye()}
           handleType={handleType}
         />
+        <br/>
         <InputField
           label="Confirm Password"
           placeholder=""
@@ -249,17 +255,16 @@ export default function EditSubAdmin() {
           eye={handleEyeTwo()}
           handleType={handleTypeTwo}
         />
+        <br/>
 
         <Button
           onClickEvent={handleEditPassword}
           text="Edit Password"
           style={{
-            marginTop: "20px",
-            
             border: "none",
+            textAlign:"center",
           }}
           className="web_button"
-          type="button"
         />
       </div>
     </div>

@@ -16,6 +16,7 @@ import { FiSearch } from "react-icons/fi";
 import Pagination from "../../Pagination";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const RejectedHostTable = () => {
   let navigate = useNavigate();
@@ -32,6 +33,7 @@ const RejectedHostTable = () => {
   const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   const handleImageAlert = (img) => {
     setShowImageAlert(true);
@@ -43,19 +45,23 @@ const RejectedHostTable = () => {
   };
 
   useEffect(() => {
-    getRejectedHost();
+    getRejectedHost(apiProvider);
   }, [value, page, perPage]);
 
-  const getRejectedHost = () => {
+  const getRejectedHost = (apiProvider) => {
     loader.showLoader(true);
 
-    fetchDataFromAPI(API_URL + NetworkConfiguration.REJECTEDHOST, "POST", {
-      id: id,
-      rejectedReason: rejectedReason,
-      key: value,
-      page,
-      perPage,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.REJECTEDHOST,
+      "POST",
+      {
+        id: id,
+        rejectedReason: rejectedReason,
+        key: value,
+        page,
+        perPage,
+      }
+    )
       .then((res) => {
         setRejectedHost(res.result);
         loader.showLoader(false);
@@ -83,11 +89,11 @@ const RejectedHostTable = () => {
     navigate("/rejectedhost");
   };
 
-  const handleDeleteRejectedHost = () => {
+  const handleDeleteRejectedHost = (apiProvider) => {
     loader.showLoader(true);
 
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.DELETEHOST + `/${id}`,
+      apiProvider?.apiUrl + NetworkConfiguration.DELETEHOST + `/${id}`,
       "DELETE"
     )
       .then((res) => {

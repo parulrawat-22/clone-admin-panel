@@ -18,6 +18,7 @@ import Pagination from "../../components/Pagination";
 import Lottie from "react-lottie";
 import { useLoader } from "../../base/Context/loaderProvider";
 import noData from "../../base/Animation/No Data Found.json";
+import { useApi } from "../../base/Context/apiProvider";
 
 const Banner = () => {
   const [showBannerForm, setShowBannerForm] = useState(false);
@@ -31,6 +32,7 @@ const Banner = () => {
   const [totalPages, setTotalPages] = useState("");
 
   const loader = useLoader("");
+  const apiProvider = useApi();
 
   const handleShowDeleteAlert = () => {
     setShowDeleteAlert(true);
@@ -45,16 +47,20 @@ const Banner = () => {
   };
 
   useEffect(() => {
-    fetchBannerList();
+    fetchBannerList(apiProvider);
   }, [value, page, perPage]);
 
-  const fetchBannerList = () => {
+  const fetchBannerList = (apiProvider) => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETBANNER, "POST", {
-      key: value,
-      page,
-      perPage,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.GETBANNER,
+      "POST",
+      {
+        key: value,
+        page,
+        perPage,
+      }
+    )
       .then((res) => {
         loader.showLoader(false);
         setShowBannerData(res?.result);
@@ -80,9 +86,9 @@ const Banner = () => {
     fetchBannerList();
   };
 
-  const handleDelete = () => {
+  const handleDelete = (apiProvider) => {
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.DELETEBANNER + `/${bannerId}`,
+      apiProvider?.apiUrl + NetworkConfiguration.DELETEBANNER + `/${bannerId}`,
       "DELETE"
     )
       .then((res) => {

@@ -8,6 +8,7 @@ import {
 } from "../../network/NetworkConfiguration";
 import SecondaryButton from "../library/SecondaryButton";
 import moment from "moment";
+import { useApi } from "../../base/Context/apiProvider";
 
 export default function DashboardChart() {
   ////////////////////////////////
@@ -26,6 +27,7 @@ export default function DashboardChart() {
   const [selectedValue, setSelectedValue] = useState("Year");
   const [userData, setUserData] = useState([]);
   const [hostData, setHostData] = useState([]);
+  const apiProvider = useApi();
 
   useEffect(() => {
     let graphData = earnings.map((item) => ({
@@ -112,7 +114,7 @@ export default function DashboardChart() {
     };
 
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.TOTALHOST,
+      apiProvider?.apiUrl + NetworkConfiguration.TOTALHOST,
       "POST",
       hostEarningPayload
     )
@@ -135,7 +137,7 @@ export default function DashboardChart() {
       week,
     };
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.TOTALUSER,
+      apiProvider?.apiUrl + NetworkConfiguration.TOTALUSER,
       "POST",
       graphPayload
     )

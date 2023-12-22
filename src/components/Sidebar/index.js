@@ -1,10 +1,11 @@
 import { NavLink } from "react-router-dom";
-import sidebarData from "../../Constant/DataComponent";
 import { handleNavLinkClassName } from "../../helpers/sidebarHelpers";
 import { HiOutlineMenuAlt1 } from "react-icons/hi";
 import "./style.css";
+import { useSidebar } from "../../base/Context/sidebarProvider";
 
 const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
+  const sidebarProvider = useSidebar();
   return (
     <div
       className={`sidebar__content_container ${
@@ -16,7 +17,7 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
           className="sidebar__menu__icon"
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         />
-        {sidebarData.map((data, index) => {
+        {sidebarProvider?.sidebarContent.map((data, index) => {
           console.log(data, "qwertyu");
           return (
             <div

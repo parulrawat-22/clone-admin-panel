@@ -20,6 +20,7 @@ import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
 import { BsFillEyeFill } from "react-icons/bs";
 import ImagePopUpModal from "../../ImagePopUpModal";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const AcceptedHostTable = () => {
   let navigate = useNavigate();
@@ -49,11 +50,12 @@ const AcceptedHostTable = () => {
   const [showMultipleImages, setShowMultipleImages] = useState(false);
 
   const loader = useLoader();
+  const apiProvider = useApi();
 
   useEffect(() => {
     getAcceptedHost();
     getHostLeader();
-  }, [value, page, perPage]);
+  }, [value, page, perPage, apiProvider?.apiUrl]);
 
   const handleProfilePic = (img) => {
     setShowProfileAlert(true);
@@ -111,7 +113,10 @@ const AcceptedHostTable = () => {
 
   const getHostLeader = () => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.GETLEADER, "GET")
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.GETLEADER,
+      "GET"
+    )
       .then((res) => {
         loader.showLoader(false);
         console.log(res.result, "987654");
@@ -130,11 +135,15 @@ const AcceptedHostTable = () => {
 
   const getAcceptedHost = () => {
     loader.showLoader(true);
-    fetchDataFromAPI(API_URL + NetworkConfiguration.ACCEPTEDHOST, "POST", {
-      key: value,
-      page,
-      perPage,
-    })
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.ACCEPTEDHOST,
+      "POST",
+      {
+        key: value,
+        page,
+        perPage,
+      }
+    )
       .then((res) => {
         setAcceptedHost(res.result);
         loader.showLoader(false);
@@ -143,6 +152,9 @@ const AcceptedHostTable = () => {
       })
       .catch((err) => {
         console.log(err, "err");
+        if (!err?.status) {
+          setAcceptedHost([]);
+        }
         loader.showLoader(false);
       });
   };
@@ -155,7 +167,7 @@ const AcceptedHostTable = () => {
   const handleDeletedAcceptedHost = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.DELETEHOST + `/${id}`,
+      apiProvider?.apiUrl + NetworkConfiguration.DELETEHOST + `/${id}`,
       "DELETE"
     )
       .then((res) => {
@@ -173,7 +185,7 @@ const AcceptedHostTable = () => {
   const handleAcceptedHostLeader = () => {
     console.log(leaderId, leaderName, "abcdefghi");
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.UPDATELEADER + `/${id}`,
+      apiProvider?.apiUrl + NetworkConfiguration.UPDATELEADER + `/${id}`,
       "PUT",
       {
         leader: leaderId,

@@ -8,20 +8,22 @@ import {
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const HostVideoCallCharge = ({ id, getAcceptedHost, setShowChargeAlert }) => {
   // const [videoCallCharge, setVideoCallCharge] = useState("");
   const [hostuser_fees, setHostuser_fees] = useState("");
   const loader = useLoader();
+  const apiProvider = useApi();
 
   useEffect(() => {
     fetchVideoCallCharge();
-  }, []);
+  }, [apiProvider?.apiUrl]);
 
   const fetchVideoCallCharge = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.GETVIDEOCALLBALANCE + `/${id}`,
+      apiProvider?.apiUrl + NetworkConfiguration.GETVIDEOCALLBALANCE + `/${id}`,
       "GET"
     )
       .then((res) => {
@@ -38,7 +40,7 @@ const HostVideoCallCharge = ({ id, getAcceptedHost, setShowChargeAlert }) => {
   const handleHostLeader = () => {
     console.log("object");
     fetchDataFromAPI(
-      API_URL + NetworkConfiguration.UPDATEHOSTVIDEOFEES + `/${id}`,
+      apiProvider?.apiUrl + NetworkConfiguration.UPDATEHOSTVIDEOFEES + `/${id}`,
       "PUT",
       {
         hostuser_fees: hostuser_fees,
