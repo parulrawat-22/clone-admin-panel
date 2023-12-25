@@ -25,6 +25,7 @@ const AddGiftForm = ({ onSubmit, edit, onClickEdit, editedGift }) => {
 
   const loader = useLoader();
   const apiProvider = useApi();
+  console.log(apiProvider);
 
   useEffect(() => {
     if (edit && editedGift) {
@@ -45,7 +46,7 @@ const AddGiftForm = ({ onSubmit, edit, onClickEdit, editedGift }) => {
     setGiftUploadImage(giftImage);
   };
 
-  const handleGiftForm = (apiProvider) => {
+  const handleGiftForm = () => {
     let data = new FormData();
     data.append("name", giftName);
     data.append("price", giftPrice);

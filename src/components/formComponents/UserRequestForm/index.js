@@ -4,14 +4,13 @@ import InputField from "../../library/InputField";
 import "./style.css";
 import TextArea from "../../library/TextArea";
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
-import {
-  API_URL,
-  NetworkConfiguration,
-} from "../../../network/NetworkConfiguration";
+import { NetworkConfiguration } from "../../../network/NetworkConfiguration";
 import { useApi } from "../../../base/Context/apiProvider";
 
 const UserRequestForm = ({ id, onSubmit }) => {
   const [data, setData] = useState();
+
+  const [showReason, setShowReason] = useState(false);
   const apiProvider = useApi();
 
   useEffect(() => {
@@ -36,6 +35,10 @@ const UserRequestForm = ({ id, onSubmit }) => {
       .catch((err) => {
         console.log(err);
       });
+  };
+
+  const handleEditUserOpen = () => {
+    setShowReason(true);
   };
 
   const handleEditUser = () => {
@@ -89,7 +92,14 @@ const UserRequestForm = ({ id, onSubmit }) => {
           onChange={handleChange}
           name="proffession"
         />
+
         <TextArea value={data?.addBio} onChange={handleChange} name="addBio" />
+        <TextArea
+          placeholer="reason"
+          value={data?.showReason}
+          onChange={handleChange}
+          name="showReason"
+        />
         <div>
           <Button
             style={{ margin: "auto" }}
@@ -98,6 +108,7 @@ const UserRequestForm = ({ id, onSubmit }) => {
           />
         </div>
       </div>
+      {/* <Form */}
     </div>
   );
 };

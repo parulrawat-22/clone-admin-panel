@@ -1,0 +1,42 @@
+.flower__container {
+  padding: 2px 0;
+}
+
+.flower__table {
+  max-width: max-content;
+  min-width: 100%;
+  border-collapse: collapse;
+}
+
+.flower__header {
+  font-family: var(--fontfamily-sansserif);
+  background-color: var(--color-pink);
+  font-weight: var(--fontweight-medium);
+  color: var(--color-white);
+  padding: 0.5rem 0;
+}
+
+.flower__data {
+  text-align: center;
+  font-family: var(--fontfamily-sansserif);
+  border: none;
+  border-bottom: 1px solid black;
+  padding: 0.5rem 0;
+}
+
+.flower__eye__icon {
+  font-size: var(--fontsize-medium);
+  cursor: pointer;
+}
+
+.flower__edit__icon {
+  font-size: var(--fontsize-large);
+  color: var(--color-blue);
+  cursor: pointer;
+}
+
+.flower__delete__icon {
+  font-size: var(--fontsize-large);
+  color: var(--color-red);
+  cursor: pointer;
+}

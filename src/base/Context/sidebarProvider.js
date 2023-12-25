@@ -95,6 +95,12 @@ const SidebarData = [
   },
 
   {
+    label: "Flower",
+    link: "/flower",
+    icon: sticker,
+  },
+
+  {
     label: "Top Growing",
     link: "/topgrowing",
     icon: topgrowing,
@@ -115,6 +121,12 @@ const SidebarData = [
   {
     label: "Feedback",
     link: "/feedback",
+    icon: feedback,
+  },
+
+  {
+    label: "Suspicious Data",
+    link: "/suspicious",
     icon: feedback,
   },
 

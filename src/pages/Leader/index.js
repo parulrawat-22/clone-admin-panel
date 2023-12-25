@@ -35,7 +35,7 @@ const Leader = () => {
 
   useEffect(() => {
     getAllLeaders();
-  }, [value, page, perPage]);
+  }, [value, page, perPage, apiProvider?.apiUrl]);
 
   const getAllLeaders = () => {
     fetchDataFromAPI(

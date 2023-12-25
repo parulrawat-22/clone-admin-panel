@@ -67,7 +67,7 @@ const StickerForm = ({ onSubmit, edit, editedSticker, onClickEdit, id }) => {
     return result;
   };
 
-  const handleEditForm = (apiProvider) => {
+  const handleEditForm = () => {
     loader.showLoader(true);
 
     fetchDataFromAPI(
@@ -92,7 +92,7 @@ const StickerForm = ({ onSubmit, edit, editedSticker, onClickEdit, id }) => {
       });
   };
 
-  const handleStickerForm = (apiProvider) => {
+  const handleStickerForm = () => {
     if (validate()) {
       loader.showLoader(true);
 

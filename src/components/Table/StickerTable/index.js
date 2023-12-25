@@ -53,10 +53,10 @@ const StickerTable = () => {
   };
 
   useEffect(() => {
-    fetchSticker(apiProvider);
-  }, [value, page, perPage]);
+    fetchSticker();
+  }, [value, page, perPage, apiProvider?.apiUrl]);
 
-  const fetchSticker = (apiProvider) => {
+  const fetchSticker = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.GETSTICKER,
@@ -122,7 +122,7 @@ const StickerTable = () => {
     fetchSticker();
   };
 
-  const handleDeleteApi = (apiProvider) => {
+  const handleDeleteApi = () => {
     loader.showLoader(true);
 
     fetchDataFromAPI(

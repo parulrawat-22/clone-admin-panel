@@ -48,6 +48,7 @@ const UserTable = () => {
 
   useEffect(() => {
     getUserRequest();
+    console.log("apiProvider?.apiUrl", apiProvider?.apiUrl);
   }, [value, page, perPage, apiProvider?.apiUrl]);
 
   const handleUserEdit = (id) => {
@@ -167,14 +168,7 @@ const UserTable = () => {
           value={value}
         />
       </div>
-      <div className="user__request__btn__container">
-        <Button
-          style={{ textAlign: "center" }}
-          onClick={handleCatchwooUsers}
-          text="Catchwoo Users"
-          className="user__request__btn"
-        />
-      </div>
+
       <div className="table_parent_box">
         <table className="user__request__table">
           <thead>

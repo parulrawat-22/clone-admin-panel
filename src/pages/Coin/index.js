@@ -5,10 +5,7 @@ import FormAlertPopUp from "../../components/FormAlertPopUp";
 import { useEffect, useState } from "react";
 import CreateWalletForm from "../../components/formComponents/CreateWalletForm";
 import { fetchDataFromAPI } from "../../network/NetworkConnection";
-import {
-  API_URL,
-  NetworkConfiguration,
-} from "../../network/NetworkConfiguration";
+import { NetworkConfiguration } from "../../network/NetworkConfiguration";
 import moment from "moment";
 import AlertPopUp from "../../components/AlertPopUp";
 import { errorToast, successToast } from "../../utils/toast";
@@ -44,7 +41,7 @@ const Coin = () => {
     fetchCoin(apiProvider);
   }, []);
 
-  const fetchCoin = (apiProvider) => {
+  const fetchCoin = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.GETWALLET,
@@ -71,7 +68,7 @@ const Coin = () => {
     setShowDeleteAlert(true);
   };
 
-  const handleDelete = (apiProvider) => {
+  const handleDelete = () => {
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.DELETECOIN + `/${id}`,
       "DELETE"

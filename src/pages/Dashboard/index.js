@@ -18,6 +18,8 @@ import { useLoader } from "../../base/Context/loaderProvider";
 import SearchInput from "../../components/SearchInput";
 import { FiSearch } from "react-icons/fi";
 import { useApi } from "../../base/Context/apiProvider";
+import { useSearchParams } from "react-router-dom";
+import { useSidebar } from "../../base/Context/sidebarProvider";
 
 const Dashboard = () => {
   const loader = useLoader();
@@ -39,6 +41,18 @@ const Dashboard = () => {
   const [checkEndDate, setCheckEndDate] = useState(true);
   const [checkStartDate, setCheckStartDate] = useState(true);
   const apiProvider = useApi();
+  const sidebarProvider = useSidebar();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    if (searchParams && searchParams.get("appType") === "catchwoo") {
+      sessionStorage.setItem("selectedType", "catchwoo");
+      sidebarProvider.setSelectedType("catchwoo");
+    } else {
+      sessionStorage.removeItem("selectedType");
+      sidebarProvider.setSelectedType("");
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     handleOnlineUser();

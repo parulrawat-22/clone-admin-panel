@@ -79,7 +79,7 @@ const GiftTable = () => {
 
   useEffect(() => {
     fetchGift();
-  }, [value, page, perPage]);
+  }, [value, page, perPage, apiProvider?.apiUrl]);
 
   const fetchGift = () => {
     loader.showLoader(true);

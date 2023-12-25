@@ -30,7 +30,7 @@ const InterestForm = ({
     setName(e.target.value);
   };
 
-  const handleOnEdit = (apiProvider) => {
+  const handleOnEdit = () => {
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.UPDATEINTEREST + `/${id}`,
       "PUT",
@@ -52,7 +52,7 @@ const InterestForm = ({
       });
   };
 
-  const handleOnSubmit = (apiProvider) => {
+  const handleOnSubmit = () => {
     if (validate()) {
       fetchDataFromAPI(
         apiProvider?.apiUrl + NetworkConfiguration.ADDINTEREST,

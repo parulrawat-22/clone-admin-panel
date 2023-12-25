@@ -57,6 +57,10 @@ const PopMenu = ({ popOpen, children }) => {
           <p className="logout_para" onClick={handleHelplineNumber}>
             Helpline
           </p>
+
+          <a href="/dashboard?appType=catchwoo" target="_blank">
+            <p className="logout_para">Catchwoo</p>
+          </a>
           <p className="logout_para" onClick={handleLogoutAlert}>
             Logout
           </p>

@@ -42,7 +42,7 @@ const AddLeaderForm = ({ onSubmit, edit, data, setData, id }) => {
   const loader = useLoader();
   const apiProvider = useApi();
 
-  const handleAddLeader = (apiProvider) => {
+  const handleAddLeader = () => {
     if (validate()) {
       loader.showLoader(true);
 
@@ -140,7 +140,7 @@ const AddLeaderForm = ({ onSubmit, edit, data, setData, id }) => {
     setPassword(e.target.value);
   };
 
-  const handleEditLeader = (apiProvider) => {
+  const handleEditLeader = () => {
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.EDITLEADER,
       "PUT",

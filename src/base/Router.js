@@ -40,6 +40,8 @@ import SubAdminList from "../pages/subAdmin/list";
 import AddSubAdmin from "../pages/subAdmin/add";
 import EditSubAdmin from "../pages/subAdmin/edit";
 import { useApi } from "./Context/apiProvider";
+import Flower from "../pages/Flower";
+import SuspiciousData from "../pages/SuspiciousData";
 // import SubAdmin from "../pages/SubAdmin";
 
 // import Coin from "../pages/Coin";
@@ -125,6 +127,16 @@ const Router = () => {
           </Layout>
         }
       />
+
+      <Route
+        path="/suspicious"
+        element={
+          <Layout>
+            <SuspiciousData />
+          </Layout>
+        }
+      />
+
       <Route path="/toptalent" element={<TopTalentTable />} />
       <Route
         path="/notification"
@@ -187,6 +199,15 @@ const Router = () => {
         element={
           <Layout>
             <EditSubAdmin />
+          </Layout>
+        }
+      ></Route>
+
+      <Route
+        path="/flower"
+        element={
+          <Layout>
+            <Flower />
           </Layout>
         }
       ></Route>

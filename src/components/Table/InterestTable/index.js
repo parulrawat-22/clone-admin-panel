@@ -58,10 +58,10 @@ const InterestTable = () => {
   };
 
   useEffect(() => {
-    fetchInterestData(apiProvider);
-  }, []);
+    fetchInterestData();
+  }, [apiProvider?.apiUrl]);
 
-  const fetchInterestData = (apiProvider) => {
+  const fetchInterestData = () => {
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.GETINTEREST,
       "POST",
@@ -85,7 +85,7 @@ const InterestTable = () => {
     fetchInterestData();
   };
 
-  const handleDeleteApi = (apiProvider) => {
+  const handleDeleteApi = () => {
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.DELETEINTEREST + `/${id}`,
       "DELETE",

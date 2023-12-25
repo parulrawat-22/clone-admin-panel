@@ -8,7 +8,7 @@
   border-bottom: 1px solid grey;
   font-weight: var(--fontweight-bold);
   text-align: center;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 2rem;
 }
 
 .user__form__content {
