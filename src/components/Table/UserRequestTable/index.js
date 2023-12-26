@@ -187,6 +187,9 @@ const UserTable = () => {
             <th className="user__request__headers">Bio</th>
             <th className="user__request__headers">Profile Pic</th>
             <th className="user__request__headers">Image/Video</th>
+
+            <th className="user__request__headers">Reason for change</th>
+
             <th className="user__request__headers">Created At </th>
             <th className="user__request__headers">View Profile</th>
             <th className="user__request__headers">Action</th>
@@ -204,7 +207,7 @@ const UserTable = () => {
                         <div
                           className="feedback__table__comment"
                           onClick={
-                            data?.name.length > 12
+                            data?.name.length > 10
                               ? () =>
                                   modalProvider.handleCommentClick(
                                     data?.name,
@@ -310,6 +313,11 @@ const UserTable = () => {
                           }}
                           className="user__request__eye__icon"
                         />
+                      </td>
+                      <td className="user__request__data">
+                        {data?.reasionUpdateProfile
+                          ? data?.reasionUpdateProfile
+                          : "-"}
                       </td>
                       <td className="user__request__data">
                         {" "}

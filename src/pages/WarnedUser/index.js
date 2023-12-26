@@ -6,7 +6,7 @@ import WarnedHostTable from "../../components/Table/WarnedHostTable";
 import { useSearchParams } from "react-router-dom";
 
 const WarnedUsers = () => {
-  const [showData, setShowData] = useState("host");
+  const [showData, setShowData] = useState("user");
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {

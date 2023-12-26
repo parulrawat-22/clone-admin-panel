@@ -38,8 +38,8 @@ const Coin = () => {
     setShowDeleteAlert(false);
   };
   useEffect(() => {
-    fetchCoin(apiProvider);
-  }, []);
+    fetchCoin();
+  }, [apiProvider?.apiUrl]);
 
   const fetchCoin = () => {
     loader.showLoader(true);

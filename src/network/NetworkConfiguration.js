@@ -123,6 +123,8 @@ export const NetworkConfiguration = {
   WEEKLYTALENT: "admin/findWeeklyTalentUser",
   TOPSTAR: "admin/findTopStarHost",
   NEWSTAR: "admin/findNewStarHost",
+  SUSPICIOUSDATA: "admin/suspicious",
+  GETFLOWER: "gift/getRoseDetails",
 
   //subAdmin
   SUBADMINLIST: "admin/subAdminList",

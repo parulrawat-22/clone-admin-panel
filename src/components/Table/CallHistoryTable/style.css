@@ -23,3 +23,10 @@
   border-bottom: 1px solid grey;
   font-family: var(--fontfamily-sansserif);
 }
+
+.user__random__call {
+  background-color: var(--color-pink);
+  color: var(--color-white);
+  border-radius: 80px;
+  padding: 0.2rem 0;
+}

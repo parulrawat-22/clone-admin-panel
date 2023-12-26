@@ -16,11 +16,12 @@ const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
   const [coins, setCoins] = useState("");
   const [price, setPrice] = useState("");
   const [offer, setOffer] = useState("");
-  //const [edit, setEdit] = useState("");
+  const [image, setImage] = useState("");
   const [error, setError] = useState({
     coinError: "",
     priceError: "",
     offerError: "",
+    imageError: "",
   });
 
   const loader = useLoader();
@@ -41,7 +42,6 @@ const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
       )
         .then((res) => {
           loader.showLoader(false);
-
           console.log(res);
           successToast(res.message);
           onSubmit();
@@ -70,6 +70,7 @@ const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
         coins: coins,
         price: price,
         offer: offer,
+        image: image,
       }
     )
       .then((res) => {
@@ -81,7 +82,6 @@ const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
       .catch((err) => {
         console.log(err);
         loader.showLoader(false);
-
         errorToast(err.message);
       });
   };
@@ -96,14 +96,12 @@ const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
       .then((res) => {
         console.log(res);
         loader.showLoader(false);
-
         setCoins(res.result.coins);
         setOffer(res.result.offer);
         setPrice(res.result.price);
       })
       .catch((err) => {
         loader.showLoader(false);
-
         console.log(err);
       });
   };
@@ -162,6 +160,15 @@ const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
           }}
           placeholder="Offer Price"
           value={offer}
+        />
+        <br />
+        <InputField
+          type="file"
+          onChange={(e) => {
+            setImage(e.target.files[0]);
+          }}
+          placeholder="Offer Price"
+          value={image}
         />
         <br />
         <Button

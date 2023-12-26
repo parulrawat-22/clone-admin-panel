@@ -27,6 +27,7 @@ const InterestTable = () => {
   const [id, setId] = useState("");
   const [showEditForm, setShowEditForm] = useState(false);
   const [name, setName] = useState("");
+  const [value, setValue] = useState("");
   const apiProvider = useApi();
 
   const handleEditAlert = (id, name) => {
@@ -66,11 +67,13 @@ const InterestTable = () => {
       apiProvider?.apiUrl + NetworkConfiguration.GETINTEREST,
       "POST",
       {
+        key: value,
         page,
         perPage,
       }
     )
       .then((res) => {
+        setValue(res?.value);
         setInterestData(res?.result);
         setTotalCount(res?.totalCount);
         setTotalPages(res?.totalPages);

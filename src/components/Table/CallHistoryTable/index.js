@@ -57,6 +57,7 @@ const CallHistory = () => {
           <th className="user__call__history__header">Host Name</th>
           <th className="user__call__history__header">Coin Spend</th>
           <th className="user__call__history__header">Mode</th>
+          <th className="user__call__history__header">Is Random</th>
           <th className="user__call__history__header">Time Duration</th>
         </thead>
         <tbody>
@@ -74,6 +75,13 @@ const CallHistory = () => {
                     </td>
                     <td className="user__call__history__data">
                       {data?.callType}
+                    </td>
+                    <td className="user__call__history__data">
+                      {data?.random ? (
+                        <p className="user__random__call">Random</p>
+                      ) : (
+                        "-"
+                      )}
                     </td>
                     <td className="user__call__history__data">
                       {data?.total_minute}

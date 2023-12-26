@@ -3,10 +3,7 @@ import Button from "../../library/Button";
 import InputField from "../../library/InputField";
 import "./style.css";
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
-import {
-  API_URL,
-  NetworkConfiguration,
-} from "../../../network/NetworkConfiguration";
+import { NetworkConfiguration } from "../../../network/NetworkConfiguration";
 import { errorToast, successToast } from "../../../utils/toast";
 import { useApi } from "../../../base/Context/apiProvider";
 
@@ -40,7 +37,6 @@ const InterestForm = ({
     )
       .then((res) => {
         successToast(res?.message);
-
         onEdit();
         console.log(res);
       })

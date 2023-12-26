@@ -1,42 +1,37 @@
-.flower__container {
+.suspicious__data__container {
   padding: 1rem 0;
 }
 
-.flower__table {
+.suspicious__data__table {
   max-width: max-content;
   min-width: 100%;
   border-collapse: collapse;
 }
 
-.flower__header {
+.suspicious__data__header {
   font-family: var(--fontfamily-sansserif);
-  background-color: var(--color-pink);
   font-weight: var(--fontweight-medium);
+  background-color: var(--color-pink);
   color: var(--color-white);
   padding: 0.5rem 0;
 }
 
-.flower__data {
-  text-align: center;
+.suspicious__data__data {
   font-family: var(--fontfamily-sansserif);
-  border: none;
+  text-align: center;
+  font-size: var(--fontsize-small);
   border-bottom: 1px solid black;
-  padding: 0.5rem 0;
+  padding: 0.3rem 0;
 }
 
-.flower__eye__icon {
+.suspicious__edit__icon {
   font-size: var(--fontsize-medium);
-  cursor: pointer;
-}
-
-.flower__edit__icon {
-  font-size: var(--fontsize-large);
   color: var(--color-blue);
   cursor: pointer;
 }
 
-.flower__delete__icon {
-  font-size: var(--fontsize-large);
+.suspicious__delete__icon {
+  font-size: var(--fontsize-medium);
   color: var(--color-red);
   cursor: pointer;
 }

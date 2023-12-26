@@ -12,14 +12,13 @@
   background-color: #f20094;
   font-family: var(--fontfamily-sansserif);
   font-weight: var(--fontweight-medium);
-
   color: white;
   padding: 10px;
 }
 
 .warned__host__data {
   text-align: center;
-  padding: 10px 0;
+  padding: 5px 0;
   font-family: var(--fontfamily-sansserif);
 
   border: none;

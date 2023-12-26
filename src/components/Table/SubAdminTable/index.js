@@ -21,7 +21,6 @@ const SubAdminTable = () => {
   const [totalPages, setTotalPages] = useState();
   const [subAdminList, setSubAdminList] = useState([]);
   const [value, setValue] = useState("");
-
   const [responsibilityPopup, setResponsibilityPopup] = useState(false);
   const [responsibilities, setResponsibilities] = useState([]);
   const [showDeleteAlert, setShowDeleteAlert] = useState("");

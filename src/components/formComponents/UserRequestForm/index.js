@@ -2,15 +2,14 @@ import { useEffect, useState } from "react";
 import Button from "../../library/Button";
 import InputField from "../../library/InputField";
 import "./style.css";
-import TextArea from "../../library/TextArea";
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
 import { NetworkConfiguration } from "../../../network/NetworkConfiguration";
 import { useApi } from "../../../base/Context/apiProvider";
 
 const UserRequestForm = ({ id, onSubmit }) => {
   const [data, setData] = useState();
-
-  const [showReason, setShowReason] = useState(false);
+  const [reason, setReason] = useState("");
+  // const [showReason, setShowReason] = useState(false);
   const apiProvider = useApi();
 
   useEffect(() => {
@@ -37,10 +36,6 @@ const UserRequestForm = ({ id, onSubmit }) => {
       });
   };
 
-  const handleEditUserOpen = () => {
-    setShowReason(true);
-  };
-
   const handleEditUser = () => {
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.UPDATEUSER,
@@ -48,6 +43,7 @@ const UserRequestForm = ({ id, onSubmit }) => {
       {
         id: id,
         ...data,
+        reasionUpdateProfile: reason,
       }
     )
       .then((res) => {
@@ -93,14 +89,19 @@ const UserRequestForm = ({ id, onSubmit }) => {
           name="proffession"
         />
 
-        <TextArea value={data?.addBio} onChange={handleChange} name="addBio" />
-        <TextArea
-          placeholer="reason"
-          value={data?.showReason}
+        <InputField
+          value={data?.addBio}
           onChange={handleChange}
+          name="addBio"
+        />
+        <InputField
+          placeholder="Reason for changing information"
+          value={data?.showReason}
+          onChange={(e) => setReason(e.target.value)}
           name="showReason"
         />
         <div>
+          <br />
           <Button
             style={{ margin: "auto" }}
             onClick={handleEditUser}

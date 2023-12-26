@@ -47,10 +47,10 @@ const Banner = () => {
   };
 
   useEffect(() => {
-    fetchBannerList(apiProvider);
-  }, [value, page, perPage]);
+    fetchBannerList();
+  }, [value, page, perPage, apiProvider?.apiUrl]);
 
-  const fetchBannerList = (apiProvider) => {
+  const fetchBannerList = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.GETBANNER,
@@ -86,7 +86,7 @@ const Banner = () => {
     fetchBannerList();
   };
 
-  const handleDelete = (apiProvider) => {
+  const handleDelete = () => {
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.DELETEBANNER + `/${bannerId}`,
       "DELETE"

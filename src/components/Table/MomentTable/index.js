@@ -175,7 +175,22 @@ const MomentTable = () => {
                           </div>
                         </td>
                       )}
-                      <td className="moment__table__body">{data?.subject}</td>
+                      <td className="moment__table__body">
+                        <div
+                          className="feedback__table__comment"
+                          onClick={
+                            data?.subject.length > 12
+                              ? () =>
+                                  modalProvider.handleCommentClick(
+                                    data?.subject,
+                                    "Caption"
+                                  )
+                              : () => {}
+                          }
+                        >
+                          {data?.subject}
+                        </div>
+                      </td>
                       <td className="moment__table__body">{data?.likes}</td>
 
                       <td className="moment__table__body">

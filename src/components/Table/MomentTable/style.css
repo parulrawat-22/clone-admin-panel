@@ -21,7 +21,7 @@
   font-family: var(--fontfamily-sansserif);
   border: none;
   border-bottom: 1px solid grey;
-  padding: 10px 0;
+  padding: 5px 0;
 }
 
 .moment__table__body__eye_icon {

@@ -26,7 +26,6 @@
   padding: 5px 5px;
   font-family: var(--fontfamily-sansserif);
   font-size: var(--fontsize-small);
-  border: none;
   border-bottom: 1px solid grey;
 }
 

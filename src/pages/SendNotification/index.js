@@ -199,6 +199,14 @@ const SendNotification = () => {
             placeholder="Enter Message"
           />
           <br />
+          <InputField
+            type="file"
+            value={body}
+            onChange={(e) => {
+              setBody(e.target.value);
+            }}
+          />
+          <br />
           <br />
           <Button
             onClick={handleSendNotification}
@@ -240,6 +248,14 @@ const SendNotification = () => {
               setBody1(e.target.value);
             }}
             placeholder="Enter Message"
+          />
+          <br />
+          <InputField
+            type="file"
+            value={body1}
+            onChange={(e) => {
+              setBody1(e.target.value);
+            }}
           />
           <br />
           <Button

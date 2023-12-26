@@ -30,7 +30,6 @@ const AddGiftForm = ({ onSubmit, edit, onClickEdit, editedGift }) => {
   useEffect(() => {
     if (edit && editedGift) {
       setGiftData(
-        apiProvider,
         editedGift?.giftId,
         editedGift?.giftName,
         editedGift?.giftPrice,
@@ -72,9 +71,8 @@ const AddGiftForm = ({ onSubmit, edit, onClickEdit, editedGift }) => {
     }
   };
 
-  const handleEditForm = (apiProvider) => {
+  const handleEditForm = () => {
     loader.showLoader(true);
-
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.UPDATEGIFT,
       "PUT",
@@ -86,7 +84,6 @@ const AddGiftForm = ({ onSubmit, edit, onClickEdit, editedGift }) => {
     )
       .then((res) => {
         loader.showLoader(false);
-
         console.log(res);
         successToast("Gift updated successfully");
         onClickEdit();
