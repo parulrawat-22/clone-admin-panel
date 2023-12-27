@@ -16,7 +16,7 @@ const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
   const [coins, setCoins] = useState("");
   const [price, setPrice] = useState("");
   const [offer, setOffer] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
   const [error, setError] = useState({
     coinError: "",
     priceError: "",
@@ -29,15 +29,18 @@ const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
 
   const handleCreateCoin = () => {
     if (validate()) {
+      let data = new FormData();
+      data.append("coins", coins);
+      data.append("price", price);
+      data.append("offer", offer);
+      data.append("image", image);
       loader.showLoader(true);
-
       fetchDataFromAPI(
         apiProvider?.apiUrl + NetworkConfiguration.ADDWALLET,
         "POST",
+        data,
         {
-          coins,
-          price,
-          offer,
+          "Content-Type": "multipart/form-data",
         }
       )
         .then((res) => {
@@ -48,7 +51,6 @@ const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
         })
         .catch((err) => {
           loader.showLoader(false);
-
           errorToast(err.message);
           console.log(err);
         });
@@ -67,10 +69,6 @@ const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
       "PUT",
       {
         id: id,
-        coins: coins,
-        price: price,
-        offer: offer,
-        image: image,
       }
     )
       .then((res) => {
@@ -124,6 +122,9 @@ const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
     } else if (!price) {
       setError({ ...error, priceError: "Price is required" });
       result = false;
+    } else if (!image) {
+      setError({ ...error, imageError: "Image is required" });
+      result = false;
     }
     return result;
   };
@@ -165,10 +166,11 @@ const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
         <InputField
           type="file"
           onChange={(e) => {
+            console.log("image :");
             setImage(e.target.files[0]);
           }}
-          placeholder="Offer Price"
-          value={image}
+          // value={image}
+          error={error.imageError}
         />
         <br />
         <Button

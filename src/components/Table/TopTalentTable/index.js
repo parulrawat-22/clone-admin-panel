@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import ModalProvider, { Modal } from "../../../base/Context/modalProvider";
+import { Modal } from "../../../base/Context/modalProvider";
 import "./style.css";
 
 const TopTalentTable = ({ tableData, isHost, page, perPage }) => {

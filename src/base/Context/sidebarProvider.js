@@ -79,6 +79,12 @@ const SidebarData = [
   },
 
   {
+    label: "Call History",
+    link: "/allcallhistory",
+    icon: coin,
+  },
+
+  {
     label: "Report",
     link: "/report",
     icon: report,

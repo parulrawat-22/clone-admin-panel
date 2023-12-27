@@ -42,6 +42,7 @@ import EditSubAdmin from "../pages/subAdmin/edit";
 import { useApi } from "./Context/apiProvider";
 import Flower from "../pages/Flower";
 import SuspiciousData from "../pages/SuspiciousData";
+import MainCallHistory from "../pages/MainCallHistory";
 // import SubAdmin from "../pages/SubAdmin";
 
 // import Coin from "../pages/Coin";
@@ -133,6 +134,15 @@ const Router = () => {
         element={
           <Layout>
             <SuspiciousData />
+          </Layout>
+        }
+      />
+
+      <Route
+        path="/allcallhistory"
+        element={
+          <Layout>
+            <MainCallHistory />
           </Layout>
         }
       />

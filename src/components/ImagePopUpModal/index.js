@@ -27,7 +27,7 @@ const style = {
 };
 
 const ImagePopUpModal = ({ open, handleClose, header, img, images }) => {
-  const SUPPORTED_IMAGE_FORMATS = ["jpg", "jpeg", "png", "webp"];
+  const SUPPORTED_IMAGE_FORMATS = ["jpg", "jpeg", "png", "webp", "pdf"];
 
   const getUrlExtension = (url) => {
     return url.split(/[#?]/)[0].split(".").pop().trim();

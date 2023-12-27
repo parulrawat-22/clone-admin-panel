@@ -82,7 +82,6 @@ const Dashboard = () => {
 
   const handleOfflineHost = () => {
     loader.showLoader(true);
-
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.OFFLINEHOST,
       "GET"

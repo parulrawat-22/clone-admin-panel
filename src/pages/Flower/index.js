@@ -16,7 +16,7 @@ const Flower = () => {
   const [img, setImg] = useState("");
   const [showFlowerImage, setShowFlowerImage] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
-  // const []
+  const [id, setId] = useState("");
 
   useEffect(() => {
     fetchFlowerData();
@@ -31,8 +31,10 @@ const Flower = () => {
         console.log(err);
       });
   };
-  const handleFlower = () => {
+
+  const handleFlower = (id) => {
     setShowEdit(true);
+    setId(id);
   };
 
   const handleFlowerClose = () => {
@@ -46,6 +48,11 @@ const Flower = () => {
 
   const handleFlowerImageClose = () => {
     setShowFlowerImage(false);
+  };
+
+  const onSubmit = () => {
+    setShowEdit(false);
+    fetchFlowerData();
   };
 
   return (
@@ -66,7 +73,7 @@ const Flower = () => {
           <td className="flower__data">
             <AiFillEye
               className="flower__eye__icon"
-              onClick={() => handleFlowerImage(flowerData?._id)}
+              onClick={() => handleFlowerImage(flowerData?.giftUrl)}
             />
           </td>
           <td className="flower__data">
@@ -77,7 +84,10 @@ const Flower = () => {
           </td>
 
           <td className="flower__data">
-            <AiFillEdit className="flower__edit__icon" onClick={handleFlower} />
+            <AiFillEdit
+              className="flower__edit__icon"
+              onClick={() => handleFlower(flowerData?._id)}
+            />
           </td>
         </tbody>
       </table>
@@ -92,7 +102,7 @@ const Flower = () => {
         handleOpen={handleFlower}
         onRequestClose={handleFlowerClose}
       >
-        <FlowerForm fetchFlowerData={fetchFlowerData} flowerData={flowerData} />
+        <FlowerForm id={id} onSubmit={onSubmit} flowerData={flowerData} />
       </FormAlertPopUp>
     </div>
   );

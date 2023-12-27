@@ -1,4 +1,4 @@
-import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import { AiFillDelete, AiFillEdit, AiFillEye } from "react-icons/ai";
 import "./style.css";
 import Button from "../../components/library/Button";
 import FormAlertPopUp from "../../components/FormAlertPopUp";
@@ -16,6 +16,7 @@ import Lottie from "react-lottie";
 import noData from "../../base/Animation/No Data Found.json";
 import { useLoader } from "../../base/Context/loaderProvider";
 import { useApi } from "../../base/Context/apiProvider";
+import ImagePopUpModal from "../../components/ImagePopUpModal";
 
 const Coin = () => {
   const [showCreateWallet, setShowCreateWallet] = useState(false);
@@ -24,9 +25,11 @@ const Coin = () => {
   const [showEditAlert, setShowEditAlert] = useState(false);
   const [id, setId] = useState("");
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState("");
   const [totalPages, setTotalPages] = useState("");
+  const [img, setImg] = useState("");
+  const [showImage, setShowImage] = useState(false);
   const loader = useLoader();
   const apiProvider = useApi();
 
@@ -115,6 +118,15 @@ const Coin = () => {
     return <FiSearch />;
   };
 
+  const handleEyeClick = (img) => {
+    setShowImage(true);
+    setImg(img);
+  };
+
+  const handleEyeClickClose = () => {
+    setShowImage(false);
+  };
+
   return (
     <div>
       <div onClick={handleCreateWallet} className="add__wallet">
@@ -130,6 +142,7 @@ const Coin = () => {
             <th className="wallet__header">Coin</th>
             <th className="wallet__header">Price</th>
             <th className="wallet__header">Offer Price</th>
+            <th className="wallet__header">Coin Image</th>
             <th className="wallet__header">Created At</th>
             <th className="wallet__header">Updated At</th>
             <th className="wallet__header">Action</th>
@@ -145,6 +158,16 @@ const Coin = () => {
                       <td className="wallet__data">{data?.coins}</td>
                       <td className="wallet__data">{data?.price}</td>
                       <td className="wallet__data">{data?.offer}</td>
+                      <td className="wallet__data">
+                        {data?.walletUrl ? (
+                          <AiFillEye
+                            className="wallet__eye__icon"
+                            onClick={() => handleEyeClick(data?.walletUrl)}
+                          />
+                        ) : (
+                          ""
+                        )}
+                      </td>
                       <td className="wallet__data">
                         {moment(data?.createdAt).format("DD/MM/YYYY LT")}
                       </td>
@@ -219,6 +242,12 @@ const Coin = () => {
       >
         <CreateWalletForm onClickEdit={onClickEdit} id={id} edit={true} />
       </FormAlertPopUp>
+
+      <ImagePopUpModal
+        open={showImage}
+        handleClose={handleEyeClickClose}
+        img={img}
+      />
     </div>
   );
 };
