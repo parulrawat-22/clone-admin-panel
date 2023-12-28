@@ -149,7 +149,6 @@ const WarnedUserTable = () => {
                         {moment(data?.createdAt).format("DD/MM/YYYY")}
                       </td>
                       <td className="warned__user__data">
-                        <AiFillEdit className="warned__user__edit__icon" />
                         <AiFillDelete
                           onClick={() => {
                             handleAlertDelete(data?._id);

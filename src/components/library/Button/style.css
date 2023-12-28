@@ -14,7 +14,7 @@
 .button__text {
   color: var(--color-white);
   font-size: var(--fontsize-medium);
-  font-family: var(--fontfamily-sansserif);
+  font-family: var(--fontfamily-default);
 }
 
 .custom__margin {

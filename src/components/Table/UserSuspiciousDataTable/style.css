@@ -17,7 +17,7 @@
 }
 
 .suspicious__data__data {
-  font-family: var(--fontfamily-sansserif);
+  font-family: var(--fontfamily-default);
   text-align: center;
   font-size: var(--fontsize-small);
   border-bottom: 1px solid black;

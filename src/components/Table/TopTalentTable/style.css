@@ -19,9 +19,8 @@
 
 .top__talent__data {
   text-align: center;
-  font-family: var(--fontfamily-sansserif);
-
-  padding: 10px 0;
+  font-family: var(--fontfamily-default);
+  padding: 10px 5px;
   border: none;
   border-bottom: 1px solid grey;
 }

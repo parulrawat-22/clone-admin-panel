@@ -3,10 +3,7 @@ import InputField from "../../library/InputField";
 import "./style.css";
 import { useEffect, useState } from "react";
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
-import {
-  API_URL,
-  NetworkConfiguration,
-} from "../../../network/NetworkConfiguration";
+import { NetworkConfiguration } from "../../../network/NetworkConfiguration";
 import { errorToast, successToast } from "../../../utils/toast";
 import { useLoader } from "../../../base/Context/loaderProvider";
 import { useApi } from "../../../base/Context/apiProvider";
@@ -55,15 +52,18 @@ const BannerForm = ({ onSubmit, edit, id, onClickEdit, fetchBannerList }) => {
 
   const handleEdit = () => {
     loader.showLoader(true);
-
+    let data = new FormData();
+    data.append("name", bannerName);
+    data.append("image", image);
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.UPDATEBANNERNAME + `/${id}`,
       "PUT",
-      { name: bannerName }
+      data,
+      { "Content-Type": "multipart/form-data" }
     )
       .then((res) => {
         loader.showLoader(false);
-
+        // setBannerName(res?.data.name);
         console.log(res);
         fetchBannerList();
         successToast("Banner updated successfully");
@@ -71,7 +71,6 @@ const BannerForm = ({ onSubmit, edit, id, onClickEdit, fetchBannerList }) => {
       })
       .catch((err) => {
         loader.showLoader(false);
-
         console.log(err);
       });
   };

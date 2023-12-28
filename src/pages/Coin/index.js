@@ -42,7 +42,7 @@ const Coin = () => {
   };
   useEffect(() => {
     fetchCoin();
-  }, [apiProvider?.apiUrl]);
+  }, [page, perPage, apiProvider?.apiUrl]);
 
   const fetchCoin = () => {
     loader.showLoader(true);

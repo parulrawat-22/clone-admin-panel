@@ -39,10 +39,13 @@ import Interest from "../pages/Interest";
 import SubAdminList from "../pages/subAdmin/list";
 import AddSubAdmin from "../pages/subAdmin/add";
 import EditSubAdmin from "../pages/subAdmin/edit";
-import { useApi } from "./Context/apiProvider";
 import Flower from "../pages/Flower";
 import SuspiciousData from "../pages/SuspiciousData";
 import MainCallHistory from "../pages/MainCallHistory";
+import ActiveUser from "../pages/ActiveUser";
+import InactiveHost from "../pages/InactiveHost";
+import InactiveUser from "../pages/InactiveUser";
+import ActiveHost from "../pages/ActiveHost";
 // import SubAdmin from "../pages/SubAdmin";
 
 // import Coin from "../pages/Coin";
@@ -218,6 +221,42 @@ const Router = () => {
         element={
           <Layout>
             <Flower />
+          </Layout>
+        }
+      ></Route>
+
+      <Route
+        path="/activeuser"
+        element={
+          <Layout>
+            <ActiveUser />
+          </Layout>
+        }
+      ></Route>
+
+      <Route
+        path="/inactiveuser"
+        element={
+          <Layout>
+            <InactiveUser />
+          </Layout>
+        }
+      ></Route>
+
+      <Route
+        path="/activehost"
+        element={
+          <Layout>
+            <ActiveHost />
+          </Layout>
+        }
+      ></Route>
+
+      <Route
+        path="/inactivehost"
+        element={
+          <Layout>
+            <InactiveHost />
           </Layout>
         }
       ></Route>

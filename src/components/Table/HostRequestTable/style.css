@@ -4,7 +4,8 @@
 }
 
 .host__request__table {
-  width: max-content;
+  max-width: max-content;
+  min-width: 100%;
   border-collapse: collapse;
   min-width: 100%;
 }
@@ -13,7 +14,7 @@
   padding: 10px 5px;
   border: none;
   border-bottom: 1px solid grey;
-  font-family: var(--fontfamily-sansserif);
+  font-family: var(--fontfamily-default);
   font-size: var(--fontsize-small);
   text-align: center;
 }

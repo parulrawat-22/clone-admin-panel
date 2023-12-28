@@ -15,7 +15,7 @@ const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
   console.log(onClickEdit, "234567987654");
   const [coins, setCoins] = useState("");
   const [price, setPrice] = useState("");
-  const [offer, setOffer] = useState("");
+  const [offer, setOffer] = useState(0);
   const [image, setImage] = useState(null);
   const [error, setError] = useState({
     coinError: "",
@@ -63,12 +63,17 @@ const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
 
   const handleEditCoin = () => {
     loader.showLoader(true);
-
+    let data = new FormData();
+    data.append("coins", coins);
+    data.append("price", price);
+    data.append("offer", offer);
+    data.append("image", image);
     fetchDataFromAPI(
-      apiProvider?.apiUrl + NetworkConfiguration.UPDATEWALLET,
+      apiProvider?.apiUrl + NetworkConfiguration.UPDATEWALLET + `/${id}`,
       "PUT",
+      data,
       {
-        id: id,
+        "Content-Type": "multipart/form-data",
       }
     )
       .then((res) => {
@@ -86,7 +91,6 @@ const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
 
   const getOneCoin = () => {
     loader.showLoader(true);
-
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.GETONECOIN + `/${id}`,
       "GET"
@@ -95,7 +99,7 @@ const CreateWalletForm = ({ onSubmit, id, onClickEdit, edit }) => {
         console.log(res);
         loader.showLoader(false);
         setCoins(res.result.coins);
-        setOffer(res.result.offer);
+        setOffer(res.result.offer ? res.result.offer : 0);
         setPrice(res.result.price);
       })
       .catch((err) => {

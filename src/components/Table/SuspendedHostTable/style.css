@@ -19,8 +19,7 @@
 .suspended__host__table__data {
   text-align: center;
   padding: 5px 0;
-  font-family: var(--fontfamily-sansserif);
-
+  font-family: var(--fontfamily-default);
   border: none;
   border-bottom: 1px solid grey;
 }

@@ -19,6 +19,6 @@
 .recharge__table__body {
   padding: 10px 0;
   text-align: center;
-  font-family: var(--fontfamily-sansserif);
+  font-family: var(--fontfamily-default);
   border-bottom: 1px solid grey;
 }

@@ -69,64 +69,66 @@ const LeaderTable = ({ showLeaderList, page, perPage, getAllLeaders }) => {
 
   return (
     <div className="leader__table__container">
-      <table className="leader__table">
-        <thead>
-          <th className="leader__table__header">S.No.</th>
-          <th className="leader__table__header">Leader ID</th>
-          <th className="leader__table__header">Name</th>
-          <th className="leader__table__header">Gender</th>
-          <th className="leader__table__header">Email</th>
-          <th className="leader__table__header">Mobile Number</th>
-          <th className="leader__table__header">ID Proof</th>
-          <th className="leader__table__header">Group Name</th>
-          <th className="leader__table__header">Country</th>
-          <th className="leader__table__header">State</th>
-          <th className="leader__table__header">City</th>
-          <th className="leader__table__header">Pin Code</th>
-          <th className="leader__table__header">Host</th>
-          <th className="leader__table__header">Action</th>
-        </thead>
-        <tbody>
-          {showLeaderList.map((data, index) => {
-            return (
-              <tr>
-                <td className="leader__table__body">
-                  {(page - 1) * perPage + index + 1}
-                </td>
-                <td className="leader__table__body">{data?._id}</td>
-                <td className="leader__table__body">{data?.leaderName}</td>
-                <td className="leader__table__body">{data?.gender}</td>
-                <td className="leader__table__body">{data?.email}</td>
-                <td className="leader__table__body">{data?.mobileNumber}</td>
-                <td className="leader__table__body">{data?.idProof}</td>
-                <td className="leader__table__body">{data?.groupName}</td>
-                <td className="leader__table__body">{data?.country}</td>
-                <td className="leader__table__body">{data?.state}</td>
-                <td className="leader__table__body">{data?.city}</td>
-                <td className="leader__table__body">{data?.pin}</td>
-                <td
-                  onClick={() => {
-                    handleViewHostData(data?._id);
-                  }}
-                  className="leader__table__body leader__table__view"
-                >
-                  View
-                </td>
-                <td className="leader__table__body">
-                  <AiFillEdit
-                    onClick={() => handleEditAlert(data?._id, data)}
-                    className="leader__edit__icon"
-                  />
-                  <AiFillDelete
-                    onClick={() => handleDeleteAlert(data?._id)}
-                    className="leader__delete__icon"
-                  />
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div className="table_parent_box">
+        <table className="leader__table">
+          <thead>
+            <th className="leader__table__header">S.No.</th>
+            <th className="leader__table__header">Leader ID</th>
+            <th className="leader__table__header">Name</th>
+            <th className="leader__table__header">Gender</th>
+            <th className="leader__table__header">Email</th>
+            <th className="leader__table__header">Mobile Number</th>
+            <th className="leader__table__header">ID Proof</th>
+            <th className="leader__table__header">Group Name</th>
+            <th className="leader__table__header">Country</th>
+            <th className="leader__table__header">State</th>
+            <th className="leader__table__header">City</th>
+            <th className="leader__table__header">Pin Code</th>
+            <th className="leader__table__header">Host</th>
+            <th className="leader__table__header">Action</th>
+          </thead>
+          <tbody>
+            {showLeaderList.map((data, index) => {
+              return (
+                <tr>
+                  <td className="leader__table__body">
+                    {(page - 1) * perPage + index + 1}
+                  </td>
+                  <td className="leader__table__body">{data?._id}</td>
+                  <td className="leader__table__body">{data?.leaderName}</td>
+                  <td className="leader__table__body">{data?.gender}</td>
+                  <td className="leader__table__body">{data?.email}</td>
+                  <td className="leader__table__body">{data?.mobileNumber}</td>
+                  <td className="leader__table__body">{data?.idProof}</td>
+                  <td className="leader__table__body">{data?.groupName}</td>
+                  <td className="leader__table__body">{data?.country}</td>
+                  <td className="leader__table__body">{data?.state}</td>
+                  <td className="leader__table__body">{data?.city}</td>
+                  <td className="leader__table__body">{data?.pin}</td>
+                  <td
+                    onClick={() => {
+                      handleViewHostData(data?._id);
+                    }}
+                    className="leader__table__body leader__table__view"
+                  >
+                    View
+                  </td>
+                  <td className="leader__table__body">
+                    <AiFillEdit
+                      onClick={() => handleEditAlert(data?._id, data)}
+                      className="leader__edit__icon"
+                    />
+                    <AiFillDelete
+                      onClick={() => handleDeleteAlert(data?._id)}
+                      className="leader__delete__icon"
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
 
       <FormAlertPopUp
         open={showEditAlert}

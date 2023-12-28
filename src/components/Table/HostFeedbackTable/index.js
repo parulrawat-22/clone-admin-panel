@@ -57,7 +57,7 @@ const HostFeedbackTable = () => {
     setShowRevertAlert(false);
   };
 
-  const handleReply = (apiProvider) => {
+  const handleReply = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.SENDREPLYHOST,
@@ -79,7 +79,7 @@ const HostFeedbackTable = () => {
       });
   };
 
-  const getAllHostsFeedback = (apiProvider) => {
+  const getAllHostsFeedback = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.GETHOSTFEEDBACK,
@@ -105,8 +105,8 @@ const HostFeedbackTable = () => {
   };
 
   useEffect(() => {
-    getAllHostsFeedback(apiProvider);
-  }, [value, page, perPage]);
+    getAllHostsFeedback();
+  }, [value, page, perPage, apiProvider?.apiUrl]);
 
   const handleText = (e) => {
     setValue(e.target.value);
@@ -162,7 +162,7 @@ const HostFeedbackTable = () => {
                         </>
                       )}
                       <td className="host__feedback__table__data">
-                        {data.feedbackType}
+                        {data?.feedbackType}
                       </td>
                       <td className="host__feedback__table__data">
                         <div
@@ -196,7 +196,20 @@ const HostFeedbackTable = () => {
                       </td>
                       {data?.replyFeedback ? (
                         <td className="host__feedback__table__data host__feedback__view__btn">
-                          {data?.replyFeedback}
+                          <div
+                            className="feedback__table__comment"
+                            onClick={
+                              data?.replyFeedback.length > 12
+                                ? () =>
+                                    modalProvider.handleCommentClick(
+                                      data?.replyFeedback,
+                                      "Revert"
+                                    )
+                                : () => {}
+                            }
+                          >
+                            {data?.replyFeedback}
+                          </div>
                         </td>
                       ) : (
                         <td

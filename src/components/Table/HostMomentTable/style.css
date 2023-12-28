@@ -20,8 +20,7 @@
 .host__moment__data {
   text-align: center;
   padding: 10px 5px;
-  font-family: var(--fontfamily-sansserif);
-
+  font-family: var(--fontfamily-default);
   border: none;
   border-bottom: 1px solid grey;
 }

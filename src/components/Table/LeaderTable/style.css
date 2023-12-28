@@ -1,6 +1,5 @@
 .leader__table__container {
   padding: 1rem 0;
-  width: 100%;
   overflow-x: auto;
 }
 
@@ -11,7 +10,7 @@
 }
 
 .leader__table__header {
-  padding: 10px;
+  padding: 0.5rem 0;
   background-color: #f20094;
   font-family: var(--fontfamily-sansserif);
   font-weight: var(--fontweight-medium);
@@ -21,7 +20,7 @@
 .leader__table__body {
   text-align: center;
   padding: 10px 5px;
-  font-family: var(--fontfamily-sansserif);
+  font-family: var(--fontfamily-default);
   border: none;
   border-bottom: 1px solid grey;
 }

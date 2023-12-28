@@ -69,19 +69,21 @@ const StickerForm = ({ onSubmit, edit, editedSticker, onClickEdit, id }) => {
 
   const handleEditForm = () => {
     loader.showLoader(true);
-
+    let data = new FormData();
+    data.append("name", stickerName);
+    data.append("price", stickerPrice);
+    data.append("image", stickerImage);
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.UPDATESTICKER + `/${id}`,
       "PUT",
+      data,
       {
-        name: stickerName,
-        price: stickerPrice,
+        "Content-Type": "multipart/form-data",
       }
     )
       .then((res) => {
         onClickEdit();
         loader.showLoader(false);
-
         console.log(res);
         successToast(res.message);
       })
@@ -95,7 +97,6 @@ const StickerForm = ({ onSubmit, edit, editedSticker, onClickEdit, id }) => {
   const handleStickerForm = () => {
     if (validate()) {
       loader.showLoader(true);
-
       let data = new FormData();
       data.append("name", stickerName);
       data.append("price", stickerPrice);
@@ -111,14 +112,12 @@ const StickerForm = ({ onSubmit, edit, editedSticker, onClickEdit, id }) => {
       )
         .then((res) => {
           loader.showLoader(false);
-
           console.log(res);
           onSubmit();
           successToast(res.message);
         })
         .catch((err) => {
           loader.showLoader(false);
-
           console.log(err);
           errorToast(err.message);
         });

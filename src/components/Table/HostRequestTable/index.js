@@ -3,15 +3,10 @@ import "./style.css";
 import { TiTick } from "react-icons/ti";
 import { RxCross2 } from "react-icons/rx";
 import { useEffect, useState } from "react";
-import baseUrl from "../../../baseUrl";
-import axios from "axios";
 import AlertPopUp from "../../AlertPopUp";
 import { useNavigate } from "react-router-dom";
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
-import {
-  API_URL,
-  NetworkConfiguration,
-} from "../../../network/NetworkConfiguration";
+import { NetworkConfiguration } from "../../../network/NetworkConfiguration";
 import ImagePopUpModal from "../../ImagePopUpModal";
 import { useLoader } from "../../../base/Context/loaderProvider";
 import SearchInput from "../../SearchInput";

@@ -3,10 +3,10 @@
   border: none;
   border-bottom: 2px solid #f20094;
   outline: none;
-  font-family: var(--fontfamily-sansserif);
+  font-family: var(--fontfamily-default);
   background-color: transparent;
 }
 
 .dropdown__content {
-  font-family: var(--fontfamily-sansserif);
+  font-family: var(--fontfamily-default);
 }

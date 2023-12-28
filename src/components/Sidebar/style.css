@@ -33,7 +33,7 @@
 .sidebar__content {
   display: flex;
   align-items: center;
-  font-family: var(--fontfamily-sansserif);
+  font-family: var(--fontfamily-default);
   cursor: pointer;
   width: calc(100% + 20%);
 }

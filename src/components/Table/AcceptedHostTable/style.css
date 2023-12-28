@@ -29,7 +29,7 @@
   padding: 5px 5px;
   border: none;
   border-bottom: 1px solid grey;
-  font-family: var(--fontfamily-sansserif);
+  font-family: var(--fontfamily-default);
   font-size: var(--fontsize-small);
   text-align: center;
 }

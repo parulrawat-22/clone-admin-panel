@@ -30,7 +30,7 @@ const UserGiftTable = () => {
 
   useEffect(() => {
     handleGift();
-  }, [page, perPage]);
+  }, [page, perPage, apiProvider?.apiUrl]);
 
   const handleGiftIcon = (img) => {
     setShowGiftIcon(true);

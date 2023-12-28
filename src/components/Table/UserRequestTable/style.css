@@ -24,7 +24,7 @@
 .user__request__data {
   text-align: center;
   padding: 5px 5px;
-  font-family: var(--fontfamily-sansserif);
+  font-family: var(--fontfamily-default);
   font-size: var(--fontsize-small);
   border-bottom: 1px solid grey;
 }

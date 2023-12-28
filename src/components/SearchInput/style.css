@@ -6,6 +6,7 @@
 .search__input {
   padding-left: 40px;
   font-size: var(--fontsize-small);
+  font-family: var(--fontfamily-default);
   background-color: var(--color-lightpink);
 }
 

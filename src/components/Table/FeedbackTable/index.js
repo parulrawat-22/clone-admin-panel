@@ -95,7 +95,6 @@ const FeedbackUserTable = () => {
       })
       .catch((err) => {
         loader.showLoader(false);
-
         console.log(err);
       });
   };
@@ -160,7 +159,7 @@ const FeedbackUserTable = () => {
                             <div
                               className="feedback__table__comment"
                               onClick={
-                                data?.userId?.name.length > 15
+                                data?.userId?.name.length > 10
                                   ? () =>
                                       modalProvider.handleCommentClick(
                                         data?.userId?.name,
@@ -181,7 +180,7 @@ const FeedbackUserTable = () => {
                         <div
                           className="feedback__table__comment"
                           onClick={
-                            data?.comment.length > 12
+                            data?.comment.length > 0
                               ? () =>
                                   modalProvider.handleCommentClick(
                                     data?.comment,
@@ -210,7 +209,20 @@ const FeedbackUserTable = () => {
                       </td>
                       {data?.replyFeedback ? (
                         <td className="feedback__table__data">
-                          {data?.replyFeedback}
+                          <div
+                            className="feedback__table__comment"
+                            onClick={
+                              data?.comment.length > 12
+                                ? () =>
+                                    modalProvider.handleCommentClick(
+                                      data?.replyFeedback,
+                                      "Revert"
+                                    )
+                                : () => {}
+                            }
+                          >
+                            {data?.replyFeedback}
+                          </div>
                         </td>
                       ) : (
                         <td

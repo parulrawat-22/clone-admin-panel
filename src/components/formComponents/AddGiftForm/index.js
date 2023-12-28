@@ -72,14 +72,17 @@ const AddGiftForm = ({ onSubmit, edit, onClickEdit, editedGift }) => {
   };
 
   const handleEditForm = () => {
+    let data = new FormData();
+    data.append("name", giftName);
+    data.append("price", giftPrice);
+    data.append("image", giftUploadImage);
     loader.showLoader(true);
     fetchDataFromAPI(
-      apiProvider?.apiUrl + NetworkConfiguration.UPDATEGIFT,
+      apiProvider?.apiUrl + NetworkConfiguration.UPDATEGIFT + `/${id}`,
       "PUT",
+      data,
       {
-        id,
-        name: giftName,
-        price: giftPrice,
+        "Content-Type": "multipart/form-data",
       }
     )
       .then((res) => {
@@ -90,7 +93,6 @@ const AddGiftForm = ({ onSubmit, edit, onClickEdit, editedGift }) => {
       })
       .catch((err) => {
         loader.showLoader(false);
-
         console.log(err);
         errorToast(err.message);
       });

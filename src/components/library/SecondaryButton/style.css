@@ -7,7 +7,7 @@
 }
 
 .secondary__btn__text {
-  font-family: var(--fontfamily-sansserif);
+  font-family: var(--fontfamily-default);
   font-size: var(--fontsize-small);
   font-weight: var(--fontweight-medium);
   /* margin: 1rem; */
