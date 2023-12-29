@@ -153,8 +153,6 @@ const SidebarProvider = ({ children }) => {
   const [sidebarContent, setSidebarContent] = useState(SidebarData);
   const [selectedType, setSelectedType] = useState("");
 
-  console.log("API provider ", selectedType);
-
   useEffect(() => {
     setSelectedType(sessionStorage.getItem("selectedType"));
   }, []);

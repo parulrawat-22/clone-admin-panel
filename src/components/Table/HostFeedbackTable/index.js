@@ -48,9 +48,9 @@ const HostFeedbackTable = () => {
     setShowImageAlert(false);
   };
 
-  const handleHostFeedbackRevert = (id) => {
+  const handleHostFeedbackRevert = (getId) => {
     setShowRevertAlert(true);
-    setGetId(id);
+    setGetId(getId);
   };
 
   const handleHostFeedbackRevertClose = () => {
@@ -60,11 +60,10 @@ const HostFeedbackTable = () => {
   const handleReply = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
-      apiProvider?.apiUrl + NetworkConfiguration.SENDREPLYHOST,
-      "PUT",
+      apiProvider?.apiUrl + NetworkConfiguration.SENDREPLYHOST + `/${getId}`,
+      "POST",
       {
-        id: getId,
-        replyFeedback: replyFeedback,
+        response: replyFeedback,
       }
     )
       .then((res) => {
@@ -194,21 +193,21 @@ const HostFeedbackTable = () => {
                       <td className="host__feedback__table__data">
                         {moment(data.createdAt).format("DD/MM/YYYY LT")}
                       </td>
-                      {data?.replyFeedback ? (
+                      {data?.trackStatus[1]?.response ? (
                         <td className="host__feedback__table__data host__feedback__view__btn">
                           <div
                             className="feedback__table__comment"
                             onClick={
-                              data?.replyFeedback.length > 12
+                              data?.trackStatus[1]?.response.length > 12
                                 ? () =>
                                     modalProvider.handleCommentClick(
-                                      data?.replyFeedback,
+                                      data?.trackStatus[1]?.response,
                                       "Revert"
                                     )
                                 : () => {}
                             }
                           >
-                            {data?.replyFeedback}
+                            {data?.trackStatus[1]?.response}
                           </div>
                         </td>
                       ) : (
@@ -252,12 +251,12 @@ const HostFeedbackTable = () => {
         open={showRevertAlert}
         handleOpen={handleHostFeedbackRevert}
         handleClose={handleHostFeedbackRevertClose}
-        rejectedReason={true}
+        textField={true}
         submitText="Submit"
         onSubmitClick={handleReply}
         onCancelClick={handleHostFeedbackRevertClose}
         cancelText="Cancel"
-        handleReasonChange={(e) => setReplyFeedback(e.target.value)}
+        onChangeField={(e) => setReplyFeedback(e.target.value)}
       />
 
       <ImagePopUpModal

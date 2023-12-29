@@ -62,7 +62,6 @@ const HostSuspiciousData = () => {
                   </td>
                   <td className="suspicious__data__data">
                     <AiFillEdit className="suspicious__edit__icon" />
-                    <AiFillDelete className="suspicious__delete__icon" />
                   </td>
                 </tr>
               );

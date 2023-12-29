@@ -124,7 +124,6 @@ const AcceptedHostTable = () => {
           name: leader.leaderName,
           value: leader?._id,
         }));
-        console.log(leaders, "qwertyu");
         setLeaderNames([...leaderNames, ...leaders]);
       })
       .catch((err) => {

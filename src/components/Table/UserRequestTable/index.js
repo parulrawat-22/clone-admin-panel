@@ -21,8 +21,7 @@ import noData from "../../../base/Animation/No Data Found.json";
 import FormAlertPopUp from "../../FormAlertPopUp";
 import UserRequestForm from "../../formComponents/UserRequestForm";
 import { Modal } from "../../../base/Context/modalProvider";
-import Button from "../../library/Button";
-import { APIContext, useApi } from "../../../base/Context/apiProvider";
+import { useApi } from "../../../base/Context/apiProvider";
 
 const UserTable = () => {
   let navigate = useNavigate();

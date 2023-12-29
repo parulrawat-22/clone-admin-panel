@@ -5,11 +5,14 @@ import {
   API_URL,
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
-import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import { AiFillEdit } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 const UserSuspiciousData = () => {
   const [suspiciousList, setSuspiciousList] = useState([]);
-  const [type, setType] = useState("");
+  // const [type, setType] = useState("");
+  const [id, setId] = useState("");
+  let navigate = useNavigate();
 
   useEffect(() => {
     fetchSuspiciousData();
@@ -61,8 +64,12 @@ const UserSuspiciousData = () => {
                     {data?.isExplicit ? "TRUE" : "FALSE"}
                   </td>
                   <td className="suspicious__data__data">
-                    <AiFillEdit className="suspicious__edit__icon" />
-                    <AiFillDelete className="suspicious__delete__icon" />
+                    <AiFillEdit
+                      onClick={() => {
+                        navigate(`/usermanagement/${id}`);
+                      }}
+                      className="suspicious__edit__icon"
+                    />
                   </td>
                 </tr>
               );

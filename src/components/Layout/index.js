@@ -5,6 +5,7 @@ import "./style.css";
 
 const Layout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
   return (
     <div className="layout__container">
       <Sidebar

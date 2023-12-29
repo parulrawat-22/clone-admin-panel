@@ -114,14 +114,16 @@ const LeaderTable = ({ showLeaderList, page, perPage, getAllLeaders }) => {
                     View
                   </td>
                   <td className="leader__table__body">
-                    <AiFillEdit
-                      onClick={() => handleEditAlert(data?._id, data)}
-                      className="leader__edit__icon"
-                    />
-                    <AiFillDelete
-                      onClick={() => handleDeleteAlert(data?._id)}
-                      className="leader__delete__icon"
-                    />
+                    <div style={{ display: "flex" }}>
+                      <AiFillEdit
+                        onClick={() => handleEditAlert(data?._id, data)}
+                        className="leader__edit__icon"
+                      />
+                      <AiFillDelete
+                        onClick={() => handleDeleteAlert(data?._id)}
+                        className="leader__delete__icon"
+                      />
+                    </div>
                   </td>
                 </tr>
               );

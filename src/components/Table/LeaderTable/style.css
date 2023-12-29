@@ -10,7 +10,7 @@
 }
 
 .leader__table__header {
-  padding: 0.5rem 0;
+  padding: 0.5rem;
   background-color: #f20094;
   font-family: var(--fontfamily-sansserif);
   font-weight: var(--fontweight-medium);

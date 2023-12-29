@@ -18,7 +18,6 @@ const Sidebar = ({ isSidebarOpen, setIsSidebarOpen }) => {
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
         />
         {sidebarProvider?.sidebarContent.map((data, index) => {
-          console.log(data, "qwertyu");
           return (
             <div
               style={{ paddingLeft: `${isSidebarOpen ? "3rem" : "1.9rem"}` }}

@@ -10,6 +10,7 @@
   align-items: center;
   background-color: rgba(0, 0, 0, 0.183);
   z-index: 10000000;
+  overflow-y: hidden;
 }
 
 .web_modal_data {

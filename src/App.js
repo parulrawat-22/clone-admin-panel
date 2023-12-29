@@ -11,10 +11,10 @@ import SidebarProvider from "./base/Context/sidebarProvider";
 function App() {
   return (
     <div className="App">
-      <LoaderProvider>
-        {/* <APIProvider> */}
-        <ModalProvider>
-          <BrowserRouter>
+      <BrowserRouter>
+        <LoaderProvider>
+          {/* <APIProvider> */}
+          <ModalProvider>
             <SidebarProvider>
               <APIProvider>
                 <Router>
@@ -34,10 +34,10 @@ function App() {
                 </Router>
               </APIProvider>
             </SidebarProvider>
-          </BrowserRouter>
-        </ModalProvider>
-        {/* </APIProvider> */}
-      </LoaderProvider>
+          </ModalProvider>
+          {/* </APIProvider> */}
+        </LoaderProvider>
+      </BrowserRouter>
     </div>
   );
 }

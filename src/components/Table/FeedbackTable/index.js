@@ -4,10 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import moment from "moment";
 import AlertPopUp from "../../AlertPopUp";
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
-import {
-  API_URL,
-  NetworkConfiguration,
-} from "../../../network/NetworkConfiguration";
+import { NetworkConfiguration } from "../../../network/NetworkConfiguration";
 import ImagePopUpModal from "../../ImagePopUpModal";
 import { useParams } from "react-router-dom";
 import { AiFillEye } from "react-icons/ai";
@@ -27,9 +24,10 @@ const FeedbackUserTable = () => {
   const [showRevertAlert, setShowRevertAlert] = useState(false);
   const [showImageAlert, setShowImageAlert] = useState(false);
   const [img, setImg] = useState("");
-  const [getId, setGetId] = useState("");
+  // const [getId, setGetId] = useState("");
   const [replyFeedback, setReplyFeedback] = useState("");
-
+  // const [response, setResponse] = useState("");
+  const [getId, setGetId] = useState("");
   const [value, setValue] = useState("");
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
@@ -50,10 +48,10 @@ const FeedbackUserTable = () => {
   };
 
   useEffect(() => {
-    getAllUsersFeedback(apiProvider);
-  }, [value, page, perPage]);
+    getAllUsersFeedback();
+  }, [value, page, perPage, apiProvider?.apiUrl]);
 
-  const getAllUsersFeedback = (apiProvider) => {
+  const getAllUsersFeedback = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.GETUSERFEEDBACK,
@@ -81,11 +79,10 @@ const FeedbackUserTable = () => {
   const handleFeedbackReply = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
-      apiProvider?.apiUrl + NetworkConfiguration.SENDREPLYUSER,
-      "PUT",
+      apiProvider?.apiUrl + NetworkConfiguration.SENDREPLYUSER + `/${getId}`,
+      "POST",
       {
-        id: getId,
-        replyFeedback: replyFeedback,
+        response: replyFeedback,
       }
     )
       .then((res) => {
@@ -99,9 +96,10 @@ const FeedbackUserTable = () => {
       });
   };
 
-  const handleFeedbackRevert = (id) => {
+  const handleFeedbackRevert = (getId) => {
     setShowRevertAlert(true);
-    setGetId(id);
+    // setResponse(response);
+    setGetId(getId);
   };
 
   const handleFeedbackRevertClose = () => {
@@ -207,21 +205,22 @@ const FeedbackUserTable = () => {
                       <td className="feedback__table__data">
                         {moment(data.createdAt).format("DD/MM/YYYY LT")}
                       </td>
-                      {data?.replyFeedback ? (
+
+                      {data?.trackStatus[1]?.response ? (
                         <td className="feedback__table__data">
                           <div
                             className="feedback__table__comment"
                             onClick={
-                              data?.comment.length > 12
+                              data?.trackStatus[1]?.response.length > 12
                                 ? () =>
                                     modalProvider.handleCommentClick(
-                                      data?.replyFeedback,
+                                      data?.trackStatus[1]?.response,
                                       "Revert"
                                     )
                                 : () => {}
                             }
                           >
-                            {data?.replyFeedback}
+                            {data?.trackStatus[1]?.response}
                           </div>
                         </td>
                       ) : (
@@ -269,11 +268,12 @@ const FeedbackUserTable = () => {
         cancelText="Cancel"
         onSubmitClick={handleFeedbackReply}
         onCancelClick={handleFeedbackRevertClose}
-        handleReasonChange={(e) => {
+        onChangeField={(e) => {
           setReplyFeedback(e.target.value);
         }}
-        rejectedReason={true}
+        textField={true}
       />
+
       <ImagePopUpModal
         open={showImageAlert}
         handleClose={handleShowImageClose}

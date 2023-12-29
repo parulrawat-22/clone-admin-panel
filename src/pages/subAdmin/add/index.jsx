@@ -1,18 +1,17 @@
 import React, { useEffect, useState } from "react";
-
-import { IoClose } from "react-icons/io5";
-
 import { useNavigate } from "react-router-dom";
-import "./style.css";
 import { AllowedItem } from "../edit";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import InputField from "../../../components/library/InputField";
 import Button from "../../../components/library/Button";
-import sidebarData from "../../../Constant/DataComponent";
 import ResponsibilitiesDropdown from "../../../components/library/ResponsibilitiesDropdown";
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
 import { NetworkConfiguration } from "../../../network/NetworkConfiguration";
 import { useApi } from "../../../base/Context/apiProvider";
+import { useSidebar } from "../../../base/Context/sidebarProvider";
+
+import "./style.css";
+
 
 export default function AddSubAdmin() {
   const navigate = useNavigate();
@@ -22,6 +21,7 @@ export default function AddSubAdmin() {
   const [passInput, setPassInput] = useState(true);
   const [passInputTwo, setPassInputTwo] = useState(true);
   const apiProvider = useApi();
+  const sidebarProvider=useSidebar()
 
   const [data, setData] = useState({
     name: "",
@@ -80,10 +80,15 @@ export default function AddSubAdmin() {
   //set side bar menu options for sub admin responsibilities
   useEffect(() => {
     setOptions(
-      apiProvider?.API_Url?.map((item) => ({ name: item.label, accessType: [] }))
+      sidebarProvider?.sidebarContent.map((item) => ({ name: item.label, accessType: [] }))
     );
-  }, [sidebarData]);
+  }, [sidebarProvider?.sidebarContent]);
 
+
+
+  console.log('sidebarContent',sidebarProvider?.sidebarContent)
+
+  console.log('options',options)
 
 
   const handleAccess = (name, accessType) => {
@@ -205,6 +210,10 @@ fetchDataFromAPI(apiProvider?.apiUrl + NetworkConfiguration.ADDSUBADMIN, "POST" 
           handleType={handleTypeTwo}
         />
           <br/>
+
+
+       
+
 
 
         <ResponsibilitiesDropdown
