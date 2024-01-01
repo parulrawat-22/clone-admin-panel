@@ -6,6 +6,9 @@ import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
 import axios from "axios";
 import baseUrl from "../../baseUrl";
 import "./style.css";
+import { fetchDataFromAPI } from "../../network/NetworkConnection";
+import { useApi } from "../../base/Context/apiProvider";
+import { NetworkConfiguration } from "../../network/NetworkConfiguration";
 
 const NewPassword = () => {
   const navigate = useNavigate();
@@ -18,6 +21,7 @@ const NewPassword = () => {
     conformPassword: confirmPassword,
   });
   const { email } = useParams();
+  const apiProvider = useApi();
 
   const eyeIcon = () => {
     return eye ? <BsFillEyeFill /> : <BsFillEyeSlashFill />;
@@ -72,18 +76,15 @@ const NewPassword = () => {
   const handleonSubmit = () => {
     const isValidated = validate();
     if (isValidated) {
-      axios
-        .put(
-          baseUrl + "admin/adminResetPasword",
-          {
-            email: email,
-            newPassword: newPassword,
-            conformPassword: confirmPassword,
-          },
-          {
-            headers: { "Content-Type": "application/json" },
-          }
-        )
+      fetchDataFromAPI(
+        apiProvider?.apiUrl + NetworkConfiguration.RESETPASSWORD,
+        "PUT",
+        {
+          email: email,
+          newPassword: newPassword,
+          conformPassword: confirmPassword,
+        }
+      )
         .then((res) => {
           navigate("/");
           console.log(res, "res------");

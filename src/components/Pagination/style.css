@@ -1,7 +1,8 @@
 .active_page_btn {
   background-color: var(--color-pink);
   color: var(--color-white);
-  font-size: var(--fontsize-regular);
+  font-size: var(--fontsize-small);
+  font-family: var(--fontfamily-sansserif);
   border-radius: 5px;
   width: 40px;
   height: 40px;
@@ -9,12 +10,13 @@
   outline: none;
   margin: 0 5px;
   box-shadow: 0 1px 2px 1px #ccc;
-  font-weight: 500;
+  /* font-weight: 500; */
 }
 
 .page_btn {
+  font-family: var(--fontfamily-sansserif);
   background-color: var(--color-white);
-  font-size: var(--fontsize-regular);
+  font-size: var(--fontsize-small);
   border-radius: 5px;
   width: 40px;
   height: 40px;
@@ -22,7 +24,7 @@
   outline: none;
   margin: 0 5px;
   box-shadow: 0 1px 2px 1px #ccc;
-  font-weight: 500;
+  /* font-weight: 500; */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -35,7 +37,8 @@
 }
 
 .pagination_icon {
-  font-size: var(--fontsize-regular);
+  font-size: var(--fontsize-small);
+  font-family: var(--fontfamily-sansserif);
 }
 
 .dot_btns {
@@ -56,7 +59,6 @@
 
 .per_page_div {
   background-color: var(--color-white);
-  font-size: var(--fontsize-regular);
   border-radius: 5px;
   height: 40px;
   border: none;
@@ -64,6 +66,8 @@
   box-shadow: 0 1px 2px 1px #ccc;
   font-weight: 500;
   display: flex;
+  font-weight: var(--fontweight-regular);
+  font-family: var(--fontfamily-sansserif);
   justify-content: center;
   align-items: center;
   cursor: pointer;
@@ -73,10 +77,10 @@
 
 .per_page_div select {
   margin-left: 10px;
-  border: 1px solid black;
+  /* border: 1px solid black; */
   border-radius: 2px;
   height: 25px;
-  font-size: var(--fontsize-regular);
+  font-size: var(--fontsize-small);
   cursor: pointer;
   outline: none;
 }
@@ -86,7 +90,9 @@
   border: 1px solid black;
   border-radius: 2px;
   height: 25px;
-  font-size: var(--fontsize-regular);
+  font-size: var(--fontsize-small);
+  font-weight: var(--fontweight-regular);
+  font-family: var(--fontfamily-sansserif);
   cursor: pointer;
   padding: 0 5px;
 }
@@ -96,3 +102,12 @@
   justify-content: space-between;
   width: 270px;
 }
+
+/* .per__page__number {
+  font-family: var(--fontfamily-sansserif);
+}
+
+.per__page__option {
+  font-family: var(--fontfamily-sansserif);
+  font-size: var(--fontsize-small);
+} */

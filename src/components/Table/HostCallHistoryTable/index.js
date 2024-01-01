@@ -60,6 +60,7 @@ const HostCallHistoryTable = () => {
           <th className="host__call__history__header">Coin Spend</th>
           <th className="host__call__history__header">Mode</th>
           <th className="host__call__history__header">Time Duration</th>
+          <th className="host__call__history__header">App Type </th>
           {/* <th className="host__call__history__header">Status</th> */}
         </thead>
         <tbody>
@@ -81,6 +82,8 @@ const HostCallHistoryTable = () => {
                     <td className="host__call__history__data">
                       {data?.total_minute}
                     </td>
+                    <td className="host__gift__data">{data?.appType}</td>
+
                     {/* <td className="host__call__history__data">{data?.status}</td> */}
                   </tr>
                 );

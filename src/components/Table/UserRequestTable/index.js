@@ -325,7 +325,14 @@ const UserTable = () => {
                       <td
                         className="user__request__data user__management__view__btn"
                         onClick={() => {
-                          navigate(`/usermanagement/${data?._id}`);
+                          navigate(
+                            `/usermanagement/${data?._id}${
+                              sessionStorage.getItem("selectedType") ===
+                              "catchwoo"
+                                ? "?appType=catchwoo"
+                                : ""
+                            }`
+                          );
                         }}
                       >
                         View more...

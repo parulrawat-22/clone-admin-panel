@@ -73,6 +73,7 @@ const HostGiftTable = () => {
           <th className="host__gift__header">Gift Image</th>
           <th className="host__gift__header">Price</th>
           <th className="host__gift__header">User Name</th>
+          <th className="host__gift__header">App Type</th>
           <th className="host__gift__header">Date & Time</th>
         </thead>
         <tbody>
@@ -92,6 +93,7 @@ const HostGiftTable = () => {
                     </td>
                     <td className="host__gift__data">{data?.price}</td>
                     <td className="host__gift__data">{data?.name}</td>
+                    <td className="host__gift__data">{data?.appType}</td>
                     <td className="host__gift__data">
                       {moment(data?.createdAt).format("DD/MM/YYYY, LT")}
                     </td>

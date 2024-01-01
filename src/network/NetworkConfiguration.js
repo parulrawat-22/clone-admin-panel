@@ -12,8 +12,12 @@ export const NetworkConfiguration = {
   ONLINEHOST: "admin/findOnlineHost",
   OFFLINEUSER: "admin/adminOfflineUser",
   DASHBOARDNOTIFICATION: "admin/dashboardNotification",
+  FORGOTPASSWORD: "admin/adminForgetPassword",
   SENDTOALL: "admin/sendMultiNotification",
   SENDTOFEW: "admin/sendMultiNotiToMore",
+  RESETPASSWORD: "admin/adminResetPasword",
+  PINCODE: "admin/searchByPinCode",
+  ENTEROTP: "admin/verifyOtp",
   FINDONEUSER: "admin/findOneUser",
   DELETELEADER: "admin/adminDeletedLeader",
   EDITLEADER: "admin/updateLeaderData",
@@ -132,4 +136,7 @@ export const NetworkConfiguration = {
   GETONESUBADMIN: "admin/subAdminDetails",
   EDITSUBADMIN: "admin/editSubAdmin",
   DELETESUBADMIN: "admin/adminDeleteSubadmin",
+
+  //allcallhistory
+  DROPPEDCALL: "admin/getAllCallTypeUser",
 };

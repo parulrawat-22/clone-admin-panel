@@ -12,7 +12,7 @@
   background-color: var(--color-pink);
   color: var(--color-white);
   font-family: var(--fontfamily-sansserif);
-  font-weight: var(--fontweight-bold);
+  font-weight: var(--fontweight-regular);
   font-size: var(--fontsize-small);
   padding: 10px;
 }
@@ -29,7 +29,7 @@
   padding: 5px 5px;
   border: none;
   border-bottom: 1px solid grey;
-  font-family: var(--fontfamily-default);
+  font-family: var(--fontfamily-sansserif);
   font-size: var(--fontsize-small);
   text-align: center;
 }

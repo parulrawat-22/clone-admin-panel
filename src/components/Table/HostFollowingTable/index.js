@@ -58,6 +58,7 @@ const HostFollowingTable = () => {
           <th className="host__following__header">User Name</th>
           <th className="host__following__header">Date Of Birth</th>
           <th className="host__following__header">Email</th>
+          <th className="host__following__header">App Type</th>
           <th className="host__following__header">Mobile Number</th>
         </thead>
         <tbody>
@@ -72,6 +73,7 @@ const HostFollowingTable = () => {
                       {data?.dateOfBirth}
                     </td>
                     <td className="host__following__data">{data?.email}</td>
+                    <td className="host__following__data">{data?.appType}</td>
                     <td className="host__following__data">
                       {data?.mobileNumber}
                     </td>

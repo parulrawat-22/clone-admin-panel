@@ -4,10 +4,7 @@ import Notification from "../../components/Notification";
 import { useEffect, useState } from "react";
 import { FaUsers, FaUsersSlash } from "react-icons/fa";
 import { fetchDataFromAPI } from "../../network/NetworkConnection";
-import {
-  API_URL,
-  NetworkConfiguration,
-} from "../../network/NetworkConfiguration";
+import { NetworkConfiguration } from "../../network/NetworkConfiguration";
 
 import "./style.css";
 import DashboardChart from "../../components/DashboardChart";
@@ -18,11 +15,12 @@ import { useLoader } from "../../base/Context/loaderProvider";
 import SearchInput from "../../components/SearchInput";
 import { FiSearch } from "react-icons/fi";
 import { useApi } from "../../base/Context/apiProvider";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useSidebar } from "../../base/Context/sidebarProvider";
 
 const Dashboard = () => {
   const loader = useLoader();
+  const navigate = useNavigate();
 
   // let adminOnlineUser = 0;
   const [adminOnlineUser, setAdminOnlineUser] = useState(0);
@@ -75,7 +73,6 @@ const Dashboard = () => {
       })
       .catch((err) => {
         loader.showLoader(false);
-
         console.log(err, "err========");
       });
   };
@@ -88,7 +85,6 @@ const Dashboard = () => {
     )
       .then((res) => {
         loader.showLoader(false);
-
         setAdminOfflineHost(res.result);
       })
       .catch((err) => {
@@ -236,21 +232,33 @@ const Dashboard = () => {
               name="Active User"
               icon={<FaUsers />}
               number={adminOnlineUser}
+              onClick={() => {
+                navigate("/activeuser");
+              }}
             />
             <Card
               name="Inactive User"
               icon={<FaUsersSlash />}
               number={adminOfflineUser}
+              onClick={() => {
+                navigate("/inactiveuser");
+              }}
             />
             <Card
               name="Active Host"
               icon={<FaUsers />}
               number={adminOnlineHost}
+              onClick={() => {
+                navigate("/activehost");
+              }}
             />
             <Card
               name="Inactive Host"
               icon={<FaUsersSlash />}
               number={adminOfflineHost}
+              onClick={() => {
+                navigate("/inactivehost");
+              }}
             />
           </div>
           <div className="dashboard__graphs__loaders">

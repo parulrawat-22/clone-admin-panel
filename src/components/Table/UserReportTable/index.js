@@ -1,9 +1,6 @@
 import { useContext, useEffect, useState } from "react";
 import "./style.css";
-import {
-  API_URL,
-  NetworkConfiguration,
-} from "../../../network/NetworkConfiguration";
+import { NetworkConfiguration } from "../../../network/NetworkConfiguration";
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
 import { useParams } from "react-router-dom";
 import { useLoader } from "../../../base/Context/loaderProvider";
@@ -13,7 +10,7 @@ import SearchInput from "../../SearchInput";
 import Pagination from "../../Pagination";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
-import ModalProvider, { Modal } from "../../../base/Context/modalProvider";
+import { Modal } from "../../../base/Context/modalProvider";
 import { useApi } from "../../../base/Context/apiProvider";
 
 const UserReportTable = () => {
@@ -30,10 +27,10 @@ const UserReportTable = () => {
   const apiProvider = useApi();
 
   useEffect(() => {
-    getUserReport(apiProvider);
-  }, [value, page, perPage]);
+    getUserReport();
+  }, [value, page, perPage, apiProvider?.apiUrl]);
 
-  const getUserReport = (apiProvider) => {
+  const getUserReport = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.USERREPORT,

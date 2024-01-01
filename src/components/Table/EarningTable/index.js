@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import "./style.css";
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
-import {
-  API_URL,
-  NetworkConfiguration,
-} from "../../../network/NetworkConfiguration";
+import { NetworkConfiguration } from "../../../network/NetworkConfiguration";
 import { useParams } from "react-router-dom";
 import { useApi } from "../../../base/Context/apiProvider";
 
@@ -14,10 +11,10 @@ const EarningTable = () => {
   const apiProvider = useApi();
 
   useEffect(() => {
-    fetchEarningData(apiProvider);
-  }, []);
+    fetchEarningData();
+  }, [apiProvider?.apiUrl]);
 
-  const fetchEarningData = (apiProvider) => {
+  const fetchEarningData = () => {
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.HOSTEARNING,
       "POST",

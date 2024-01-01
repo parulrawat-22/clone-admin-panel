@@ -1,15 +1,16 @@
 import { useNavigate } from "react-router-dom";
 import Button from "../../components/library/Button";
-import OtpField from "./OtpField/index";
 import "./style.css";
 import { useState } from "react";
-import axios from "axios";
-import baseUrl from "../../baseUrl";
+import { fetchDataFromAPI } from "../../network/NetworkConnection";
+import { useApi } from "../../base/Context/apiProvider";
+import { NetworkConfiguration } from "../../network/NetworkConfiguration";
 
 const EnterOtp = ({ email }) => {
   let navigate = useNavigate();
   const inputs = [];
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const apiProvider = useApi();
 
   const handleOtpChange = (event, index) => {
     if (event.nativeEvent.key === "Backspace") {
@@ -35,20 +36,16 @@ const EnterOtp = ({ email }) => {
   const handleOTPVerify = () => {
     const newOTP = otp.join("");
     console.log(newOTP);
-    axios
-      .put(
-        baseUrl + "admin/verifyOtp",
-        {
-          email: email,
-          otp: newOTP,
-        },
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      )
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.ENTEROTP,
+      "PUT",
+      {
+        email: email,
+        otp: newOTP,
+      }
+    )
       .then((res) => {
         navigate(`/newpassword/${email}`);
-
         console.log(res);
       })
       .catch((err) => {

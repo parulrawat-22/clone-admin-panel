@@ -16,7 +16,13 @@ const IconContainer = ({ id }) => {
             <div
               className="icon__container"
               onClick={() => {
-                navigate(`/usermanagement/${data?.name}/${id}`);
+                navigate(
+                  `/usermanagement/${data?.name}/${id}${
+                    sessionStorage.getItem("selectedType") === "catchwoo"
+                      ? "?appType=catchwoo"
+                      : ""
+                  }`
+                );
               }}
             >
               <img className="icon" src={data?.icon} alt="" />

@@ -56,7 +56,9 @@ const HostFollowerTable = () => {
           <th className="host__follower__header">User Name</th>
           <th className="host__follower__header">Date Of Birth</th>
           <th className="host__follower__header">Email</th>
+
           <th className="host__follower__header">Mobile Number</th>
+          <th className="host__follower__header">App Type</th>
         </thead>
         <tbody>
           {getHostFollower.length > 0
@@ -73,6 +75,7 @@ const HostFollowerTable = () => {
                     <td className="host__follower__data">
                       {data?.mobileNumber}
                     </td>
+                    <td className="host__follower__data">{data?.appType}</td>
                   </tr>
                 );
               })

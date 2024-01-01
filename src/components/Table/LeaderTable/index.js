@@ -4,13 +4,12 @@ import TablePopUp from "../../TablePopUp";
 import { AiFillDelete, AiFillEdit } from "react-icons/ai";
 import AlertPopUp from "../../AlertPopUp";
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
-import {
-  API_URL,
-  NetworkConfiguration,
-} from "../../../network/NetworkConfiguration";
+import { NetworkConfiguration } from "../../../network/NetworkConfiguration";
 import FormAlertPopUp from "../../FormAlertPopUp";
 import AddLeaderForm from "../../formComponents/AddLeaderForm";
+import noData from "../../../base/Animation/No Data Found.json";
 import { useApi } from "../../../base/Context/apiProvider";
+import Lottie from "react-lottie";
 
 const LeaderTable = ({ showLeaderList, page, perPage, getAllLeaders }) => {
   const [showHostData, setShowHostData] = useState(false);
@@ -48,7 +47,7 @@ const LeaderTable = ({ showLeaderList, page, perPage, getAllLeaders }) => {
     setShowHostData(false);
   };
 
-  const handleDelete = (apiProvider) => {
+  const handleDelete = () => {
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.DELETELEADER + `/${id}`,
       "DELETE"
@@ -88,46 +87,58 @@ const LeaderTable = ({ showLeaderList, page, perPage, getAllLeaders }) => {
             <th className="leader__table__header">Action</th>
           </thead>
           <tbody>
-            {showLeaderList.map((data, index) => {
-              return (
-                <tr>
-                  <td className="leader__table__body">
-                    {(page - 1) * perPage + index + 1}
-                  </td>
-                  <td className="leader__table__body">{data?._id}</td>
-                  <td className="leader__table__body">{data?.leaderName}</td>
-                  <td className="leader__table__body">{data?.gender}</td>
-                  <td className="leader__table__body">{data?.email}</td>
-                  <td className="leader__table__body">{data?.mobileNumber}</td>
-                  <td className="leader__table__body">{data?.idProof}</td>
-                  <td className="leader__table__body">{data?.groupName}</td>
-                  <td className="leader__table__body">{data?.country}</td>
-                  <td className="leader__table__body">{data?.state}</td>
-                  <td className="leader__table__body">{data?.city}</td>
-                  <td className="leader__table__body">{data?.pin}</td>
-                  <td
-                    onClick={() => {
-                      handleViewHostData(data?._id);
-                    }}
-                    className="leader__table__body leader__table__view"
-                  >
-                    View
-                  </td>
-                  <td className="leader__table__body">
-                    <div style={{ display: "flex" }}>
-                      <AiFillEdit
-                        onClick={() => handleEditAlert(data?._id, data)}
-                        className="leader__edit__icon"
-                      />
-                      <AiFillDelete
-                        onClick={() => handleDeleteAlert(data?._id)}
-                        className="leader__delete__icon"
-                      />
-                    </div>
-                  </td>
-                </tr>
-              );
-            })}
+            {showLeaderList && showLeaderList.length > 0 ? (
+              showLeaderList.map((data, index) => {
+                return (
+                  <tr>
+                    <td className="leader__table__body">
+                      {(page - 1) * perPage + index + 1}
+                    </td>
+                    <td className="leader__table__body">{data?._id}</td>
+                    <td className="leader__table__body">{data?.leaderName}</td>
+                    <td className="leader__table__body">{data?.gender}</td>
+                    <td className="leader__table__body">{data?.email}</td>
+                    <td className="leader__table__body">
+                      {data?.mobileNumber}
+                    </td>
+                    <td className="leader__table__body">{data?.idProof}</td>
+                    <td className="leader__table__body">{data?.groupName}</td>
+                    <td className="leader__table__body">{data?.country}</td>
+                    <td className="leader__table__body">{data?.state}</td>
+                    <td className="leader__table__body">{data?.city}</td>
+                    <td className="leader__table__body">{data?.pin}</td>
+                    <td
+                      onClick={() => {
+                        handleViewHostData(data?._id);
+                      }}
+                      className="leader__table__body leader__table__view"
+                    >
+                      View
+                    </td>
+                    <td className="leader__table__body">
+                      <div style={{ display: "flex" }}>
+                        <AiFillEdit
+                          onClick={() => handleEditAlert(data?._id, data)}
+                          className="leader__edit__icon"
+                        />
+                        <AiFillDelete
+                          onClick={() => handleDeleteAlert(data?._id)}
+                          className="leader__delete__icon"
+                        />
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })
+            ) : (
+              <div className="host__no__data__found__icon">
+                <Lottie
+                  options={{ animationData: noData, loop: true }}
+                  style={{ width: "20rem", height: "20rem" }}
+                />
+                <p className="no__data__found">No Data Found</p>
+              </div>
+            )}
           </tbody>
         </table>
       </div>

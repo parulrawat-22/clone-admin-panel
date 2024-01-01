@@ -5,21 +5,26 @@ import { useState } from "react";
 import axios from "axios";
 import baseUrl from "../../baseUrl";
 import EnterOtp from "../EnterOtp";
+import { fetchDataFromAPI } from "../../network/NetworkConnection";
+import { FaArrowPointer } from "react-icons/fa6";
+import { useApi } from "../../base/Context/apiProvider";
+import { NetworkConfiguration } from "../../network/NetworkConfiguration";
 // import { successToast } from "../../components/Toast";
 
 const ForgotPassword = () => {
   const [enterOTP, setEnterOTP] = useState(true);
   const [email, setEmail] = useState("");
 
+  const apiProvider = useApi();
+
   const handleSentOtp = () => {
-    axios
-      .put(
-        baseUrl + "admin/adminForgetPassword",
-        {
-          email: email,
-        },
-        { headers: { "Content-Type": "application/json" } }
-      )
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.FORGOTPASSWORD,
+      "PUT",
+      {
+        email: email,
+      }
+    )
       .then((res) => {
         console.log(res, "res======");
         setEnterOTP(false);

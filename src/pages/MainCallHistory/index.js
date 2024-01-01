@@ -1,18 +1,95 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 // import Pagination from "../../components/Pagination";
 import SearchInput from "../../components/SearchInput";
 import Dropdown from "../../components/library/Dropdown";
 import "./style.css";
 import { FiSearch } from "react-icons/fi";
 import AllCallHistoryTable from "../../components/Table/AllCallHistoryTable";
+import { fetchDataFromAPI } from "../../network/NetworkConnection";
+import { useApi } from "../../base/Context/apiProvider";
+import { NetworkConfiguration } from "../../network/NetworkConfiguration";
 
 const MainCallHistory = () => {
   const [getSetValue, setGetSetValue] = useState();
+  const [callHistory, setCallHistory] = useState([]);
+  const apiProvider = useApi();
 
   const onChangeDropdown = (e) => {
     setGetSetValue(e.target.value);
     console.log("onChangeDropdown: ", e.target.value);
   };
+
+  useEffect(() => {
+    switch (getSetValue) {
+      case "Drop Call": {
+        fetchDataFromAPI(
+          apiProvider?.apiUrl + NetworkConfiguration.DROPPEDCALL,
+          "POST",
+          {
+            key: "Drop Call",
+          }
+        )
+          .then((res) => {
+            setCallHistory(res?.result);
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        break;
+      }
+
+      case "Small Call": {
+        fetchDataFromAPI(
+          apiProvider?.apiUrl + NetworkConfiguration.DROPPEDCALL,
+          "POST",
+          {
+            key: "Small Call",
+          }
+        )
+          .then((res) => {
+            setCallHistory(res?.result);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        break;
+      }
+
+      case "Long Call": {
+        fetchDataFromAPI(
+          apiProvider?.apiUrl + NetworkConfiguration.DROPPEDCALL,
+          "POST",
+          {
+            key: "Long Call",
+          }
+        )
+          .then((res) => {
+            setCallHistory(res?.result);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        break;
+      }
+      default: {
+        fetchDataFromAPI(
+          apiProvider?.apiUrl + NetworkConfiguration.DROPPEDCALL,
+          "POST",
+          {
+            key: "Small Call",
+          }
+        )
+          .then((res) => {
+            setCallHistory(res?.result);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+        break;
+      }
+    }
+  }, [getSetValue]);
 
   const searchIcon = () => {
     return <FiSearch />;
@@ -31,14 +108,12 @@ const MainCallHistory = () => {
         ></Dropdown>
       </div>
 
-      <AllCallHistoryTable />
-
-      {/* <TopTalentTable
-        isHost={isHost}
-        tableData={tableData}
-        page={page}
-        perPage={perPage}
-      /> */}
+      <AllCallHistoryTable
+        callHistory={callHistory}
+        // tableData={tableData}
+        // page={page}
+        // perPage={perPage}
+      />
       <div className="banner__search__btn">
         <SearchInput placeholder="Search" icon={searchIcon()} />
       </div>

@@ -9,6 +9,7 @@ import {
 } from "../../../network/NetworkConfiguration";
 import { useLoader } from "../../../base/Context/loaderProvider";
 import { useApi } from "../../../base/Context/apiProvider";
+import Dropdown from "../../library/Dropdown";
 
 const AddLeaderForm = ({ onSubmit, edit, data, setData, id }) => {
   console.log("data :", data);
@@ -112,6 +113,23 @@ const AddLeaderForm = ({ onSubmit, edit, data, setData, id }) => {
   const handlePinCode = (e) => {
     setError({ ...error, pinCodeError: "" });
     setPin(e.target.value);
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.PINCODE,
+      "POST",
+      {
+        zipCode: e.target.value,
+      }
+    )
+      .then((res) => {
+        console.log("res", res.result);
+        // setPin(e.target.value);
+        setCountry(res.result.country);
+        setState(res.result.state);
+        setCity(res.result.city);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const handleCountry = (e) => {
@@ -139,6 +157,20 @@ const AddLeaderForm = ({ onSubmit, edit, data, setData, id }) => {
     setError({ ...error, passwordError: "" });
     setPassword(e.target.value);
   };
+
+  const dropdownOptions = [
+    {
+      name: "--Select--",
+    },
+    {
+      name: "Male",
+      value: "Male",
+    },
+    {
+      name: "Female",
+      value: "Female",
+    },
+  ];
 
   const handleEditLeader = () => {
     fetchDataFromAPI(
@@ -224,8 +256,9 @@ const AddLeaderForm = ({ onSubmit, edit, data, setData, id }) => {
           type="email"
           name="email"
         />
-        <InputField
+        <Dropdown
           value={edit ? data.gender : gender}
+          options={dropdownOptions}
           onChange={edit ? handleEditValue : handleGender}
           placeholder="Gender"
           error={error.genderError}
@@ -284,6 +317,7 @@ const AddLeaderForm = ({ onSubmit, edit, data, setData, id }) => {
           name="password"
         />
       </div>
+
       <Button
         onClick={edit ? handleEditLeader : handleAddLeader}
         className="add__leader__button"

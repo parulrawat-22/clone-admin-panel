@@ -33,7 +33,7 @@
 .sidebar__content {
   display: flex;
   align-items: center;
-  font-family: var(--fontfamily-default);
+  font-family: var(--fontfamily-sansserif);
   cursor: pointer;
   width: calc(100% + 20%);
 }
@@ -48,8 +48,8 @@
 .sidebar__active_data {
   width: 100%;
   background-color: #fff;
-  font-weight: bold;
-  color: black;
+  font-weight: var(--fontweight-regular);
+  color: var(--color-pink);
   text-decoration: none;
   border-radius: 20px 0 0 0;
   margin-left: 10px;
