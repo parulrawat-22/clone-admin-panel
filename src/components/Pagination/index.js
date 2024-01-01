@@ -118,7 +118,7 @@ export default function Pagination({
           <select onChange={handlePerPage} value={perPage}>
             {options.map((item) => {
               return (
-                <option className="per__page__option" value={item} key={item}>
+                <option value={item} key={item}>
                   {item}
                 </option>
               );
@@ -127,7 +127,7 @@ export default function Pagination({
         </div>
 
         <div className="per_page_div">
-          Total <div className="per__page__number">{totalCount}</div>
+          Total <div>{totalCount}</div>
         </div>
       </div>
     </div>
