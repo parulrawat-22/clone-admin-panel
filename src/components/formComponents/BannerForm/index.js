@@ -8,12 +8,19 @@ import { errorToast, successToast } from "../../../utils/toast";
 import { useLoader } from "../../../base/Context/loaderProvider";
 import { useApi } from "../../../base/Context/apiProvider";
 
-const BannerForm = ({ onSubmit, edit, id, onClickEdit, fetchBannerList }) => {
-  const [bannerName, setBannerName] = useState("");
-  const [image, setImage] = useState("");
+const BannerForm = ({
+  onSubmit,
+  edit,
+  id,
+  onClickEdit,
+  fetchBannerList,
+  data,
+}) => {
+  const [bannerName, setBannerName] = useState(data?.name);
+  const [image, setImage] = useState(data?.imageUrl);
   const [preview, setPreview] = useState("");
 
-  // console.log("id", id);
+  console.log(data, "showBannerData");
 
   const [error, setError] = useState({
     name: "",
@@ -33,10 +40,10 @@ const BannerForm = ({ onSubmit, edit, id, onClickEdit, fetchBannerList }) => {
     setError({ ...error, imageUrl: "" });
   };
 
-  useEffect(() => {
-    ///fetchBannerList();
-    handleSingleFetch();
-  }, [apiProvider?.apiUrl]);
+  // useEffect(() => {
+  //   ///fetchBannerList();
+  //   handleSingleFetch();
+  // }, [apiProvider?.apiUrl]);
 
   const validate = () => {
     let result = true;
@@ -71,58 +78,41 @@ const BannerForm = ({ onSubmit, edit, id, onClickEdit, fetchBannerList }) => {
       })
       .catch((err) => {
         loader.showLoader(false);
+        // errorToast(err.message);
         console.log(err);
       });
   };
 
-  const handleSingleFetch = () => {
-    loader.showLoader(true);
-    fetchDataFromAPI(
-      apiProvider?.apiUrl + NetworkConfiguration.GETONEBANNER + `/${id}`,
-      "GET"
-    )
-      .then((res) => {
-        loader.showLoader(false);
-
-        console.log(res);
-        setBannerName(res.name);
-        setPreview(res.imageUrl);
-      })
-      .catch((err) => {
-        loader.showLoader(false);
-
-        console.log(err);
-      });
-  };
   const handleOnSubmit = (e) => {
     console.log("onSubmit banner");
-    loader.showLoader(true);
     e.preventDefault();
-    validate();
-    let data = new FormData();
-    data.append("name", bannerName);
-    data.append("image", image);
-    console.log(image);
-    fetchDataFromAPI(
-      apiProvider?.apiUrl + NetworkConfiguration.ADDBANNER,
-      "POST",
-      data,
-      {
-        "Content-Type": "multipart/form-data",
-      }
-    )
-      .then((res) => {
-        loader.showLoader(false);
-        setBannerName("");
-        setImage(null);
-        onSubmit();
-        successToast("Banner added successfully");
-      })
-      .catch((err) => {
-        loader.showLoader(false);
-        console.log(err);
-        errorToast(err.response.data.message);
-      });
+    if (validate()) {
+      loader.showLoader(true);
+      let data = new FormData();
+      data.append("name", bannerName);
+      data.append("image", image);
+      console.log(image);
+      fetchDataFromAPI(
+        apiProvider?.apiUrl + NetworkConfiguration.ADDBANNER,
+        "POST",
+        data,
+        {
+          "Content-Type": "multipart/form-data",
+        }
+      )
+        .then((res) => {
+          loader.showLoader(false);
+          setBannerName("");
+          setImage(null);
+          onSubmit();
+          successToast("Banner added successfully");
+        })
+        .catch((err) => {
+          loader.showLoader(false);
+          console.log(err);
+          errorToast("Failed to upload banner");
+        });
+    }
   };
   return (
     <div className="banner__container">

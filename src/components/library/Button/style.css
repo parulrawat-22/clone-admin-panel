@@ -1,6 +1,6 @@
 .button__style {
   width: 10rem;
-  height: 3.5rem;
+  height: 3rem;
   padding: 0 20px;
   color: var(--color-black);
   background-color: var(--color-pink);
@@ -15,7 +15,4 @@
   color: var(--color-white);
   font-size: var(--fontsize-medium);
   font-family: var(--fontfamily-default);
-}
-
-.custom__margin {
 }

@@ -92,7 +92,7 @@ const AddLeaderForm = ({ onSubmit, edit, data, setData, id }) => {
 
   const handleMobileNumber = (e) => {
     setError({ ...error, mobileNumberError: "" });
-    setMobileNumber(e.target.value);
+    setMobileNumber(e.target.value.replace(/\D/g, ""));
   };
 
   const handleEmail = (e) => {
@@ -112,7 +112,7 @@ const AddLeaderForm = ({ onSubmit, edit, data, setData, id }) => {
 
   const handlePinCode = (e) => {
     setError({ ...error, pinCodeError: "" });
-    setPin(e.target.value);
+    setPin(e.target.value.replace(/\D/g, ""));
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.PINCODE,
       "POST",
@@ -150,7 +150,8 @@ const AddLeaderForm = ({ onSubmit, edit, data, setData, id }) => {
 
   const handleIdProof = (e) => {
     setError({ ...error, idProofError: "" });
-    setIdProof(e.target.value);
+
+    setIdProof(e.target.value.replace(/\D/g, ""));
   };
 
   const handlePassword = (e) => {
@@ -192,10 +193,11 @@ const AddLeaderForm = ({ onSubmit, edit, data, setData, id }) => {
 
   const validate = () => {
     let result = true;
+    console.log("city, country,state", city, state, country);
     if (!leaderName) {
       setError({ ...error, leaderNameError: "Enter valid leader name" });
       result = false;
-    } else if (!mobileNumber) {
+    } else if (!mobileNumber.match(/^[5-9]{1}[0-9]{9}/)) {
       setError({ ...error, mobileNumberError: "Enter valid mobile number" });
       result = false;
     } else if (!email) {
@@ -207,7 +209,7 @@ const AddLeaderForm = ({ onSubmit, edit, data, setData, id }) => {
     } else if (!groupName) {
       setError({ ...error, groupNameError: "Enter valid group name" });
       result = false;
-    } else if (!pin) {
+    } else if (!pin.match(/^[0-9]{4,6}/)) {
       setError({ ...error, pinCodeError: "Enter valid pin Code" });
       result = false;
     } else if (!country) {
@@ -219,7 +221,7 @@ const AddLeaderForm = ({ onSubmit, edit, data, setData, id }) => {
     } else if (!city) {
       setError({ ...error, cityError: "Enter valid City" });
       result = false;
-    } else if (!idProof) {
+    } else if (!idProof.match(/^[0-9]{16}/)) {
       setError({ ...error, idProofError: "Enter valid Id Proof" });
       result = false;
     } else if (!password) {
@@ -228,6 +230,7 @@ const AddLeaderForm = ({ onSubmit, edit, data, setData, id }) => {
     }
     return result;
   };
+
   return (
     <div style={{ padding: "5px 0" }}>
       <h2 className="add__leader__heading">Add Leader</h2>
@@ -243,9 +246,11 @@ const AddLeaderForm = ({ onSubmit, edit, data, setData, id }) => {
         <InputField
           value={edit ? data.mobileNumber : mobileNumber}
           onChange={edit ? handleEditValue : handleMobileNumber}
-          type="number"
+          type="text"
           placeholder="Mobile Number"
           error={error.mobileNumberError}
+          //min={10}
+          maxlength="10"
           name="mobileNumber"
         />
         <InputField
@@ -256,6 +261,7 @@ const AddLeaderForm = ({ onSubmit, edit, data, setData, id }) => {
           type="email"
           name="email"
         />
+
         <Dropdown
           value={edit ? data.gender : gender}
           options={dropdownOptions}
@@ -274,7 +280,9 @@ const AddLeaderForm = ({ onSubmit, edit, data, setData, id }) => {
         <InputField
           value={edit ? data.pin : pin}
           onChange={edit ? handleEditValue : handlePinCode}
-          type="number"
+          type="text"
+          minlength="4"
+          maxlength="6"
           placeholder="Pin Code"
           error={error.pinCodeError}
           name="pin"
@@ -303,9 +311,12 @@ const AddLeaderForm = ({ onSubmit, edit, data, setData, id }) => {
         <InputField
           value={edit ? data.idProof : idProof}
           onChange={edit ? handleEditValue : handleIdProof}
-          type="number"
+          type="text"
           placeholder="ID Proof (must be 16 digits)"
           error={error.idProofError}
+          //onKeyUp={handleKeyPress}
+          maxlength="16"
+          // max="16"
           name="idProof"
         />
 

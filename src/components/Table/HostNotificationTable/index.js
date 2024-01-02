@@ -26,10 +26,10 @@ const HostNotification = () => {
   const [getHostNotification, setGetHostNotification] = useState([]);
 
   useEffect(() => {
-    fetchUserNotification(apiProvider);
-  }, [page, perPage]);
+    fetchUserNotification();
+  }, [page, perPage, apiProvider?.apiUrl]);
 
-  const fetchUserNotification = (apiProvider) => {
+  const fetchUserNotification = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.GETHOSTNOTIFICATION,
@@ -84,16 +84,10 @@ const HostNotification = () => {
                 return (
                   <tr>
                     <td className="host__notification__data">{index + 1}</td>
+                    <td className="host__notification__data">{data.title}</td>
+                    <td className="host__notification__data">{data.body}</td>
                     <td className="host__notification__data">
-                      {getNotification(data).title}
-                    </td>
-                    <td className="host__notification__data">
-                      {getNotification(data).body}
-                    </td>
-                    <td className="host__notification__data">
-                      {moment(getNotification(data).followTime).format(
-                        "DD/MM/YYYY ,LT"
-                      )}
+                      {moment(data.followTime).format("DD/MM/YYYY ,LT")}
                     </td>
                   </tr>
                 );

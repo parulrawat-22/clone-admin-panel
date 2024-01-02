@@ -29,9 +29,12 @@
 
 .user__management__icon_suspend_warn_user {
   display: flex;
-  gap: 5rem;
+  gap: 8rem;
 }
 
 .user__management__action {
-  gap: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
 }

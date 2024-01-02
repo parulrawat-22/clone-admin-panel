@@ -39,22 +39,22 @@ const WarnUser = () => {
   };
 
   const handleTitle = (e) => {
-    setError({ ...error, selectTitle: "" });
+    setError({ ...error, title: "" });
     setSelectTitle(e.target.value);
   };
 
   const handleDescription = (e) => {
-    setError({ ...error, selectDescription: "" });
+    setError({ ...error, body: "" });
     setSelectDescription(e.target.value);
   };
 
   const validate = () => {
     let result = true;
-    if (selectTitle === "") {
-      setError({ ...error, selectTitle: "Title is required" });
+    if (!selectTitle) {
+      setError({ ...error, title: "Title is required" });
       result = false;
-    } else if (selectDescription === "") {
-      setError({ ...error, selectDescription: "Description is required" });
+    } else if (!selectDescription) {
+      setError({ ...error, body: "Description is required" });
       result = false;
     }
     return result;

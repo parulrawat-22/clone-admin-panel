@@ -5,6 +5,7 @@ import { useState } from "react";
 import { fetchDataFromAPI } from "../../network/NetworkConnection";
 import { useApi } from "../../base/Context/apiProvider";
 import { NetworkConfiguration } from "../../network/NetworkConfiguration";
+import { errorToast, successToast } from "../../utils/toast";
 
 const EnterOtp = ({ email }) => {
   let navigate = useNavigate();
@@ -46,10 +47,12 @@ const EnterOtp = ({ email }) => {
     )
       .then((res) => {
         navigate(`/newpassword/${email}`);
+        successToast(res?.message);
         console.log(res);
       })
       .catch((err) => {
         console.log(err, "err");
+        errorToast(err.message);
       });
   };
   return (

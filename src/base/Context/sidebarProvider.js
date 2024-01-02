@@ -137,6 +137,12 @@ const SidebarData = [
   },
 
   {
+    label: "Blocked Data",
+    link: "/adminblocklist",
+    icon: feedback,
+  },
+
+  {
     label: "Sub-Admin",
     link: "/subAdmin",
     icon: feedback,

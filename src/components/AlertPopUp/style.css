@@ -5,7 +5,7 @@
 .alert__popup__heading {
   font-family: var(--fontfamily-sansserif);
   font-size: var(--fontsize-large);
-  font-weight: var(--fontweight-bold);
+  font-weight: var(--fontweight-medium);
 }
 
 .alert__popup__content {
@@ -26,7 +26,7 @@
 .alert__submit__popup {
   width: 5rem;
   background-color: rgb(0, 132, 255);
-  font-family: "roboto", "sans-serif";
+  font-family: var(--fontfamily-sansserif);
   font-size: 20px;
   padding: 10px 0;
   color: white;
@@ -37,7 +37,7 @@
 .alert__cancel__popup {
   width: 5rem;
   background-color: red;
-  font-family: "roboto", "sans-serif";
+  font-family: var(--fontfamily-sansserif);
   font-size: 20px;
   color: white;
   padding: 10px 0;

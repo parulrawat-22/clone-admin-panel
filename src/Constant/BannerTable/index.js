@@ -22,11 +22,13 @@ const BannerTable = ({
   const [showEditAlert, setShowEditAlert] = useState(false);
   const [id, setId] = useState("");
   const [img, setImg] = useState();
+  const [data, setData] = useState("");
 
-  const handleOnClickEdit = (id) => {
+  const handleOnClickEdit = (data) => {
     console.log(id, "-------------");
     setShowEditAlert(true);
-    setId(id);
+    setId(data._id);
+    setData(data);
   };
 
   const onClickEdit = () => {
@@ -88,7 +90,7 @@ const BannerTable = ({
                     <td className="banner__list__data">
                       <AiFillEdit
                         onClick={() => {
-                          handleOnClickEdit(data?._id);
+                          handleOnClickEdit(data);
                         }}
                         className="banner__list__edit__action"
                       />
@@ -120,6 +122,7 @@ const BannerTable = ({
           onClickEdit={onClickEdit}
           edit={true}
           id={id}
+          data={data}
           fetchBannerList={fetchBannerList}
         />
       </FormAlertPopUp>

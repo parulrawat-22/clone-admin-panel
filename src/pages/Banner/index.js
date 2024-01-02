@@ -143,6 +143,7 @@ const Banner = () => {
           onSubmit={onSubmit}
           handleClose={handleAddBannerClose}
           fetchBannerList={fetchBannerList}
+          // id={id}
         />
       </FormAlertPopUp>
 

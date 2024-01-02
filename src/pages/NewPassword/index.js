@@ -9,6 +9,7 @@ import "./style.css";
 import { fetchDataFromAPI } from "../../network/NetworkConnection";
 import { useApi } from "../../base/Context/apiProvider";
 import { NetworkConfiguration } from "../../network/NetworkConfiguration";
+import { errorToast, successToast } from "../../utils/toast";
 
 const NewPassword = () => {
   const navigate = useNavigate();
@@ -59,14 +60,16 @@ const NewPassword = () => {
 
   const validate = () => {
     let result = true;
-    if (
-      !newPassword.match(
-        /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/
-      )
-    ) {
+    if (!newPassword) {
       setError({ ...error, newPassword: "Enter a valid password" });
       result = false;
-    } else if (confirmPassword !== newPassword) {
+    }
+    // if (
+    //   !newPassword.match(
+    //     /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,16}$/
+    //   )
+    // ) {
+    else if (confirmPassword !== newPassword) {
       setError({ ...error, conformPassword: "Passwords do not match" });
       result = false;
     }
@@ -88,9 +91,11 @@ const NewPassword = () => {
         .then((res) => {
           navigate("/");
           console.log(res, "res------");
+          successToast(res?.message);
         })
         .catch((err) => {
           console.log(err, "err------");
+          errorToast(err?.message);
         });
     }
   };
@@ -125,7 +130,11 @@ const NewPassword = () => {
               error={error.conformPassword}
             />
           </div>
-          <Button onClick={handleonSubmit} text="Reset Password" />
+          <Button
+            style={{ fontSize: "18px", textAlign: "center" }}
+            onClick={handleonSubmit}
+            text="Reset Password"
+          />
         </div>
       </div>
       <div className="login__right_half"></div>

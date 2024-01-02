@@ -11,27 +11,26 @@ import SidebarProvider from "./base/Context/sidebarProvider";
 function App() {
   return (
     <div className="App">
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+      <ToastContainer />
       <BrowserRouter>
         <LoaderProvider>
           {/* <APIProvider> */}
           <ModalProvider>
             <SidebarProvider>
               <APIProvider>
-                <Router>
-                  <ToastContainer
-                    position="top-right"
-                    autoClose={5000}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                    theme="dark"
-                  />
-                  <ToastContainer />
-                </Router>
+                <Router></Router>
               </APIProvider>
             </SidebarProvider>
           </ModalProvider>

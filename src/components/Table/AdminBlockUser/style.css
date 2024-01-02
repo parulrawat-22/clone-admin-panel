@@ -1,0 +1,23 @@
+.admin__block__container {
+  padding: 1rem 0;
+}
+
+.admin__block__table {
+  max-width: max-content;
+  min-width: 100%;
+  border-collapse: collapse;
+}
+
+.admin__block__header {
+  font-family: var(--fontfamily-sansserif);
+  background-color: var(--color-pink);
+  color: var(--color-white);
+  padding: 0.5rem 0;
+}
+
+.admin__block__data {
+  text-align: center;
+  font-family: var(--fontfamily-sansserif);
+  border-bottom: 1px solid black;
+  padding: 0.5rem 0;
+}

@@ -192,7 +192,6 @@ const AcceptedHostTable = () => {
     )
       .then((res) => {
         loader.showLoader(false);
-
         getAcceptedHost();
         setShowChangeLeaderAlert(false);
       })

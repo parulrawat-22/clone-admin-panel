@@ -54,7 +54,7 @@ export const NetworkConfiguration = {
   GETONEBANNER: "banner/getOneBanner",
   GETAMOUNT: "admin/getBucketUserCoins",
   GETONEUSER: "admin/findOneUser",
-
+  BLOCKUSER: "admin/adminBlockUser",
   GETONECOIN: "wallet/findOnewallet",
   GETHOSTGIFT: "admin/adminGetHostSendGift",
   GETBUCKETLIST: "admin/findIncDecCoins",
@@ -129,6 +129,9 @@ export const NetworkConfiguration = {
   NEWSTAR: "admin/findNewStarHost",
   SUSPICIOUSDATA: "admin/suspicious",
   GETFLOWER: "gift/getRoseDetails",
+  BLOCKLIST: "admin/adminBlocklist",
+  UNBLOCKHOST: "admin/adminHostUnblock",
+  UNBLOCKUSER: "admin/adminUserUnblock",
 
   //subAdmin
   SUBADMINLIST: "admin/subAdminList",

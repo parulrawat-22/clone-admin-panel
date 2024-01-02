@@ -26,7 +26,12 @@ const InputField = (props) => {
         onChange={props.onChange}
         value={props.value}
         min={props.min}
+        // max={props.max}
         name={props.name}
+        maxLength={props.maxlength}
+        minLength={props.minlength}
+        autoFocus={props.autoFocus}
+        onKeyDown={props.onKeyDown}
       />
       <div onClick={props.onEyeClick} className="input__eye__icon">
         {props.icon}

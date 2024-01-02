@@ -1,7 +1,7 @@
-/* .input__field__container {
-  /* position: relative; */
-/* height: 35px; */
-/* }  */
+.input__field__container {
+  position: relative;
+  height: 35px;
+}
 
 .input__field__label {
   font-family: var(--fontfamily-default);

@@ -46,6 +46,7 @@ import ActiveUser from "../pages/ActiveUser";
 import InactiveHost from "../pages/InactiveHost";
 import InactiveUser from "../pages/InactiveUser";
 import ActiveHost from "../pages/ActiveHost";
+import AdminBlockList from "../pages/AdminBlockList";
 // import SubAdmin from "../pages/SubAdmin";
 
 // import Coin from "../pages/Coin";
@@ -59,7 +60,14 @@ const Router = () => {
       <Route path="/newpassword/:email" element={<NewPassword />}></Route>
       <Route path="/dashboard" element={<Dashboard />}></Route>
       <Route path="/banner" element={<Banner />} />
-      <Route path="/usermanagement/:id" element={<UserManagement />} />
+      <Route
+        path="/usermanagement/:id"
+        element={
+          <Layout>
+            <UserManagement />
+          </Layout>
+        }
+      />
       <Route
         path="/usermanagement/:selectedOption/:id"
         element={
@@ -79,7 +87,14 @@ const Router = () => {
           </Layout>
         }
       />
-      <Route path="/hostmanagement/:id" element={<HostManagement />} />
+      <Route
+        path="/hostmanagement/:id"
+        element={
+          <Layout>
+            <HostManagement />
+          </Layout>
+        }
+      />
       <Route
         path="/hostmanagement/:selectedOption/:id"
         element={
@@ -146,6 +161,15 @@ const Router = () => {
         element={
           <Layout>
             <MainCallHistory />
+          </Layout>
+        }
+      />
+
+      <Route
+        path="/adminblocklist"
+        element={
+          <Layout>
+            <AdminBlockList />
           </Layout>
         }
       />

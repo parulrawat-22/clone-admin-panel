@@ -4,7 +4,6 @@ import Button from "../../components/library/Button";
 import InputField from "../../components/library/InputField";
 import "./style.css";
 import { useEffect, useState } from "react";
-import { errorToast, successToast } from "../../utils/toast";
 import { requestForToken } from "../../firebase";
 import { fetchDataFromAPI } from "../../network/NetworkConnection";
 import {
@@ -12,6 +11,7 @@ import {
   NetworkConfiguration,
 } from "../../network/NetworkConfiguration";
 import { useApi } from "../../base/Context/apiProvider";
+import { errorToast, successToast } from "../../utils/toast";
 
 const Login = () => {
   let navigate = useNavigate();
@@ -54,14 +54,15 @@ const Login = () => {
       )
         .then((res) => {
           console.log("Login successful");
-          successToast(res.message);
+          successToast("Login successful");
           localStorage.setItem("token", res.token);
           navigate("/dashboard");
         })
         .catch((err) => {
-          console.log("Error", err);
-          errorToast(err.response.data.message);
-          errorToast(err.response.data.responseMessage);
+          console.log("Login Error", err);
+          err.message
+            ? errorToast(err?.message)
+            : errorToast(err?.responseMessage);
         });
     }
   };
@@ -79,9 +80,9 @@ const Login = () => {
     return validate;
   };
 
-  useEffect(() => {
-    // adminLogin();
-  }, []);
+  // useEffect(() => {
+  //   // adminLogin();
+  // }, []);
 
   useEffect(() => {
     let loginToken = localStorage.getItem("token");

@@ -2,13 +2,12 @@ import { useNavigate } from "react-router-dom";
 import InputField from "../../components/library/InputField";
 import "./style.css";
 import { useState } from "react";
-import axios from "axios";
-import baseUrl from "../../baseUrl";
+
 import EnterOtp from "../EnterOtp";
 import { fetchDataFromAPI } from "../../network/NetworkConnection";
-import { FaArrowPointer } from "react-icons/fa6";
 import { useApi } from "../../base/Context/apiProvider";
 import { NetworkConfiguration } from "../../network/NetworkConfiguration";
+import { errorToast, successToast } from "../../utils/toast";
 // import { successToast } from "../../components/Toast";
 
 const ForgotPassword = () => {
@@ -28,8 +27,10 @@ const ForgotPassword = () => {
       .then((res) => {
         console.log(res, "res======");
         setEnterOTP(false);
+        successToast(res?.message);
       })
       .catch((err) => {
+        errorToast(err.message);
         console.log(err, "error-------");
       });
   };
