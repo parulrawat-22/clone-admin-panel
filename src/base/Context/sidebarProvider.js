@@ -137,6 +137,12 @@ const SidebarData = [
   },
 
   {
+    label: "Snapshots",
+    link: "/snapshot",
+    icon: feedback,
+  },
+
+  {
     label: "Blocked Data",
     link: "/adminblocklist",
     icon: feedback,

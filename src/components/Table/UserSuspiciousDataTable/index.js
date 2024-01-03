@@ -66,7 +66,7 @@ const UserSuspiciousData = () => {
                   <td className="suspicious__data__data">
                     <AiFillEdit
                       onClick={() => {
-                        navigate(`/usermanagement/${id}`);
+                        navigate(`/usermanagement/${data._id}`);
                       }}
                       className="suspicious__edit__icon"
                     />

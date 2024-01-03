@@ -77,11 +77,11 @@ const EditProfile = () => {
 
   return (
     <div className="edit__profile__container">
-      <div className="edit__profile__wrapper">
+      {/* <div className="edit__profile__wrapper">
         <p className="edit__profile__content" onClick={handlePremiumCoin}>
           Set Premium Coins
         </p>
-      </div>
+      </div> */}
       <div className="edit__profile__wrapper" onClick={handleRandomCall}>
         <p className="edit__profile__content">Set Random Call Time</p>
       </div>

@@ -1,17 +1,18 @@
+import moment from "moment";
 import { useApi } from "../../base/Context/apiProvider";
 import { useLoader } from "../../base/Context/loaderProvider";
 import Button from "../../components/library/Button";
-import {
-  API_URL,
-  NetworkConfiguration,
-} from "../../network/NetworkConfiguration";
+import { NetworkConfiguration } from "../../network/NetworkConfiguration";
 import { fetchDataFromAPI } from "../../network/NetworkConnection";
 import "./style.css";
 import { useEffect, useState } from "react";
+import FormAlertPopUp from "../../components/FormAlertPopUp";
+import ActiveUserForm from "../../components/formComponents/ActiveUserNotificationForm";
 
 const ActiveUser = () => {
   const apiProvider = useApi();
   const [activeUser, setActiveUser] = useState([]);
+  const [showNotificationPopup, setShowNotificationPopup] = useState(false);
   const loader = useLoader();
   useEffect(() => {
     fetchActiveUser();
@@ -33,9 +34,17 @@ const ActiveUser = () => {
       });
   };
 
+  const handleActiveUser = () => {
+    setShowNotificationPopup(true);
+  };
+
+  const handleActiveUserClose = () => {
+    setShowNotificationPopup(false);
+  };
+
   return (
     <div className="active__user__container">
-      <div className="active__user">
+      <div className="active__user" onClick={handleActiveUser}>
         <Button style={{ textAlign: "center" }} text="Send Notification" />
       </div>
       <div className="table_parent_box">
@@ -44,7 +53,7 @@ const ActiveUser = () => {
             <th className="active__user__header">S.No.</th>
             <th className="active__user__header">User ID</th>
             <th className="active__user__header">Name</th>
-            <th className="active__user__header">Username</th>
+            {/* <th className="active__user__header">Username</th> */}
             <th className="active__user__header">Email</th>
             <th className="active__user__header">Mobile Number</th>
             <th className="active__user__header">Created At</th>
@@ -58,10 +67,12 @@ const ActiveUser = () => {
                     <td className="active__user__data">{index + 1}</td>
                     <td className="active__user__data">{data?.userId}</td>
                     <td className="active__user__data">{data?.name}</td>
-                    <td className="active__user__data">{data?.username}</td>
+                    {/* <td className="active__user__data">{data?.username}</td> */}
                     <td className="active__user__data">{data?.email}</td>
                     <td className="active__user__data">{data?.mobileNumber}</td>
-                    <td className="active__user__data">{data?.createdAt}</td>
+                    <td className="active__user__data">
+                      {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
+                    </td>
                   </tr>
                 );
               })
@@ -71,6 +82,12 @@ const ActiveUser = () => {
           </tbody>
         </table>
       </div>
+      <FormAlertPopUp
+        open={showNotificationPopup}
+        onRequestClose={handleActiveUserClose}
+      >
+        <ActiveUserForm />
+      </FormAlertPopUp>
     </div>
   );
 };

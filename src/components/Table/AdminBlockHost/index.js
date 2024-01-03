@@ -5,22 +5,13 @@ import { useApi } from "../../../base/Context/apiProvider";
 import { NetworkConfiguration } from "../../../network/NetworkConfiguration";
 import moment from "moment";
 import AlertPopUp from "../../AlertPopUp";
+import { AiFillEdit } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 const AdminBlockHost = () => {
   const apiProvider = useApi();
-
+  const navigate = useNavigate();
   const [adminBlockHost, setAdminBlockHost] = useState([]);
-  const [showUnblockAlert, setShowUnblockAlert] = useState(false);
-  const [id, setId] = useState("");
-
-  const handleHostUnblock = (id) => {
-    setShowUnblockAlert(true);
-    setId(id);
-  };
-
-  const handleHostUnblockClose = () => {
-    setShowUnblockAlert(false);
-  };
 
   useEffect(() => {
     fetchBlockedHost();
@@ -40,24 +31,6 @@ const AdminBlockHost = () => {
       })
       .catch((err) => {
         console.log(err);
-      });
-  };
-
-  const handleUnblockClick = () => {
-    fetchDataFromAPI(
-      apiProvider?.apiUrl + NetworkConfiguration.UNBLOCKHOST,
-      "PUT",
-      {
-        id,
-      }
-    )
-      .then((res) => {
-        console.log(res);
-        setShowUnblockAlert(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setShowUnblockAlert(false);
       });
   };
 
@@ -82,33 +55,22 @@ const AdminBlockHost = () => {
                 <td className="admin__block__data">{data?.hostId?.name}</td>
                 <td className="admin__block__data">{data?.blockReasion}</td>
                 <td className="admin__block__data">
-                  {moment(data?.createdAt).format("DD/MM/YYYY")}
+                  {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
                 </td>
                 <td className="admin__block__data">{data?.status}</td>
                 <td className="admin__block__data">
-                  <p
-                    className="admin__unblock"
-                    onClick={() => handleHostUnblock(data?._id)}
-                  >
-                    Unblock
-                  </p>
+                  <AiFillEdit
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      navigate(`/hostmanagement/${data?.hostId?._id}`);
+                    }}
+                  />
                 </td>
               </tr>
             );
           })}
         </tbody>
       </table>
-      <AlertPopUp
-        open={showUnblockAlert}
-        handleClose={handleHostUnblockClose}
-        handleOpen={handleHostUnblock}
-        header="Unblock Alert"
-        description="Are you sure you want to unblock this host?"
-        submitText="Yes"
-        cancelText="No"
-        onSubmitClick={handleUnblockClick}
-        onCancelClick={handleHostUnblockClose}
-      />
     </div>
   );
 };

@@ -45,10 +45,10 @@ const WarnedHostTable = () => {
   };
 
   useEffect(() => {
-    getWarnedHost(apiProvider);
-  }, [value, perPage, page]);
+    getWarnedHost();
+  }, [value, perPage, page, apiProvider?.apiUrl]);
 
-  const getWarnedHost = (apiProvider) => {
+  const getWarnedHost = () => {
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.WARNEDHOST,
       "POST",
@@ -75,7 +75,7 @@ const WarnedHostTable = () => {
     setId(id);
   };
 
-  const handleDelete = (apiProvider) => {
+  const handleDelete = () => {
     loader.showLoader(true);
 
     fetchDataFromAPI(

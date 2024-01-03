@@ -1,0 +1,23 @@
+.snapshots__container {
+  padding: 1rem 0;
+}
+
+.snapshots__table {
+  max-width: max-content;
+  min-width: 100%;
+  border-collapse: collapse;
+}
+
+.snapshots__header {
+  background-color: var(--color-pink);
+  color: var(--color-white);
+  font-family: var(--fontfamily-sansserif);
+  padding: 0.5rem 0;
+}
+
+.snapshots__data {
+  text-align: center;
+  font-family: var(--fontfamily-sansserif);
+  border-bottom: 1px solid black;
+  padding: 0.3rem 0;
+}

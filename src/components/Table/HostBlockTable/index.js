@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import "./style.css";
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
-import {
-  API_URL,
-  NetworkConfiguration,
-} from "../../../network/NetworkConfiguration";
+import { NetworkConfiguration } from "../../../network/NetworkConfiguration";
 import { useParams } from "react-router-dom";
 import { useLoader } from "../../../base/Context/loaderProvider";
 import Lottie from "react-lottie";
@@ -24,10 +21,10 @@ const HostBlockTable = () => {
   const apiProvider = useApi();
 
   useEffect(() => {
-    fetchBlockList(apiProvider);
-  }, []);
+    fetchBlockList();
+  }, [apiProvider?.apiUrl, page, perPage]);
 
-  const fetchBlockList = (apiProvider) => {
+  const fetchBlockList = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.HOSTBLOCKDETAILS,

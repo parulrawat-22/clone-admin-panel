@@ -6,6 +6,7 @@ import {
   API_URL,
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
+import { useNavigate } from "react-router-dom";
 
 const HostSuspiciousData = () => {
   const [hostSuspiciousList, setHostSuspiciousList] = useState([]);
@@ -13,6 +14,7 @@ const HostSuspiciousData = () => {
   useEffect(() => {
     fetchSuspiciousData();
   }, []);
+  const navigate = useNavigate();
 
   const fetchSuspiciousData = () => {
     fetchDataFromAPI(API_URL + NetworkConfiguration.SUSPICIOUSDATA, "POST", {
@@ -61,7 +63,12 @@ const HostSuspiciousData = () => {
                     {data?.isExplicit ? "TRUE" : "FALSE"}
                   </td>
                   <td className="suspicious__data__data">
-                    <AiFillEdit className="suspicious__edit__icon" />
+                    <AiFillEdit
+                      onClick={() => {
+                        navigate(`/hostmanagement/${data._id}`);
+                      }}
+                      className="suspicious__edit__icon"
+                    />
                   </td>
                 </tr>
               );

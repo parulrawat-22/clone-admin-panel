@@ -47,6 +47,7 @@ import InactiveHost from "../pages/InactiveHost";
 import InactiveUser from "../pages/InactiveUser";
 import ActiveHost from "../pages/ActiveHost";
 import AdminBlockList from "../pages/AdminBlockList";
+import Snapshots from "../pages/Snapshots";
 // import SubAdmin from "../pages/SubAdmin";
 
 // import Coin from "../pages/Coin";
@@ -131,6 +132,14 @@ const Router = () => {
         element={
           <Layout>
             <Coin />
+          </Layout>
+        }
+      />
+      <Route
+        path="/snapshot"
+        element={
+          <Layout>
+            <Snapshots />
           </Layout>
         }
       />

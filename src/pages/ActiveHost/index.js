@@ -27,7 +27,7 @@ const ActiveHost = () => {
         console.log(err);
       });
   };
-
+  console.log(activeHost, "hddddddddddd");
   return (
     <div className="active__user__container">
       <div className="active__user">
@@ -39,7 +39,7 @@ const ActiveHost = () => {
             <th className="active__user__header">S.No.</th>
             <th className="active__user__header">Host Id</th>
             <th className="active__user__header">Name</th>
-            <th className="active__user__header">Username</th>
+            {/* <th className="active__user__header">Username</th> */}
             <th className="active__user__header">Group Name</th>
             <th className="active__user__header">Leader ID</th>
             <th className="active__user__header">Joining Date</th>
@@ -50,16 +50,18 @@ const ActiveHost = () => {
               return (
                 <tr>
                   <td className="active__user__data">{index + 1}</td>
-                  <td className="active__user__data">{data?.hostId}</td>
+                  <td className="active__user__data">{data?._id}</td>
                   <td className="active__user__data">{data?.name}</td>
-                  <td className="active__user__data">{data?.username}</td>
+                  {/* <td className="active__user__data">{data?.username}</td> */}
 
-                  <td className="active__user__data">{data?.groupName}</td>
-                  <td className="active__user__data">{data?.leaderId}</td>
                   <td className="active__user__data">
-                    {moment(data?.createdAt).format("DD/MM/YYYY")}
+                    {data?.leader?.groupName}
                   </td>
-                  <td className="active__user__data">{data?.leaderId}</td>
+                  <td className="active__user__data">{data?.leader?._id}</td>
+                  <td className="active__user__data">
+                    {moment(data?.createdAt).format("DD/MM/YYYY ,LT")}
+                  </td>
+                  {/* <td className="active__user__data">{data?.leaderId}</td> */}
                 </tr>
               );
             })}

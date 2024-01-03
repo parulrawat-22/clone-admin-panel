@@ -4,14 +4,13 @@ import { fetchDataFromAPI } from "../../../network/NetworkConnection";
 import { useApi } from "../../../base/Context/apiProvider";
 import { NetworkConfiguration } from "../../../network/NetworkConfiguration";
 import moment from "moment";
-import AlertPopUp from "../../AlertPopUp";
+import { AiFillEdit, AiFillEye } from "react-icons/ai";
+import { useNavigate } from "react-router-dom";
 
 const AdminBlockUser = () => {
   const apiProvider = useApi();
-
+  const navigate = useNavigate();
   const [blockUser, setBlockUser] = useState([]);
-  const [showUnblockAlert, setShowUnblockAlert] = useState(false);
-  const [id, setId] = useState("");
 
   useEffect(() => {
     fetchBlockedUser();
@@ -34,32 +33,6 @@ const AdminBlockUser = () => {
       });
   };
 
-  const handleUnblockUser = () => {
-    fetchDataFromAPI(
-      apiProvider?.apiUrl + NetworkConfiguration.UNBLOCKUSER,
-      "PUT",
-      {
-        id,
-      }
-    )
-      .then((res) => {
-        console.log(res);
-        setShowUnblockAlert(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setShowUnblockAlert(false);
-      });
-  };
-
-  const handleUnblockClick = (id) => {
-    setShowUnblockAlert(true);
-    setId(id);
-  };
-
-  const handleUnblockClickClose = () => {
-    setShowUnblockAlert(false);
-  };
   return (
     <div className="admin__block__container">
       <table className="admin__block__table">
@@ -81,34 +54,22 @@ const AdminBlockUser = () => {
                 <td className="admin__block__data">{data?.userId?.name}</td>
                 <td className="admin__block__data">{data?.blockReasion}</td>
                 <td className="admin__block__data">
-                  {moment(data?.createdAt).format("DD/MM/YYYY")}
+                  {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
                 </td>
                 <td className="admin__block__data">{data?.status}</td>
                 <td className="admin__block__data">
-                  <p
-                    className="admin__unblock"
-                    onClick={() => handleUnblockClick(data?._id)}
-                  >
-                    Unblock
-                  </p>
+                  <AiFillEdit
+                    style={{ cursor: "pointer", fontSize: "" }}
+                    onClick={() => {
+                      navigate(`/usermanagement/${data?.userId?._id}`);
+                    }}
+                  />{" "}
                 </td>
               </tr>
             );
           })}
         </tbody>
       </table>
-
-      <AlertPopUp
-        open={showUnblockAlert}
-        handleClose={handleUnblockClickClose}
-        handleOpen={handleUnblockClick}
-        header="Unblock Alert"
-        description="Are you sure you want to unblock this user?"
-        submitText="Yes"
-        cancelText="No"
-        onSubmitClick={handleUnblockUser}
-        onCancelClick={handleUnblockClickClose}
-      />
     </div>
   );
 };

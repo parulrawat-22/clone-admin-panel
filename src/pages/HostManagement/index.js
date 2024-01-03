@@ -13,24 +13,6 @@ const HostManagement = () => {
 
   return (
     <div className="user__management__container">
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "flex-end",
-          height: "3rem",
-        }}
-      >
-        <Button
-          style={{
-            backgroundColor: "#fe3b3b",
-            width: "8rem",
-            fontSize: "18px",
-            textAlign: "center",
-          }}
-          text="Block Host"
-          // onClick={handleBlockClick}
-        />
-      </div>
       <div className="user__management__profile_details">
         <HostManagementTable id={id} />
       </div>

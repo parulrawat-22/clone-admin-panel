@@ -130,8 +130,10 @@ export const NetworkConfiguration = {
   SUSPICIOUSDATA: "admin/suspicious",
   GETFLOWER: "gift/getRoseDetails",
   BLOCKLIST: "admin/adminBlocklist",
+  BLOCKHOST: "admin/adminBlockHost",
   UNBLOCKHOST: "admin/adminHostUnblock",
   UNBLOCKUSER: "admin/adminUserUnblock",
+  SNAPSHOTS: "admin/snapshots",
 
   //subAdmin
   SUBADMINLIST: "admin/subAdminList",
@@ -142,4 +144,7 @@ export const NetworkConfiguration = {
 
   //allcallhistory
   DROPPEDCALL: "admin/getAllCallTypeUser",
+
+  //NOTIFICATION(ACTIVE/INACTIVE)
+  INACTIVEHOST: "admin/adminInActiveHostNotification",
 };
