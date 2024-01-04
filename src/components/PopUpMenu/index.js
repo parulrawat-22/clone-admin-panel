@@ -1,4 +1,4 @@
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./style.css";
 import AlertPopUp from "../AlertPopUp";
 import { useState } from "react";
@@ -68,6 +68,9 @@ const PopMenu = ({ popOpen, children }) => {
               <p className="logout_para">Catchwoo</p>
             </a>
           )}
+          <a href="/hostrequest" target="_blank">
+            <p className="logout_para">Hosts</p>
+          </a>
 
           <p className="logout_para" onClick={handleLogoutAlert}>
             Logout

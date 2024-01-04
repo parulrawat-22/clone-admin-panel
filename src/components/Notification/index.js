@@ -2,10 +2,7 @@ import { FiSearch } from "react-icons/fi";
 import NotificationCard from "./NotificationCard";
 import "./style.css";
 import { fetchDataFromAPI } from "../../network/NetworkConnection";
-import {
-  API_URL,
-  NetworkConfiguration,
-} from "../../network/NetworkConfiguration";
+import { NetworkConfiguration } from "../../network/NetworkConfiguration";
 import { useEffect, useState } from "react";
 import { useApi } from "../../base/Context/apiProvider";
 

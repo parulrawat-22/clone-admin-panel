@@ -51,7 +51,7 @@ const SubAdminTable = () => {
 
   useEffect(() => {
     handleSubAdmins();
-  }, [page, perPage, value]);
+  }, [page, perPage, value, apiProvider?.apiUrl]);
 
   const viewResponsibilities = (e) => {
     setResponsibilityPopup(true);

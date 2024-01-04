@@ -7,25 +7,48 @@ import {
 } from "../../../network/NetworkConfiguration";
 import { AiFillEdit } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import { useApi } from "../../../base/Context/apiProvider";
+import Pagination from "../../Pagination";
+import noData from "../../../base/Animation/No Data Found.json";
+import Lottie from "react-lottie";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const UserSuspiciousData = () => {
+  const apiProvider = useApi();
   const [suspiciousList, setSuspiciousList] = useState([]);
-  // const [type, setType] = useState("");
-  const [id, setId] = useState("");
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
+  const [totalPages, setTotalPages] = useState("");
+  const [count, setCount] = useState("");
+  let loader = useLoader();
   let navigate = useNavigate();
 
   useEffect(() => {
     fetchSuspiciousData();
-  }, []);
+  }, [apiProvider?.apiUrl, page, perPage]);
   const fetchSuspiciousData = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.SUSPICIOUSDATA, "POST", {
-      type: "user",
-    })
+    loader.showLoader(true);
+
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.SUSPICIOUSDATA,
+      "POST",
+      {
+        type: "user",
+        page,
+        perPage,
+      }
+    )
       .then((res) => {
+        loader.showLoader(false);
+
         console.log(res, "!!!!!!!!!!!!!!!!!!");
         setSuspiciousList(res?.users);
+        setCount(res?.count);
+        setTotalPages(res?.totalPages);
       })
       .catch((err) => {
+        loader.showLoader(false);
+
         console.log(err);
       });
   };
@@ -40,7 +63,7 @@ const UserSuspiciousData = () => {
           <th className="suspicious__data__header">Age</th>
           <th className="suspicious__data__header">Ai Age</th>
           <th className="suspicious__data__header">Explicit</th>
-
+          <th className="suspicious__data__header">Reason</th>
           <th className="suspicious__data__header">Action</th>
         </thead>
         <tbody>
@@ -49,7 +72,9 @@ const UserSuspiciousData = () => {
             suspiciousList.map((data, index) => {
               return (
                 <tr>
-                  <td className="suspicious__data__data">{index + 1}</td>
+                  <td className="suspicious__data__data">
+                    {(page - 1) * perPage + index + 1}
+                  </td>
                   <td className="suspicious__data__data">{data?.name}</td>
                   <td className="suspicious__data__data">{data?.gender}</td>
                   <td className="suspicious__data__data">
@@ -63,6 +88,7 @@ const UserSuspiciousData = () => {
                   <td className="suspicious__data__data">
                     {data?.isExplicit ? "TRUE" : "FALSE"}
                   </td>
+                  <td className="suspicious__data__data">{data?.reason}</td>
                   <td className="suspicious__data__data">
                     <AiFillEdit
                       onClick={() => {
@@ -76,6 +102,26 @@ const UserSuspiciousData = () => {
             })}
         </tbody>
       </table>
+
+      {suspiciousList && suspiciousList.length > 0 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          perPage={perPage}
+          setPerPage={setPerPage}
+          totalCount={count}
+          totalPages={totalPages}
+          options={[5, 10, 15, 20]}
+        />
+      ) : (
+        <div className="host__no__data__found__icon">
+          <Lottie
+            options={{ animationData: noData, loop: true }}
+            style={{ width: "20rem", height: "20rem" }}
+          />
+          <p className="no__data__found">No Data Found</p>
+        </div>
+      )}
     </div>
   );
 };

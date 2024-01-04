@@ -4,12 +4,12 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 import "./style.css";
-import sidebarData from "../../../Constant/DataComponent";
+// import sidebarData from "../../../Constant/DataComponent";
 import Button from "../../../components/library/Button";
 import InputField from "../../../components/library/InputField";
 import ResponsibilitiesDropdown from "../../../components/library/ResponsibilitiesDropdown";
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
-import { API_URL, NetworkConfiguration } from "../../../network/NetworkConfiguration";
+import { NetworkConfiguration } from "../../../network/NetworkConfiguration";
 import { useApi } from "../../../base/Context/apiProvider";
 import { useSidebar } from "../../../base/Context/sidebarProvider";
 
@@ -23,6 +23,7 @@ export default function EditSubAdmin() {
   const [passInputTwo, setPassInputTwo] = useState(true);
   const apiProvider = useApi();
   const sidebarProvider = useSidebar();
+  
 
   const [data, setData] = useState({
     password: "",
@@ -37,11 +38,11 @@ export default function EditSubAdmin() {
   const navigate = useNavigate();
 
   const handleSubAdmin = () => {
-    fetchDataFromAPI(API_URL+ NetworkConfiguration.GETONESUBADMIN + `/${searchParams.get('id')}`, "GET" )
+    fetchDataFromAPI(apiProvider?.apiUrl + NetworkConfiguration.GETONESUBADMIN + `/${searchParams.get('id')}`, "GET" )
       .then((res) => {
 
         console.log('res',res)
-        setResponsibilities(res.result.responsibility);
+        setResponsibilities(res?.result?.responsibility);
       })
       .catch((err) => {
         console.log('err',err)
@@ -50,14 +51,14 @@ export default function EditSubAdmin() {
 
   useEffect(() => {
     handleSubAdmin();
-  }, [searchParams]);
+  }, [searchParams ,apiProvider?.apiUrl]);
 
   //set side bar menu options for sub admin responsibilities
   useEffect(() => {
     setOptions(
-      sidebarProvider?.sidebarContent.map((item) => ({ name: item.label, accessType: [] }))
+      sidebarProvider?.apiUrl?.sidebarContent.map((item) => ({ name: item.label, accessType: [] }))
     );
-  }, [sidebarProvider?.sidebarContent]);
+  }, [sidebarProvider?.apiUrl?.sidebarContent]);
 
 
   console.log('options',options)
@@ -91,14 +92,17 @@ export default function EditSubAdmin() {
 
   //handle Edit
   const handleEdit = () => {
-    fetchDataFromAPI(apiProvider?.apiUrl + NetworkConfiguration.EDITSUBADMIN , "PUT" , {
-      id: searchParams.get('id'),
-      responsibility: responsibilities,
-    }).then((res)=>{
-      navigate("/subAdmin");
-    }).catch((err)=>{
-      console.log(err);
-    })
+    if(validate()){
+      fetchDataFromAPI(apiProvider?.apiUrl + NetworkConfiguration.EDITSUBADMIN , "PUT" , {
+        id: searchParams.get('id'),
+        responsibility: responsibilities,
+      }).then((res)=>{
+        navigate("/subAdmin");
+      }).catch((err)=>{
+        console.log(err);
+      })
+    }
+  };
 
 
     // const data = {
@@ -120,7 +124,7 @@ export default function EditSubAdmin() {
 
 
 
-  };
+
 
   //password edit
 
@@ -179,12 +183,10 @@ export default function EditSubAdmin() {
     //   SubAdminApiService.editSubAdminPassword(dataPayload)
     //     .then((res) => {
     //       app.showLoader(false, "wait over");
-    //       message.showToast(res.message, ToastTypes.SUCCESS);
     //       navigate("/subAdminList");
     //     })
     //     .catch((err) => {
     //       app.showLoader(false, "wait over");
-    //       message.showToast(err.response.data.message, ToastTypes.ERROR);
     //       CheckAuthentication(err.response.status, navigate, message);
     //     });
     // }

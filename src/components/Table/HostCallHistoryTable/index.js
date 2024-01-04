@@ -24,10 +24,10 @@ const HostCallHistoryTable = () => {
   const apiProvider = useApi();
 
   useEffect(() => {
-    fetchCallHistory(apiProvider);
-  }, [page, perPage]);
+    fetchCallHistory();
+  }, [page, perPage, apiProvider?.apiUrl]);
 
-  const fetchCallHistory = (apiProvider) => {
+  const fetchCallHistory = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.HOSTCALLHISTORY,

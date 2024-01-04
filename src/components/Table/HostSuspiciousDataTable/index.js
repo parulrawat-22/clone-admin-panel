@@ -7,25 +7,46 @@ import {
   NetworkConfiguration,
 } from "../../../network/NetworkConfiguration";
 import { useNavigate } from "react-router-dom";
+import { useApi } from "../../../base/Context/apiProvider";
+import Pagination from "../../Pagination";
+import Lottie from "react-lottie";
+import noData from "../../../base/Animation/No Data Found.json";
+import { useLoader } from "../../../base/Context/loaderProvider";
 
 const HostSuspiciousData = () => {
+  const apiProvider = useApi();
   const [hostSuspiciousList, setHostSuspiciousList] = useState([]);
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
+  const [count, setCount] = useState("");
+  const [totalPages, setTotalPages] = useState("");
+  const loader = useLoader();
 
   useEffect(() => {
     fetchSuspiciousData();
-  }, []);
+  }, [apiProvider?.apiUrl, page, perPage]);
   const navigate = useNavigate();
 
   const fetchSuspiciousData = () => {
-    fetchDataFromAPI(API_URL + NetworkConfiguration.SUSPICIOUSDATA, "POST", {
-      type: "host",
-    })
+    loader.showLoader(true);
+    fetchDataFromAPI(
+      apiProvider?.apiUrl + NetworkConfiguration.SUSPICIOUSDATA,
+      "POST",
+      {
+        type: "host",
+      }
+    )
       .then((res) => {
+        loader.showLoader(false);
+
         console.log(res, "!!!!!!!!!!!!!!!!!!");
         setHostSuspiciousList(res?.hosts);
+        setCount(res?.count);
+        setTotalPages(res?.totalPages);
       })
       .catch((err) => {
         console.log(err);
+        loader.showLoader(false);
       });
   };
   return (
@@ -39,7 +60,7 @@ const HostSuspiciousData = () => {
           <th className="suspicious__data__header">Age</th>
           <th className="suspicious__data__header">Ai Age</th>
           <th className="suspicious__data__header">Explicit</th>
-
+          <th className="suspicious__data__header">Reason</th>
           <th className="suspicious__data__header">Action</th>
         </thead>
         <tbody>
@@ -62,6 +83,7 @@ const HostSuspiciousData = () => {
                   <td className="suspicious__data__data">
                     {data?.isExplicit ? "TRUE" : "FALSE"}
                   </td>
+                  <td className="suspicious__data__data">{data?.reason}</td>
                   <td className="suspicious__data__data">
                     <AiFillEdit
                       onClick={() => {
@@ -75,6 +97,26 @@ const HostSuspiciousData = () => {
             })}
         </tbody>
       </table>
+
+      {hostSuspiciousList && hostSuspiciousList.length > 0 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          perPage={perPage}
+          setPerPage={setPerPage}
+          totalCount={count}
+          totalPages={totalPages}
+          options={[5, 10, 15, 20]}
+        />
+      ) : (
+        <div className="host__no__data__found__icon">
+          <Lottie
+            options={{ animationData: noData, loop: true }}
+            style={{ width: "20rem", height: "20rem" }}
+          />
+          <p className="no__data__found">No Data Found</p>
+        </div>
+      )}
     </div>
   );
 };

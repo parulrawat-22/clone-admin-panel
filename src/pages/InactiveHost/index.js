@@ -11,8 +11,34 @@ import "./style.css";
 const InactiveHost = () => {
   const apiProvider = useApi();
   const [showNotificationPopup, setShowNotificationPopup] = useState(false);
-
+  const [data, setData] = useState([]);
+  const [allData, setAllData] = useState([]);
   const [inactiveHost, setInactiveHost] = useState([]);
+  const [checkHeaderClick, setCheckHeaderClick] = useState(false);
+
+  const handleChange = (e) => {
+    if (e.target.checked) {
+      setData([...data, e.target.value]);
+    } else {
+      let newData = data.filter((hostId) => hostId !== e.target.value);
+      console.log(newData);
+      setData(newData);
+    }
+  };
+
+  const handleAllChecked = (e) => {
+    if (e.target.checked) {
+      let allHostId = inactiveHost.map((id) => {
+        return id._id;
+      });
+      setCheckHeaderClick(true);
+      setAllData(allHostId);
+      setData([]);
+    } else {
+      setCheckHeaderClick(false);
+      setAllData([]);
+    }
+  };
 
   useEffect(() => {
     fetchInactiveHost();
@@ -52,6 +78,13 @@ const InactiveHost = () => {
       <div className="table_parent_box">
         <table className="active__user__table">
           <thead>
+            <th className="active__user__header">
+              <input
+                className="active__user__input"
+                type="checkbox"
+                onChange={handleAllChecked}
+              />
+            </th>
             <th className="active__user__header">S.No.</th>
             <th className="active__user__header">Host ID</th>
             <th className="active__user__header">Host Name</th>
@@ -65,6 +98,15 @@ const InactiveHost = () => {
             {inactiveHost.map((data, index) => {
               return (
                 <tr>
+                  <td className="active__user__data">
+                    <input
+                      className="active__user__input"
+                      type="checkbox"
+                      onChange={handleChange}
+                      value={data?._id}
+                      {...(checkHeaderClick ? { checked: true } : {})}
+                    />
+                  </td>
                   <td className="active__user__data">{index + 1}</td>
                   <td className="active__user__data">{data?._id}</td>
                   <td className="active__user__data">{data?.name}</td>
@@ -88,7 +130,12 @@ const InactiveHost = () => {
         open={showNotificationPopup}
         onRequestClose={handleNotificationAlertClose}
       >
-        <InactiveUserForm />
+        <InactiveUserForm
+          data={data}
+          allData={allData}
+          setShowNotificationPopup={setShowNotificationPopup}
+          checkHeaderClick={checkHeaderClick}
+        />
       </FormAlertPopUp>
     </div>
   );

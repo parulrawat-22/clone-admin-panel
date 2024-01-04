@@ -60,7 +60,7 @@ const InterestTable = () => {
 
   useEffect(() => {
     fetchInterestData();
-  }, [apiProvider?.apiUrl]);
+  }, [apiProvider?.apiUrl, page, perPage]);
 
   const fetchInterestData = () => {
     fetchDataFromAPI(

@@ -24,10 +24,10 @@ const FollowerTable = () => {
   const apiProvider = useApi();
 
   useEffect(() => {
-    fetchFollowerList(apiProvider);
-  }, [page, perPage]);
+    fetchFollowerList();
+  }, [page, perPage, apiProvider?.apiUrl]);
 
-  const fetchFollowerList = (apiProvider) => {
+  const fetchFollowerList = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.GETUSERFOLLOWER,

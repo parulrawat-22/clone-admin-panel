@@ -28,7 +28,7 @@ const HostReportTable = () => {
   const loader = useLoader();
   const apiProvider = useApi();
 
-  const getHostReportList = (apiProvider) => {
+  const getHostReportList = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.HOSTREPORT,
@@ -48,8 +48,8 @@ const HostReportTable = () => {
   };
 
   useEffect(() => {
-    getHostReportList(apiProvider);
-  }, [value, page, perPage]);
+    getHostReportList();
+  }, [value, page, perPage, apiProvider?.apiUrl]);
 
   const searchIcon = () => {
     return <FiSearch />;

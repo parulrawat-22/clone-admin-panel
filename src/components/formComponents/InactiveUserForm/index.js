@@ -7,11 +7,20 @@ import { fetchDataFromAPI } from "../../../network/NetworkConnection";
 import { useApi } from "../../../base/Context/apiProvider";
 import { NetworkConfiguration } from "../../../network/NetworkConfiguration";
 
-const InactiveUserForm = ({ data }) => {
+const InactiveUserForm = ({
+  data,
+  setShowNotificationPopup,
+  user,
+  allData,
+  checkHeaderClick,
+  setData,
+  setAllData,
+}) => {
   console.log("data", data);
+  console.log("alldata", allData);
+  console.log("checkHeaderClick", checkHeaderClick);
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
-
   const [image, setImage] = useState("");
   const [error, setError] = useState({
     titleError: "",
@@ -20,6 +29,9 @@ const InactiveUserForm = ({ data }) => {
   });
 
   const apiProvider = useApi();
+  const url = user
+    ? NetworkConfiguration.INACTIVEUSER
+    : NetworkConfiguration.INACTIVEHOST;
 
   const DropdownOptions = [
     {
@@ -35,38 +47,65 @@ const InactiveUserForm = ({ data }) => {
     },
   ];
 
-  const handleInactiveUser = () => {
-    fetchDataFromAPI(
-      apiProvider?.apiUrl + NetworkConfiguration.INACTIVEHOST,
-      "POST",
-      {
-        title,
-        body,
-        imageUrl: image,
-      }
-    )
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const handleTitle = (e) => {
+    setError({ ...error, titleError: "" });
+    setTitle(e.target.value);
   };
 
-  //   const validate = () => {
-  //     let result = true;
-  //     if (!title) {
-  //       setError({ ...error, titleError: "Enter valid title" });
-  //       result = false;
-  //     } else if (!body) {
-  //       setError({ ...error, bodyError: "Enter valid body" });
-  //       result = false;
-  //     } else if (!image) {
-  //       setError({ ...error, imageError: "Enter invalid image" });
-  //       result = false;
-  //     }
-  //     return result;
-  //   };
+  const handleBody = (e) => {
+    setError({ ...error, bodyError: "" });
+    setBody(e.target.value);
+  };
+
+  const handleImage = (e) => {
+    setError({ ...error, imageError: "" });
+    setImage(e.target.files[0]);
+  };
+
+  const handleInactiveUser = () => {
+    if (validate()) {
+      let inactiveUser = {
+        title,
+        body,
+        image,
+      };
+      if (user) {
+        inactiveUser.users = checkHeaderClick ? allData : data;
+      } else {
+        inactiveUser.hosts = checkHeaderClick ? allData : data;
+      }
+      console.log("helllllllllllllllllll", url, "POST");
+      fetchDataFromAPI(apiProvider?.apiUrl + url, "POST", inactiveUser, {
+        "Content-Type": "multipart/form-data",
+      })
+        .then((res) => {
+          console.log(res);
+          setShowNotificationPopup(false);
+          setAllData("");
+          setData("");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  };
+
+  console.log("image", image);
+
+  const validate = () => {
+    let result = true;
+    if (!title) {
+      setError({ ...error, titleError: "Enter valid title" });
+      result = false;
+    } else if (!body) {
+      setError({ ...error, bodyError: "Enter valid body" });
+      result = false;
+    } else if (!image) {
+      setError({ ...error, imageError: "Enter valid image" });
+      result = false;
+    }
+    return result;
+  };
   return (
     <div style={{ padding: "2px 0" }}>
       <h2 className="create__wallet__header">Send Notification</h2>
@@ -76,7 +115,7 @@ const InactiveUserForm = ({ data }) => {
         <br />
         <InputField
           type="text"
-          onChange={(e) => setTitle(e.target.value)}
+          onChange={handleTitle}
           placeholder="Enter title"
           error={error.titleError}
           value={title}
@@ -84,7 +123,7 @@ const InactiveUserForm = ({ data }) => {
         <br />
         <InputField
           type="text"
-          onChange={(e) => setBody(e.target.value)}
+          onChange={handleBody}
           placeholder="Enter body"
           error={error.bodyError}
           value={body}
@@ -93,11 +132,7 @@ const InactiveUserForm = ({ data }) => {
 
         <InputField
           type="file"
-          onChange={(e) => {
-            console.log("image :");
-            setImage(e.target.files[0]);
-          }}
-          // value={image}
+          onChange={handleImage}
           error={error.imageError}
         />
         <br />

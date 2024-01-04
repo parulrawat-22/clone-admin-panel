@@ -8,23 +8,28 @@ import { useNavigate } from "react-router-dom";
 import ImagePopUpModal from "../../components/ImagePopUpModal";
 import Pagination from "../../components/Pagination";
 import moment from "moment";
+import Lottie from "react-lottie";
+import noData from "../../base/Animation/No Data Found.json";
+import { useLoader } from "../../base/Context/loaderProvider";
 
 const Snapshots = () => {
   const navigate = useNavigate();
   const apiProvider = useApi();
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
-  const [totalCount, setTotalCount] = useState("");
+  const [count, setCount] = useState("");
   const [totalPages, setTotalPages] = useState("");
   const [snapshot, setSnapshot] = useState([]);
   const [showImage, setShowImage] = useState(false);
   const [img, setImg] = useState("");
+  const loader = useLoader();
 
   useEffect(() => {
     fetchSnapshots();
   }, [page, perPage, apiProvider?.apiUrl]);
 
   const fetchSnapshots = () => {
+    loader.showLoader(true);
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.SNAPSHOTS,
       "POST",
@@ -34,12 +39,14 @@ const Snapshots = () => {
       }
     )
       .then((res) => {
+        loader.showLoader(false);
         console.log(res);
         setSnapshot(res?.allSnapshots);
-        setTotalCount(res?.totalCount);
+        setCount(res?.count);
         setTotalPages(res?.totalPages);
       })
       .catch((err) => {
+        loader.showLoader(false);
         console.log(err);
       });
   };
@@ -102,15 +109,25 @@ const Snapshots = () => {
         </tbody>
       </table>
 
-      <Pagination
-        page={page}
-        setPage={setPage}
-        perPage={perPage}
-        setPerPage={setPerPage}
-        totalCount={totalCount}
-        totalPages={totalPages}
-        options={[5, 10, 15, 20]}
-      />
+      {snapshot && snapshot.length > 0 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          perPage={perPage}
+          setPerPage={setPerPage}
+          totalCount={count}
+          totalPages={totalPages}
+          options={[5, 10, 15, 20]}
+        />
+      ) : (
+        <div className="host__no__data__found__icon">
+          <Lottie
+            options={{ animationData: noData, loop: true }}
+            style={{ width: "20rem", height: "20rem" }}
+          />
+          <p className="no__data__found">No Data Found</p>
+        </div>
+      )}
 
       <ImagePopUpModal
         open={showImage}

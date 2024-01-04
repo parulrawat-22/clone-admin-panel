@@ -30,7 +30,7 @@ const HostGiftTable = () => {
 
   useEffect(() => {
     fetchHostGift();
-  }, [page, perPage]);
+  }, [page, perPage, apiProvider?.apiUrl]);
 
   const fetchHostGift = () => {
     loader.showLoader(true);

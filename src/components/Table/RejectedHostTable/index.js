@@ -45,10 +45,10 @@ const RejectedHostTable = () => {
   };
 
   useEffect(() => {
-    getRejectedHost(apiProvider);
-  }, [value, page, perPage]);
+    getRejectedHost();
+  }, [value, page, perPage, apiProvider?.apiUrl]);
 
-  const getRejectedHost = (apiProvider) => {
+  const getRejectedHost = () => {
     loader.showLoader(true);
 
     fetchDataFromAPI(

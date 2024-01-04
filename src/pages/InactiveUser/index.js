@@ -9,12 +9,28 @@ import { Modal } from "../../base/Context/modalProvider";
 import FormAlertPopUp from "../../components/FormAlertPopUp";
 import InactiveUserForm from "../../components/formComponents/InactiveUserForm";
 
-const InativeHost = () => {
+const InactiveUser = () => {
   const apiProvider = useApi();
   const [inactiveHost, setInactiveHost] = useState([]);
   const [showNotificationPopup, setShowNotificationPopup] = useState(false);
   const modalProvider = useContext(Modal);
   const [data, setData] = useState([]);
+  const [allData, setAllData] = useState([]);
+  const [checkHeaderClick, setCheckHeaderClick] = useState(false);
+
+  const handleAllChecked = (e) => {
+    if (e.target.checked) {
+      let userId = inactiveHost.map((id) => {
+        return id?._id;
+      });
+      setAllData(userId);
+      setData([]);
+      setCheckHeaderClick(true);
+    } else {
+      setAllData([]);
+      setCheckHeaderClick(false);
+    }
+  };
 
   useEffect(() => {
     fetchInactiveUser();
@@ -62,7 +78,11 @@ const InativeHost = () => {
         <table className="active__user__table">
           <thead>
             <th className="active__user__header">
-              <input className="active__user__input" type="checkbox" />{" "}
+              <input
+                className="active__user__input"
+                type="checkbox"
+                onChange={handleAllChecked}
+              />{" "}
             </th>
             <th className="active__user__header">S.No.</th>
             <th className="active__user__header">User ID</th>
@@ -83,6 +103,7 @@ const InativeHost = () => {
                       type="checkbox"
                       onChange={handleChange}
                       value={data?._id}
+                      {...(checkHeaderClick ? { checked: true } : {})}
                     />{" "}
                   </td>
                   <td className="active__user__data">{index + 1}</td>
@@ -120,10 +141,15 @@ const InativeHost = () => {
         open={showNotificationPopup}
         onRequestClose={handleNotificationAlertClose}
       >
-        <InactiveUserForm data={data} />
+        <InactiveUserForm
+          user={true}
+          data={data}
+          setShowNotificationPopup={setShowNotificationPopup}
+          allData={allData}
+        />
       </FormAlertPopUp>
     </div>
   );
 };
 
-export default InativeHost;
+export default InactiveUser;

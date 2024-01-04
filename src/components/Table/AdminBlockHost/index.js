@@ -4,18 +4,24 @@ import { fetchDataFromAPI } from "../../../network/NetworkConnection";
 import { useApi } from "../../../base/Context/apiProvider";
 import { NetworkConfiguration } from "../../../network/NetworkConfiguration";
 import moment from "moment";
-import AlertPopUp from "../../AlertPopUp";
 import { AiFillEdit } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import Pagination from "../../Pagination";
+import Lottie from "react-lottie";
+import noData from "../../../base/Animation/No Data Found.json";
 
 const AdminBlockHost = () => {
   const apiProvider = useApi();
   const navigate = useNavigate();
   const [adminBlockHost, setAdminBlockHost] = useState([]);
+  const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
+  const [totalCount, setTotalCount] = useState("");
+  const [totalPages, setTotalPages] = useState("");
 
   useEffect(() => {
     fetchBlockedHost();
-  }, []);
+  }, [apiProvider?.apiUrl, page, perPage]);
 
   const fetchBlockedHost = () => {
     fetchDataFromAPI(
@@ -23,11 +29,15 @@ const AdminBlockHost = () => {
       "POST",
       {
         blockType: "Host",
+        page,
+        perPage,
       }
     )
       .then((res) => {
         console.log(res);
         setAdminBlockHost(res?.result);
+        setTotalCount(res?.totalCount);
+        setTotalPages(res?.totalPages);
       })
       .catch((err) => {
         console.log(err);
@@ -71,6 +81,26 @@ const AdminBlockHost = () => {
           })}
         </tbody>
       </table>
+
+      {adminBlockHost && adminBlockHost.length > 0 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          perPage={perPage}
+          setPerPage={setPerPage}
+          totalCount={totalCount}
+          totalPages={totalPages}
+          options={[5, 10, 25, 20]}
+        />
+      ) : (
+        <div className="host__no__data__found__icon">
+          <Lottie
+            options={{ animationData: noData, loop: true }}
+            style={{ width: "20rem", height: "20rem" }}
+          />
+          <p className="no__data__found">No Data Found</p>
+        </div>
+      )}
     </div>
   );
 };

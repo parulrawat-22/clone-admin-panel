@@ -65,7 +65,7 @@ const MomentTable = () => {
 
   useEffect(() => {
     fetchUserMoment();
-  }, [value, page, perPage]);
+  }, [value, page, perPage, apiProvider?.apiUrl]);
 
   const fetchUserMoment = () => {
     loader.showLoader(true);

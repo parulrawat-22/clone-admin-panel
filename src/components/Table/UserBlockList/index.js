@@ -23,10 +23,10 @@ const UserBlockedList = () => {
   const apiProvider = useApi();
 
   useEffect(() => {
-    fetchBlockList(apiProvider);
-  }, [page, perPage]);
+    fetchBlockList();
+  }, [page, perPage, apiProvider?.apiUrl]);
 
-  const fetchBlockList = (apiProvider) => {
+  const fetchBlockList = () => {
     loader.showLoader(true);
 
     fetchDataFromAPI(

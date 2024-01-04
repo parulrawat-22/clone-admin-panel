@@ -77,6 +77,7 @@ const AddGiftForm = ({ onSubmit, edit, onClickEdit, editedGift }) => {
     data.append("price", giftPrice);
     data.append("image", giftUploadImage);
     loader.showLoader(true);
+    console.log(data, "data");
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.UPDATEGIFT + `/${id}`,
       "PUT",

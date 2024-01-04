@@ -24,10 +24,10 @@ const HostFollowingTable = () => {
   const apiProvider = useApi();
 
   useEffect(() => {
-    fetchFollowingList(apiProvider);
-  }, [page, perPage]);
+    fetchFollowingList();
+  }, [page, perPage, apiProvider?.apiUrl]);
 
-  const fetchFollowingList = (apiProvider) => {
+  const fetchFollowingList = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.HOSTFOLLOWING,

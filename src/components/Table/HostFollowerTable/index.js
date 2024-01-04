@@ -24,10 +24,10 @@ const HostFollowerTable = () => {
   const apiProvider = useApi();
 
   useEffect(() => {
-    fetchHostFollower(apiProvider);
-  }, []);
+    fetchHostFollower();
+  }, [apiProvider?.apiUrl, page, perPage]);
 
-  const fetchHostFollower = (apiProvider) => {
+  const fetchHostFollower = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.HOSTFOLLOWER,

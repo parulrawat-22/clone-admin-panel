@@ -24,10 +24,10 @@ const PaymentHistoryTable = () => {
   const apiProvider = useApi();
 
   useEffect(() => {
-    fetchPaymentHistory(apiProvider);
-  }, [page, perPage]);
+    fetchPaymentHistory();
+  }, [page, perPage, apiProvider?.apiUrl]);
 
-  const fetchPaymentHistory = (apiProvider) => {
+  const fetchPaymentHistory = () => {
     loader.showLoader(true);
 
     fetchDataFromAPI(

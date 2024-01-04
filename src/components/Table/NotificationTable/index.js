@@ -38,10 +38,10 @@ const NotificationTable = () => {
 
   useEffect(() => {
     console.log("notification initiated");
-    fetchNotification(apiProvider);
-  }, [page, perPage]);
+    fetchNotification();
+  }, [page, perPage, apiProvider?.apiUrl]);
 
-  const fetchNotification = (apiProvider) => {
+  const fetchNotification = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.GETNOTIFICATION,
@@ -63,7 +63,7 @@ const NotificationTable = () => {
       });
   };
 
-  const handleNotification = (apiProvider) => {
+  const handleNotification = () => {
     loader.showLoader(true);
 
     fetchDataFromAPI(

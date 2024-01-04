@@ -35,8 +35,8 @@ const HostMomentTable = () => {
   const apiProvider = useApi();
 
   useEffect(() => {
-    fetchHostMoment(apiProvider);
-  }, [value, page, perPage]);
+    fetchHostMoment();
+  }, [value, page, perPage, apiProvider?.apiUrl]);
 
   const handleDeleteMoment = (id) => {
     setShowDeleteAlert(true);
@@ -56,7 +56,7 @@ const HostMomentTable = () => {
     setShowImageAlert(false);
   };
 
-  const handleMomentDelete = (apiProvider) => {
+  const handleMomentDelete = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.DELETEHOSTMOMENT + `/${getId}`,

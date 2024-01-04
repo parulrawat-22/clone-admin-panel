@@ -5,10 +5,42 @@ import { fetchDataFromAPI } from "../../network/NetworkConnection";
 import { useApi } from "../../base/Context/apiProvider";
 import { NetworkConfiguration } from "../../network/NetworkConfiguration";
 import moment from "moment";
+import FormAlertPopUp from "../../components/FormAlertPopUp";
+import InactiveUserForm from "../../components/formComponents/InactiveUserForm";
 
 const ActiveHost = () => {
   const [activeHost, setActiveHost] = useState([]);
+  const [data, setData] = useState([]);
+  const [showNotificationPopup, setShowNotificationPopup] = useState(false);
+  const [allData, setAllData] = useState([]);
+  const [checkHeaderClick, setCheckHeaderClick] = useState(false);
   const apiProvider = useApi();
+
+  const handleChange = (e) => {
+    setData([...data, e.target.value]);
+  };
+
+  const handleAllchecked = (e) => {
+    if (e.target.checked) {
+      let activeHostId = activeHost.map((id) => {
+        return id?._id;
+      });
+      setAllData(activeHostId);
+      setData([]);
+      setCheckHeaderClick(true);
+    } else {
+      setAllData([]);
+      setCheckHeaderClick(false);
+    }
+  };
+
+  const handleFormClick = () => {
+    setShowNotificationPopup(true);
+  };
+
+  const handleFormClickClose = () => {
+    setShowNotificationPopup(false);
+  };
 
   useEffect(() => {
     fetchActiveHosts();
@@ -31,11 +63,22 @@ const ActiveHost = () => {
   return (
     <div className="active__user__container">
       <div className="active__user">
-        <Button style={{ textAlign: "center" }} text="Send Notification" />
+        <Button
+          style={{ textAlign: "center" }}
+          text="Send Notification"
+          onClick={handleFormClick}
+        />
       </div>
       <div className="table_parent_box">
         <table className="active__user__table">
           <thead>
+            <th className="active__user__header">
+              <input
+                onChange={handleAllchecked}
+                type="checkbox"
+                className="active__user__input"
+              />
+            </th>
             <th className="active__user__header">S.No.</th>
             <th className="active__user__header">Host Id</th>
             <th className="active__user__header">Name</th>
@@ -43,12 +86,21 @@ const ActiveHost = () => {
             <th className="active__user__header">Group Name</th>
             <th className="active__user__header">Leader ID</th>
             <th className="active__user__header">Joining Date</th>
-            <th className="active__user__header">Current Week Earning</th>
+            {/* <th className="active__user__header">Current Week Earning</th> */}
           </thead>
           <tbody>
             {activeHost.map((data, index) => {
               return (
                 <tr>
+                  <td className="active__user__data">
+                    <input
+                      className="active__user__input"
+                      type="checkbox"
+                      value={data?._id}
+                      onChange={handleChange}
+                      {...(checkHeaderClick ? { checked: true } : {})}
+                    />
+                  </td>
                   <td className="active__user__data">{index + 1}</td>
                   <td className="active__user__data">{data?._id}</td>
                   <td className="active__user__data">{data?.name}</td>
@@ -68,6 +120,18 @@ const ActiveHost = () => {
           </tbody>
         </table>
       </div>
+
+      <FormAlertPopUp
+        open={showNotificationPopup}
+        onRequestClose={handleFormClickClose}
+      >
+        <InactiveUserForm
+          data={data}
+          setShowNotificationPopup={setShowNotificationPopup}
+          allData={allData}
+          checkHeaderClick={checkHeaderClick}
+        />
+      </FormAlertPopUp>
     </div>
   );
 };

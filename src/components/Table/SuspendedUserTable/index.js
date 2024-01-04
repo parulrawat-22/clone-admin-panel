@@ -43,7 +43,7 @@ const SuspendedUserTable = () => {
     setShowDeleteAlert(false);
   };
 
-  const getSuspendedUserList = (apiProvider) => {
+  const getSuspendedUserList = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.SUSPENDEDUSER,
@@ -69,8 +69,8 @@ const SuspendedUserTable = () => {
   };
 
   useEffect(() => {
-    getSuspendedUserList(apiProvider);
-  }, [value, page, perPage]);
+    getSuspendedUserList();
+  }, [value, page, perPage, apiProvider?.apiUrl]);
 
   const handleOnClickDelete = (id) => {
     setShowDeleteAlert(true);
@@ -86,7 +86,7 @@ const SuspendedUserTable = () => {
     setShowEditAlert(false);
   };
 
-  const handleAlertDelete = (apiProvider) => {
+  const handleAlertDelete = () => {
     loader.showLoader(true);
 
     fetchDataFromAPI(

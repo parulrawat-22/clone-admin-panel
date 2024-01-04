@@ -14,13 +14,16 @@ import SearchInput from "../../components/SearchInput";
 import { FiSearch } from "react-icons/fi";
 import Pagination from "../../components/Pagination";
 import { useApi } from "../../base/Context/apiProvider";
+import noData from "../../base/Animation/No Data Found.json";
+
+import Lottie from "react-lottie";
 
 const Leader = () => {
   const [showAddLeaderAlert, setshowAddLeaderAlert] = useState(false);
   const [showLeaderList, setShowLeaderList] = useState([]);
   const [value, setValue] = useState("");
   const [page, setPage] = useState(1);
-  const [perPage, setPerPage] = useState(5);
+  const [perPage, setPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState("");
   const [totalPages, setTotalPages] = useState("");
   const apiProvider = useApi();
@@ -98,15 +101,25 @@ const Leader = () => {
         <AddLeaderForm onSubmit={onSubmit} handleClose={handleAddLeaderClose} />
       </FormAlertPopUp>
 
-      <Pagination
-        page={page}
-        setPage={setPage}
-        perPage={perPage}
-        setPerPage={setPerPage}
-        totalCount={totalCount}
-        totalPages={totalPages}
-        options={[5, 10, 15, 20]}
-      />
+      {showLeaderList && showLeaderList.length > 0 ? (
+        <Pagination
+          page={page}
+          setPage={setPage}
+          perPage={perPage}
+          setPerPage={setPerPage}
+          totalCount={totalCount}
+          totalPages={totalPages}
+          options={[5, 10, 15, 20]}
+        />
+      ) : (
+        <div className="host__no__data__found__icon">
+          <Lottie
+            options={{ animationData: noData, loop: true }}
+            style={{ width: "20rem", height: "20rem" }}
+          />
+          <p className="no__data__found">No Data Found</p>
+        </div>
+      )}
     </Layout>
   );
 };

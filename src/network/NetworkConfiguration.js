@@ -147,4 +147,5 @@ export const NetworkConfiguration = {
 
   //NOTIFICATION(ACTIVE/INACTIVE)
   INACTIVEHOST: "admin/adminInActiveHostNotification",
+  INACTIVEUSER: "admin/adminInActiveUserNotification",
 };

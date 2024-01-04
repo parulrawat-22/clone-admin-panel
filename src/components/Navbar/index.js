@@ -2,6 +2,7 @@ import "./style.css";
 import { useEffect, useRef, useState } from "react";
 import { FaUserTie } from "react-icons/fa6";
 import PopMenu from "../PopUpMenu";
+import { IoNotifications } from "react-icons/io5";
 
 const Navbar = () => {
   const [popOpen, setPopOpen] = useState(false);
@@ -40,6 +41,15 @@ const Navbar = () => {
             onClick={handleProfileClick}
           >
             <FaUserTie className="admin__image" />
+          </div>
+        </PopMenu>
+        <PopMenu popOpen={popOpen}>
+          <div
+            ref={myRef}
+            className="navbar__country"
+            onClick={handleProfileClick}
+          >
+            <IoNotifications className="admin__image" />
           </div>
         </PopMenu>
       </div>

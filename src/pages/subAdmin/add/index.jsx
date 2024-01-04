@@ -80,9 +80,9 @@ export default function AddSubAdmin() {
   //set side bar menu options for sub admin responsibilities
   useEffect(() => {
     setOptions(
-      sidebarProvider?.sidebarContent.map((item) => ({ name: item.label, accessType: [] }))
+      sidebarProvider?.apiUrl?.sidebarContent.map((item) => ({ name: item.label, accessType: [] }))
     );
-  }, [sidebarProvider?.sidebarContent]);
+  }, [sidebarProvider?.apiUrl?.sidebarContent]);
 
 
 

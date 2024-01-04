@@ -40,10 +40,10 @@ const SuspendedHostTable = () => {
   };
 
   useEffect(() => {
-    getSuspendedHost(apiProvider);
-  }, [value, page, perPage]);
+    getSuspendedHost();
+  }, [value, page, perPage, apiProvider?.apiUrl]);
 
-  const getSuspendedHost = (apiProvider) => {
+  const getSuspendedHost = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.SUSPENDEDHOST,
@@ -73,7 +73,7 @@ const SuspendedHostTable = () => {
     setId(id);
   };
 
-  const handleDeleteApi = (apiProvider) => {
+  const handleDeleteApi = () => {
     loader.showLoader(true);
 
     fetchDataFromAPI(

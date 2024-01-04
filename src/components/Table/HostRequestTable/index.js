@@ -41,7 +41,7 @@ const HostRequestTable = () => {
 
   useEffect(() => {
     getHostRequest();
-  }, [value, page, perPage]);
+  }, [value, page, perPage, apiProvider?.apiUrl]);
 
   const getHostRequest = () => {
     loader.showLoader(true);
