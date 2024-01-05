@@ -7,8 +7,17 @@ import Router from "./base/Router";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SidebarProvider from "./base/Context/sidebarProvider";
+import { useEffect } from "react";
 
 function App() {
+  useEffect(() => {
+    const appType = sessionStorage.getItem("selectedType");
+    if (appType === "catchwoo") {
+      document.title = "Catchwoo Admin Panel";
+    } else if (appType === "host") {
+      document.title = "Host Admin Panel";
+    }
+  }, []);
   return (
     <div className="App">
       <ToastContainer

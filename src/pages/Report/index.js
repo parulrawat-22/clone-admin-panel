@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Layout from "../../components/Layout";
 import UserReportTable from "../../components/Table/UserReportTable";
 import "./style.css";
 import HostReportTable from "../../components/Table/HostReportTable";
@@ -16,7 +15,7 @@ const Report = () => {
   };
 
   return (
-    <Layout>
+    <div>
       <div className="feedback__user__host__toggle">
         <div className="feedback_toggle_btns">
           <p
@@ -42,7 +41,7 @@ const Report = () => {
         </div>
       </div>
       {showData === "user" ? <UserReportTable /> : <HostReportTable />}
-    </Layout>
+    </div>
   );
 };
 

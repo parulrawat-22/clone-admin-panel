@@ -1,5 +1,5 @@
 .accepted__host__container {
-  padding: 3rem 0;
+  overflow: auto;
 }
 
 .accepted__host__table {

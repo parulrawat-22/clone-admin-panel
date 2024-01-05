@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Layout from "../../components/Layout";
 import "./style.css";
 import WarnedUserTable from "../../components/Table/WarnedUserTable";
 import WarnedHostTable from "../../components/Table/WarnedHostTable";
@@ -21,7 +20,7 @@ const WarnedUsers = () => {
     setShowData("host");
   };
   return (
-    <Layout>
+    <div>
       <div className="feedback__user__host__toggle">
         <div className="feedback_toggle_btns">
           <p
@@ -47,7 +46,7 @@ const WarnedUsers = () => {
         </div>
       </div>
       {showData === "user" ? <WarnedUserTable /> : <WarnedHostTable />}
-    </Layout>
+    </div>
   );
 };
 

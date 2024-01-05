@@ -15,6 +15,7 @@ import InterestForm from "../../formComponents/InterestForm";
 import AlertPopUp from "../../AlertPopUp";
 import { errorToast, successToast } from "../../../utils/toast";
 import { useApi } from "../../../base/Context/apiProvider";
+import { FiSearch } from "react-icons/fi";
 
 const InterestTable = () => {
   const [interestData, setInterestData] = useState([]);
@@ -115,8 +116,22 @@ const InterestTable = () => {
     fetchInterestData();
   };
 
+  const handleText = (e) => {
+    setValue(e.target.value);
+  };
+
+  const searchIcon = () => {
+    return <FiSearch />;
+  };
+
   return (
     <div>
+      <SearchInput
+        onChange={handleText}
+        value={value}
+        icon={searchIcon()}
+        placeholder="Search"
+      />
       <div className="add__wallet">
         <Button
           style={{ textAlign: "center" }}
@@ -124,9 +139,7 @@ const InterestTable = () => {
           onClick={handleAddInterest}
         />
       </div>
-      <div className="banner__search__btn">
-        <SearchInput placeholder="Search" />
-      </div>
+
       <div className="interest__container">
         <table className="interest__table">
           <thead>

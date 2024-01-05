@@ -46,6 +46,9 @@ const Dashboard = () => {
     if (searchParams && searchParams.get("appType") === "catchwoo") {
       sessionStorage.setItem("selectedType", "catchwoo");
       sidebarProvider.setSelectedType("catchwoo");
+    } else if (searchParams && searchParams.get("appType") === "host") {
+      sessionStorage.setItem("selectedType", "host");
+      sidebarProvider.setSelectedType("host");
     } else {
       sessionStorage.removeItem("selectedType");
       sidebarProvider.setSelectedType("");
@@ -65,7 +68,7 @@ const Dashboard = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.ONLINEUSER,
-      "GET"
+      "POST"
     )
       .then((res) => {
         loader.showLoader(false);
@@ -81,7 +84,7 @@ const Dashboard = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.OFFLINEHOST,
-      "GET"
+      "POST"
     )
       .then((res) => {
         loader.showLoader(false);
@@ -98,7 +101,7 @@ const Dashboard = () => {
 
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.ONLINEHOST,
-      "GET"
+      "POST"
     )
       .then((res) => {
         setAdminOnlineHost(res.result);
@@ -115,7 +118,7 @@ const Dashboard = () => {
 
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.OFFLINEUSER,
-      "GET"
+      "POST"
     )
       .then((res) => {
         setAdminOfflineUser(res.result);
@@ -195,10 +198,6 @@ const Dashboard = () => {
     setWeek(true);
   };
 
-  const searchIcon = () => {
-    return <FiSearch />;
-  };
-
   const handleStartDate = (e) => {
     setCheckStartDate(false);
     setStartDate(e.target.value);
@@ -221,11 +220,8 @@ const Dashboard = () => {
   };
 
   return (
-    <Layout>
+    <div>
       <div className="dashboard__container">
-        <div className="dashboard__search__btn">
-          <SearchInput placeholder="Search" icon={searchIcon()} />
-        </div>
         <div>
           <div className="dashboard__cards_info">
             <Card
@@ -340,7 +336,7 @@ const Dashboard = () => {
           <Notification />
         </div>
       </div>
-    </Layout>
+    </div>
   );
 };
 

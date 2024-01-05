@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom";
 import Pagination from "../../Pagination";
 import Lottie from "react-lottie";
 import noData from "../../../base/Animation/No Data Found.json";
+import SearchInput from "../../SearchInput";
+import { FiSearch } from "react-icons/fi";
 
 const AdminBlockHost = () => {
   const apiProvider = useApi();
@@ -18,10 +20,11 @@ const AdminBlockHost = () => {
   const [perPage, setPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState("");
   const [totalPages, setTotalPages] = useState("");
+  const [value, setValue] = useState("");
 
   useEffect(() => {
     fetchBlockedHost();
-  }, [apiProvider?.apiUrl, page, perPage]);
+  }, [apiProvider?.apiUrl, page, perPage, value]);
 
   const fetchBlockedHost = () => {
     fetchDataFromAPI(
@@ -31,6 +34,7 @@ const AdminBlockHost = () => {
         blockType: "Host",
         page,
         perPage,
+        key: value,
       }
     )
       .then((res) => {
@@ -44,64 +48,80 @@ const AdminBlockHost = () => {
       });
   };
 
-  return (
-    <div className="admin__block__container">
-      <table className="admin__block__table">
-        <thead>
-          <th className="admin__block__header">S.No.</th>
-          <th className="admin__block__header">User ID</th>
-          <th className="admin__block__header">User Name</th>
-          <th className="admin__block__header">Block Reason</th>
-          <th className="admin__block__header">Blocked Date&Time</th>
-          <th className="admin__block__header">Status</th>
-          <th className="admin__block__header">Action</th>
-        </thead>
-        <tbody>
-          {adminBlockHost?.map((data, index) => {
-            return (
-              <tr>
-                <td className="admin__block__data">{index + 1}</td>
-                <td className="admin__block__data">{data?.hostId?._id}</td>
-                <td className="admin__block__data">{data?.hostId?.name}</td>
-                <td className="admin__block__data">{data?.blockReasion}</td>
-                <td className="admin__block__data">
-                  {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
-                </td>
-                <td className="admin__block__data">{data?.status}</td>
-                <td className="admin__block__data">
-                  <AiFillEdit
-                    style={{ cursor: "pointer" }}
-                    onClick={() => {
-                      navigate(`/hostmanagement/${data?.hostId?._id}`);
-                    }}
-                  />
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+  const handleText = (e) => {
+    setValue(e.target.value);
+  };
 
-      {adminBlockHost && adminBlockHost.length > 0 ? (
-        <Pagination
-          page={page}
-          setPage={setPage}
-          perPage={perPage}
-          setPerPage={setPerPage}
-          totalCount={totalCount}
-          totalPages={totalPages}
-          options={[5, 10, 25, 20]}
-        />
-      ) : (
-        <div className="host__no__data__found__icon">
-          <Lottie
-            options={{ animationData: noData, loop: true }}
-            style={{ width: "20rem", height: "20rem" }}
+  const searchIcon = () => {
+    return <FiSearch />;
+  };
+
+  return (
+    <>
+      <SearchInput
+        value={value}
+        onChange={handleText}
+        placeholder="Search"
+        icon={searchIcon()}
+      />
+      <div className="admin__block__container">
+        <table className="admin__block__table">
+          <thead>
+            <th className="admin__block__header">S.No.</th>
+            <th className="admin__block__header">User ID</th>
+            <th className="admin__block__header">User Name</th>
+            <th className="admin__block__header">Block Reason</th>
+            <th className="admin__block__header">Blocked Date&Time</th>
+            <th className="admin__block__header">Status</th>
+            <th className="admin__block__header">Action</th>
+          </thead>
+          <tbody>
+            {adminBlockHost?.map((data, index) => {
+              return (
+                <tr>
+                  <td className="admin__block__data">{index + 1}</td>
+                  <td className="admin__block__data">{data?.hostId?._id}</td>
+                  <td className="admin__block__data">{data?.hostId?.name}</td>
+                  <td className="admin__block__data">{data?.blockReasion}</td>
+                  <td className="admin__block__data">
+                    {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
+                  </td>
+                  <td className="admin__block__data">{data?.status}</td>
+                  <td className="admin__block__data">
+                    <AiFillEdit
+                      style={{ cursor: "pointer" }}
+                      onClick={() => {
+                        navigate(`/hostmanagement/${data?.hostId?._id}`);
+                      }}
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+
+        {adminBlockHost && adminBlockHost.length > 0 ? (
+          <Pagination
+            page={page}
+            setPage={setPage}
+            perPage={perPage}
+            setPerPage={setPerPage}
+            totalCount={totalCount}
+            totalPages={totalPages}
+            options={[5, 10, 25, 20]}
           />
-          <p className="no__data__found">No Data Found</p>
-        </div>
-      )}
-    </div>
+        ) : (
+          <div className="host__no__data__found__icon">
+            <Lottie
+              options={{ animationData: noData, loop: true }}
+              style={{ width: "20rem", height: "20rem" }}
+            />
+            <p className="no__data__found">No Data Found</p>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

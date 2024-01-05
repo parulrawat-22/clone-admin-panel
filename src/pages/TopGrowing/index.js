@@ -23,6 +23,7 @@ const TopGrowing = () => {
   const [perPage, setPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState("");
   const [totalPages, setTotalPages] = useState("");
+  const [value, setValue] = useState("");
   const loader = useLoader();
   const apiProvider = useApi();
 
@@ -119,6 +120,7 @@ const TopGrowing = () => {
           {
             page,
             perPage,
+            key: value,
           }
         )
           .then((res) => {
@@ -142,53 +144,61 @@ const TopGrowing = () => {
   const searchIcon = () => {
     return <FiSearch />;
   };
+  const handleText = (e) => {
+    setValue(e.target.value);
+  };
 
   return (
-    <div>
-      <div className="top__growing__dropdown">
-        <Dropdown
-          onChange={onChangeDropdown}
-          options={[
-            { name: "Top Talent", value: "Top Talent" },
-            { name: "Weekly Talent", value: "Weekly Talent" },
-            { name: "Top Star", value: "Top Star" },
-            { name: "Weekly Star", value: "Weekly Star" },
-            { name: "New Star", value: "New Star" },
-          ]}
-        ></Dropdown>
-      </div>
-      <TopTalentTable
-        isHost={isHost}
-        tableData={tableData}
-        page={page}
-        perPage={perPage}
+    <>
+      <SearchInput
+        value={value}
+        onChange={handleText}
+        placeholder="Search"
+        icon={searchIcon()}
       />
-      <div className="banner__search__btn">
-        <SearchInput placeholder="Search" icon={searchIcon()} />
-      </div>
-
-      {tableData && tableData.length > 0 ? (
-        <Pagination
+      <div>
+        <div className="top__growing__dropdown">
+          <Dropdown
+            onChange={onChangeDropdown}
+            options={[
+              { name: "Top Talent", value: "Top Talent" },
+              { name: "Weekly Talent", value: "Weekly Talent" },
+              { name: "Top Star", value: "Top Star" },
+              { name: "Weekly Star", value: "Weekly Star" },
+              { name: "New Star", value: "New Star" },
+            ]}
+          ></Dropdown>
+        </div>
+        <TopTalentTable
+          isHost={isHost}
+          tableData={tableData}
           page={page}
-          setPage={setPage}
           perPage={perPage}
-          setPerPage={setPerPage}
-          totalCount={totalCount}
-          totalPages={totalPages}
-          options={[5, 10, 15, 20]}
         />
-      ) : (
-        !loader.loaderPopup && (
-          <div className="host__no__data__found__icon">
-            <Lottie
-              options={{ animationData: noData, loop: true }}
-              style={{ width: "20rem", height: "20rem" }}
-            />
-            <p className="no__data__found">No Data Found</p>
-          </div>
-        )
-      )}
-    </div>
+
+        {tableData && tableData.length > 0 ? (
+          <Pagination
+            page={page}
+            setPage={setPage}
+            perPage={perPage}
+            setPerPage={setPerPage}
+            totalCount={totalCount}
+            totalPages={totalPages}
+            options={[5, 10, 15, 20]}
+          />
+        ) : (
+          !loader.loaderPopup && (
+            <div className="host__no__data__found__icon">
+              <Lottie
+                options={{ animationData: noData, loop: true }}
+                style={{ width: "20rem", height: "20rem" }}
+              />
+              <p className="no__data__found">No Data Found</p>
+            </div>
+          )
+        )}
+      </div>
+    </>
   );
 };
 

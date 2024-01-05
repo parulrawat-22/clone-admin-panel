@@ -2,10 +2,7 @@ import { useEffect, useState } from "react";
 import "./style.css";
 import { AiFillDelete, AiFillEdit, AiFillEye } from "react-icons/ai";
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
-import {
-  API_URL,
-  NetworkConfiguration,
-} from "../../../network/NetworkConfiguration";
+import { NetworkConfiguration } from "../../../network/NetworkConfiguration";
 import { useParams } from "react-router-dom";
 import ImagePopUpModal from "../../ImagePopUpModal";
 import moment from "moment";
@@ -107,107 +104,108 @@ const HostMomentTable = () => {
     setValue(e.target.value);
   };
   return (
-    <div className="host__moment__container">
-      <div className="banner__search__btn">
-        <SearchInput
-          value={value}
-          onChange={handleText}
-          placeholder="Search"
-          icon={searchIcon()}
-        />
-      </div>
-      <div className="table_parent_box">
-        <table className="host__moment__table">
-          <thead>
-            <th className="host__moment__header">S.No</th>
-            {!id && <th className="host__moment__header">Host Name</th>}
-            <th className="host__moment__header">Caption</th>
-            <th className="host__moment__header">Likes</th>
-            <th className="host__moment__header">Image/Video</th>
-            <th className="host__moment__header">Created At</th>
-            <th className="host__moment__header">Action</th>
-          </thead>
-          <tbody>
-            {getHostMoment.length > 0
-              ? getHostMoment.map((data, index) => {
-                  return (
-                    <tr>
-                      <td className="host__moment__data">
-                        {(page - 1) * perPage + index + 1}
-                      </td>
-                      {!id && (
+    <>
+      <SearchInput
+        value={value}
+        onChange={handleText}
+        placeholder="Search"
+        icon={searchIcon()}
+      />
+      <div className="host__moment__container">
+        <div className="table_parent_box">
+          <table className="host__moment__table">
+            <thead>
+              <th className="host__moment__header">S.No</th>
+              {!id && <th className="host__moment__header">Host Name</th>}
+              <th className="host__moment__header">Caption</th>
+              <th className="host__moment__header">Likes</th>
+              <th className="host__moment__header">Image/Video</th>
+              <th className="host__moment__header">Created At</th>
+              <th className="host__moment__header">Action</th>
+            </thead>
+            <tbody>
+              {getHostMoment.length > 0
+                ? getHostMoment.map((data, index) => {
+                    return (
+                      <tr>
                         <td className="host__moment__data">
-                          {data?.hostId?.name}
+                          {(page - 1) * perPage + index + 1}
                         </td>
-                      )}
-                      <td className="host__moment__data">{data?.subject}</td>
-                      <td className="host__moment__data">{data?.likes}</td>
-                      <td className="host__moment__data ">
-                        <AiFillEye
-                          onClick={() => {
-                            handleImageAlert(data?.postImage);
-                          }}
-                          className="host__moment__eye__icon"
-                        />
-                      </td>
-                      <td className="host__moment__data">
-                        {moment(data?.postDate).format("DD/MM/YYYY , LT")}
-                      </td>
-                      <td className="host__moment__data">
-                        <AiFillEdit className="host__moment__edit__icon" />
-                        <AiFillDelete
-                          onClick={() => {
-                            handleDeleteMoment(data?._id);
-                          }}
-                          className="host__moment__delete__icon"
-                        />
-                      </td>
-                    </tr>
-                  );
-                })
-              : null}
-          </tbody>
-        </table>
-      </div>
+                        {!id && (
+                          <td className="host__moment__data">
+                            {data?.hostId?.name}
+                          </td>
+                        )}
+                        <td className="host__moment__data">{data?.subject}</td>
+                        <td className="host__moment__data">{data?.likes}</td>
+                        <td className="host__moment__data ">
+                          <AiFillEye
+                            onClick={() => {
+                              handleImageAlert(data?.postImage);
+                            }}
+                            className="host__moment__eye__icon"
+                          />
+                        </td>
+                        <td className="host__moment__data">
+                          {moment(data?.postDate).format("DD/MM/YYYY , LT")}
+                        </td>
+                        <td className="host__moment__data">
+                          <AiFillEdit className="host__moment__edit__icon" />
+                          <AiFillDelete
+                            onClick={() => {
+                              handleDeleteMoment(data?._id);
+                            }}
+                            className="host__moment__delete__icon"
+                          />
+                        </td>
+                      </tr>
+                    );
+                  })
+                : null}
+            </tbody>
+          </table>
+        </div>
 
-      {getHostMoment.length > 0 ? (
-        <Pagination
-          page={page}
-          setPage={setPage}
-          perPage={perPage}
-          setPerPage={setPerPage}
-          totalCount={totalCount}
-          totalPages={totalPages}
-          options={[5, 10, 15, 20]}
+        {getHostMoment.length > 0 ? (
+          <Pagination
+            page={page}
+            setPage={setPage}
+            perPage={perPage}
+            setPerPage={setPerPage}
+            totalCount={totalCount}
+            totalPages={totalPages}
+            options={[5, 10, 15, 20]}
+          />
+        ) : (
+          !loader.loaderPopup && (
+            <div className="host__no__data__found__icon">
+              <Lottie
+                options={{ animationData: noData, loop: true }}
+                style={{ width: "20rem", height: "20rem" }}
+              />
+              <p className="host__no_data_found">No Data Found</p>
+            </div>
+          )
+        )}
+
+        <AlertPopUp
+          open={showDeleteAlert}
+          handleOpen={handleDeleteMoment}
+          handleClose={handleDeleteMomentClose}
+          submitText="Yes"
+          cancelText="No"
+          header="Delete Alert"
+          description="Are you sure you want to delete this host moment?"
+          onSubmitClick={handleMomentDelete}
+          onCancelClick={handleDeleteMomentClose}
         />
-      ) : (
-        !loader.loaderPopup && (
-          <div>
-            <Lottie
-              options={{ animationData: noData, loop: true }}
-              style={{ width: "10rem", height: "10rem" }}
-            />
-          </div>
-        )
-      )}
-
-      <AlertPopUp
-        open={showDeleteAlert}
-        handleOpen={handleDeleteMoment}
-        handleClose={handleDeleteMomentClose}
-        submitText="Yes"
-        cancelText="No"
-        header="Delete Alert"
-        description="Are you sure you want to delete this host moment?"
-        onSubmitClick={handleMomentDelete}
-        onCancelClick={handleDeleteMomentClose}
-      />
-      <ImagePopUpModal
-        open={showImageAlert}
-        handleClose={handleImageAlertClose}
-        img={img}
-      />
-    </div>
+        <ImagePopUpModal
+          open={showImageAlert}
+          handleClose={handleImageAlertClose}
+          img={img}
+        />
+      </div>
+    </>
   );
 };
 

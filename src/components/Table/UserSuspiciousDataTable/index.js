@@ -12,6 +12,8 @@ import Pagination from "../../Pagination";
 import noData from "../../../base/Animation/No Data Found.json";
 import Lottie from "react-lottie";
 import { useLoader } from "../../../base/Context/loaderProvider";
+import SearchInput from "../../SearchInput";
+import { FiSearch } from "react-icons/fi";
 
 const UserSuspiciousData = () => {
   const apiProvider = useApi();
@@ -20,6 +22,7 @@ const UserSuspiciousData = () => {
   const [perPage, setPerPage] = useState(10);
   const [totalPages, setTotalPages] = useState("");
   const [count, setCount] = useState("");
+  const [value, setValue] = useState("");
   let loader = useLoader();
   let navigate = useNavigate();
 
@@ -36,6 +39,7 @@ const UserSuspiciousData = () => {
         type: "user",
         page,
         perPage,
+        key: value,
       }
     )
       .then((res) => {
@@ -52,77 +56,93 @@ const UserSuspiciousData = () => {
         console.log(err);
       });
   };
-  return (
-    <div className="suspicious__data__container">
-      <table className="suspicious__data__table">
-        <thead>
-          <th className="suspicious__data__header">S.No</th>
-          <th className="suspicious__data__header">Name</th>
-          <th className="suspicious__data__header">Gender</th>
-          <th className="suspicious__data__header">Ai Gender</th>
-          <th className="suspicious__data__header">Age</th>
-          <th className="suspicious__data__header">Ai Age</th>
-          <th className="suspicious__data__header">Explicit</th>
-          <th className="suspicious__data__header">Reason</th>
-          <th className="suspicious__data__header">Action</th>
-        </thead>
-        <tbody>
-          {suspiciousList &&
-            suspiciousList.length > 0 &&
-            suspiciousList.map((data, index) => {
-              return (
-                <tr>
-                  <td className="suspicious__data__data">
-                    {(page - 1) * perPage + index + 1}
-                  </td>
-                  <td className="suspicious__data__data">{data?.name}</td>
-                  <td className="suspicious__data__data">{data?.gender}</td>
-                  <td className="suspicious__data__data">
-                    {data?.attributes[0]?.gender.Value}
-                  </td>
-                  <td className="suspicious__data__data">{data?.age}</td>
-                  <td className="suspicious__data__data">
-                    {data?.attributes[0]?.ageRange?.Low}-
-                    {data?.attributes[0]?.ageRange?.High}
-                  </td>
-                  <td className="suspicious__data__data">
-                    {data?.isExplicit ? "TRUE" : "FALSE"}
-                  </td>
-                  <td className="suspicious__data__data">{data?.reason}</td>
-                  <td className="suspicious__data__data">
-                    <AiFillEdit
-                      onClick={() => {
-                        navigate(`/usermanagement/${data._id}`);
-                      }}
-                      className="suspicious__edit__icon"
-                    />
-                  </td>
-                </tr>
-              );
-            })}
-        </tbody>
-      </table>
 
-      {suspiciousList && suspiciousList.length > 0 ? (
-        <Pagination
-          page={page}
-          setPage={setPage}
-          perPage={perPage}
-          setPerPage={setPerPage}
-          totalCount={count}
-          totalPages={totalPages}
-          options={[5, 10, 15, 20]}
-        />
-      ) : (
-        <div className="host__no__data__found__icon">
-          <Lottie
-            options={{ animationData: noData, loop: true }}
-            style={{ width: "20rem", height: "20rem" }}
+  const handleText = (e) => {
+    setValue(e.target.value);
+  };
+
+  const searchIcon = () => {
+    return <FiSearch />;
+  };
+  return (
+    <>
+      <SearchInput
+        value={value}
+        onChange={handleText}
+        placeholder="Search"
+        icon={searchIcon()}
+      />
+      <div className="suspicious__data__container">
+        <table className="suspicious__data__table">
+          <thead>
+            <th className="suspicious__data__header">S.No</th>
+            <th className="suspicious__data__header">Name</th>
+            <th className="suspicious__data__header">Gender</th>
+            <th className="suspicious__data__header">Ai Gender</th>
+            <th className="suspicious__data__header">Age</th>
+            <th className="suspicious__data__header">Ai Age</th>
+            <th className="suspicious__data__header">Explicit</th>
+            <th className="suspicious__data__header">Reason</th>
+            <th className="suspicious__data__header">Action</th>
+          </thead>
+          <tbody>
+            {suspiciousList &&
+              suspiciousList.length > 0 &&
+              suspiciousList.map((data, index) => {
+                return (
+                  <tr>
+                    <td className="suspicious__data__data">
+                      {(page - 1) * perPage + index + 1}
+                    </td>
+                    <td className="suspicious__data__data">{data?.name}</td>
+                    <td className="suspicious__data__data">{data?.gender}</td>
+                    <td className="suspicious__data__data">
+                      {data?.attributes[0]?.gender.Value}
+                    </td>
+                    <td className="suspicious__data__data">{data?.age}</td>
+                    <td className="suspicious__data__data">
+                      {data?.attributes[0]?.ageRange?.Low}-
+                      {data?.attributes[0]?.ageRange?.High}
+                    </td>
+                    <td className="suspicious__data__data">
+                      {data?.isExplicit ? "TRUE" : "FALSE"}
+                    </td>
+                    <td className="suspicious__data__data">{data?.reason}</td>
+                    <td className="suspicious__data__data">
+                      <AiFillEdit
+                        onClick={() => {
+                          navigate(`/usermanagement/${data._id}`);
+                        }}
+                        className="suspicious__edit__icon"
+                      />
+                    </td>
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
+
+        {suspiciousList && suspiciousList.length > 0 ? (
+          <Pagination
+            page={page}
+            setPage={setPage}
+            perPage={perPage}
+            setPerPage={setPerPage}
+            totalCount={count}
+            totalPages={totalPages}
+            options={[5, 10, 15, 20]}
           />
-          <p className="no__data__found">No Data Found</p>
-        </div>
-      )}
-    </div>
+        ) : (
+          <div className="host__no__data__found__icon">
+            <Lottie
+              options={{ animationData: noData, loop: true }}
+              style={{ width: "20rem", height: "20rem" }}
+            />
+            <p className="no__data__found">No Data Found</p>
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 

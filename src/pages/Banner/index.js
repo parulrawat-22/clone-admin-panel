@@ -113,15 +113,14 @@ const Banner = () => {
   console.log(value);
 
   return (
-    <Layout>
-      <div className="banner__search__btn">
-        <SearchInput
-          onChange={handleText}
-          placeholder="Search"
-          icon={searchIcon()}
-          value={value}
-        />
-      </div>
+    <>
+      <SearchInput
+        onChange={handleText}
+        placeholder="Search"
+        icon={searchIcon()}
+        value={value}
+      />
+
       <div className="add__banner__styling">
         <Button text="Add Banner" onClick={handleAddBanner} />
       </div>
@@ -180,7 +179,7 @@ const Banner = () => {
         onCancelClick={handleCancelDelete}
         onSubmitClick={handleDelete}
       />
-    </Layout>
+    </>
   );
 };
 

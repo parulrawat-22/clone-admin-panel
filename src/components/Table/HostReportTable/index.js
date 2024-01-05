@@ -60,89 +60,90 @@ const HostReportTable = () => {
   };
 
   return (
-    <div className="host__report__container">
-      <div className="banner__search__btn">
-        <SearchInput
-          onChange={handleText}
-          value={value}
-          placeholder="Search"
-          icon={searchIcon()}
-        />
-      </div>
-      <table className="host__report__table">
-        <thead>
-          <th className="host__report__header">S.No.</th>
-          {!id && (
-            <>
-              <th className="host__report__header">Host ID</th>
-              <th className="host__report__header">Host Name</th>
-            </>
-          )}
-          <th className="host__report__header">Report</th>
-          <th className="host__report__header">Report ID</th>
-          <th className="host__report__header">Title</th>
-          <th className="host__report__header">Reason</th>
-          <th className="host__report__header">Date & Time</th>
-        </thead>
-        <tbody>
-          {getHostReport.length > 0
-            ? getHostReport.map((data, index) => {
-                return (
-                  <tr>
-                    <td className="host__report__data">
-                      {(page - 1) * perPage + index + 1}
-                    </td>
-                    {!id && (
-                      <>
-                        {" "}
-                        <td className="host__report__data">
-                          {data?.hostId?._id}
-                        </td>
-                        <td className="host__report__data">
-                          {data?.hostId?.name}
-                        </td>
-                      </>
-                    )}
-                    <td className="host__report__data">
-                      {data?.targetId?.userId?.name}
-                    </td>
-                    <td className="host__report__data">{data?._id}</td>
-                    <td className="host__report__data">
-                      {data?.Choose_the_Reason}
-                    </td>
-                    <td className="host__report__data">{data?.comment}</td>
-                    <td className="host__report__data">
-                      {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
-                    </td>
-                  </tr>
-                );
-              })
-            : null}
-        </tbody>
-      </table>
+    <>
+      <SearchInput
+        onChange={handleText}
+        value={value}
+        placeholder="Search"
+        icon={searchIcon()}
+      />
+      <div className="host__report__container">
+        <div className="banner__search__btn"></div>
+        <table className="host__report__table">
+          <thead>
+            <th className="host__report__header">S.No.</th>
+            {!id && (
+              <>
+                <th className="host__report__header">Host ID</th>
+                <th className="host__report__header">Host Name</th>
+              </>
+            )}
+            <th className="host__report__header">Report</th>
+            <th className="host__report__header">Report ID</th>
+            <th className="host__report__header">Title</th>
+            <th className="host__report__header">Reason</th>
+            <th className="host__report__header">Date & Time</th>
+          </thead>
+          <tbody>
+            {getHostReport.length > 0
+              ? getHostReport.map((data, index) => {
+                  return (
+                    <tr>
+                      <td className="host__report__data">
+                        {(page - 1) * perPage + index + 1}
+                      </td>
+                      {!id && (
+                        <>
+                          {" "}
+                          <td className="host__report__data">
+                            {data?.hostId?._id}
+                          </td>
+                          <td className="host__report__data">
+                            {data?.hostId?.name}
+                          </td>
+                        </>
+                      )}
+                      <td className="host__report__data">
+                        {data?.targetId?.userId?.name}
+                      </td>
+                      <td className="host__report__data">{data?._id}</td>
+                      <td className="host__report__data">
+                        {data?.Choose_the_Reason}
+                      </td>
+                      <td className="host__report__data">{data?.comment}</td>
+                      <td className="host__report__data">
+                        {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
+                      </td>
+                    </tr>
+                  );
+                })
+              : null}
+          </tbody>
+        </table>
 
-      {getHostReport.length > 0 ? (
-        <Pagination
-          page={page}
-          setPage={setPage}
-          setPerPage={setPerPage}
-          perPage={perPage}
-          totalCount={totalCount}
-          totalPages={totalPages}
-          options={[5, 10, 15, 20]}
-        />
-      ) : (
-        !loader.loaderPopup && (
-          <div className="host__no__data__found__icon">
-            <Lottie
-              options={{ animationData: noData, loop: true }}
-              style={{ width: "20rem", height: "20rem" }}
-            />
-            <p className="no__data__found">No Data Found</p>
-          </div>
-        )
-      )}
-    </div>
+        {getHostReport.length > 0 ? (
+          <Pagination
+            page={page}
+            setPage={setPage}
+            setPerPage={setPerPage}
+            perPage={perPage}
+            totalCount={totalCount}
+            totalPages={totalPages}
+            options={[5, 10, 15, 20]}
+          />
+        ) : (
+          !loader.loaderPopup && (
+            <div className="host__no__data__found__icon">
+              <Lottie
+                options={{ animationData: noData, loop: true }}
+                style={{ width: "20rem", height: "20rem" }}
+              />
+              <p className="no__data__found">No Data Found</p>
+            </div>
+          )
+        )}
+      </div>
+    </>
   );
 };
 

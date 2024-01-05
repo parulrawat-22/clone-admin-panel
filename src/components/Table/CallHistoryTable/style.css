@@ -1,5 +1,5 @@
 .user__call__history__container {
-  padding: 3rem 0;
+  overflow: auto;
 }
 
 .user__call__history__table {

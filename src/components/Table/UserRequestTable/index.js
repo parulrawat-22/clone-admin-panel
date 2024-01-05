@@ -113,10 +113,6 @@ const UserTable = () => {
       });
   };
 
-  const handleCatchwooUsers = () => {
-    sessionStorage.setItem("selectedType", "catchwoo");
-  };
-
   const getUserRequest = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
@@ -158,261 +154,260 @@ const UserTable = () => {
   console.log("user", userRequest);
 
   return (
-    <div className="user__request__table__container">
-      <div className="banner__search__btn">
-        <SearchInput
-          onChange={handleText}
-          placeholder="Search"
-          icon={searchIcon()}
-          value={value}
-        />
-      </div>
+    <>
+      <SearchInput
+        onChange={handleText}
+        placeholder="Search"
+        icon={searchIcon()}
+        value={value}
+      />
+      <div className="user__request__table__container">
+        <div className="table_parent_box">
+          <table className="user__request__table">
+            <thead>
+              <th className="user__request__headers">S.No.</th>
+              <th className="user__request__headers">User ID</th>
+              <th className="user__request__headers">Name</th>
+              <th className="user__request__headers">Gender</th>
+              <th className="user__request__headers">Mobile Number</th>
+              <th className="user__request__headers">Email</th>
+              <th className="user__request__headers">Date Of Birth</th>
+              <th className="user__request__headers">Age</th>
+              <th className="user__request__headers">Country</th>
+              <th className="user__request__headers">State</th>
+              <th className="user__request__headers">City</th>
+              <th className="user__request__headers">Profession</th>
+              <th className="user__request__headers">Bio</th>
+              <th className="user__request__headers">Profile Pic</th>
+              <th className="user__request__headers">Image/Video</th>
 
-      <div className="table_parent_box">
-        <table className="user__request__table">
-          <thead>
-            <th className="user__request__headers">S.No.</th>
-            <th className="user__request__headers">User ID</th>
-            <th className="user__request__headers">Name</th>
-            <th className="user__request__headers">Gender</th>
-            <th className="user__request__headers">Mobile Number</th>
-            <th className="user__request__headers">Email</th>
-            <th className="user__request__headers">Date Of Birth</th>
-            <th className="user__request__headers">Age</th>
-            <th className="user__request__headers">Country</th>
-            <th className="user__request__headers">State</th>
-            <th className="user__request__headers">City</th>
-            <th className="user__request__headers">Profession</th>
-            <th className="user__request__headers">Bio</th>
-            <th className="user__request__headers">Profile Pic</th>
-            <th className="user__request__headers">Image/Video</th>
+              <th className="user__request__headers">Reason for change</th>
 
-            <th className="user__request__headers">Reason for change</th>
+              <th className="user__request__headers">Created At </th>
+              <th className="user__request__headers">View Profile</th>
+              <th className="user__request__headers">Action</th>
+            </thead>
+            <tbody>
+              {userRequest && userRequest.length > 0
+                ? userRequest?.map((data, index) => {
+                    return (
+                      <tr>
+                        <td className="user__request__data">
+                          {(page - 1) * perPage + index + 1}
+                        </td>
+                        <td className="user__request__data">{data?._id}</td>
+                        <td className="user__request__data">
+                          <div
+                            className="feedback__table__comment"
+                            onClick={
+                              data?.name.length > 10
+                                ? () =>
+                                    modalProvider.handleCommentClick(
+                                      data?.name,
+                                      "Name"
+                                    )
+                                : () => {}
+                            }
+                          >
+                            {data?.name}
+                          </div>
+                        </td>
+                        <td className="user__request__data">
+                          <div
+                            className="feedback__table__comment"
+                            onClick={
+                              data?.gender.length > 10
+                                ? () =>
+                                    modalProvider.handleCommentClick(
+                                      data?.gender,
+                                      "Gender"
+                                    )
+                                : () => {}
+                            }
+                          >
+                            {data?.gender}
+                          </div>
+                        </td>
+                        <td className="user__request__data">
+                          {data?.mobileNumber}
+                        </td>
+                        <td className="user__request__data">{data?.email}</td>
+                        <td className="user__request__data">
+                          {data?.dateOfBirth}
+                        </td>
+                        <td className="user__request__data">{data?.age}</td>
+                        <td className="user__request__data">
+                          <div
+                            className="feedback__table__comment"
+                            onClick={
+                              data?.country.length > 10
+                                ? () =>
+                                    modalProvider.handleCommentClick(
+                                      data?.country,
+                                      "Name"
+                                    )
+                                : () => {}
+                            }
+                          >
+                            {data?.country}
+                          </div>
+                        </td>
+                        <td className="user__request__data">{data?.state}</td>
+                        <td className="user__request__data">{data?.city}</td>
 
-            <th className="user__request__headers">Created At </th>
-            <th className="user__request__headers">View Profile</th>
-            <th className="user__request__headers">Action</th>
-          </thead>
-          <tbody>
-            {userRequest && userRequest.length > 0
-              ? userRequest?.map((data, index) => {
-                  return (
-                    <tr>
-                      <td className="user__request__data">
-                        {(page - 1) * perPage + index + 1}
-                      </td>
-                      <td className="user__request__data">{data?._id}</td>
-                      <td className="user__request__data">
-                        <div
-                          className="feedback__table__comment"
-                          onClick={
-                            data?.name.length > 10
-                              ? () =>
-                                  modalProvider.handleCommentClick(
-                                    data?.name,
-                                    "Name"
-                                  )
-                              : () => {}
-                          }
-                        >
-                          {data?.name}
-                        </div>
-                      </td>
-                      <td className="user__request__data">
-                        <div
-                          className="feedback__table__comment"
-                          onClick={
-                            data?.gender.length > 10
-                              ? () =>
-                                  modalProvider.handleCommentClick(
-                                    data?.gender,
-                                    "Gender"
-                                  )
-                              : () => {}
-                          }
-                        >
-                          {data?.gender}
-                        </div>
-                      </td>
-                      <td className="user__request__data">
-                        {data?.mobileNumber}
-                      </td>
-                      <td className="user__request__data">{data?.email}</td>
-                      <td className="user__request__data">
-                        {data?.dateOfBirth}
-                      </td>
-                      <td className="user__request__data">{data?.age}</td>
-                      <td className="user__request__data">
-                        <div
-                          className="feedback__table__comment"
-                          onClick={
-                            data?.country.length > 10
-                              ? () =>
-                                  modalProvider.handleCommentClick(
-                                    data?.country,
-                                    "Name"
-                                  )
-                              : () => {}
-                          }
-                        >
-                          {data?.country}
-                        </div>
-                      </td>
-                      <td className="user__request__data">{data?.state}</td>
-                      <td className="user__request__data">{data?.city}</td>
+                        <td className="user__request__data">
+                          <div
+                            className="feedback__table__comment"
+                            onClick={
+                              data?.proffession.length > 12
+                                ? () =>
+                                    modalProvider.handleCommentClick(
+                                      data?.proffession,
+                                      "Profession"
+                                    )
+                                : () => {}
+                            }
+                          >
+                            {data?.proffession}
+                          </div>
+                        </td>
+                        <td className="user__request__data">
+                          <div
+                            className="feedback__table__comment"
+                            onClick={
+                              data?.addBio.length > 12
+                                ? () =>
+                                    modalProvider.handleCommentClick(
+                                      data?.addBio,
+                                      "Name"
+                                    )
+                                : () => {}
+                            }
+                          >
+                            {data?.addBio}
+                          </div>
+                        </td>
 
-                      <td className="user__request__data">
-                        <div
-                          className="feedback__table__comment"
-                          onClick={
-                            data?.proffession.length > 12
-                              ? () =>
-                                  modalProvider.handleCommentClick(
-                                    data?.proffession,
-                                    "Profession"
-                                  )
-                              : () => {}
-                          }
-                        >
-                          {data?.proffession}
-                        </div>
-                      </td>
-                      <td className="user__request__data">
-                        <div
-                          className="feedback__table__comment"
-                          onClick={
-                            data?.addBio.length > 12
-                              ? () =>
-                                  modalProvider.handleCommentClick(
-                                    data?.addBio,
-                                    "Name"
-                                  )
-                              : () => {}
-                          }
-                        >
-                          {data?.addBio}
-                        </div>
-                      </td>
+                        <td className="user__request__data">
+                          {data?.profilePic && (
+                            <BsFillEyeFill
+                              onClick={() => {
+                                handleEyeProfilePicPopUp(data?.profilePic);
+                              }}
+                              className="user__request__eye__icon"
+                            />
+                          )}
+                        </td>
 
-                      <td className="user__request__data">
-                        {data?.profilePic && (
+                        <td className="user__request__data">
                           <BsFillEyeFill
                             onClick={() => {
-                              handleEyeProfilePicPopUp(data?.profilePic);
+                              handleImageVideoPopUp(data?.presentationPic);
                             }}
                             className="user__request__eye__icon"
                           />
-                        )}
-                      </td>
-
-                      <td className="user__request__data">
-                        <BsFillEyeFill
+                        </td>
+                        <td className="user__request__data">
+                          {data?.reasionUpdateProfile
+                            ? data?.reasionUpdateProfile
+                            : "-"}
+                        </td>
+                        <td className="user__request__data">
+                          {" "}
+                          {moment(data.createdAt).format("MM/DD/YYYY LT")}
+                        </td>
+                        <td
+                          className="user__request__data user__management__view__btn"
                           onClick={() => {
-                            handleImageVideoPopUp(data?.presentationPic);
+                            navigate(
+                              `/usermanagement/${data?._id}${
+                                sessionStorage.getItem("selectedType") ===
+                                "catchwoo"
+                                  ? "?appType=catchwoo"
+                                  : ""
+                              }`
+                            );
                           }}
-                          className="user__request__eye__icon"
-                        />
-                      </td>
-                      <td className="user__request__data">
-                        {data?.reasionUpdateProfile
-                          ? data?.reasionUpdateProfile
-                          : "-"}
-                      </td>
-                      <td className="user__request__data">
-                        {" "}
-                        {moment(data.createdAt).format("MM/DD/YYYY LT")}
-                      </td>
-                      <td
-                        className="user__request__data user__management__view__btn"
-                        onClick={() => {
-                          navigate(
-                            `/usermanagement/${data?._id}${
-                              sessionStorage.getItem("selectedType") ===
-                              "catchwoo"
-                                ? "?appType=catchwoo"
-                                : ""
-                            }`
-                          );
-                        }}
-                      >
-                        View more...
-                      </td>
-                      <td className="user__request__data">
-                        <AiFillEdit
-                          onClick={() => handleUserEdit(data?._id)}
-                          className="accepted__user__edit__icon"
-                        />
-                        <AiFillDelete
-                          onClick={() => {
-                            handleUserDeleteAlert(data?._id);
-                          }}
-                          className="accepted__user__delete__icon"
-                        />
-                      </td>
-                    </tr>
-                  );
-                })
-              : null}
-          </tbody>
-        </table>
-      </div>
+                        >
+                          View more...
+                        </td>
+                        <td className="user__request__data">
+                          <AiFillEdit
+                            onClick={() => handleUserEdit(data?._id)}
+                            className="accepted__user__edit__icon"
+                          />
+                          <AiFillDelete
+                            onClick={() => {
+                              handleUserDeleteAlert(data?._id);
+                            }}
+                            className="accepted__user__delete__icon"
+                          />
+                        </td>
+                      </tr>
+                    );
+                  })
+                : null}
+            </tbody>
+          </table>
+        </div>
 
-      {userRequest.length > 0 ? (
-        <Pagination
-          page={page}
-          setPage={setPage}
-          totalCount={totalCount}
-          totalPages={totalPages}
-          setPerPage={setPerPage}
-          perPage={perPage}
-          options={[5, 10, 15, 20]}
+        {userRequest.length > 0 ? (
+          <Pagination
+            page={page}
+            setPage={setPage}
+            totalCount={totalCount}
+            totalPages={totalPages}
+            setPerPage={setPerPage}
+            perPage={perPage}
+            options={[5, 10, 15, 20]}
+          />
+        ) : (
+          !loader.loaderPopup && (
+            <div className="host__no__data__found__icon">
+              <Lottie
+                options={{ animationData: noData, loop: true }}
+                style={{ width: "20rem", height: "20rem" }}
+              />
+              <p className="no__data__found">No Data Found</p>
+            </div>
+          )
+        )}
+
+        <FormAlertPopUp
+          open={showEditUser}
+          handleOpen={handleUserEdit}
+          onRequestClose={handleUserEditClose}
+        >
+          <UserRequestForm id={id} onSubmit={onSubmit} />
+        </FormAlertPopUp>
+
+        <AlertPopUp
+          open={showDeleteAlert}
+          handleOpen={handleDeleteAlert}
+          handleClose={handleDeleteAlertClose}
+          header="Delete Alert"
+          description="Are you sure you want to delete this User?"
+          submitText="Yes"
+          cancelText="No"
+          onSubmitClick={handleUserDelete}
+          onCancelClick={handleUserDeleteClose}
         />
-      ) : (
-        !loader.loaderPopup && (
-          <div className="host__no__data__found__icon">
-            <Lottie
-              options={{ animationData: noData, loop: true }}
-              style={{ width: "20rem", height: "20rem" }}
-            />
-            <p className="no__data__found">No Data Found</p>
-          </div>
-        )
-      )}
 
-      <FormAlertPopUp
-        open={showEditUser}
-        handleOpen={handleUserEdit}
-        onRequestClose={handleUserEditClose}
-      >
-        <UserRequestForm id={id} onSubmit={onSubmit} />
-      </FormAlertPopUp>
+        <ImagePopUpModal
+          open={showProfileAlert}
+          handleOpen={handleEyeProfilePicPopUp}
+          handleClose={handleEyeProfilePicPopUpClose}
+          img={img}
+        />
 
-      <AlertPopUp
-        open={showDeleteAlert}
-        handleOpen={handleDeleteAlert}
-        handleClose={handleDeleteAlertClose}
-        header="Delete Alert"
-        description="Are you sure you want to delete this User?"
-        submitText="Yes"
-        cancelText="No"
-        onSubmitClick={handleUserDelete}
-        onCancelClick={handleUserDeleteClose}
-      />
-
-      <ImagePopUpModal
-        open={showProfileAlert}
-        handleOpen={handleEyeProfilePicPopUp}
-        handleClose={handleEyeProfilePicPopUpClose}
-        img={img}
-      />
-
-      <ImagePopUpModal
-        open={showImageVideo}
-        handleOpen={handleImageVideoPopUp}
-        handleClose={handleImageVideoPopUpClose}
-        images={images}
-      />
-    </div>
+        <ImagePopUpModal
+          open={showImageVideo}
+          handleOpen={handleImageVideoPopUp}
+          handleClose={handleImageVideoPopUpClose}
+          images={images}
+        />
+      </div>
+    </>
   );
 };
 

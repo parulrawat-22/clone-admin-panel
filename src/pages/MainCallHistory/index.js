@@ -12,6 +12,7 @@ import { NetworkConfiguration } from "../../network/NetworkConfiguration";
 const MainCallHistory = () => {
   const [getSetValue, setGetSetValue] = useState();
   const [callHistory, setCallHistory] = useState([]);
+  const [value, setValue] = useState("");
   const apiProvider = useApi();
 
   const onChangeDropdown = (e) => {
@@ -94,8 +95,20 @@ const MainCallHistory = () => {
   const searchIcon = () => {
     return <FiSearch />;
   };
+
+  const handleText = (e) => {
+    setValue(e.target.value);
+  };
+
   return (
-    <div>
+    <>
+      <SearchInput
+        onChange={handleText}
+        placeholder="Search"
+        icon={searchIcon()}
+        value={value}
+      />
+
       <div className="top__growing__dropdown">
         <Dropdown
           onChange={onChangeDropdown}
@@ -114,9 +127,6 @@ const MainCallHistory = () => {
         // page={page}
         // perPage={perPage}
       />
-      <div className="banner__search__btn">
-        <SearchInput placeholder="Search" icon={searchIcon()} />
-      </div>
 
       {/* {tableData && tableData.length > 0 ? (
         <Pagination
@@ -139,7 +149,7 @@ const MainCallHistory = () => {
           </div>
         )
       )} */}
-    </div>
+    </>
   );
 };
 

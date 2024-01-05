@@ -3,11 +3,7 @@ import HostRequestTable from "../../components/Table/HostRequestTable";
 import "./style.css";
 
 const HostRequest = () => {
-  return (
-    <Layout>
-      <HostRequestTable />
-    </Layout>
-  );
+  return <HostRequestTable />;
 };
 
 export default HostRequest;

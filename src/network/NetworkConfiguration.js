@@ -134,6 +134,7 @@ export const NetworkConfiguration = {
   UNBLOCKHOST: "admin/adminHostUnblock",
   UNBLOCKUSER: "admin/adminUserUnblock",
   SNAPSHOTS: "admin/snapshots",
+  UPDATEFLOWER: "gift/updateRosePic",
 
   //subAdmin
   SUBADMINLIST: "admin/subAdminList",

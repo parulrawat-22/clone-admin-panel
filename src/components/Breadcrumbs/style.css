@@ -1,0 +1,10 @@
+.breakcrumbs__container {
+  display: inline-block;
+  width: auto;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+  background-color: var(--color-lightgrey);
+  margin-left: 1rem;
+  font-family: var(--fontfamily-sansserif);
+  text-align: center;
+}

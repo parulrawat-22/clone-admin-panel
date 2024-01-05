@@ -58,103 +58,103 @@ const UserReportTable = () => {
   };
 
   return (
-    <div className="user__report__container">
-      <div className="banner__search__btn">
-        <SearchInput
-          value={value}
-          onChange={handleText}
-          placeholder="Search"
-          icon={searchIcon()}
-        />
-      </div>
-      <div className="table_parent_box">
-        <table className="user__report__table">
-          <thead>
-            <th className="user__report__header">S.No.</th>
-            {!id && (
-              <>
-                <th className="user__report__header">User ID</th>
-                <th className="user__report__header">User Name</th>
-              </>
-            )}
-            <th className="user__report__header">Report</th>
-            <th className="user__report__header">Report ID</th>
-            <th className="user__report__header">Title</th>
-            <th className="user__report__header">Reason</th>
-            <th className="user__report__header">Date & Time</th>
-          </thead>
-          <tbody>
-            {userReportList.length > 0
-              ? userReportList.map((data, index) => {
-                  return (
-                    <tr>
-                      <td className="user__report__data">
-                        {(page - 1) * perPage + index + 1}
-                      </td>
-                      {!id && (
-                        <>
-                          <td className="user__report__data">
-                            {data?.userId?._id}
-                          </td>
-                          <td className="user__report__data">
-                            <div
-                              className="feedback__table__comment"
-                              onClick={
-                                data?.userId?.name.length > 12
-                                  ? () =>
-                                      modalProvider.handleCommentClick(
-                                        data?.userId?.name,
-                                        "Name"
-                                      )
-                                  : () => {}
-                              }
-                            >
-                              {data?.userId?.name}
-                            </div>
-                          </td>
-                        </>
-                      )}
-                      <td className="user__report__data">
-                        {data?.targetId?.hostId?.name}
-                      </td>
-                      <td className="user__report__data">{data?._id}</td>
-                      <td className="user__report__data">
-                        {data?.Choose_the_Reason}
-                      </td>
-                      <td className="user__report__data">{data?.comment}</td>
-                      <td className="user__report__data">
-                        {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
-                      </td>
-                    </tr>
-                  );
-                })
-              : null}
-          </tbody>
-        </table>
-      </div>
+    <>
+      <SearchInput
+        value={value}
+        onChange={handleText}
+        placeholder="Search"
+        icon={searchIcon()}
+      />
+      <div className="user__report__container">
+        <div className="table_parent_box">
+          <table className="user__report__table">
+            <thead>
+              <th className="user__report__header">S.No.</th>
+              {!id && (
+                <>
+                  <th className="user__report__header">User ID</th>
+                  <th className="user__report__header">User Name</th>
+                </>
+              )}
+              <th className="user__report__header">Report</th>
+              <th className="user__report__header">Report ID</th>
+              <th className="user__report__header">Title</th>
+              <th className="user__report__header">Reason</th>
+              <th className="user__report__header">Date & Time</th>
+            </thead>
+            <tbody>
+              {userReportList.length > 0
+                ? userReportList.map((data, index) => {
+                    return (
+                      <tr>
+                        <td className="user__report__data">
+                          {(page - 1) * perPage + index + 1}
+                        </td>
+                        {!id && (
+                          <>
+                            <td className="user__report__data">
+                              {data?.userId?._id}
+                            </td>
+                            <td className="user__report__data">
+                              <div
+                                className="feedback__table__comment"
+                                onClick={
+                                  data?.userId?.name.length > 12
+                                    ? () =>
+                                        modalProvider.handleCommentClick(
+                                          data?.userId?.name,
+                                          "Name"
+                                        )
+                                    : () => {}
+                                }
+                              >
+                                {data?.userId?.name}
+                              </div>
+                            </td>
+                          </>
+                        )}
+                        <td className="user__report__data">
+                          {data?.targetId?.hostId?.name}
+                        </td>
+                        <td className="user__report__data">{data?._id}</td>
+                        <td className="user__report__data">
+                          {data?.Choose_the_Reason}
+                        </td>
+                        <td className="user__report__data">{data?.comment}</td>
+                        <td className="user__report__data">
+                          {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
+                        </td>
+                      </tr>
+                    );
+                  })
+                : null}
+            </tbody>
+          </table>
+        </div>
 
-      {userReportList.length > 0 ? (
-        <Pagination
-          page={page}
-          perPage={perPage}
-          totalCount={totalCount}
-          totalPages={totalPages}
-          setPage={setPage}
-          setPerPage={setPerPage}
-          options={[5, 10, 15, 20]}
-        />
-      ) : (
-        !loader.loaderPopup && (
-          <div className="host__no__data__found__icon">
-            <Lottie
-              options={{ animationData: noData, loop: true }}
-              style={{ width: "20rem", height: "20rem" }}
-            />
-            <p className="no__data__found">No Data Found</p>
-          </div>
-        )
-      )}
-    </div>
+        {userReportList.length > 0 ? (
+          <Pagination
+            page={page}
+            perPage={perPage}
+            totalCount={totalCount}
+            totalPages={totalPages}
+            setPage={setPage}
+            setPerPage={setPerPage}
+            options={[5, 10, 15, 20]}
+          />
+        ) : (
+          !loader.loaderPopup && (
+            <div className="host__no__data__found__icon">
+              <Lottie
+                options={{ animationData: noData, loop: true }}
+                style={{ width: "20rem", height: "20rem" }}
+              />
+              <p className="no__data__found">No Data Found</p>
+            </div>
+          )
+        )}
+      </div>
+    </>
   );
 };
 

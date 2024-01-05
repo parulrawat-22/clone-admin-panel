@@ -153,134 +153,135 @@ const StickerTable = () => {
   };
 
   return (
-    <div className="sticker__container">
-      <div className="add__sticker" onClick={handleStickerForm}>
-        <Button text="Add Sticker" />
-      </div>
-      <div className="banner__search__btn">
-        <SearchInput
-          value={value}
-          onChange={handleText}
-          placeholder="Search"
-          icon={searchIcon()}
-        />
-      </div>
-      <table className="sticker__table">
-        <thead>
-          <th className="sticker__table__heading">S.No</th>
-          <th className="sticker__table__heading">Sticker Name</th>
-          <th className="sticker__table__heading">Sticker Image</th>
-          <th className="sticker__table__heading">Sticker Price</th>
-          <th className="sticker__table__heading">Created At</th>
-          <th className="sticker__table__heading">Updated At</th>
-          <th className="sticker__table__heading">Action</th>
-        </thead>
-        <tbody>
-          {getSticker && getSticker?.length > 0
-            ? getSticker.map((data, index) => {
-                return (
-                  <tr>
-                    <td className="sticker__table__data">
-                      {(page - 1) * perPage + index + 1}
-                    </td>
-                    <td className="sticker__table__data">{data?.name}</td>
-                    <td className="sticker__table__data">
-                      <AiFillEye
-                        className="sticker__table__eye__icon"
-                        onClick={() => {
-                          handleEyeOnClick(data?.stickerUrl);
-                        }}
-                      />
-                    </td>
-                    <td className="sticker__table__data">{data?.price}</td>
-                    <td className="sticker__table__data">
-                      {moment(data?.createdAt).format("DD/MM/YYYY LT")}
-                    </td>
-                    <td className="sticker__table__data">
-                      {moment(data?.updatedAt).format("DD/MM/YYYY LT")}
-                    </td>
-                    <td className="sticker__table__data">
-                      <AiFillEdit
-                        onClick={() => {
-                          handleOnClickEdit(data?._id, data);
-                        }}
-                        className="sticker__table__edit__icon"
-                      />
-                      <AiFillDelete
-                        onClick={() => {
-                          handleOnClickAlert(data?._id);
-                        }}
-                        className="sticker__table__delete__icon"
-                      />
-                    </td>
-                  </tr>
-                );
-              })
-            : null}
-        </tbody>
-      </table>
-
-      {getSticker && getSticker.length > 0 ? (
-        <Pagination
-          page={page}
-          setPage={setPage}
-          perPage={perPage}
-          setPerPage={setPerPage}
-          totalCount={totalCount}
-          totalPages={totalPages}
-          options={[5, 10, 15, 20]}
-        />
-      ) : (
-        !loader.loaderPopup && (
-          <div className="host__no__data__found__icon">
-            <Lottie
-              options={{ animationData: noData, loop: true }}
-              style={{ width: "20rem", height: "20rem" }}
-            />
-            <p className="no__data__found">No Data Found</p>
-          </div>
-        )
-      )}
-
-      <ImagePopUpModal
-        open={showImageAlert}
-        handleClose={handleEyeOnClickClose}
-        img={img}
+    <>
+      <SearchInput
+        value={value}
+        onChange={handleText}
+        placeholder="Search"
+        icon={searchIcon()}
       />
+      <div className="sticker__container">
+        <div className="add__sticker" onClick={handleStickerForm}>
+          <Button text="Add Sticker" />
+        </div>
 
-      <AlertPopUp
-        open={showDeleteAlert}
-        handleOpen={handleDeleteAlert}
-        handleClose={handleDeleteAlertClose}
-        header="Delete Alert"
-        description="Are you sure you want to delete this sticker"
-        submitText="Yes"
-        cancelText="No"
-        onSubmitClick={handleDeleteApi}
-        onCancelClick={handleDeleteAlertClose}
-      />
+        <table className="sticker__table">
+          <thead>
+            <th className="sticker__table__heading">S.No</th>
+            <th className="sticker__table__heading">Sticker Name</th>
+            <th className="sticker__table__heading">Sticker Image</th>
+            <th className="sticker__table__heading">Sticker Price</th>
+            <th className="sticker__table__heading">Created At</th>
+            <th className="sticker__table__heading">Updated At</th>
+            <th className="sticker__table__heading">Action</th>
+          </thead>
+          <tbody>
+            {getSticker && getSticker?.length > 0
+              ? getSticker.map((data, index) => {
+                  return (
+                    <tr>
+                      <td className="sticker__table__data">
+                        {(page - 1) * perPage + index + 1}
+                      </td>
+                      <td className="sticker__table__data">{data?.name}</td>
+                      <td className="sticker__table__data">
+                        <AiFillEye
+                          className="sticker__table__eye__icon"
+                          onClick={() => {
+                            handleEyeOnClick(data?.stickerUrl);
+                          }}
+                        />
+                      </td>
+                      <td className="sticker__table__data">{data?.price}</td>
+                      <td className="sticker__table__data">
+                        {moment(data?.createdAt).format("DD/MM/YYYY LT")}
+                      </td>
+                      <td className="sticker__table__data">
+                        {moment(data?.updatedAt).format("DD/MM/YYYY LT")}
+                      </td>
+                      <td className="sticker__table__data">
+                        <AiFillEdit
+                          onClick={() => {
+                            handleOnClickEdit(data?._id, data);
+                          }}
+                          className="sticker__table__edit__icon"
+                        />
+                        <AiFillDelete
+                          onClick={() => {
+                            handleOnClickAlert(data?._id);
+                          }}
+                          className="sticker__table__delete__icon"
+                        />
+                      </td>
+                    </tr>
+                  );
+                })
+              : null}
+          </tbody>
+        </table>
 
-      <FormAlertPopUp
-        open={showStickerForm}
-        handleOpen={handleStickerForm}
-        onRequestClose={handleStickerFormClose}
-      >
-        <StickerForm onSubmit={handleStickerFormClose} />
-      </FormAlertPopUp>
+        {getSticker && getSticker.length > 0 ? (
+          <Pagination
+            page={page}
+            setPage={setPage}
+            perPage={perPage}
+            setPerPage={setPerPage}
+            totalCount={totalCount}
+            totalPages={totalPages}
+            options={[5, 10, 15, 20]}
+          />
+        ) : (
+          !loader.loaderPopup && (
+            <div className="host__no__data__found__icon">
+              <Lottie
+                options={{ animationData: noData, loop: true }}
+                style={{ width: "20rem", height: "20rem" }}
+              />
+              <p className="no__data__found">No Data Found</p>
+            </div>
+          )
+        )}
 
-      <FormAlertPopUp
-        open={showEditAlert}
-        handleOpen={handleOnClickEdit}
-        onRequestClose={handleOnClickEditClose}
-      >
-        <StickerForm
-          edit={true}
-          editedSticker={editedSticker}
-          onClickEdit={onClickEdit}
-          id={id}
+        <ImagePopUpModal
+          open={showImageAlert}
+          handleClose={handleEyeOnClickClose}
+          img={img}
         />
-      </FormAlertPopUp>
-    </div>
+
+        <AlertPopUp
+          open={showDeleteAlert}
+          handleOpen={handleDeleteAlert}
+          handleClose={handleDeleteAlertClose}
+          header="Delete Alert"
+          description="Are you sure you want to delete this sticker"
+          submitText="Yes"
+          cancelText="No"
+          onSubmitClick={handleDeleteApi}
+          onCancelClick={handleDeleteAlertClose}
+        />
+
+        <FormAlertPopUp
+          open={showStickerForm}
+          handleOpen={handleStickerForm}
+          onRequestClose={handleStickerFormClose}
+        >
+          <StickerForm onSubmit={handleStickerFormClose} />
+        </FormAlertPopUp>
+
+        <FormAlertPopUp
+          open={showEditAlert}
+          handleOpen={handleOnClickEdit}
+          onRequestClose={handleOnClickEditClose}
+        >
+          <StickerForm
+            edit={true}
+            editedSticker={editedSticker}
+            onClickEdit={onClickEdit}
+            id={id}
+          />
+        </FormAlertPopUp>
+      </div>
+    </>
   );
 };
 

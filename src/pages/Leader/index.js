@@ -75,17 +75,15 @@ const Leader = () => {
   };
 
   return (
-    <Layout>
+    <>
+      <SearchInput
+        value={value}
+        onChange={handleText}
+        placeholder="Search"
+        icon={searchIcon()}
+      />
       <div className="add__leader__styling">
         <Button text="Add Leader" onClick={handleAddLeader} />
-      </div>
-      <div className="banner__search__btn">
-        <SearchInput
-          value={value}
-          onChange={handleText}
-          placeholder="Search"
-          icon={searchIcon()}
-        />
       </div>
 
       <LeaderTable
@@ -120,7 +118,7 @@ const Leader = () => {
           <p className="no__data__found">No Data Found</p>
         </div>
       )}
-    </Layout>
+    </>
   );
 };
 

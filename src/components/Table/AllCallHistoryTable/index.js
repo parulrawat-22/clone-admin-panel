@@ -25,9 +25,9 @@ const AllCallHistoryTable = ({ callHistory }) => {
                   {moment(data?.createdAt).format("DD/MM/YYYY")}
                 </td>
                 <td className="top__talent__data">{data?.userId}</td>
-                <td className="top__talent__data">{data?.userName}</td>
+                <td className="top__talent__data">{data?.userId?.name}</td>
                 <td className="top__talent__data">{data?.targetId}</td>
-                <td className="top__talent__data">{data?.hostName}</td>
+                <td className="top__talent__data">{data?.hostId?.name}</td>
                 <td className="top__talent__data">{data?.videoCoins}</td>
                 <td className="top__talent__data">{data?.callType}</td>
                 <td className="top__talent__data">{data?.total_minute}</td>

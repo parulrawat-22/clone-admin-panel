@@ -21,6 +21,7 @@ import noData from "../../../base/Animation/No Data Found.json";
 import { BsFillEyeFill } from "react-icons/bs";
 import ImagePopUpModal from "../../ImagePopUpModal";
 import { useApi } from "../../../base/Context/apiProvider";
+import Breadcrumbs from "../../Breadcrumbs";
 
 const AcceptedHostTable = () => {
   let navigate = useNavigate();
@@ -210,219 +211,219 @@ const AcceptedHostTable = () => {
   };
 
   return (
-    <div className="accepted__host__container">
-      <div className="accepted__host__search__btn">
-        <SearchInput
-          onChange={handleText}
-          value={value}
-          placeholder="Search"
-          icon={searchIcon()}
-        />
-      </div>
-      <div className="table_parent_box">
-        <table className="accepted__host__table">
-          <thead>
-            <th className="accepted__host__header">S.No.</th>
-            <th className="accepted__host__header">Host ID</th>
-            <th className="accepted__host__header">Name</th>
-            <th className="accepted__host__header">Date Of Birth</th>
-            <th className="accepted__host__header">Age</th>
-            <th className="accepted__host__header">Mobile Number</th>
-            <th className="accepted__host__header">Email ID</th>
-            <th className="accepted__host__header">Profile Pic </th>
-            <th className="accepted__host__header">Images & Videos </th>
-            <th className="accepted__host__header">Accepted At</th>
-            <th className="accepted__host__header">Audio Charge/sec</th>
-            <th className="accepted__host__header">Video Charge/sec</th>
-            <th className="accepted__host__header">Leader</th>
-            <th className="accepted__host__header">Details</th>
-            <th className="accepted__host__header">Action</th>
-          </thead>
-          <tbody>
-            {acceptedHost.length > 0
-              ? acceptedHost.map((data, index) => {
-                  return (
-                    <tr>
-                      <td className="accepted__host__data">
-                        {(page - 1) * perPage + index + 1}
-                      </td>
-                      <td className="accepted__host__data">{data?._id}</td>
-                      <td className="accepted__host__data">{data?.name}</td>
-                      <td className="accepted__host__data">
-                        {data?.dateOfBirth}
-                      </td>
-                      <td className="accepted__host__data">{data?.age}</td>
-                      <td className="accepted__host__data">
-                        {data?.mobileNumber}
-                      </td>
-                      <td className="accepted__host__data">{data?.email}</td>
-                      <td className="accepted__host__data">
-                        {data?.profilePic && (
-                          <BsFillEyeFill
-                            className="eye__btn"
-                            onClick={() => handleProfilePic(data?.profilePic)}
-                          />
-                        )}
-                      </td>
-                      <td className="accepted__host__data">
-                        {data?.presentationPic && (
-                          <BsFillEyeFill
-                            className="eye__btn"
-                            onClick={() =>
-                              handlePresentationPic(data?.presentationPic)
-                            }
-                          />
-                        )}
-                      </td>
-                      <td className="accepted__host__data">
-                        {moment(data?.acceptedDate).format("DD/MM/YYYY LT")}
-                      </td>
-                      <td className="accepted__host__data">
-                        {data?.audioCall_fees}
+    <>
+      <SearchInput
+        onChange={handleText}
+        value={value}
+        placeholder="Search"
+        icon={searchIcon()}
+      />
+      <div className="accepted__host__container">
+        <div className="table_parent_box">
+          <table className="accepted__host__table">
+            <thead>
+              <th className="accepted__host__header">S.No.</th>
+              <th className="accepted__host__header">Host ID</th>
+              <th className="accepted__host__header">Name</th>
+              <th className="accepted__host__header">Date Of Birth</th>
+              <th className="accepted__host__header">Age</th>
+              <th className="accepted__host__header">Mobile Number</th>
+              <th className="accepted__host__header">Email ID</th>
+              <th className="accepted__host__header">Profile Pic </th>
+              <th className="accepted__host__header">Images & Videos </th>
+              <th className="accepted__host__header">Accepted At</th>
+              <th className="accepted__host__header">Audio Charge/sec</th>
+              <th className="accepted__host__header">Video Charge/sec</th>
+              <th className="accepted__host__header">Leader</th>
+              <th className="accepted__host__header">Details</th>
+              <th className="accepted__host__header">Action</th>
+            </thead>
+            <tbody>
+              {acceptedHost.length > 0
+                ? acceptedHost.map((data, index) => {
+                    return (
+                      <tr>
+                        <td className="accepted__host__data">
+                          {(page - 1) * perPage + index + 1}
+                        </td>
+                        <td className="accepted__host__data">{data?._id}</td>
+                        <td className="accepted__host__data">{data?.name}</td>
+                        <td className="accepted__host__data">
+                          {data?.dateOfBirth}
+                        </td>
+                        <td className="accepted__host__data">{data?.age}</td>
+                        <td className="accepted__host__data">
+                          {data?.mobileNumber}
+                        </td>
+                        <td className="accepted__host__data">{data?.email}</td>
+                        <td className="accepted__host__data">
+                          {data?.profilePic && (
+                            <BsFillEyeFill
+                              className="eye__btn"
+                              onClick={() => handleProfilePic(data?.profilePic)}
+                            />
+                          )}
+                        </td>
+                        <td className="accepted__host__data">
+                          {data?.presentationPic && (
+                            <BsFillEyeFill
+                              className="eye__btn"
+                              onClick={() =>
+                                handlePresentationPic(data?.presentationPic)
+                              }
+                            />
+                          )}
+                        </td>
+                        <td className="accepted__host__data">
+                          {moment(data?.acceptedDate).format("DD/MM/YYYY LT")}
+                        </td>
+                        <td className="accepted__host__data">
+                          {data?.audioCall_fees}
 
-                        <AiFillEdit
-                          className="accepted__host__edit_icon"
-                          onClick={() => {
-                            handleAudioCallCharge(
-                              data?._id,
-                              data?.audioCall_fees
-                            );
-                          }}
-                        />
-                      </td>
-                      <td className="accepted__host__data">
-                        {data?.hostuser_fees}
-                        <AiFillEdit
-                          className="accepted__host__edit_icon"
-                          onClick={() => {
-                            handleChangeCharge(data?._id);
-                          }}
-                        />
-                      </td>
-                      <td className="accepted__host__data">
-                        <div className="host__leader__edit">
-                          {data?.leader?.leaderName}
                           <AiFillEdit
                             className="accepted__host__edit_icon"
                             onClick={() => {
-                              handleChangeLeader(data?._id);
+                              handleAudioCallCharge(
+                                data?._id,
+                                data?.audioCall_fees
+                              );
                             }}
                           />
-                        </div>
-                      </td>
-                      <td
-                        className="accepted__host__view accepted__host__data"
-                        onClick={() => {
-                          navigate(`/hostmanagement/${data?._id}`);
-                        }}
-                      >
-                        View
-                      </td>
-                      <td className="accepted__host__data">
-                        <AiFillEdit
+                        </td>
+                        <td className="accepted__host__data">
+                          {data?.hostuser_fees}
+                          <AiFillEdit
+                            className="accepted__host__edit_icon"
+                            onClick={() => {
+                              handleChangeCharge(data?._id);
+                            }}
+                          />
+                        </td>
+                        <td className="accepted__host__data">
+                          <div className="host__leader__edit">
+                            {data?.leader?.leaderName}
+                            <AiFillEdit
+                              className="accepted__host__edit_icon"
+                              onClick={() => {
+                                handleChangeLeader(data?._id);
+                              }}
+                            />
+                          </div>
+                        </td>
+                        <td
+                          className="accepted__host__view accepted__host__data"
                           onClick={() => {
-                            navigate(`/hostmanagement/moment/${data?._id}/`);
+                            navigate(`/hostmanagement/${data?._id}`);
                           }}
-                          className="accepted__host__edit__icon"
-                        />
-                        <AiFillDelete
-                          onClick={() => {
-                            handleDeleteAcceptedHost(data?._id);
-                          }}
-                          className="accepted__host__delete__icon"
-                        />
-                      </td>
-                    </tr>
-                  );
-                })
-              : null}
-          </tbody>
-        </table>
+                        >
+                          View
+                        </td>
+                        <td className="accepted__host__data">
+                          <AiFillEdit
+                            onClick={() => {
+                              navigate(`/hostmanagement/moment/${data?._id}/`);
+                            }}
+                            className="accepted__host__edit__icon"
+                          />
+                          <AiFillDelete
+                            onClick={() => {
+                              handleDeleteAcceptedHost(data?._id);
+                            }}
+                            className="accepted__host__delete__icon"
+                          />
+                        </td>
+                      </tr>
+                    );
+                  })
+                : null}
+            </tbody>
+          </table>
+        </div>
+
+        <ImagePopUpModal
+          open={showProfileAlert}
+          handleClose={handleProfilePicClose}
+          img={img}
+        />
+
+        <ImagePopUpModal
+          open={showMultipleImages}
+          handleClose={handlePresentationPicClose}
+          images={images}
+        />
+
+        {acceptedHost.length > 0 ? (
+          <Pagination
+            page={page}
+            setPage={setPage}
+            totalCount={totalCount}
+            totalPages={totalPages}
+            setPerPage={setPerPage}
+            perPage={perPage}
+            options={[5, 10, 15, 20]}
+          />
+        ) : (
+          !loader.loaderPopup && (
+            <div className="host__no__data__found__icon">
+              <Lottie
+                options={{ animationData: noData, loop: true }}
+                style={{ width: "20rem", height: "20rem" }}
+              />
+              <p className="no__data__found">No Data Found</p>
+            </div>
+          )
+        )}
+
+        <AlertPopUp
+          open={showDeleteAlert}
+          handleOpen={handleDeleteAcceptedHostAlert}
+          handleClose={handleDeleteAcceptedHostAlertClose}
+          header="Delete Accepted Host"
+          description="Are you sure you want to delete this accepted host?"
+          submitText="Yes"
+          onCancelClick={handleDeleteAcceptedHostAlertClose}
+          cancelText="No"
+          onSubmitClick={handleDeletedAcceptedHost}
+        />
+
+        <AlertPopUp
+          open={showChangeLeaderAlert}
+          handleOpen={handleChangeLeader}
+          handleClose={handleChangeLeaderClose}
+          submitText="Submit"
+          cancelText="Cancel"
+          dropdown={true}
+          dropdownOptions={leaderNames}
+          onChangeDropdown={(e) => setLeaderId(e.target.value)}
+          onSubmitClick={handleAcceptedHostLeader}
+          onCancelClick={handleChangeLeaderClose}
+        />
+
+        <FormAlertPopUp
+          open={showChargeAlert}
+          onRequestClose={handleChangeChargeClose}
+          submitText="Submit"
+        >
+          <HostVideoCallCharge
+            id={id}
+            getAcceptedHost={getAcceptedHost}
+            setShowChargeAlert={setShowChargeAlert}
+          />
+        </FormAlertPopUp>
+
+        <FormAlertPopUp
+          open={showAudioAlert}
+          onRequestClose={handleAudioCallChargeClose}
+          handleOpen={handleAudioCallCharge}
+        >
+          <HostAudioCharge
+            id={id}
+            getAcceptedHost={getAcceptedHost}
+            setShowAudioAlert={setShowAudioAlert}
+          />
+        </FormAlertPopUp>
       </div>
-
-      <ImagePopUpModal
-        open={showProfileAlert}
-        handleClose={handleProfilePicClose}
-        img={img}
-      />
-
-      <ImagePopUpModal
-        open={showMultipleImages}
-        handleClose={handlePresentationPicClose}
-        images={images}
-      />
-
-      {acceptedHost.length > 0 ? (
-        <Pagination
-          page={page}
-          setPage={setPage}
-          totalCount={totalCount}
-          totalPages={totalPages}
-          setPerPage={setPerPage}
-          perPage={perPage}
-          options={[5, 10, 15, 20]}
-        />
-      ) : (
-        !loader.loaderPopup && (
-          <div className="host__no__data__found__icon">
-            <Lottie
-              options={{ animationData: noData, loop: true }}
-              style={{ width: "20rem", height: "20rem" }}
-            />
-            <p className="no__data__found">No Data Found</p>
-          </div>
-        )
-      )}
-
-      <AlertPopUp
-        open={showDeleteAlert}
-        handleOpen={handleDeleteAcceptedHostAlert}
-        handleClose={handleDeleteAcceptedHostAlertClose}
-        header="Delete Accepted Host"
-        description="Are you sure you want to delete this accepted host?"
-        submitText="Yes"
-        onCancelClick={handleDeleteAcceptedHostAlertClose}
-        cancelText="No"
-        onSubmitClick={handleDeletedAcceptedHost}
-      />
-
-      <AlertPopUp
-        open={showChangeLeaderAlert}
-        handleOpen={handleChangeLeader}
-        handleClose={handleChangeLeaderClose}
-        submitText="Submit"
-        cancelText="Cancel"
-        dropdown={true}
-        dropdownOptions={leaderNames}
-        onChangeDropdown={(e) => setLeaderId(e.target.value)}
-        onSubmitClick={handleAcceptedHostLeader}
-        onCancelClick={handleChangeLeaderClose}
-      />
-
-      <FormAlertPopUp
-        open={showChargeAlert}
-        onRequestClose={handleChangeChargeClose}
-        submitText="Submit"
-      >
-        <HostVideoCallCharge
-          id={id}
-          getAcceptedHost={getAcceptedHost}
-          setShowChargeAlert={setShowChargeAlert}
-        />
-      </FormAlertPopUp>
-
-      <FormAlertPopUp
-        open={showAudioAlert}
-        onRequestClose={handleAudioCallChargeClose}
-        handleOpen={handleAudioCallCharge}
-      >
-        <HostAudioCharge
-          id={id}
-          getAcceptedHost={getAcceptedHost}
-          setShowAudioAlert={setShowAudioAlert}
-        />
-      </FormAlertPopUp>
-    </div>
+    </>
   );
 };
 

@@ -1,9 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import "./style.css";
 import AlertPopUp from "../AlertPopUp";
 import { useState } from "react";
 import FormAlertPopUp from "../FormAlertPopUp";
 import Helpline from "../FormAlertPopUp/Helpline";
+import "./style.css";
 
 const PopMenu = ({ popOpen, children }) => {
   const [logoutAlert, setLogoutAlert] = useState(false);
@@ -11,10 +11,8 @@ const PopMenu = ({ popOpen, children }) => {
 
   let navigate = useNavigate();
   const searchParams = useLocation();
-  console.log(searchParams.search, "hhhhhhhhhhhhhhhhhhhhhhh");
 
   const handleLogout = () => {
-    console.log("sorry");
     localStorage.clear();
     navigate("/");
   };
@@ -59,6 +57,7 @@ const PopMenu = ({ popOpen, children }) => {
           <p className="logout_para" onClick={handleHelplineNumber}>
             Helpline
           </p>
+
           {searchParams.search === "?appType=catchwoo" ? (
             <a href="/dashboard" target="_blank">
               <p className="logout_para">Shudh Love</p>
@@ -68,7 +67,8 @@ const PopMenu = ({ popOpen, children }) => {
               <p className="logout_para">Catchwoo</p>
             </a>
           )}
-          <a href="/hostrequest" target="_blank">
+
+          <a href="/dashboard?appType=host" target="_blank">
             <p className="logout_para">Hosts</p>
           </a>
 

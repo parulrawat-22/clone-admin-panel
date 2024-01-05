@@ -59,8 +59,22 @@ const Router = () => {
       <Route path="/forgotpassword" element={<ForgotPassword />}></Route>
       <Route path="/enterotp" element={<EnterOtp />}></Route>
       <Route path="/newpassword/:email" element={<NewPassword />}></Route>
-      <Route path="/dashboard" element={<Dashboard />}></Route>
-      <Route path="/banner" element={<Banner />} />
+      <Route
+        path="/dashboard"
+        element={
+          <Layout>
+            <Dashboard />
+          </Layout>
+        }
+      ></Route>
+      <Route
+        path="/banner"
+        element={
+          <Layout>
+            <Banner />
+          </Layout>
+        }
+      />
       <Route
         path="/usermanagement/:id"
         element={
@@ -77,8 +91,22 @@ const Router = () => {
           </Layout>
         }
       />
-      <Route path="/bucket" element={<Bucket />} />
-      <Route path="/report" element={<Report />} />
+      <Route
+        path="/bucket"
+        element={
+          <Layout>
+            <Bucket />
+          </Layout>
+        }
+      />
+      <Route
+        path="/report"
+        element={
+          <Layout>
+            <Report />
+          </Layout>
+        }
+      />
       <Route path={`/allusers`} element={<UserRequest />} />
       <Route
         path="/userfollowing"
@@ -112,13 +140,62 @@ const Router = () => {
           </Layout>
         }
       />
-      <Route path="/rejectedhost" element={<RejectedHost />} />
-      <Route path="/hostrequest" element={<HostRequest />} />
-      <Route path="/warnedusers" element={<WarnedUsers />} />
-      <Route path="/leader" element={<Leader />} />
-      <Route path="/suspendusers" element={<SuspendedUsers />} />
-      <Route path="/feedback" element={<Feedback />} />
-      <Route path="/gift" element={<Gifts />} />
+      <Route
+        path="/rejectedhost"
+        element={
+          <Layout>
+            <RejectedHost />
+          </Layout>
+        }
+      />
+      <Route
+        path="/hostrequest"
+        element={
+          <Layout>
+            <HostRequest />
+          </Layout>
+        }
+      />
+      <Route
+        path="/warnedusers"
+        element={
+          <Layout>
+            <WarnedUsers />
+          </Layout>
+        }
+      />
+      <Route
+        path="/leader"
+        element={
+          <Layout>
+            <Leader />
+          </Layout>
+        }
+      />
+      <Route
+        path="/suspendusers"
+        element={
+          <Layout>
+            <SuspendedUsers />
+          </Layout>
+        }
+      />
+      <Route
+        path="/feedback"
+        element={
+          <Layout>
+            <Feedback />
+          </Layout>
+        }
+      />
+      <Route
+        path="/gift"
+        element={
+          <Layout>
+            <Gifts />
+          </Layout>
+        }
+      />
       <Route
         path="sticker"
         element={

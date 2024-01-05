@@ -129,139 +129,140 @@ const MomentTable = () => {
     return <FiSearch />;
   };
   return (
-    <div className="moment__container">
-      <div className="banner__search__btn">
-        <SearchInput
-          value={value}
-          onChange={handleText}
-          placeholder="Search"
-          icon={searchIcon()}
-        />
-      </div>
-      <div className="table_parent_box">
-        <table className="moment__table__container">
-          <thead>
-            <th className="moment__table__head">S.No</th>
-            {!id && <th className="moment__table__head">Name</th>}
-            <th className="moment__table__head">Caption</th>
-            <th className="moment__table__head">Likes</th>
-            <th className="moment__table__head">Image/Video</th>
-            <th className="moment__table__head">Created At</th>
-            <th className="moment__table__head">Action</th>
-          </thead>
-          <tbody>
-            {getUserMoment.length > 0
-              ? getUserMoment.map((data, index) => {
-                  return (
-                    <tr>
-                      <td className="moment__table__body">
-                        {(page - 1) * perPage + index + 1}
-                      </td>
-                      {!id && (
+    <>
+      <SearchInput
+        value={value}
+        onChange={handleText}
+        placeholder="Search"
+        icon={searchIcon()}
+      />
+      <div className="moment__container">
+        <div className="table_parent_box">
+          <table className="moment__table__container">
+            <thead>
+              <th className="moment__table__head">S.No</th>
+              {!id && <th className="moment__table__head">Name</th>}
+              <th className="moment__table__head">Caption</th>
+              <th className="moment__table__head">Likes</th>
+              <th className="moment__table__head">Image/Video</th>
+              <th className="moment__table__head">Created At</th>
+              <th className="moment__table__head">Action</th>
+            </thead>
+            <tbody>
+              {getUserMoment.length > 0
+                ? getUserMoment.map((data, index) => {
+                    return (
+                      <tr>
+                        <td className="moment__table__body">
+                          {(page - 1) * perPage + index + 1}
+                        </td>
+                        {!id && (
+                          <td className="moment__table__body">
+                            <div
+                              className="feedback__table__comment"
+                              onClick={
+                                data?.userId?.name.length > 12
+                                  ? () =>
+                                      modalProvider.handleCommentClick(
+                                        data?.userId?.name,
+                                        "Name"
+                                      )
+                                  : () => {}
+                              }
+                            >
+                              {data?.userId?.name}
+                            </div>
+                          </td>
+                        )}
                         <td className="moment__table__body">
                           <div
                             className="feedback__table__comment"
                             onClick={
-                              data?.userId?.name.length > 12
+                              data?.subject.length > 12
                                 ? () =>
                                     modalProvider.handleCommentClick(
-                                      data?.userId?.name,
-                                      "Name"
+                                      data?.subject,
+                                      "Caption"
                                     )
                                 : () => {}
                             }
                           >
-                            {data?.userId?.name}
+                            {data?.subject}
                           </div>
                         </td>
-                      )}
-                      <td className="moment__table__body">
-                        <div
-                          className="feedback__table__comment"
-                          onClick={
-                            data?.subject.length > 12
-                              ? () =>
-                                  modalProvider.handleCommentClick(
-                                    data?.subject,
-                                    "Caption"
-                                  )
-                              : () => {}
-                          }
-                        >
-                          {data?.subject}
-                        </div>
-                      </td>
-                      <td className="moment__table__body">{data?.likes}</td>
+                        <td className="moment__table__body">{data?.likes}</td>
 
-                      <td className="moment__table__body">
-                        {data?.postImage && (
-                          <BsFillEyeFill
+                        <td className="moment__table__body">
+                          {data?.postImage && (
+                            <BsFillEyeFill
+                              onClick={() => {
+                                handleImageAlert(data?.postImage);
+                              }}
+                              className="moment__table__body__eye_icon"
+                            />
+                          )}
+                        </td>
+                        <td className="moment__table__body">
+                          {moment(data?.postDate).format("DD/MM/YYYY LT")}
+                        </td>
+                        <td className="moment__table__body">
+                          <AiFillEdit className="moment__table__edit_icon" />
+                          <AiTwotoneDelete
                             onClick={() => {
-                              handleImageAlert(data?.postImage);
+                              handleOnClickAlert(data._id);
                             }}
-                            className="moment__table__body__eye_icon"
+                            className="moment__table__delete_icon"
                           />
-                        )}
-                      </td>
-                      <td className="moment__table__body">
-                        {moment(data?.postDate).format("DD/MM/YYYY LT")}
-                      </td>
-                      <td className="moment__table__body">
-                        <AiFillEdit className="moment__table__edit_icon" />
-                        <AiTwotoneDelete
-                          onClick={() => {
-                            handleOnClickAlert(data._id);
-                          }}
-                          className="moment__table__delete_icon"
-                        />
-                      </td>
-                    </tr>
-                  );
-                })
-              : null}
-          </tbody>
-        </table>
-      </div>
+                        </td>
+                      </tr>
+                    );
+                  })
+                : null}
+            </tbody>
+          </table>
+        </div>
 
-      {getUserMoment.length > 0 ? (
-        <Pagination
-          page={page}
-          setPage={setPage}
-          perPage={perPage}
-          setPerPage={setPerPage}
-          totalCount={totalCount}
-          totalPages={totalPages}
-          options={[5, 10, 15, 20]}
+        {getUserMoment.length > 0 ? (
+          <Pagination
+            page={page}
+            setPage={setPage}
+            perPage={perPage}
+            setPerPage={setPerPage}
+            totalCount={totalCount}
+            totalPages={totalPages}
+            options={[5, 10, 15, 20]}
+          />
+        ) : (
+          !loader.loaderPopup && (
+            <div className="host__no__data__found__icon">
+              <Lottie
+                options={{ animationData: noData, loop: true }}
+                style={{ width: "20rem", height: "20rem" }}
+              />
+              <p className="host__no_data_found">No Data Found</p>
+            </div>
+          )
+        )}
+
+        <AlertPopUp
+          open={showDeleteAlert}
+          handleOpen={handleDeleteAlert}
+          handleClose={handleDeleteAlertClose}
+          header="Delete Moment?"
+          description="Are you sure you want to delete this Moment?"
+          submitText="Yes"
+          onCancelClick={handleDeleteCancel}
+          onSubmitClick={handleDeleteApi}
+          cancelText="No"
         />
-      ) : (
-        !loader.loaderPopup && (
-          <div>
-            <Lottie
-              options={{ animationData: noData, loop: true }}
-              style={{ width: "10rem", height: "10rem" }}
-            />
-          </div>
-        )
-      )}
 
-      <AlertPopUp
-        open={showDeleteAlert}
-        handleOpen={handleDeleteAlert}
-        handleClose={handleDeleteAlertClose}
-        header="Delete Moment?"
-        description="Are you sure you want to delete this Moment?"
-        submitText="Yes"
-        onCancelClick={handleDeleteCancel}
-        onSubmitClick={handleDeleteApi}
-        cancelText="No"
-      />
-
-      <ImagePopUpModal
-        open={showImageAlert}
-        handleClose={handleImageAlertClose}
-        img={img}
-      />
-    </div>
+        <ImagePopUpModal
+          open={showImageAlert}
+          handleClose={handleImageAlertClose}
+          img={img}
+        />
+      </div>
+    </>
   );
 };
 

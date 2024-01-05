@@ -167,6 +167,8 @@ const SidebarProvider = ({ children }) => {
 
   useEffect(() => {
     setSelectedType(sessionStorage.getItem("selectedType"));
+
+    console.log("selectedType", selectedType);
   }, []);
 
   useEffect(() => {
@@ -174,6 +176,12 @@ const SidebarProvider = ({ children }) => {
       const updatedSidebar = SidebarData.map((sidebar) => ({
         ...sidebar,
         link: `${sidebar?.link}?appType=catchwoo`,
+      }));
+      setSidebarContent(updatedSidebar);
+    } else if (selectedType === "host") {
+      const updatedSidebar = SidebarData.map((sidebar) => ({
+        ...sidebar,
+        link: `${sidebar?.link}?appType=host`,
       }));
       setSidebarContent(updatedSidebar);
     } else {

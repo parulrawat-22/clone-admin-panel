@@ -116,113 +116,113 @@ const RejectedHostTable = () => {
   };
 
   return (
-    <div className="rejected__host__container">
-      <div className="banner__search__btn">
-        <SearchInput
-          value={value}
-          onChange={handleText}
-          placeholder="Search"
-          icon={searchIcon()}
+    <>
+      <SearchInput
+        value={value}
+        onChange={handleText}
+        placeholder="Search"
+        icon={searchIcon()}
+      />
+      <div className="rejected__host__container">
+        <div className="table_parent_box">
+          <table className="rejected__host__table">
+            <thead>
+              <th className="rejected__host__header">S.No.</th>
+              <th className="rejected__host__header">Host ID</th>
+              <th className="rejected__host__header">Name</th>
+              <th className="rejected__host__header">Date Of Birth</th>
+              <th className="rejected__host__header">Email</th>
+              <th className="rejected__host__header">Mobile Number</th>
+              <th className="rejected__host__header">Rejected At</th>
+              <th className="rejected__host__header">Rejected Reason</th>
+              <th className="rejected__host__header">Profile Pic</th>
+              {/* <th className="rejected__host__header">Details</th> */}
+              <th className="rejected__host__header">Action</th>
+            </thead>
+            <tbody>
+              {rejectedHost.length > 0
+                ? rejectedHost.map((data, index) => {
+                    return (
+                      <tr>
+                        <td className="rejected__host__data">{index + 1}</td>
+                        <td className="rejected__host__data">{data?._id}</td>
+                        <td className="rejected__host__data">{data?.name}</td>
+                        <td className="rejected__host__data">
+                          {data?.dateOfBirth}
+                        </td>
+                        <td className="rejected__host__data">{data?.email}</td>
+                        <td className="rejected__host__data">
+                          {data?.mobileNumber}
+                        </td>
+                        <td className="rejected__host__data">
+                          {moment(data?.rejectedDate).format("DD/MM/YYYY LT")}
+                        </td>
+                        <td className="rejected__host__data">
+                          {data?.rejectedReason}
+                        </td>
+                        <td className="rejected__host__data">
+                          <AiFillEye
+                            className="rejected__host__eye__icon"
+                            onClick={() => handleImageAlert(data?.profilePic)}
+                          />
+                        </td>
+                        {/* <td className="rejected__host__data">View</td> */}
+                        <td className="rejected__host__data">
+                          {/* <AiFillEdit className="rejected__host__edit__icon" /> */}
+                          <AiFillDelete
+                            className="rejected__host__delete__icon"
+                            onClick={() => handleRejectedHostDelete(data._id)}
+                          />
+                        </td>
+                      </tr>
+                    );
+                  })
+                : null}
+            </tbody>
+          </table>
+        </div>
+
+        {rejectedHost.length > 0 ? (
+          <Pagination
+            page={page}
+            setPage={setPage}
+            totalCount={totalCount}
+            totalPages={totalPages}
+            options={[5, 10, 15, 20]}
+            perPage={perPage}
+            setPerPage={setPerPage}
+          />
+        ) : (
+          !loader.loaderPopup && (
+            <div className="host__no__data__found__icon">
+              <Lottie
+                options={{ animationData: noData, loop: true }}
+                style={{ width: "20rem", height: "20rem" }}
+              />
+              <p className="no__data__found">No Data Found</p>
+            </div>
+          )
+        )}
+
+        <AlertPopUp
+          open={showDeleteAlert}
+          handleOpen={handleRejectedHostDelete}
+          handleClose={handleRejectedHostDeleteClose}
+          header="Delete Alert"
+          description="Are you sure you want to delete this rejected host?"
+          submitText="Yes"
+          cancelText="No"
+          onSubmitClick={handleDeleteRejectedHost}
+          onCancelClick={handleCancelRejectedHost}
+        />
+
+        <ImagePopUpModal
+          open={showImageAlert}
+          handleClose={handleImageAlertClose}
+          img={img}
         />
       </div>
-      <div className="table_parent_box">
-        <table className="rejected__host__table">
-          <thead>
-            <th className="rejected__host__header">S.No.</th>
-            <th className="rejected__host__header">Host ID</th>
-            <th className="rejected__host__header">Name</th>
-            <th className="rejected__host__header">Date Of Birth</th>
-            <th className="rejected__host__header">Email</th>
-            <th className="rejected__host__header">Mobile Number</th>
-            <th className="rejected__host__header">Rejected At</th>
-            <th className="rejected__host__header">Rejected Reason</th>
-            <th className="rejected__host__header">Profile Pic</th>
-            {/* <th className="rejected__host__header">Details</th> */}
-            <th className="rejected__host__header">Action</th>
-          </thead>
-          <tbody>
-            {rejectedHost.length > 0
-              ? rejectedHost.map((data, index) => {
-                  return (
-                    <tr>
-                      <td className="rejected__host__data">{index + 1}</td>
-                      <td className="rejected__host__data">{data?._id}</td>
-                      <td className="rejected__host__data">{data?.name}</td>
-                      <td className="rejected__host__data">
-                        {data?.dateOfBirth}
-                      </td>
-                      <td className="rejected__host__data">{data?.email}</td>
-                      <td className="rejected__host__data">
-                        {data?.mobileNumber}
-                      </td>
-                      <td className="rejected__host__data">
-                        {moment(data?.rejectedDate).format("DD/MM/YYYY LT")}
-                      </td>
-                      <td className="rejected__host__data">
-                        {data?.rejectedReason}
-                      </td>
-                      <td className="rejected__host__data">
-                        <AiFillEye
-                          className="rejected__host__eye__icon"
-                          onClick={() => handleImageAlert(data?.profilePic)}
-                        />
-                      </td>
-                      {/* <td className="rejected__host__data">View</td> */}
-                      <td className="rejected__host__data">
-                        {/* <AiFillEdit className="rejected__host__edit__icon" /> */}
-                        <AiFillDelete
-                          className="rejected__host__delete__icon"
-                          onClick={() => handleRejectedHostDelete(data._id)}
-                        />
-                      </td>
-                    </tr>
-                  );
-                })
-              : null}
-          </tbody>
-        </table>
-      </div>
-
-      {rejectedHost.length > 0 ? (
-        <Pagination
-          page={page}
-          setPage={setPage}
-          totalCount={totalCount}
-          totalPages={totalPages}
-          options={[5, 10, 15, 20]}
-          perPage={perPage}
-          setPerPage={setPerPage}
-        />
-      ) : (
-        !loader.loaderPopup && (
-          <div className="host__no__data__found__icon">
-            <Lottie
-              options={{ animationData: noData, loop: true }}
-              style={{ width: "20rem", height: "20rem" }}
-            />
-            <p className="no__data__found">No Data Found</p>
-          </div>
-        )
-      )}
-
-      <AlertPopUp
-        open={showDeleteAlert}
-        handleOpen={handleRejectedHostDelete}
-        handleClose={handleRejectedHostDeleteClose}
-        header="Delete Alert"
-        description="Are you sure you want to delete this rejected host?"
-        submitText="Yes"
-        cancelText="No"
-        onSubmitClick={handleDeleteRejectedHost}
-        onCancelClick={handleCancelRejectedHost}
-      />
-
-      <ImagePopUpModal
-        open={showImageAlert}
-        handleClose={handleImageAlertClose}
-        img={img}
-      />
-    </div>
+    </>
   );
 };
 

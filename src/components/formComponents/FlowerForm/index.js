@@ -8,35 +8,38 @@ import InputField from "../../library/InputField";
 import "./style.css";
 import { useApi } from "../../../base/Context/apiProvider";
 
-const FlowerForm = ({ flowerData, onSubmit, id }) => {
+const FlowerForm = ({ flowerData, onSubmit }) => {
   const loader = useLoader();
   const [name, setName] = useState(flowerData.name);
   const [price, setPrice] = useState(flowerData.price);
-  const [giftUploadImage, setGiftUploadImage] = useState("");
+  const [image, setImage] = useState("");
   const apiProvider = useApi();
 
   const handleEditForm = () => {
     loader.showLoader(true);
+    let data = {
+      name,
+      price,
+      image,
+    };
     fetchDataFromAPI(
-      apiProvider?.apiUrl + NetworkConfiguration.UPDATEGIFT,
+      apiProvider?.apiUrl + NetworkConfiguration.UPDATEFLOWER,
       "PUT",
+      data,
       {
-        id,
-        name,
-        price,
-        giftUploadImage,
+        "Content-Type": "multipart/form-data",
       }
     )
       .then((res) => {
         loader.showLoader(false);
         console.log(res);
-        successToast("Gift updated successfully");
         onSubmit();
+        successToast(res?.message);
       })
       .catch((err) => {
         loader.showLoader(false);
         console.log(err);
-        errorToast(err.message);
+        errorToast(err?.message);
       });
   };
   return (
@@ -52,11 +55,7 @@ const FlowerForm = ({ flowerData, onSubmit, id }) => {
         />
         <br />
 
-        <InputField
-          // value={giftUploadImage}
-          type="file"
-          onChange={(e) => setGiftUploadImage(e.target.files[0])}
-        />
+        <InputField type="file" onChange={(e) => setImage(e.target.files[0])} />
         <br />
         <Button
           className="add__gift__form__btn"

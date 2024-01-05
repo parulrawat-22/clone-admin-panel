@@ -115,171 +115,173 @@ const FeedbackUserTable = () => {
   };
 
   return (
-    <div className="feedback__container">
-      <div className="banner__search__btn">
-        <SearchInput
-          value={value}
-          onChange={handleText}
-          placeholder="Search"
-          icon={searchIcon()}
-        />
-      </div>
-      <div className="table_parent_box">
-        <table className="feedback__table__container">
-          <thead>
-            <th className="feedback__table__heading">S.No.</th>
-            {!id && (
-              <>
-                <th className="feedback__table__heading">User ID</th>
-                <th className="feedback__table__heading">User Name</th>
-              </>
-            )}
-            <th className="feedback__table__heading">Title</th>
-            <th className="feedback__table__heading">Description</th>
-            <th className="feedback__table__heading">Image/Video</th>
-            <th className="feedback__table__heading">Contact Details </th>
-            <th className="feedback__table__heading">Created At</th>
-            <th className="feedback__table__heading">Revert Back</th>
-          </thead>
-          <tbody>
-            {feedback.length > 0
-              ? feedback.map((data, index) => {
-                  return (
-                    <tr>
-                      <td className="feedback__table__data">
-                        {" "}
-                        {(page - 1) * perPage + index + 1}
-                      </td>
-                      {!id && (
-                        <>
-                          <td className="feedback__table__data">{data?._id}</td>
-                          <td className="feedback__table__data">
-                            <div
-                              className="feedback__table__comment"
-                              onClick={
-                                data?.userId?.name.length > 10
-                                  ? () =>
-                                      modalProvider.handleCommentClick(
-                                        data?.userId?.name,
-                                        "User Name"
-                                      )
-                                  : () => {}
-                              }
-                            >
-                              {data?.userId?.name}
-                            </div>
-                          </td>
-                        </>
-                      )}
-                      <td className="feedback__table__data">
-                        {data?.feedbackType}
-                      </td>
-                      <td className="feedback__table__data">
-                        <div
-                          className="feedback__table__comment"
-                          onClick={
-                            data?.comment.length > 0
-                              ? () =>
-                                  modalProvider.handleCommentClick(
-                                    data?.comment,
-                                    "Description"
-                                  )
-                              : () => {}
-                          }
-                        >
-                          {data?.comment}
-                        </div>
-                      </td>
-
-                      <td className="feedback__table__data">
-                        <AiFillEye
-                          onClick={() => {
-                            handleShowImage(data?.feedbackImage);
-                          }}
-                          className="feedback__table__eye__icon"
-                        />
-                      </td>
-                      <td className="feedback__table__data">
-                        {data?.contact || data?.email}
-                      </td>
-                      <td className="feedback__table__data">
-                        {moment(data.createdAt).format("DD/MM/YYYY LT")}
-                      </td>
-
-                      {data?.trackStatus[1]?.response ? (
+    <>
+      <SearchInput
+        value={value}
+        onChange={handleText}
+        placeholder="Search"
+        icon={searchIcon()}
+      />
+      <div className="feedback__container">
+        <div className="table_parent_box">
+          <table className="feedback__table__container">
+            <thead>
+              <th className="feedback__table__heading">S.No.</th>
+              {!id && (
+                <>
+                  <th className="feedback__table__heading">User ID</th>
+                  <th className="feedback__table__heading">User Name</th>
+                </>
+              )}
+              <th className="feedback__table__heading">Title</th>
+              <th className="feedback__table__heading">Description</th>
+              <th className="feedback__table__heading">Image/Video</th>
+              <th className="feedback__table__heading">Contact Details </th>
+              <th className="feedback__table__heading">Created At</th>
+              <th className="feedback__table__heading">Revert Back</th>
+            </thead>
+            <tbody>
+              {feedback.length > 0
+                ? feedback.map((data, index) => {
+                    return (
+                      <tr>
+                        <td className="feedback__table__data">
+                          {" "}
+                          {(page - 1) * perPage + index + 1}
+                        </td>
+                        {!id && (
+                          <>
+                            <td className="feedback__table__data">
+                              {data?._id}
+                            </td>
+                            <td className="feedback__table__data">
+                              <div
+                                className="feedback__table__comment"
+                                onClick={
+                                  data?.userId?.name.length > 10
+                                    ? () =>
+                                        modalProvider.handleCommentClick(
+                                          data?.userId?.name,
+                                          "User Name"
+                                        )
+                                    : () => {}
+                                }
+                              >
+                                {data?.userId?.name}
+                              </div>
+                            </td>
+                          </>
+                        )}
+                        <td className="feedback__table__data">
+                          {data?.feedbackType}
+                        </td>
                         <td className="feedback__table__data">
                           <div
                             className="feedback__table__comment"
                             onClick={
-                              data?.trackStatus[1]?.response.length > 12
+                              data?.comment.length > 0
                                 ? () =>
                                     modalProvider.handleCommentClick(
-                                      data?.trackStatus[1]?.response,
-                                      "Revert"
+                                      data?.comment,
+                                      "Description"
                                     )
                                 : () => {}
                             }
                           >
-                            {data?.trackStatus[1]?.response}
+                            {data?.comment}
                           </div>
                         </td>
-                      ) : (
-                        <td
-                          onClick={() => handleFeedbackRevert(data?._id)}
-                          className="feedback__table__data feedback__table__reply"
-                        >
-                          Reply
+
+                        <td className="feedback__table__data">
+                          <AiFillEye
+                            onClick={() => {
+                              handleShowImage(data?.feedbackImage);
+                            }}
+                            className="feedback__table__eye__icon"
+                          />
                         </td>
-                      )}
-                    </tr>
-                  );
-                })
-              : null}
-          </tbody>
-        </table>
-      </div>
+                        <td className="feedback__table__data">
+                          {data?.contact || data?.email}
+                        </td>
+                        <td className="feedback__table__data">
+                          {moment(data.createdAt).format("DD/MM/YYYY LT")}
+                        </td>
 
-      {feedback.length > 0 ? (
-        <Pagination
-          page={page}
-          setPage={setPage}
-          totalCount={totalCount}
-          totalPages={totalPages}
-          setPerPage={setPerPage}
-          perPage={perPage}
-          options={[5, 10, 15, 20]}
+                        {data?.trackStatus[1]?.response ? (
+                          <td className="feedback__table__data">
+                            <div
+                              className="feedback__table__comment"
+                              onClick={
+                                data?.trackStatus[1]?.response.length > 12
+                                  ? () =>
+                                      modalProvider.handleCommentClick(
+                                        data?.trackStatus[1]?.response,
+                                        "Revert"
+                                      )
+                                  : () => {}
+                              }
+                            >
+                              {data?.trackStatus[1]?.response}
+                            </div>
+                          </td>
+                        ) : (
+                          <td
+                            onClick={() => handleFeedbackRevert(data?._id)}
+                            className="feedback__table__data feedback__table__reply"
+                          >
+                            Reply
+                          </td>
+                        )}
+                      </tr>
+                    );
+                  })
+                : null}
+            </tbody>
+          </table>
+        </div>
+
+        {feedback.length > 0 ? (
+          <Pagination
+            page={page}
+            setPage={setPage}
+            totalCount={totalCount}
+            totalPages={totalPages}
+            setPerPage={setPerPage}
+            perPage={perPage}
+            options={[5, 10, 15, 20]}
+          />
+        ) : (
+          !loader.loaderPopup && (
+            <div className="host__no__data__found__icon">
+              <Lottie
+                options={{ animationData: noData, loop: true }}
+                style={{ width: "20rem", height: "20rem" }}
+              />
+              <p className="no__data__found">No Data Found</p>
+            </div>
+          )
+        )}
+        <AlertPopUp
+          open={showRevertAlert}
+          handleOpen={handleFeedbackRevert}
+          handleClose={handleFeedbackRevertClose}
+          submitText="Submit"
+          cancelText="Cancel"
+          onSubmitClick={handleFeedbackReply}
+          onCancelClick={handleFeedbackRevertClose}
+          onChangeField={(e) => {
+            setReplyFeedback(e.target.value);
+          }}
+          textField={true}
         />
-      ) : (
-        !loader.loaderPopup && (
-          <div className="host__no__data__found__icon">
-            <Lottie
-              options={{ animationData: noData, loop: true }}
-              style={{ width: "20rem", height: "20rem" }}
-            />
-            <p className="no__data__found">No Data Found</p>
-          </div>
-        )
-      )}
-      <AlertPopUp
-        open={showRevertAlert}
-        handleOpen={handleFeedbackRevert}
-        handleClose={handleFeedbackRevertClose}
-        submitText="Submit"
-        cancelText="Cancel"
-        onSubmitClick={handleFeedbackReply}
-        onCancelClick={handleFeedbackRevertClose}
-        onChangeField={(e) => {
-          setReplyFeedback(e.target.value);
-        }}
-        textField={true}
-      />
 
-      <ImagePopUpModal
-        open={showImageAlert}
-        handleClose={handleShowImageClose}
-        images={img}
-      />
-    </div>
+        <ImagePopUpModal
+          open={showImageAlert}
+          handleClose={handleShowImageClose}
+          images={img}
+        />
+      </div>
+    </>
   );
 };
 

@@ -21,7 +21,7 @@ const SuspendedUsers = () => {
     setShowData("host");
   };
   return (
-    <Layout>
+    <div>
       <div className="feedback__user__host__toggle">
         <div className="feedback_toggle_btns">
           <p
@@ -46,8 +46,8 @@ const SuspendedUsers = () => {
           </p>
         </div>
       </div>
-      {showData === "user" ? <SuspendedUserTable /> : <SuspendedHostTable />}
-    </Layout>
+      {showData ? <SuspendedUserTable /> : <SuspendedHostTable />}
+    </div>
   );
 };
 

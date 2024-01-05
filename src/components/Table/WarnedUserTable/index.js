@@ -99,101 +99,101 @@ const WarnedUserTable = () => {
   };
 
   return (
-    <div className="warned__user__container">
-      <div className="banner__search__btn">
-        <SearchInput
-          value={value}
-          onChange={handleText}
-          placeholder="Search"
-          icon={searchIcon()}
-        />
-      </div>
-      <div className="table_parent_box">
-        <table className="warned__user__table">
-          <thead>
-            <th className="warned__user__header">S.No.</th>
-            {!searchParams.get("id") && (
-              <>
-                <th className="warned__user__header">User ID</th>
-                <th className="warned__user__header">User Name</th>
-              </>
-            )}
-            <th className="warned__user__header">Title</th>
-            <th className="warned__user__header">Description</th>
-            <th className="warned__user__header">Created At</th>
-            <th className="warned__user__header">Action</th>
-          </thead>
-          <tbody>
-            {warnedUserList.length > 0
-              ? warnedUserList.map((data, index) => {
-                  return (
-                    <tr>
-                      <td className="warned__user__data">
-                        {(page - 1) * perPage + index + 1}
-                      </td>
-                      {!searchParams.get("id") && (
-                        <>
-                          <td className="warned__user__data">{data?._id}</td>
-                          <td className="warned__user__data">
-                            {data?.userId?.name}
-                          </td>
-                        </>
-                      )}
-                      <td className="warned__user__data">{data?.title}</td>
-                      <td className="warned__user__data">{data?.body}</td>
-                      <td className="warned__user__data">
-                        {moment(data?.createdAt).format("DD/MM/YYYY")}
-                      </td>
-                      <td className="warned__user__data">
-                        <AiFillDelete
-                          onClick={() => {
-                            handleAlertDelete(data?._id);
-                          }}
-                          className="warned__user__delete__icon"
-                        />
-                      </td>
-                    </tr>
-                  );
-                })
-              : null}
-          </tbody>
-        </table>
-      </div>
-
-      {warnedUserList.length > 0 ? (
-        <Pagination
-          page={page}
-          perPage={perPage}
-          setPage={setPage}
-          setPerPage={setPerPage}
-          totalCount={totalCount}
-          totalPages={totalPages}
-          options={[5, 10, 15, 20, 25, 30]}
-        />
-      ) : (
-        !loader.loaderPopup && (
-          <div className="host__no__data__found__icon">
-            <Lottie
-              options={{ animationData: noData, loop: true }}
-              style={{ width: "20rem", height: "20rem" }}
-            />
-            <p className="no__data__found">No Data Found</p>
-          </div>
-        )
-      )}
-
-      <AlertPopUp
-        open={showDeleteAlert}
-        handleOpen={handleDeleteAlert}
-        handleClose={handleDeleteAlertClose}
-        header="Delete Alert"
-        description="Are you sure you want to delete this warning?"
-        submitText="Yes"
-        cancelText="No"
-        onSubmitClick={handleDelete}
-        onCancelClick={handleDeleteAlertClose}
+    <>
+      <SearchInput
+        value={value}
+        onChange={handleText}
+        placeholder="Search"
+        icon={searchIcon()}
       />
-    </div>
+      <div className="warned__user__container">
+        <div className="table_parent_box">
+          <table className="warned__user__table">
+            <thead>
+              <th className="warned__user__header">S.No.</th>
+              {!searchParams.get("id") && (
+                <>
+                  <th className="warned__user__header">User ID</th>
+                  <th className="warned__user__header">User Name</th>
+                </>
+              )}
+              <th className="warned__user__header">Title</th>
+              <th className="warned__user__header">Description</th>
+              <th className="warned__user__header">Created At</th>
+              <th className="warned__user__header">Action</th>
+            </thead>
+            <tbody>
+              {warnedUserList.length > 0
+                ? warnedUserList.map((data, index) => {
+                    return (
+                      <tr>
+                        <td className="warned__user__data">
+                          {(page - 1) * perPage + index + 1}
+                        </td>
+                        {!searchParams.get("id") && (
+                          <>
+                            <td className="warned__user__data">{data?._id}</td>
+                            <td className="warned__user__data">
+                              {data?.userId?.name}
+                            </td>
+                          </>
+                        )}
+                        <td className="warned__user__data">{data?.title}</td>
+                        <td className="warned__user__data">{data?.body}</td>
+                        <td className="warned__user__data">
+                          {moment(data?.createdAt).format("DD/MM/YYYY")}
+                        </td>
+                        <td className="warned__user__data">
+                          <AiFillDelete
+                            onClick={() => {
+                              handleAlertDelete(data?._id);
+                            }}
+                            className="warned__user__delete__icon"
+                          />
+                        </td>
+                      </tr>
+                    );
+                  })
+                : null}
+            </tbody>
+          </table>
+        </div>
+
+        {warnedUserList.length > 0 ? (
+          <Pagination
+            page={page}
+            perPage={perPage}
+            setPage={setPage}
+            setPerPage={setPerPage}
+            totalCount={totalCount}
+            totalPages={totalPages}
+            options={[5, 10, 15, 20, 25, 30]}
+          />
+        ) : (
+          !loader.loaderPopup && (
+            <div className="host__no__data__found__icon">
+              <Lottie
+                options={{ animationData: noData, loop: true }}
+                style={{ width: "20rem", height: "20rem" }}
+              />
+              <p className="no__data__found">No Data Found</p>
+            </div>
+          )
+        )}
+
+        <AlertPopUp
+          open={showDeleteAlert}
+          handleOpen={handleDeleteAlert}
+          handleClose={handleDeleteAlertClose}
+          header="Delete Alert"
+          description="Are you sure you want to delete this warning?"
+          submitText="Yes"
+          cancelText="No"
+          onSubmitClick={handleDelete}
+          onCancelClick={handleDeleteAlertClose}
+        />
+      </div>
+    </>
   );
 };
 

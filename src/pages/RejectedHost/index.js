@@ -3,11 +3,7 @@ import Layout from "../../components/Layout";
 import RejectedHostTable from "../../components/Table/RejectedHostTable";
 
 const RejectedHost = () => {
-  return (
-    <Layout>
-      <RejectedHostTable />
-    </Layout>
-  );
+  return <RejectedHostTable />;
 };
 
 export default RejectedHost;

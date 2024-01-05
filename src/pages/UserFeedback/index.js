@@ -14,7 +14,7 @@ const UserFeedback = () => {
     setShowData("host");
   };
   return (
-    <Layout>
+    <div>
       <div className="feedback__user__host__toggle">
         <div className="feedback_toggle_btns">
           <p
@@ -40,7 +40,7 @@ const UserFeedback = () => {
         </div>
       </div>
       {showData === "user" ? <FeedbackUserTable /> : <HostFeedbackTable />}
-    </Layout>
+    </div>
   );
 };
 

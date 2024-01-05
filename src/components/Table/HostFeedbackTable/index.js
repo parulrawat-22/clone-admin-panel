@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import "./style.css";
-import moment from "moment";
 
 import AlertPopUp from "../../AlertPopUp";
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
@@ -19,17 +18,17 @@ import noData from "../../../base/Animation/No Data Found.json";
 import Lottie from "react-lottie";
 import { Modal } from "../../../base/Context/modalProvider";
 import { useApi } from "../../../base/Context/apiProvider";
+import moment from "moment";
 
 const HostFeedbackTable = () => {
   const [hostFeedback, setHostFeeback] = useState([]);
   const [showRevertAlert, setShowRevertAlert] = useState(false);
   const [showImageAlert, setShowImageAlert] = useState(false);
   const [img, setImg] = useState("");
-  const { id } = useParams();
   const [getId, setGetId] = useState("");
   const [replyFeedback, setReplyFeedback] = useState("");
   const [value, setValue] = useState("");
-
+  // const [images, images]
   const [page, setPage] = useState(1);
   const [perPage, setPerPage] = useState(10);
   const [totalCount, setTotalCount] = useState("");
@@ -38,6 +37,10 @@ const HostFeedbackTable = () => {
   const loader = useLoader();
   const modalProvider = useContext(Modal);
   const apiProvider = useApi();
+
+  const { id } = useParams();
+
+  console.log("id", id);
 
   const handleOnClickAlert = (img) => {
     setImg(img);
@@ -93,9 +96,9 @@ const HostFeedbackTable = () => {
     )
       .then((res) => {
         loader.showLoader(false);
-        setHostFeeback(res.result);
-        setTotalCount(res.totalCount);
-        setTotalPages(res.totalPages);
+        setHostFeeback(res?.result);
+        setTotalCount(res?.totalCount);
+        setTotalPages(res?.totalPages);
       })
       .catch((err) => {
         loader.showLoader(false);
@@ -111,49 +114,52 @@ const HostFeedbackTable = () => {
     setValue(e.target.value);
   };
 
+  console.log("hostFeedback", hostFeedback);
+
   const searchIcon = () => {
     return <FiSearch />;
   };
   return (
-    <div className="host__feedback__container">
-      <div className="banner__search__btn">
-        <SearchInput
-          value={value}
-          onChange={handleText}
-          placeholder="Search"
-          icon={searchIcon()}
-        />
-      </div>
-      <div className="table_parent_box">
-        <table className="host__feedback__table__container">
-          <thead>
-            <th className="host__feedback__table__heading">S.No.</th>
-            {!id && (
-              <>
-                <th className="host__feedback__table__heading">Host ID</th>
-                <th className="host__feedback__table__heading">Host Name</th>
-              </>
-            )}
-            <th className="host__feedback__table__heading">Title</th>
-            <th className="host__feedback__table__heading">Description</th>
-            <th className="host__feedback__table__heading">Image/Video</th>
-            <th className="host__feedback__table__heading">Contact Details</th>
-            <th className="host__feedback__table__heading">Created At</th>
-            <th className="host__feedback__table__heading">Revert Back</th>
-          </thead>
-          <tbody>
-            {hostFeedback.length > 0
-              ? hostFeedback.map((data, index) => {
+    <>
+      <SearchInput
+        value={value}
+        onChange={handleText}
+        placeholder="Search"
+        icon={searchIcon()}
+      />
+      <div className="host__feedback__container">
+        <div className="table_parent_box">
+          <table className="host__feedback__table__container">
+            <thead>
+              <th className="host__feedback__table__heading">S.No.</th>
+              {!id ? (
+                <>
+                  <th className="host__feedback__table__heading">Host ID</th>
+                  <th className="host__feedback__table__heading">Host Name</th>
+                </>
+              ) : null}
+
+              <th className="host__feedback__table__heading">Title</th>
+              <th className="host__feedback__table__heading">Description</th>
+              <th className="host__feedback__table__heading">Image/Video</th>
+              <th className="host__feedback__table__heading">
+                Contact Details
+              </th>
+              <th className="host__feedback__table__heading">Created At</th>
+              <th className="host__feedback__table__heading">Revert Back</th>
+            </thead>
+            <tbody>
+              {hostFeedback.length > 0 &&
+                hostFeedback.map((data, index) => {
                   return (
                     <tr>
                       <td className="host__feedback__table__data">
-                        {" "}
                         {(page - 1) * perPage + index + 1}
                       </td>
                       {!id && (
                         <>
                           <td className="host__feedback__table__data">
-                            {data._id}
+                            {data?._id}
                           </td>
                           <td className="host__feedback__table__data">
                             {data?.hostId?.name}
@@ -167,7 +173,7 @@ const HostFeedbackTable = () => {
                         <div
                           className="feedback__table__comment"
                           onClick={
-                            data?.comment.length > 12
+                            data?.comment?.length > 12
                               ? () =>
                                   modalProvider.handleCommentClick(
                                     data?.comment,
@@ -176,7 +182,7 @@ const HostFeedbackTable = () => {
                               : () => {}
                           }
                         >
-                          {data.comment}
+                          {data?.comment}
                         </div>
                       </td>
                       <td className="host__feedback__table__data">
@@ -191,7 +197,7 @@ const HostFeedbackTable = () => {
                         {data?.contact || data?.email}
                       </td>
                       <td className="host__feedback__table__data">
-                        {moment(data.createdAt).format("DD/MM/YYYY LT")}
+                        {moment(data?.createdAt).format("DD/MM/YYYY LT")}
                       </td>
                       {data?.trackStatus[1]?.response ? (
                         <td className="host__feedback__table__data host__feedback__view__btn">
@@ -200,7 +206,7 @@ const HostFeedbackTable = () => {
                             onClick={
                               data?.trackStatus[1]?.response.length > 12
                                 ? () =>
-                                    modalProvider.handleCommentClick(
+                                    modalProvider?.handleCommentClick(
                                       data?.trackStatus[1]?.response,
                                       "Revert"
                                     )
@@ -217,54 +223,55 @@ const HostFeedbackTable = () => {
                         >
                           Reply
                         </td>
-                      )}
+                      )}{" "}
                     </tr>
                   );
-                })
-              : null}
-          </tbody>
-        </table>
-      </div>
+                })}
+            </tbody>
+          </table>
+        </div>
 
-      {hostFeedback.length > 0 ? (
-        <Pagination
-          page={page}
-          setPage={setPage}
-          totalCount={totalCount}
-          totalPages={totalPages}
-          setPerPage={setPerPage}
-          perPage={perPage}
-          options={[5, 10, 15, 20]}
+        {hostFeedback && hostFeedback.length > 0 ? (
+          <Pagination
+            page={page}
+            setPage={setPage}
+            totalCount={totalCount}
+            totalPages={totalPages}
+            setPerPage={setPerPage}
+            perPage={perPage}
+            options={[5, 10, 15, 20]}
+          />
+        ) : (
+          !loader.loaderPopup && (
+            <div className="host__no__data__found__icon">
+              <Lottie
+                options={{ animationData: noData, loop: true }}
+                style={{ width: "20rem", height: "20rem" }}
+              />
+              <p className="no__data__found">No Data Found</p>
+            </div>
+          )
+        )}
+
+        <AlertPopUp
+          open={showRevertAlert}
+          handleOpen={handleHostFeedbackRevert}
+          handleClose={handleHostFeedbackRevertClose}
+          textField={true}
+          submitText="Submit"
+          onSubmitClick={handleReply}
+          onCancelClick={handleHostFeedbackRevertClose}
+          cancelText="Cancel"
+          onChangeField={(e) => setReplyFeedback(e.target.value)}
         />
-      ) : (
-        !loader.loaderPopup && (
-          <div>
-            <Lottie
-              options={{ animationData: noData, loop: true }}
-              style={{ width: "10rem", height: "10rem" }}
-            />
-          </div>
-        )
-      )}
 
-      <AlertPopUp
-        open={showRevertAlert}
-        handleOpen={handleHostFeedbackRevert}
-        handleClose={handleHostFeedbackRevertClose}
-        textField={true}
-        submitText="Submit"
-        onSubmitClick={handleReply}
-        onCancelClick={handleHostFeedbackRevertClose}
-        cancelText="Cancel"
-        onChangeField={(e) => setReplyFeedback(e.target.value)}
-      />
-
-      <ImagePopUpModal
-        open={showImageAlert}
-        handleClose={handleOnClickAlertClose}
-        img={img}
-      />
-    </div>
+        <ImagePopUpModal
+          open={showImageAlert}
+          handleClose={handleOnClickAlertClose}
+          images={img}
+        />
+      </div>
+    </>
   );
 };
 

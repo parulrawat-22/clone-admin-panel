@@ -11,6 +11,8 @@ import moment from "moment";
 import Lottie from "react-lottie";
 import noData from "../../base/Animation/No Data Found.json";
 import { useLoader } from "../../base/Context/loaderProvider";
+import SearchInput from "../../components/SearchInput";
+import { FiSearch } from "react-icons/fi";
 
 const Snapshots = () => {
   const navigate = useNavigate();
@@ -22,11 +24,12 @@ const Snapshots = () => {
   const [snapshot, setSnapshot] = useState([]);
   const [showImage, setShowImage] = useState(false);
   const [img, setImg] = useState("");
+  const [value, setValue] = useState("");
   const loader = useLoader();
 
   useEffect(() => {
     fetchSnapshots();
-  }, [page, perPage, apiProvider?.apiUrl]);
+  }, [page, perPage, apiProvider?.apiUrl, value]);
 
   const fetchSnapshots = () => {
     loader.showLoader(true);
@@ -36,6 +39,7 @@ const Snapshots = () => {
       {
         page,
         perPage,
+        key: value,
       }
     )
       .then((res) => {
@@ -59,82 +63,98 @@ const Snapshots = () => {
   const handleEyeClickClose = () => {
     setShowImage(false);
   };
+
+  const handleText = (e) => {
+    setValue(e.target.value);
+  };
+
+  const searchIcon = () => {
+    return <FiSearch />;
+  };
   return (
-    <div className="snapshots__container">
-      <table className="snapshots__table">
-        <thead>
-          <th className="snapshots__header">S.No.</th>
-          <th className="snapshots__header">user Name</th>
-          <th className="snapshots__header">Host Name</th>
-          <th className="snapshots__header">Snapshots</th>
-          <th className="snapshots__header">Created At</th>
-        </thead>
-        <tbody>
-          {snapshot.map((data, index) => {
-            return (
-              <tr>
-                <td className="snapshots__data">{index + 1}</td>
-                <td className="snapshots__data">
-                  {data?.userId?.name}
-                  <AiFillEdit
-                    onClick={() => {
-                      navigate(`/usermanagement/${data?.userId?._id}`);
-                    }}
-                    style={{ cursor: "pointer" }}
-                  />
-                </td>
-                <td className="snapshots__data">
-                  {data?.hostId?.name}
-                  <AiFillEdit
-                    onClick={() => {
-                      navigate(`/hostmanagement/${data?.hostId?._id}`);
-                    }}
-                    style={{ cursor: "pointer" }}
-                  />
-                </td>
-
-                <td className="snapshots__data">
-                  <AiFillEye
-                    style={{ fontSize: "18px", cursor: "pointer" }}
-                    onClick={() => handleEyeClick(data?.snapshot)}
-                  />{" "}
-                  {data?.name}
-                </td>
-                <td className="snapshots__data">
-                  {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
-
-      {snapshot && snapshot.length > 0 ? (
-        <Pagination
-          page={page}
-          setPage={setPage}
-          perPage={perPage}
-          setPerPage={setPerPage}
-          totalCount={count}
-          totalPages={totalPages}
-          options={[5, 10, 15, 20]}
-        />
-      ) : (
-        <div className="host__no__data__found__icon">
-          <Lottie
-            options={{ animationData: noData, loop: true }}
-            style={{ width: "20rem", height: "20rem" }}
-          />
-          <p className="no__data__found">No Data Found</p>
-        </div>
-      )}
-
-      <ImagePopUpModal
-        open={showImage}
-        handleClose={handleEyeClickClose}
-        img={img}
+    <>
+      <SearchInput
+        value={value}
+        onChange={handleText}
+        placeholder="Search"
+        icon={searchIcon()}
       />
-    </div>
+      <div className="snapshots__container">
+        <table className="snapshots__table">
+          <thead>
+            <th className="snapshots__header">S.No.</th>
+            <th className="snapshots__header">user Name</th>
+            <th className="snapshots__header">Host Name</th>
+            <th className="snapshots__header">Snapshots</th>
+            <th className="snapshots__header">Created At</th>
+          </thead>
+          <tbody>
+            {snapshot.map((data, index) => {
+              return (
+                <tr>
+                  <td className="snapshots__data">{index + 1}</td>
+                  <td className="snapshots__data">
+                    {data?.userId?.name}
+                    <AiFillEdit
+                      onClick={() => {
+                        navigate(`/usermanagement/${data?.userId?._id}`);
+                      }}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </td>
+                  <td className="snapshots__data">
+                    {data?.hostId?.name}
+                    <AiFillEdit
+                      onClick={() => {
+                        navigate(`/hostmanagement/${data?.hostId?._id}`);
+                      }}
+                      style={{ cursor: "pointer" }}
+                    />
+                  </td>
+
+                  <td className="snapshots__data">
+                    <AiFillEye
+                      style={{ fontSize: "18px", cursor: "pointer" }}
+                      onClick={() => handleEyeClick(data?.snapshot)}
+                    />{" "}
+                    {data?.name}
+                  </td>
+                  <td className="snapshots__data">
+                    {moment(data?.createdAt).format("DD/MM/YYYY , LT")}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+
+        {snapshot && snapshot.length > 0 ? (
+          <Pagination
+            page={page}
+            setPage={setPage}
+            perPage={perPage}
+            setPerPage={setPerPage}
+            totalCount={count}
+            totalPages={totalPages}
+            options={[5, 10, 15, 20]}
+          />
+        ) : (
+          <div className="host__no__data__found__icon">
+            <Lottie
+              options={{ animationData: noData, loop: true }}
+              style={{ width: "20rem", height: "20rem" }}
+            />
+            <p className="no__data__found">No Data Found</p>
+          </div>
+        )}
+
+        <ImagePopUpModal
+          open={showImage}
+          handleClose={handleEyeClickClose}
+          img={img}
+        />
+      </div>
+    </>
   );
 };
 
