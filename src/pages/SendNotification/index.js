@@ -16,6 +16,8 @@ const SendNotification = () => {
   const [selectWho, setSelectWho] = useState("");
   const [selectParticularPerson, setSelectParticularPerson] = useState("");
   const [title, setTitle] = useState("");
+  const [image, setImage] = useState("");
+  const [image1, setImage1] = useState("");
   const [title1, setTitle1] = useState("");
   const [body1, setBody1] = useState("");
   const [body, setBody] = useState("");
@@ -201,9 +203,9 @@ const SendNotification = () => {
           <br />
           <InputField
             type="file"
-            value={body}
+            // value={body}
             onChange={(e) => {
-              setBody(e.target.value);
+              setImage(e.target.files[0]);
             }}
           />
           <br />
@@ -252,9 +254,8 @@ const SendNotification = () => {
           <br />
           <InputField
             type="file"
-            value={body1}
             onChange={(e) => {
-              setBody1(e.target.value);
+              setImage1(e.target.files[0]);
             }}
           />
           <br />

@@ -150,6 +150,7 @@ const StickerForm = ({ onSubmit, edit, editedSticker, onClickEdit, id }) => {
           onChange={handleStickerImage}
           type="file"
           placeholder="Sticker Image"
+          accept=".png, .jpg, .jpeg"
           error={error.image}
         />
         <br />

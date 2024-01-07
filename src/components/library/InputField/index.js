@@ -26,6 +26,7 @@ const InputField = (props) => {
         onChange={props.onChange}
         value={props.value}
         min={props.min}
+        accept={props.accept}
         // max={props.max}
         name={props.name}
         maxLength={props.maxlength}

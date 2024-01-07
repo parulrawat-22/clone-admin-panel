@@ -221,7 +221,14 @@ const Router = () => {
         }
       />
       <Route path="/recharge" element={<Recharge />} />
-      <Route path="/moment" element={<Moments />}></Route>
+      <Route
+        path="/moment"
+        element={
+          <Layout>
+            <Moments />
+          </Layout>
+        }
+      ></Route>
       <Route path="/paymenthistory" element={<PaymentHistory />} />
       <Route path="/usercallhistory" element={<UserCallHistory />} />
       <Route

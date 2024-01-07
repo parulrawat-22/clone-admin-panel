@@ -47,7 +47,6 @@ const UserTable = () => {
 
   useEffect(() => {
     getUserRequest();
-    console.log("apiProvider?.apiUrl", apiProvider?.apiUrl);
   }, [value, page, perPage, apiProvider?.apiUrl]);
 
   const handleUserEdit = (id) => {
@@ -314,7 +313,7 @@ const UserTable = () => {
                         </td>
                         <td className="user__request__data">
                           {" "}
-                          {moment(data.createdAt).format("MM/DD/YYYY LT")}
+                          {moment(data?.createdAt).format("MM/DD/YYYY LT")}
                         </td>
                         <td
                           className="user__request__data user__management__view__btn"

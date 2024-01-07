@@ -1,11 +1,8 @@
-import { AiFillDelete, AiFillEdit } from "react-icons/ai";
+import { AiFillDelete } from "react-icons/ai";
 import "./style.css";
 import { useEffect, useState } from "react";
 import { fetchDataFromAPI } from "../../../network/NetworkConnection";
-import {
-  API_URL,
-  NetworkConfiguration,
-} from "../../../network/NetworkConfiguration";
+import { NetworkConfiguration } from "../../../network/NetworkConfiguration";
 import AlertPopUp from "../../AlertPopUp";
 import { useSearchParams } from "react-router-dom";
 // import moment from "moment";

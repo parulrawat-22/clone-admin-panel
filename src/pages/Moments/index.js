@@ -1,47 +1,22 @@
-import { useState } from "react";
-import Layout from "../../components/Layout";
+import { useEffect, useState } from "react";
 import MomentTable from "../../components/Table/MomentTable";
-import "./style.css";
 import HostMomentTable from "../../components/Table/HostMomentTable";
+import { useSearchParams } from "react-router-dom";
+import "./style.css";
 
 const Moments = () => {
-  const [showData, setShowData] = useState("user");
+  const [isHost, setIsHost] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const handleUserData = () => {
-    setShowData("user");
-  };
-  const handleHostData = () => {
-    setShowData("host");
-  };
-  return (
-    <Layout>
-      <div className="feedback__user__host__toggle">
-        <div className="feedback_toggle_btns">
-          <p
-            className={
-              showData === "user"
-                ? "feedback__toggle__active__button"
-                : "feedback__toggle__inactive__button"
-            }
-            onClick={handleUserData}
-          >
-            User
-          </p>
-          <p
-            className={
-              showData === "host"
-                ? "feedback__toggle__active__button"
-                : "feedback__toggle__inactive__button"
-            }
-            onClick={handleHostData}
-          >
-            Host
-          </p>
-        </div>
-      </div>
-      {showData === "user" ? <MomentTable /> : <HostMomentTable />}
-    </Layout>
-  );
+  useEffect(() => {
+    if (searchParams.get("appType") === "host") {
+      setIsHost(true);
+    } else {
+      setIsHost(false);
+    }
+  });
+
+  return <>{isHost ? <HostMomentTable /> : <MomentTable />}</>;
 };
 
 export default Moments;

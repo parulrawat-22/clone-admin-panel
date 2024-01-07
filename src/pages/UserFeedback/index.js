@@ -1,47 +1,22 @@
-import { useState } from "react";
-import Layout from "../../components/Layout";
+import { useEffect, useState } from "react";
 import FeedbackUserTable from "../../components/Table/FeedbackTable";
 import "./style.css";
 import HostFeedbackTable from "../../components/Table/HostFeedbackTable";
+import { useSearchParams } from "react-router-dom";
 
 const UserFeedback = () => {
-  const [showData, setShowData] = useState("user");
+  const [isHost, setIsHost] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
 
-  const handleUserData = () => {
-    setShowData("user");
-  };
-  const handleHostData = () => {
-    setShowData("host");
-  };
-  return (
-    <div>
-      <div className="feedback__user__host__toggle">
-        <div className="feedback_toggle_btns">
-          <p
-            className={
-              showData === "user"
-                ? "feedback__toggle__active__button"
-                : "feedback__toggle__inactive__button"
-            }
-            onClick={handleUserData}
-          >
-            User
-          </p>
-          <p
-            className={
-              showData === "host"
-                ? "feedback__toggle__active__button"
-                : "feedback__toggle__inactive__button"
-            }
-            onClick={handleHostData}
-          >
-            Host
-          </p>
-        </div>
-      </div>
-      {showData === "user" ? <FeedbackUserTable /> : <HostFeedbackTable />}
-    </div>
-  );
+  useEffect(() => {
+    if (searchParams.get("appType") === "host") {
+      setIsHost(true);
+    } else {
+      setIsHost(false);
+    }
+  });
+
+  return <>{isHost ? <HostFeedbackTable /> : <FeedbackUserTable />}</>;
 };
 
 export default UserFeedback;

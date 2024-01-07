@@ -157,6 +157,7 @@ const AddGiftForm = ({ onSubmit, edit, onClickEdit, editedGift }) => {
           type="file"
           onChange={handleImage}
           placeholder="Upload Image"
+          accept="image/png, image/jpg, image/jpeg"
           error={error.uploadImage}
         />
         <br />

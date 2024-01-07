@@ -71,7 +71,7 @@ const HostMomentTable = () => {
       });
   };
 
-  const fetchHostMoment = (apiProvider) => {
+  const fetchHostMoment = () => {
     loader.showLoader(true);
     fetchDataFromAPI(
       apiProvider?.apiUrl + NetworkConfiguration.HOSTMOMENT,

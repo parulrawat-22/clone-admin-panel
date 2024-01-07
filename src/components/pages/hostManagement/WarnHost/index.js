@@ -22,9 +22,9 @@ const WarnedHost = () => {
       apiProvider?.apiUrl + NetworkConfiguration.WARNHOSTNOTIFICATION,
       "POST",
       {
-        id: id,
-        title: title,
-        body: body,
+        id,
+        title,
+        body,
       }
     )
       .then((res) => {
